@@ -21,6 +21,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { TIER_IDS, type Asset, type Game, type TierId } from "../domain/types";
 import { GameCard } from "../components/GameCard";
 import { Icon } from "../components/Icon";
+import { PullToRefresh } from "../components/PullToRefresh";
 import { sortGamesByPlacement, TIER_DESCRIPTIONS, TIER_LABELS } from "../components/libraryUi";
 
 export type TierGameIds = Record<TierId, string[]>;
@@ -322,9 +323,9 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, resolveAss
           onDragStart={onDragStart}
           sensors={sensors}
         >
-          <div className="tier-board">
+          <PullToRefresh className="tier-board" scrollSelf>
             {TIER_IDS.map((tierId) => <TierRow assets={assets} games={byTier[tierId]} key={tierId} onOpenGame={openGame} resolveAssetUrl={resolveAssetUrl} tierId={tierId} />)}
-          </div>
+          </PullToRefresh>
           <DragOverlay>{activeGame ? <GameCard asset={activeGame.coverAssetId ? assets[activeGame.coverAssetId] : undefined} game={activeGame} isDragging onOpen={openGame} resolveAssetUrl={resolveAssetUrl} /> : null}</DragOverlay>
         </DndContext>
       )}
