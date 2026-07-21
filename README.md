@@ -213,6 +213,10 @@ just steam-import --limit 5
 
 - [ ] Повторный sync: только новые appid, без дублей и без сброса локальных
       правок (title/tier/review)
+- [ ] Снимок последнего успешного Steam-импорта (owned games + playtime /
+      metadata): при каждом `steam-import` / `import:steam` diff со свежим
+      `GetOwnedGames` и пропускать appid без изменений (метаданные, часы и т.п.),
+      чтобы не гонять полный reimport всей библиотеки
 - [ ] GitHub Action «Import Steam» с секретом ключа → PR с diff
       `library.json` + media
 - [ ] Live sync из SPA — не делать, пока нет безопасного серверного прокси
