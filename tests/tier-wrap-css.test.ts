@@ -47,4 +47,38 @@ describe("tier list wrapping layout", () => {
       /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.tier-page \.game-card--tier:hover:not\(\.is-dragging\) \.game-card__cover[\s\S]*?scale: 1;/,
     );
   });
+
+  it("shows centered title and black tint on tier cover hover and focus", () => {
+    const tint = declarations(".tier-page .game-card--tier .game-card__cover::before");
+    const title = declarations(".tier-page .game-card--tier .game-card__hover-title");
+    const hoverTint = declarations(".tier-page .game-card--tier:hover:not(.is-dragging) .game-card__cover::before");
+    const hoverTitle = declarations(".tier-page .game-card--tier:hover:not(.is-dragging) .game-card__hover-title");
+    const focusTint = declarations(".tier-page .game-card--tier:not(.is-dragging) .game-card__cover:focus-visible::before");
+    const focusTitle = declarations(".tier-page .game-card--tier:not(.is-dragging) .game-card__cover:focus-visible .game-card__hover-title");
+
+    expect(tint).toContain("position: absolute");
+    expect(tint).toContain("inset: 0");
+    expect(tint).toContain("rgba(0, 0, 0, .45)");
+    expect(tint).toContain("opacity: 0");
+    expect(tint).toContain("pointer-events: none");
+    expect(tint).toContain("transition: opacity .18s ease-out");
+    expect(tint).toContain("z-index: 1");
+
+    expect(title).toContain("position: absolute");
+    expect(title).toContain("inset: 0");
+    expect(title).toContain("display: flex");
+    expect(title).toContain("align-items: center");
+    expect(title).toContain("justify-content: center");
+    expect(title).toContain("text-align: center");
+    expect(title).toContain("opacity: 0");
+    expect(title).toContain("pointer-events: none");
+    expect(title).toContain("-webkit-line-clamp: 3");
+    expect(title).toContain("z-index: 1");
+    expect(title).toContain("transition: opacity .18s ease-out");
+
+    expect(hoverTint).toContain("opacity: 1");
+    expect(hoverTitle).toContain("opacity: 1");
+    expect(focusTint).toContain("opacity: 1");
+    expect(focusTitle).toContain("opacity: 1");
+  });
 });

@@ -89,6 +89,7 @@ export const GameCard = forwardRef<HTMLElement, GameCardProps>(function GameCard
           title={game.title}
         >
           {coverMedia}
+          <span aria-hidden="true" className="game-card__hover-title">{game.title}</span>
         </a>
       ) : (
         <a

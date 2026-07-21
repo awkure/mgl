@@ -1373,6 +1373,40 @@ h4 {
   transition: scale .18s ease-out, box-shadow .18s ease-out;
 }
 
+.tier-page .game-card--tier .game-card__cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, .45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease-out;
+}
+
+.tier-page .game-card--tier .game-card__hover-title {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 8px;
+  overflow: hidden;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .75);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease-out;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
 .tier-page .game-card--tier:hover:not(.is-dragging) .game-card__cover {
   scale: 1.05;
   box-shadow:
@@ -1380,11 +1414,27 @@ h4 {
     0 6px 16px rgba(0, 0, 0, .45);
 }
 
+.tier-page .game-card--tier:hover:not(.is-dragging) .game-card__cover::before {
+  opacity: 1;
+}
+
+.tier-page .game-card--tier:hover:not(.is-dragging) .game-card__hover-title {
+  opacity: 1;
+}
+
 .tier-page .game-card--tier:not(.is-dragging) .game-card__cover:focus-visible {
   scale: 1.05;
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, .09),
     0 6px 16px rgba(0, 0, 0, .45);
+}
+
+.tier-page .game-card--tier:not(.is-dragging) .game-card__cover:focus-visible::before {
+  opacity: 1;
+}
+
+.tier-page .game-card--tier:not(.is-dragging) .game-card__cover:focus-visible .game-card__hover-title {
+  opacity: 1;
 }
 
 .tier-page .game-card--tier .game-card__body {
