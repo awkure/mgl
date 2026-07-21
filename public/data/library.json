@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": "3b895a8200fa2c8dcb6c74b9507a801f62ef116f4aa3adaf058c81afe67524af",
-  "publicationId": "f0c140a1-d8e6-4203-9451-f3ed212bf456",
+  "revision": "d3e141a6d36ed560faf67bda567bf55a589df0cffe0c32e5fb8069b0db1d77ab",
+  "publicationId": "ff474b62-4a04-4f43-a869-4a3d4fae1af9",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
       "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
@@ -342,14 +342,14 @@
         "Экшены",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 19456
+        "tierId": "s",
+        "rank": 8192
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:32:37.241Z"
     },
     "087f98ef-95ec-48a1-a445-809f16922cbd": {
       "id": "087f98ef-95ec-48a1-a445-809f16922cbd",
@@ -462,12 +462,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 26624
+        "tierId": "s",
+        "rank": 5120
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:31:09.856Z"
     },
     "0a6d00b8-58cd-41a2-a316-55cf2fc04dc3": {
       "id": "0a6d00b8-58cd-41a2-a316-55cf2fc04dc3",
@@ -8263,14 +8263,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "platinum",
       "placement": {
-        "tierId": "unranked",
-        "rank": 29696
+        "tierId": "s",
+        "rank": 6144
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:31:36.811Z"
     },
     "b8fee196-c75b-40c6-b564-ebe3feade583": {
       "id": "b8fee196-c75b-40c6-b564-ebe3feade583",
@@ -9829,14 +9829,14 @@
         "Экшены",
         "Приключенческие игры"
       ],
-      "status": "played",
+      "status": "platinum",
       "placement": {
-        "tierId": "unranked",
-        "rank": 115712
+        "tierId": "s",
+        "rank": 7168
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:32:18.848Z"
     },
     "dcd3bb96-cdc6-44fe-bb66-43595df73931": {
       "id": "dcd3bb96-cdc6-44fe-bb66-43595df73931",
