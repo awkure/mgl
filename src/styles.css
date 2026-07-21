@@ -1357,11 +1357,34 @@ h4 {
   background: transparent;
 }
 
+.tier-page .game-card--tier:hover:not(.is-dragging) {
+  z-index: 3;
+}
+
+.tier-page .game-card--tier:has(.game-card__cover:focus-visible):not(.is-dragging) {
+  z-index: 3;
+}
+
 .tier-page .game-card--tier .game-card__cover {
   width: 100%;
   height: 100%;
   border-radius: 2px;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .09);
+  transition: scale .18s ease-out, box-shadow .18s ease-out;
+}
+
+.tier-page .game-card--tier:hover:not(.is-dragging) .game-card__cover {
+  scale: 1.05;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .09),
+    0 6px 16px rgba(0, 0, 0, .45);
+}
+
+.tier-page .game-card--tier:not(.is-dragging) .game-card__cover:focus-visible {
+  scale: 1.05;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .09),
+    0 6px 16px rgba(0, 0, 0, .45);
 }
 
 .tier-page .game-card--tier .game-card__body {
@@ -4323,5 +4346,15 @@ h4 {
     transition-duration: .01ms !important;
     animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
+  }
+
+  .tier-page .game-card--tier:hover:not(.is-dragging) .game-card__cover {
+    scale: 1;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .09);
+  }
+
+  .tier-page .game-card--tier:not(.is-dragging) .game-card__cover:focus-visible {
+    scale: 1;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .09);
   }
 }

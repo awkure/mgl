@@ -31,4 +31,20 @@ describe("tier list wrapping layout", () => {
     expect(page).not.toContain("6vw");
     expect(page).not.toContain("84px");
   });
+
+  it("soft-lifts tier covers on hover and focus without fighting drag transforms", () => {
+    const cover = declarations(".tier-page .game-card--tier .game-card__cover");
+    const hoverCover = declarations(".tier-page .game-card--tier:hover:not(.is-dragging) .game-card__cover");
+    const focusCover = declarations(".tier-page .game-card--tier:not(.is-dragging) .game-card__cover:focus-visible");
+    const hoverCard = declarations(".tier-page .game-card--tier:hover:not(.is-dragging)");
+
+    expect(cover).toContain("transition: scale .18s ease-out, box-shadow .18s ease-out");
+    expect(hoverCover).toContain("scale: 1.05");
+    expect(focusCover).toContain("scale: 1.05");
+    expect(hoverCard).toContain("z-index: 3");
+    expect(styles).toContain("@media (prefers-reduced-motion: reduce)");
+    expect(styles).toMatch(
+      /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.tier-page \.game-card--tier:hover:not\(\.is-dragging\) \.game-card__cover[\s\S]*?scale: 1;/,
+    );
+  });
 });
