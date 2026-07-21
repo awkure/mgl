@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": "64f3ea74853f7de52a96ef444bb59d1fe17ee1cc841b0b9da19c89c6dee37bd7",
-  "publicationId": "b48d53dc-3f57-460a-b8e5-f58403f9e5f9",
+  "revision": "005bd925459ddf9c92b8d823b335f98b85f19cf4f277ce00f461e22154b99f5f",
+  "publicationId": "7a0729c9-e4cf-4469-9d30-c66538d51936",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
       "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
@@ -17,14 +17,14 @@
         "Экшены",
         "Приключенческие игры"
       ],
-      "status": "played",
+      "status": "platinum",
       "placement": {
-        "tierId": "unranked",
-        "rank": 5120
+        "tierId": "s",
+        "rank": 1024
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T18:39:52.049Z",
-      "updatedAt": "2026-07-21T18:39:52.049Z"
+      "updatedAt": "2026-07-21T19:16:35.555Z"
     },
     "8a83f21a-889c-4089-ad1c-cc2f515f5b02": {
       "id": "8a83f21a-889c-4089-ad1c-cc2f515f5b02",
@@ -39,14 +39,14 @@
       "tags": [
         "Экшены"
       ],
-      "status": "wishlist",
+      "status": "playing",
       "placement": {
-        "tierId": "unranked",
+        "tierId": "s",
         "rank": 2048
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T18:39:52.049Z",
-      "updatedAt": "2026-07-21T18:39:52.049Z"
+      "updatedAt": "2026-07-21T19:16:39.490Z"
     },
     "90bdddad-389f-4cc1-bf5f-67f2f287a9d7": {
       "id": "90bdddad-389f-4cc1-bf5f-67f2f287a9d7",
@@ -63,12 +63,12 @@
       ],
       "status": "wishlist",
       "placement": {
-        "tierId": "unranked",
-        "rank": 3072
+        "tierId": "f",
+        "rank": 512
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T18:39:52.049Z",
-      "updatedAt": "2026-07-21T18:39:52.049Z"
+      "updatedAt": "2026-07-21T19:17:37.870Z"
     },
     "c28a15ca-4506-4048-b3dc-f3e44e81be28": {
       "id": "c28a15ca-4506-4048-b3dc-f3e44e81be28",
@@ -85,12 +85,12 @@
       ],
       "status": "wishlist",
       "placement": {
-        "tierId": "unranked",
-        "rank": 4096
+        "tierId": "f",
+        "rank": 1024
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T18:39:52.049Z",
-      "updatedAt": "2026-07-21T18:39:52.049Z"
+      "updatedAt": "2026-07-21T19:16:49.617Z"
     },
     "c30d2446-a98c-44ea-bcaf-db07beed18cd": {
       "id": "c30d2446-a98c-44ea-bcaf-db07beed18cd",
@@ -107,12 +107,12 @@
       ],
       "status": "wishlist",
       "placement": {
-        "tierId": "unranked",
+        "tierId": "b",
         "rank": 1024
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T18:39:52.049Z",
-      "updatedAt": "2026-07-21T18:39:52.049Z"
+      "updatedAt": "2026-07-21T19:16:47.843Z"
     },
     "003607a0-7c73-4b13-bc8f-7c320f1cfb6f": {
       "id": "003607a0-7c73-4b13-bc8f-7c320f1cfb6f",
@@ -2756,12 +2756,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 3072
+        "tierId": "a",
+        "rank": 2048
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:17:54.497Z"
     },
     "3b4dd729-395c-40d1-9314-855f56ce1836": {
       "id": "3b4dd729-395c-40d1-9314-855f56ce1836",
@@ -3834,12 +3834,12 @@
       ],
       "status": "wishlist",
       "placement": {
-        "tierId": "unranked",
-        "rank": 9216
+        "tierId": "s",
+        "rank": 3072
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:17:19.848Z"
     },
     "4cbd5218-69a1-4dbf-a4be-8bd75661621e": {
       "id": "4cbd5218-69a1-4dbf-a4be-8bd75661621e",
@@ -4133,12 +4133,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 4096
+        "tierId": "a",
+        "rank": 768
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:17:29.141Z"
     },
     "538c6e7b-ea77-4166-b0f6-fa22d8045a80": {
       "id": "538c6e7b-ea77-4166-b0f6-fa22d8045a80",
@@ -4656,12 +4656,12 @@
       ],
       "status": "wishlist",
       "placement": {
-        "tierId": "unranked",
-        "rank": 11264
+        "tierId": "a",
+        "rank": 256
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:17:49.714Z"
     },
     "5e420221-4623-4357-9194-a20fe751df0c": {
       "id": "5e420221-4623-4357-9194-a20fe751df0c",
@@ -5372,12 +5372,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 50176
+        "tierId": "a",
+        "rank": 512
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:17:06.034Z"
     },
     "70caab2c-e9c3-4547-a231-b8e50613cc08": {
       "id": "70caab2c-e9c3-4547-a231-b8e50613cc08",
@@ -6332,12 +6332,12 @@
       ],
       "status": "wishlist",
       "placement": {
-        "tierId": "unranked",
-        "rank": 6144
+        "tierId": "a",
+        "rank": 1024
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:16:53.739Z"
     },
     "8c4e3519-62e0-4d8a-bb90-57010abf1f6a": {
       "id": "8c4e3519-62e0-4d8a-bb90-57010abf1f6a",
@@ -7473,12 +7473,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 14336
+        "tierId": "c",
+        "rank": 1024
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:18:03.331Z"
     },
     "a87da692-9971-4be8-87b7-20351f47884b": {
       "id": "a87da692-9971-4be8-87b7-20351f47884b",
@@ -7863,12 +7863,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
+        "tierId": "b",
         "rank": 2048
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:16:56.548Z"
     },
     "ae62f07a-6d8c-4f61-9fbd-d2c5d7bd7e0f": {
       "id": "ae62f07a-6d8c-4f61-9fbd-d2c5d7bd7e0f",
@@ -8098,12 +8098,12 @@
       ],
       "status": "wishlist",
       "placement": {
-        "tierId": "unranked",
-        "rank": 10240
+        "tierId": "s",
+        "rank": 1536
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:17:22.469Z"
     },
     "b4b3eadf-4fd4-42c0-a7a4-077b87314f81": {
       "id": "b4b3eadf-4fd4-42c0-a7a4-077b87314f81",
@@ -9424,12 +9424,12 @@
       ],
       "status": "wishlist",
       "placement": {
-        "tierId": "unranked",
-        "rank": 7168
+        "tierId": "s",
+        "rank": 1792
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:17:45.106Z"
     },
     "d411feb6-9ca8-45a3-84e3-06f570c13a6d": {
       "id": "d411feb6-9ca8-45a3-84e3-06f570c13a6d",
