@@ -38,8 +38,10 @@ describe("swipe navigation helpers", () => {
   it("maps routes to pager indexes", () => {
     expect(routeToPagerIndex("/")).toBe(0);
     expect(routeToPagerIndex("/games")).toBe(1);
+    expect(routeToPagerIndex("/settings")).toBe(2);
     expect(pagerIndexToPath(0)).toBe("/");
     expect(pagerIndexToPath(1)).toBe("/games");
+    expect(pagerIndexToPath(2)).toBe("/settings");
   });
 
   it("commits swipe by distance ratio or velocity", () => {
@@ -52,21 +54,24 @@ describe("swipe navigation helpers", () => {
 
   it("clamps rubber-band at pager ends", () => {
     expect(clampPagerDrag(40, 0, 400)).toBe(10);
-    expect(clampPagerDrag(-40, 1, 400)).toBe(-10);
+    expect(clampPagerDrag(-40, 2, 400)).toBe(-10);
     expect(clampPagerDrag(-40, 0, 400)).toBe(-40);
+    expect(clampPagerDrag(40, 1, 400)).toBe(40);
   });
 
   it("advances pager index from swipe direction", () => {
     expect(nextPagerIndex(0, "left")).toBe(1);
+    expect(nextPagerIndex(1, "left")).toBe(2);
     expect(nextPagerIndex(0, "right")).toBeNull();
+    expect(nextPagerIndex(2, "right")).toBe(1);
     expect(nextPagerIndex(1, "right")).toBe(0);
-    expect(nextPagerIndex(1, "left")).toBeNull();
+    expect(nextPagerIndex(2, "left")).toBeNull();
   });
 
-  it("translates track by 50% per panel (percent of 200% track)", () => {
+  it("translates track by one panel step of a 300% track", () => {
     expect(pagerTrackTranslate(0, 0, 390)).toBe("translate3d(calc(0% + 0%), 0, 0)");
-    expect(pagerTrackTranslate(1, 0, 390)).toBe("translate3d(calc(-50% + 0%), 0, 0)");
-    expect(pagerTrackTranslate(0, -78, 390)).toBe("translate3d(calc(0% + -10%), 0, 0)");
-    expect(pagerTrackTranslate(1, 39, 390)).toBe("translate3d(calc(-50% + 5%), 0, 0)");
+    expect(pagerTrackTranslate(1, 0, 390)).toBe(`translate3d(calc(${-100 / 3}% + 0%), 0, 0)`);
+    expect(pagerTrackTranslate(2, 0, 390)).toBe(`translate3d(calc(${-200 / 3}% + 0%), 0, 0)`);
+    expect(pagerTrackTranslate(0, -78, 390)).toBe(`translate3d(calc(0% + ${(-78 / 390) * (100 / 3)}%), 0, 0)`);
   });
 });

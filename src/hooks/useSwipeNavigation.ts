@@ -6,9 +6,11 @@ export const SWIPE_THRESHOLD_PX = 70;
 export const SWIPE_EDGE_GUARD_PX = 24;
 export const SWIPE_COMMIT_RATIO = 0.25;
 export const SWIPE_VELOCITY_PX_PER_MS = 0.45;
+export const PAGER_PANEL_COUNT = 3;
 
 export type SwipeDirection = "left" | "right";
-export type PagerIndex = 0 | 1;
+export type PagerIndex = 0 | 1 | 2;
+export type PagerPath = "/" | "/games" | "/settings";
 
 export function isNearScreenEdge(clientX: number, width: number, guardPx = SWIPE_EDGE_GUARD_PX): boolean {
   return clientX <= guardPx || clientX >= width - guardPx;
@@ -25,17 +27,21 @@ export function swipeDirection(dx: number, threshold = SWIPE_THRESHOLD_PX): Swip
 }
 
 export function routeToPagerIndex(pathname: string): PagerIndex {
-  return pathname === "/games" ? 1 : 0;
+  if (pathname === "/settings") return 2;
+  if (pathname === "/games") return 1;
+  return 0;
 }
 
-export function pagerIndexToPath(index: PagerIndex): "/" | "/games" {
-  return index === 1 ? "/games" : "/";
+export function pagerIndexToPath(index: PagerIndex): PagerPath {
+  if (index === 2) return "/settings";
+  if (index === 1) return "/games";
+  return "/";
 }
 
-export function clampPagerDrag(dx: number, index: PagerIndex, width: number): number {
+export function clampPagerDrag(dx: number, index: PagerIndex, width: number, lastIndex = PAGER_PANEL_COUNT - 1): number {
   if (width <= 0) return 0;
   if (index === 0 && dx > 0) return dx * 0.25;
-  if (index === 1 && dx < 0) return dx * 0.25;
+  if (index === lastIndex && dx < 0) return dx * 0.25;
   return dx;
 }
 
@@ -56,16 +62,26 @@ export function shouldCommitPagerSwipe(
   return null;
 }
 
-export function nextPagerIndex(index: PagerIndex, direction: SwipeDirection): PagerIndex | null {
-  if (direction === "left" && index === 0) return 1;
-  if (direction === "right" && index === 1) return 0;
+export function nextPagerIndex(
+  index: PagerIndex,
+  direction: SwipeDirection,
+  lastIndex = PAGER_PANEL_COUNT - 1,
+): PagerIndex | null {
+  if (direction === "left" && index < lastIndex) return (index + 1) as PagerIndex;
+  if (direction === "right" && index > 0) return (index - 1) as PagerIndex;
   return null;
 }
 
-/** Track is 200% wide; each panel is 50% of the track. % transforms are relative to the track. */
-export function pagerTrackTranslate(index: PagerIndex, dragOffsetPx: number, pagerWidthPx: number): string {
-  const basePercent = -index * 50;
-  const dragPercent = pagerWidthPx > 0 ? (dragOffsetPx / pagerWidthPx) * 50 : 0;
+/** Track is N× pager width; each panel is (100/N)% of the track. % transforms are relative to the track. */
+export function pagerTrackTranslate(
+  index: PagerIndex,
+  dragOffsetPx: number,
+  pagerWidthPx: number,
+  panelCount = PAGER_PANEL_COUNT,
+): string {
+  const step = 100 / panelCount;
+  const basePercent = -index * step;
+  const dragPercent = pagerWidthPx > 0 ? (dragOffsetPx / pagerWidthPx) * step : 0;
   return `translate3d(calc(${basePercent}% + ${dragPercent}%), 0, 0)`;
 }
 

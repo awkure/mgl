@@ -1,15 +1,14 @@
-export type ThemeId = "dark" | "light" | "glass";
+export type ThemeId = "dark" | "light";
 
 export const THEME_STORAGE_KEY = "my-game-library.theme.v1";
 
 export const THEME_COLORS: Record<ThemeId, string> = {
   dark: "#111214",
   light: "#f2f3f5",
-  glass: "#0c0d10",
 };
 
 export function isThemeId(value: unknown): value is ThemeId {
-  return value === "dark" || value === "light" || value === "glass";
+  return value === "dark" || value === "light";
 }
 
 export function loadTheme(): ThemeId {

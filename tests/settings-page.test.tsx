@@ -20,7 +20,7 @@ describe("SettingsPage", () => {
     render(<SettingsPage />);
     expect(screen.getByRole("heading", { name: "Настройки" })).toBeInTheDocument();
     expect(screen.getByRole("radio", { name: "Тёмная" })).toHaveAttribute("aria-checked", "true");
-    expect(screen.getByRole("radio", { name: "Жидкое стекло" })).toBeInTheDocument();
+    expect(screen.queryByRole("radio", { name: "Жидкое стекло" })).not.toBeInTheDocument();
 
     await user.click(screen.getByRole("radio", { name: "Светлая" }));
     expect(screen.getByRole("radio", { name: "Светлая" })).toHaveAttribute("aria-checked", "true");

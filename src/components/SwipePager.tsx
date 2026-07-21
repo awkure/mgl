@@ -1,6 +1,7 @@
 import { type MutableRefObject, type ReactNode, useRef } from "react";
 import type { Asset, Game } from "../domain/types";
 import { CatalogPage } from "../pages/CatalogPage";
+import { SettingsPage } from "../pages/SettingsPage";
 import { TierListPage, type MoveGameTarget } from "../pages/TierListPage";
 import {
   pagerIndexToPath,
@@ -8,6 +9,7 @@ import {
   routeToPagerIndex,
   useSwipePager,
   type PagerIndex,
+  type PagerPath,
 } from "../hooks/useSwipeNavigation";
 
 export interface SwipePagerProps {
@@ -17,7 +19,7 @@ export interface SwipePagerProps {
   draggingRef: MutableRefObject<boolean>;
   onMoveGame: (gameId: string, target: MoveGameTarget) => void;
   onOpenGame: (gameId: string) => void;
-  onNavigate: (path: "/" | "/games") => void;
+  onNavigate: (path: PagerPath) => void;
   resolveAssetUrl?: (assetId: string) => string | null;
 }
 
@@ -75,6 +77,10 @@ export function SwipePager({
             scrollSelf
           />
         </SwipePanel>
+        <SwipePanel active={index === 2} labelledBy="settings-panel-label">
+          <span className="visually-hidden" id="settings-panel-label">Настройки</span>
+          <SettingsPage />
+        </SwipePanel>
       </div>
     </div>
   );
@@ -101,4 +107,4 @@ function SwipePanel({
   );
 }
 
-export type { PagerIndex };
+export type { PagerIndex, PagerPath };

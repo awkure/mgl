@@ -31,25 +31,24 @@ describe("mobile nav css", () => {
     expect(styles).toContain("background: var(--press-wash)");
   });
 
-  it("defines glass theme tokens", () => {
-    expect(styles).toContain(':root[data-theme="glass"]');
-    expect(declarationsIn(styles, ':root[data-theme="glass"]')).toContain("--bg: #0c0d10");
-    expect(declarationsIn(styles, ':root[data-theme="glass"]')).toContain("--glass-fill:");
+  it("does not define a glass theme", () => {
+    expect(styles).not.toContain(':root[data-theme="glass"]');
+    expect(styles).not.toContain("data-glass-effect");
   });
 
-  it("defines swipe pager track layout", () => {
-    expect(declarationsIn(styles, ".swipe-pager__track")).toContain("width: 200%");
-    expect(declarationsIn(styles, ".swipe-pager__panel")).toContain("width: 50%");
+  it("defines swipe pager track layout for three panels", () => {
+    expect(declarationsIn(styles, ".swipe-pager__track")).toContain("width: 300%");
+    expect(declarationsIn(styles, ".swipe-pager__panel")).toContain("width: calc(100% / 3)");
   });
 
-  it("lets main fill under the floating tab bar on tiers/catalog", () => {
+  it("lets main fill under the floating tab bar on tiers/catalog/settings", () => {
     const main = declarationsIn(
       styles,
-      '.app-shell[data-route="tiers"] .app-main, .app-shell[data-route="catalog"] .app-main',
+      '.app-shell[data-route="tiers"] .app-main, .app-shell[data-route="catalog"] .app-main, .app-shell[data-route="settings"] .app-main',
     );
     expect(main).toContain("height: calc(100dvh - var(--app-header-height))");
     expect(main).not.toContain("var(--app-tab-bar-height)");
     expect(styles).toContain("padding-bottom: var(--app-tab-bar-height)");
-    expect(styles).toContain(".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh)");
+    expect(styles).toContain(".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page)");
   });
 });

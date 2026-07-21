@@ -24,7 +24,7 @@ import {
   type PatchEnvelope,
   type PatchOperation,
 } from "./domain";
-import { GamePage, SettingsPage } from "./pages";
+import { GamePage } from "./pages";
 import { formatBytes } from "./components/libraryUi";
 import { SwipePager } from "./components/SwipePager";
 import { LibraryProvider, useLibrary } from "./state/LibraryContext";
@@ -144,7 +144,7 @@ function LibraryRoutes() {
   }>({ busy: false, stage: "idle", error: null });
   const previousPendingCommitRef = useRef<string | null>(null);
   const route = routeKind(location.pathname);
-  const showPager = route === "tiers" || route === "catalog";
+  const showPager = route === "tiers" || route === "catalog" || route === "settings";
 
   useEffect(() => {
     const loaded = loadGitHubPat();
@@ -405,7 +405,6 @@ function LibraryRoutes() {
           <Routes>
             <Route path="/games/new" element={<GameRoute mode="new" />} />
             <Route path="/games/:id" element={<GameRoute mode="game" />} />
-            <Route path="/settings" element={<SettingsPage />} />
             <Route path="*" element={<div className="empty-state empty-state--hero"><h1>Страница не найдена</h1><p>Такого раздела в библиотеке нет.</p><a className="button button--primary" href="#/">Вернуться в тирлист</a></div>} />
           </Routes>
         )}
