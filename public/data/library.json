@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": "005bd925459ddf9c92b8d823b335f98b85f19cf4f277ce00f461e22154b99f5f",
-  "publicationId": "7a0729c9-e4cf-4469-9d30-c66538d51936",
+  "revision": "3b895a8200fa2c8dcb6c74b9507a801f62ef116f4aa3adaf058c81afe67524af",
+  "publicationId": "f0c140a1-d8e6-4203-9451-f3ed212bf456",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
       "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
@@ -5099,14 +5099,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 28672
+        "tierId": "s",
+        "rank": 4096
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:29:49.700Z"
     },
     "68a49fd8-c4b5-4e46-bfa7-36f41432a969": {
       "id": "68a49fd8-c4b5-4e46-bfa7-36f41432a969",
@@ -11355,7 +11355,33 @@
       "updatedAt": "2026-07-21T19:08:56.871Z"
     }
   },
-  "notes": {},
+  "notes": {
+    "4ef20892-3c0b-4d21-a808-9c71ddd96530": {
+      "id": "4ef20892-3c0b-4d21-a808-9c71ddd96530",
+      "gameId": "67c0abf5-9367-45ea-953c-e6c7b5b3102a",
+      "bodyMarkdown": "hui",
+      "attachments": [
+        {
+          "type": "link",
+          "url": "https://www.youtube.com/watch?v=jFYv5cRDvOg",
+          "label": "YouTube"
+        }
+      ],
+      "rank": 1024,
+      "createdAt": "2026-07-21T19:28:29.633Z",
+      "updatedAt": "2026-07-21T19:29:19.792Z"
+    },
+    "9796d059-9f8c-4998-9dca-dc9f9cf47c69": {
+      "id": "9796d059-9f8c-4998-9dca-dc9f9cf47c69",
+      "gameId": "67c0abf5-9367-45ea-953c-e6c7b5b3102a",
+      "bodyMarkdown": "pizda",
+      "attachments": [],
+      "groupRank": 2048,
+      "rank": 1024,
+      "createdAt": "2026-07-21T19:29:33.637Z",
+      "updatedAt": "2026-07-21T19:29:33.660Z"
+    }
+  },
   "assets": {
     "0af8cd42a66a7304c62dd6ee12c0862237c0c229834bfa2ebdb2543a27e478d3": {
       "id": "0af8cd42a66a7304c62dd6ee12c0862237c0c229834bfa2ebdb2543a27e478d3",
