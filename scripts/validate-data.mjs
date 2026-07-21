@@ -158,6 +158,7 @@ export function validateLibrary(database, options = {}) {
         catch { return []; }
       }));
       for (const entry of readdirSync(resolvedMediaRoot, { withFileTypes: true })) {
+        if (entry.name === ".gitkeep") continue;
         if (!entry.isFile() || entry.isSymbolicLink()) {
           error("$.assets", `unexpected non-file entry in media directory: ${entry.name}`);
         } else if (!expectedFiles.has(entry.name)) {

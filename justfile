@@ -36,6 +36,21 @@ test-watch: ensure-env
 validate:
     npm run data:validate
 
+# Restore published DB + media from fixtures/library
+db-seed:
+    mkdir -p public/data public/media
+    cp fixtures/library/library.json public/data/library.json
+    rsync -a --delete fixtures/library/media/ public/media/
+    @echo "Seeded public/ from fixtures/library"
+
+# Empty published DB + wipe public/media (keeps .gitkeep)
+db-clean:
+    mkdir -p public/data public/media
+    node -e 'require("fs").writeFileSync("public/data/library.json", JSON.stringify({ schemaVersion: 2, revision: "", publicationId: null, games: {}, notes: {}, assets: {} }, null, 2) + "\n")'
+    find public/media -mindepth 1 -maxdepth 1 ! -name '.gitkeep' -exec rm -rf {} +
+    touch public/media/.gitkeep
+    @echo "Cleaned public/data/library.json and public/media"
+
 # Resolve Steam profile + check owned-games visibility (needs STEAM_WEB_API_KEY)
 steam-probe *ARGS:
     npm run steam:probe -- {{ARGS}}

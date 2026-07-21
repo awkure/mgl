@@ -627,6 +627,16 @@ Images:
 
     expect(() => validateLibrary(emptyDatabase(), { mediaRoot })).toThrow(`unreferenced media file: ${fileName}`);
   });
+
+  it("allows .gitkeep in an otherwise empty media directory", () => {
+    const root = mkdtempSync(path.join(tmpdir(), "mylib-validator-gitkeep-test-"));
+    temporaryPaths.push(root);
+    const mediaRoot = path.join(root, "public", "media");
+    mkdirSync(mediaRoot, { recursive: true });
+    writeFileSync(path.join(mediaRoot, ".gitkeep"), "");
+
+    expect(() => validateLibrary(emptyDatabase(), { mediaRoot })).not.toThrow();
+  });
 });
 
 describe("publish patch transaction", () => {

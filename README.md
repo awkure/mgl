@@ -22,6 +22,14 @@ just dev
 just check   # validate + test + build
 ```
 
+Личный снимок библиотеки лежит в `fixtures/library/` (JSON + media).
+Опубликованная база в `public/` по умолчанию пустая:
+
+```sh
+just db-seed   # скопировать fixture → public/
+just db-clean  # опустошить public/data/library.json и public/media
+```
+
 Без just:
 
 ```sh
