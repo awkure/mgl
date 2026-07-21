@@ -24,9 +24,9 @@ import {
   type PatchEnvelope,
   type PatchOperation,
 } from "./domain";
-import { CatalogPage, GamePage, SettingsPage, TierListPage } from "./pages";
+import { GamePage, SettingsPage } from "./pages";
 import { formatBytes } from "./components/libraryUi";
-import { useSwipeNavigation } from "./hooks/useSwipeNavigation";
+import { SwipePager } from "./components/SwipePager";
 import { LibraryProvider, useLibrary } from "./state/LibraryContext";
 import {
   PUBLISH_CLIPBOARD_COMMAND,
@@ -144,17 +144,7 @@ function LibraryRoutes() {
   }>({ busy: false, stage: "idle", error: null });
   const previousPendingCommitRef = useRef<string | null>(null);
   const route = routeKind(location.pathname);
-  const swipeEnabled = route === "tiers" || route === "catalog";
-
-  useSwipeNavigation({
-    targetRef: mainRef,
-    enabled: swipeEnabled,
-    isBlocked: () => tierDraggingRef.current,
-    onSwipe: (direction) => {
-      if (direction === "left" && route === "tiers") navigate("/games");
-      else if (direction === "right" && route === "catalog") navigate("/");
-    },
-  });
+  const showPager = route === "tiers" || route === "catalog";
 
   useEffect(() => {
     const loaded = loadGitHubPat();
@@ -396,36 +386,29 @@ function LibraryRoutes() {
       }}
     >
       <div className="app-main__swipe" ref={mainRef}>
-        <Routes>
-          <Route
-            path="/"
-            element={<TierListPage
-              assets={library.effective.assets}
-              draggingRef={tierDraggingRef}
-              games={games}
-              onMoveGame={(gameId, target) => {
-                try {
-                  library.moveGame(gameId, target.tierId, target.index);
-                } catch (error) { showError(error); }
-              }}
-              onOpenGame={(id) => navigate(`/games/${id}`)}
-              resolveAssetUrl={library.resolveAssetUrl}
-            />}
+        {showPager ? (
+          <SwipePager
+            assets={library.effective.assets}
+            draggingRef={tierDraggingRef}
+            games={games}
+            onMoveGame={(gameId, target) => {
+              try {
+                library.moveGame(gameId, target.tierId, target.index);
+              } catch (error) { showError(error); }
+            }}
+            onNavigate={(path) => navigate(path)}
+            onOpenGame={(id) => navigate(`/games/${id}`)}
+            pathname={location.pathname}
+            resolveAssetUrl={library.resolveAssetUrl}
           />
-          <Route
-            path="/games"
-            element={<CatalogPage
-              assets={library.effective.assets}
-              games={games}
-              onOpenGame={(id) => navigate(`/games/${id}`)}
-              resolveAssetUrl={library.resolveAssetUrl}
-            />}
-          />
-          <Route path="/games/new" element={<GameRoute mode="new" />} />
-          <Route path="/games/:id" element={<GameRoute mode="game" />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="*" element={<div className="empty-state empty-state--hero"><h1>Страница не найдена</h1><p>Такого раздела в библиотеке нет.</p><a className="button button--primary" href="#/">Вернуться в тирлист</a></div>} />
-        </Routes>
+        ) : (
+          <Routes>
+            <Route path="/games/new" element={<GameRoute mode="new" />} />
+            <Route path="/games/:id" element={<GameRoute mode="game" />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="*" element={<div className="empty-state empty-state--hero"><h1>Страница не найдена</h1><p>Такого раздела в библиотеке нет.</p><a className="button button--primary" href="#/">Вернуться в тирлист</a></div>} />
+          </Routes>
+        )}
       </div>
 
       <DiffDialog

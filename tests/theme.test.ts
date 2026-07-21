@@ -15,9 +15,10 @@ afterEach(() => {
 });
 
 describe("theme", () => {
-  it("accepts only dark and light ids", () => {
+  it("accepts dark, light, and glass ids", () => {
     expect(isThemeId("dark")).toBe(true);
     expect(isThemeId("light")).toBe(true);
+    expect(isThemeId("glass")).toBe(true);
     expect(isThemeId("liquid")).toBe(false);
     expect(isThemeId(null)).toBe(false);
   });
@@ -27,9 +28,9 @@ describe("theme", () => {
   });
 
   it("persists and reloads theme", () => {
-    saveTheme("light");
-    expect(localStorage.getItem(THEME_STORAGE_KEY)).toBe("light");
-    expect(loadTheme()).toBe("light");
+    saveTheme("glass");
+    expect(localStorage.getItem(THEME_STORAGE_KEY)).toBe("glass");
+    expect(loadTheme()).toBe("glass");
   });
 
   it("applies data-theme, color-scheme, and theme-color meta", () => {
@@ -42,6 +43,11 @@ describe("theme", () => {
     expect(document.documentElement.dataset.theme).toBe("light");
     expect(document.documentElement.style.colorScheme).toBe("light");
     expect(meta.getAttribute("content")).toBe(THEME_COLORS.light);
+
+    applyTheme("glass");
+    expect(document.documentElement.dataset.theme).toBe("glass");
+    expect(document.documentElement.style.colorScheme).toBe("dark");
+    expect(meta.getAttribute("content")).toBe(THEME_COLORS.glass);
 
     applyTheme("dark");
     expect(document.documentElement.dataset.theme).toBe("dark");

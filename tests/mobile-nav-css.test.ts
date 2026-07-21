@@ -6,13 +6,22 @@ import { declarationsIn } from "./cssTestUtils";
 const styles = readFileSync(resolve(process.cwd(), "src/styles.css"), "utf8");
 
 describe("mobile nav css", () => {
-  it("defines a fixed bottom tab bar with safe-area padding", () => {
+  it("defines a detached floating pill tab bar with safe-area inset", () => {
     expect(styles).toContain('.app-shell[data-mobile-chrome="true"] .app-tab-bar');
     const bar = declarationsIn(styles, '.app-shell[data-mobile-chrome="true"] .app-tab-bar');
     expect(bar).toContain("position: fixed");
-    expect(bar).toContain("bottom: 0");
-    expect(bar).toContain("padding: 0 4px env(safe-area-inset-bottom)");
-    expect(styles).toContain("--app-tab-bar-height: calc(52px + env(safe-area-inset-bottom))");
+    expect(bar).toContain("border-radius: 28px");
+    expect(bar).toContain("backdrop-filter: blur(22px) saturate(1.35)");
+    expect(bar).toContain("bottom: calc(12px + env(safe-area-inset-bottom))");
+    expect(styles).toContain("--app-tab-bar-height: calc(64px + env(safe-area-inset-bottom) + 12px)");
+  });
+
+  it("defines a circular detached add button", () => {
+    const add = declarationsIn(styles, '.app-shell[data-mobile-chrome="true"] .app-tab-add');
+    expect(add).toContain("position: fixed");
+    expect(add).toContain("border-radius: 50%");
+    expect(add).toContain("width: var(--tab-add-size)");
+    expect(add).toContain("right: calc(12px + env(safe-area-inset-right))");
   });
 
   it("adds coarse-pointer press feedback", () => {
@@ -22,8 +31,14 @@ describe("mobile nav css", () => {
     expect(styles).toContain("background: var(--press-wash)");
   });
 
-  it("defines light theme tokens", () => {
-    expect(styles).toContain(':root[data-theme="light"]');
-    expect(declarationsIn(styles, ':root[data-theme="light"]')).toContain("--bg: #f2f3f5");
+  it("defines glass theme tokens", () => {
+    expect(styles).toContain(':root[data-theme="glass"]');
+    expect(declarationsIn(styles, ':root[data-theme="glass"]')).toContain("--bg: #0c0d10");
+    expect(declarationsIn(styles, ':root[data-theme="glass"]')).toContain("--glass-fill:");
+  });
+
+  it("defines swipe pager track layout", () => {
+    expect(declarationsIn(styles, ".swipe-pager__track")).toContain("width: 200%");
+    expect(declarationsIn(styles, ".swipe-pager__panel")).toContain("width: 50%");
   });
 });

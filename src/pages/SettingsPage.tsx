@@ -5,6 +5,7 @@ import { Icon } from "../components/Icon";
 const THEME_OPTIONS: { id: ThemeId; label: string }[] = [
   { id: "dark", label: "Тёмная" },
   { id: "light", label: "Светлая" },
+  { id: "glass", label: "Жидкое стекло" },
 ];
 
 export function SettingsPage() {

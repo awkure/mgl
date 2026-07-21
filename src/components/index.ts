@@ -8,5 +8,6 @@ export * from "./Icon";
 export * from "./ImagePicker";
 export * from "./Markdown";
 export * from "./ShelfGrid";
+export * from "./SwipePager";
 export * from "./TagInput";
 export * from "./libraryUi";

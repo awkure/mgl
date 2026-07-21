@@ -1,5 +1,7 @@
-import { useEffect, useState, type ReactNode, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type ReactNode, type MouseEvent } from "react";
 import type { Game } from "../domain/types";
+import { useLiquidGlassEffect } from "../hooks/useLiquidGlassEffect";
+import { loadTheme, type ThemeId } from "../state/theme";
 import { Icon, type IconName } from "./Icon";
 import { GlobalGameSearch } from "./GlobalGameSearch";
 import { formatBytes } from "./libraryUi";
@@ -50,6 +52,21 @@ function useMobileChrome(): boolean {
   return mobile;
 }
 
+function useLiveTheme(): ThemeId {
+  const [theme, setTheme] = useState<ThemeId>(() => loadTheme());
+  useEffect(() => {
+    const sync = () => setTheme(loadTheme());
+    window.addEventListener("storage", sync);
+    const observer = new MutationObserver(sync);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    return () => {
+      window.removeEventListener("storage", sync);
+      observer.disconnect();
+    };
+  }, []);
+  return theme;
+}
+
 function NavLink({
   active,
   href,
@@ -88,6 +105,10 @@ export function AppShell({
   resolveAssetUrl,
 }: AppShellProps) {
   const mobileChrome = useMobileChrome();
+  const theme = useLiveTheme();
+  const shellRef = useRef<HTMLDivElement>(null);
+  const tabBarRef = useRef<HTMLElement>(null);
+  const addButtonRef = useRef<HTMLAnchorElement>(null);
   const budget = storage.budgetBytes ?? 4 * 1024 * 1024;
   const ratio = budget ? storage.bytes / budget : 0;
   const localAssetCount = storage.localAssetCount ?? 0;
@@ -107,8 +128,19 @@ export function AppShell({
   const storageNeedsAttention = storageLevel === "warning" || storageLevel === "critical" || storageLevel === "blocked";
   const displayedBytes = storage.bytes;
 
+  useLiquidGlassEffect({
+    enabled: theme === "glass" && mobileChrome,
+    rootRef: shellRef,
+    glassRefs: [tabBarRef, addButtonRef],
+  });
+
   return (
-    <div className="app-shell" data-mobile-chrome={mobileChrome ? "true" : undefined} data-route={route}>
+    <div
+      className="app-shell"
+      data-mobile-chrome={mobileChrome ? "true" : undefined}
+      data-route={route}
+      ref={shellRef}
+    >
       <a className="skip-link" href="#main-content">К основному содержимому</a>
       <header className="app-header">
         {!mobileChrome ? (
@@ -152,15 +184,32 @@ export function AppShell({
         </div>
       </header>
 
-      <main id="main-content" className="app-main">{children}</main>
+      <main id="main-content" className="app-main" data-dynamic={theme === "glass" ? "" : undefined}>{children}</main>
 
       {mobileChrome ? (
-        <nav aria-label="Мобильная навигация" className="app-tab-bar">
-          <NavLink active={route === "tiers"} className="app-tab-bar__link" href="#/" icon="book" label="Тирлист" onNavigate={onNavigate} />
-          <NavLink active={route === "catalog" || route === "game"} className="app-tab-bar__link" href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} />
-          <NavLink active={route === "new"} className="app-tab-bar__link" href="#/games/new" icon="plus" label="Добавить" onNavigate={onNavigate} />
-          <NavLink active={route === "settings"} className="app-tab-bar__link" href="#/settings" icon="settings" label="Настройки" onNavigate={onNavigate} />
-        </nav>
+        <>
+          <nav
+            aria-label="Мобильная навигация"
+            className="app-tab-bar"
+            data-config={theme === "glass" ? JSON.stringify({ blurAmount: 0.28, refraction: 0.55, cornerRadius: 28, floating: false, button: false }) : undefined}
+            ref={tabBarRef}
+          >
+            <NavLink active={route === "tiers"} className="app-tab-bar__link" href="#/" icon="book" label="Тирлист" onNavigate={onNavigate} />
+            <NavLink active={route === "catalog" || route === "game"} className="app-tab-bar__link" href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} />
+            <NavLink active={route === "settings"} className="app-tab-bar__link" href="#/settings" icon="settings" label="Настройки" onNavigate={onNavigate} />
+          </nav>
+          <a
+            aria-current={route === "new" ? "page" : undefined}
+            aria-label="Добавить игру"
+            className={`app-tab-add${route === "new" ? " is-active" : ""}`}
+            data-config={theme === "glass" ? JSON.stringify({ blurAmount: 0.28, refraction: 0.55, cornerRadius: 28, floating: false, button: true }) : undefined}
+            href="#/games/new"
+            onClick={onNavigate ? (event) => { event.preventDefault(); onNavigate("#/games/new"); } : undefined}
+            ref={addButtonRef}
+          >
+            <Icon name="plus" size={22} />
+          </a>
+        </>
       ) : null}
     </div>
   );

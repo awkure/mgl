@@ -1,14 +1,15 @@
-export type ThemeId = "dark" | "light";
+export type ThemeId = "dark" | "light" | "glass";
 
 export const THEME_STORAGE_KEY = "my-game-library.theme.v1";
 
 export const THEME_COLORS: Record<ThemeId, string> = {
   dark: "#111214",
   light: "#f2f3f5",
+  glass: "#0c0d10",
 };
 
 export function isThemeId(value: unknown): value is ThemeId {
-  return value === "dark" || value === "light";
+  return value === "dark" || value === "light" || value === "glass";
 }
 
 export function loadTheme(): ThemeId {
@@ -32,7 +33,7 @@ export function saveTheme(theme: ThemeId): void {
 export function applyTheme(theme: ThemeId): void {
   const root = document.documentElement;
   root.dataset.theme = theme;
-  root.style.colorScheme = theme;
+  root.style.colorScheme = theme === "light" ? "light" : "dark";
   const meta = document.querySelector('meta[name="theme-color"]');
   if (meta) meta.setAttribute("content", THEME_COLORS[theme]);
 }
