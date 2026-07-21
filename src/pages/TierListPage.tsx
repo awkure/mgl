@@ -154,7 +154,7 @@ function TierRow({ tierId, games, assets, onOpenGame, resolveAssetUrl }: { tierI
 
 export function TierListPage({ games, assets, onMoveGame, onOpenGame, resolveAssetUrl }: TierListPageProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
-  const suppressOpenFor = useRef<string | null>(null);
+  const suppressOpen = useRef(false);
   const sensors = useSensors(
     useSensor(TIER_LIST_SENSOR_TYPES.pointer, TIER_LIST_SENSOR_OPTIONS.pointer),
     useSensor(TIER_LIST_SENSOR_TYPES.touch, TIER_LIST_SENSOR_OPTIONS.touch),
@@ -165,13 +165,14 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, resolveAss
 
   const onDragStart = ({ active }: DragStartEvent) => {
     const gameId = String(active.data.current?.gameId ?? "");
-    suppressOpenFor.current = gameId;
+    suppressOpen.current = true;
     setActiveId(gameId);
   };
   const finishDrag = () => {
     setActiveId(null);
+    // Keep suppress through the ghost click that follows pointerup; clear after that task.
     window.setTimeout(() => {
-      suppressOpenFor.current = null;
+      suppressOpen.current = false;
     }, 0);
   };
   const onDragEnd = ({ active, over }: DragEndEvent) => {
@@ -185,7 +186,7 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, resolveAss
     if (target) onMoveGame(gameId, target);
   };
   const openGame = onOpenGame ? (gameId: string) => {
-    if (suppressOpenFor.current === gameId) return;
+    if (suppressOpen.current) return;
     onOpenGame(gameId);
   } : undefined;
   return (
@@ -206,7 +207,7 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, resolveAss
           <div className="tier-board">
             {TIER_IDS.map((tierId) => <TierRow assets={assets} games={byTier[tierId]} key={tierId} onOpenGame={openGame} resolveAssetUrl={resolveAssetUrl} tierId={tierId} />)}
           </div>
-          <DragOverlay>{activeGame ? <GameCard asset={activeGame.coverAssetId ? assets[activeGame.coverAssetId] : undefined} game={activeGame} isDragging resolveAssetUrl={resolveAssetUrl} /> : null}</DragOverlay>
+          <DragOverlay>{activeGame ? <GameCard asset={activeGame.coverAssetId ? assets[activeGame.coverAssetId] : undefined} game={activeGame} isDragging onOpen={openGame} resolveAssetUrl={resolveAssetUrl} /> : null}</DragOverlay>
         </DndContext>
       )}
     </div>

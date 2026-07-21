@@ -44,9 +44,9 @@ const ZELDA_ID = "66666666-6666-4666-8666-666666666666";
 const NOW = "2026-07-16T10:00:00.000Z";
 
 class ResizeObserverMock {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
+  observe() { }
+  unobserve() { }
+  disconnect() { }
 }
 
 vi.stubGlobal("ResizeObserver", ResizeObserverMock);
@@ -190,7 +190,9 @@ describe("CatalogPage", () => {
 
     render(<CatalogPage assets={{ [assetId]: asset }} games={[game]} resolveAssetUrl={resolveAssetUrl} />);
 
-    expect(screen.getByRole("img", { name: "Обложка DuckTales" })).toHaveAttribute("src", "/mylib/media/cover.webp");
+    const cover = document.querySelector(".catalog-list .game-card__cover img");
+    expect(cover).toHaveAttribute("src", "/mylib/media/cover.webp");
+    expect(cover).toHaveAttribute("alt", "Обложка DuckTales");
     expect(resolveAssetUrl).toHaveBeenCalledWith(assetId);
   });
 
@@ -1745,6 +1747,111 @@ describe("TierListPage", () => {
     await waitFor(() => {
       expect(onMoveGame).toHaveBeenCalledWith(DUCK_ID, { tierId: "a", index: 1 });
     });
+    expect(onOpenGame).not.toHaveBeenCalled();
+  });
+
+  it("does not open the card under the pointer after a drag release", async () => {
+    const user = userEvent.setup();
+    const onMoveGame = vi.fn();
+    const onOpenGame = vi.fn();
+    const games = [
+      makeGame({ placement: { tierId: "a", rank: 1024 } }),
+      makeGame({ id: MARIO_ID, title: "Mario", placement: { tierId: "a", rank: 2048 } }),
+      makeGame({ id: ZELDA_ID, title: "Zelda", placement: { tierId: "a", rank: 3072 } }),
+    ];
+    const cardLeft = new Map([["DuckTales", 0], ["Mario", 140], ["Zelda", 280]]);
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function () {
+      if (this.matches(".game-card")) {
+        const title = this.getAttribute("title") ?? "";
+        return domRect(cardLeft.get(title) ?? 0, 100, 120, 160);
+      }
+      if (this.matches(".tier-row__games")) return domRect(0, 100, 560, 180);
+      return domRect(0, 0, 1024, 768);
+    });
+
+    render(<TierListPage assets={{}} games={games} onMoveGame={onMoveGame} onOpenGame={onOpenGame} />);
+    const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
+    const card = cover.closest("article");
+    const marioCover = screen.getByRole("link", { name: /Mario, статус: Играю.*пробел — перетащить/ });
+
+    await user.pointer([{ keys: "[MouseLeft>]", target: cover, coords: { clientX: 10, clientY: 120 } }]);
+    await user.pointer([{ target: cover, coords: { clientX: 170, clientY: 120 } }]);
+    await waitFor(() => expect(card).toHaveClass("is-dragging"));
+    await user.pointer([{ target: marioCover, coords: { clientX: 180, clientY: 120 } }]);
+    await user.pointer([{ keys: "[/MouseLeft]", target: marioCover, coords: { clientX: 180, clientY: 120 } }]);
+
+    await waitFor(() => {
+      expect(onMoveGame).toHaveBeenCalledWith(DUCK_ID, { tierId: "a", index: 1 });
+    });
+    expect(onOpenGame).not.toHaveBeenCalled();
+  });
+
+  it("does not navigate via the drag overlay cover href on release", async () => {
+    const user = userEvent.setup();
+    const onMoveGame = vi.fn();
+    const onOpenGame = vi.fn();
+    const games = [
+      makeGame({ placement: { tierId: "a", rank: 1024 } }),
+      makeGame({ id: MARIO_ID, title: "Mario", placement: { tierId: "a", rank: 2048 } }),
+    ];
+    const cardLeft = new Map([["DuckTales", 0], ["Mario", 140]]);
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function () {
+      if (this.matches(".game-card")) {
+        const title = this.getAttribute("title") ?? "";
+        return domRect(cardLeft.get(title) ?? 0, 100, 120, 160);
+      }
+      if (this.matches(".tier-row__games")) return domRect(0, 100, 560, 180);
+      return domRect(0, 0, 1024, 768);
+    });
+
+    render(<TierListPage assets={{}} games={games} onMoveGame={onMoveGame} onOpenGame={onOpenGame} />);
+    const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
+    const card = cover.closest("article");
+
+    await user.pointer([{ keys: "[MouseLeft>]", target: cover, coords: { clientX: 10, clientY: 120 } }]);
+    await user.pointer([{ target: cover, coords: { clientX: 170, clientY: 120 } }]);
+    await waitFor(() => expect(card).toHaveClass("is-dragging"));
+
+    const overlayCover = screen.getAllByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ })
+      .find((link) => !link.closest(".tier-row"));
+    expect(overlayCover).toBeTruthy();
+    fireEvent.click(overlayCover as HTMLElement);
+    expect(onOpenGame).not.toHaveBeenCalled();
+  });
+
+  it("does not open the drop-target card from the ghost click after drag", async () => {
+    const user = userEvent.setup();
+    const onMoveGame = vi.fn();
+    const onOpenGame = vi.fn();
+    const games = [
+      makeGame({ placement: { tierId: "a", rank: 1024 } }),
+      makeGame({ id: MARIO_ID, title: "Mario", placement: { tierId: "a", rank: 2048 } }),
+      makeGame({ id: ZELDA_ID, title: "Zelda", placement: { tierId: "a", rank: 3072 } }),
+    ];
+    const cardLeft = new Map([["DuckTales", 0], ["Mario", 140], ["Zelda", 280]]);
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function () {
+      if (this.matches(".game-card")) {
+        const title = this.getAttribute("title") ?? "";
+        return domRect(cardLeft.get(title) ?? 0, 100, 120, 160);
+      }
+      if (this.matches(".tier-row__games")) return domRect(0, 100, 560, 180);
+      return domRect(0, 0, 1024, 768);
+    });
+
+    render(<TierListPage assets={{}} games={games} onMoveGame={onMoveGame} onOpenGame={onOpenGame} />);
+    const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
+    const card = cover.closest("article");
+
+    await user.pointer([{ keys: "[MouseLeft>]", target: cover, coords: { clientX: 10, clientY: 120 } }]);
+    await user.pointer([{ target: cover, coords: { clientX: 170, clientY: 120 } }]);
+    await waitFor(() => expect(card).toHaveClass("is-dragging"));
+    await user.pointer([{ target: cover, coords: { clientX: 180, clientY: 120 } }]);
+    await user.pointer([{ keys: "[/MouseLeft]", target: cover, coords: { clientX: 180, clientY: 120 } }]);
+
+    await waitFor(() => {
+      expect(onMoveGame).toHaveBeenCalledWith(DUCK_ID, { tierId: "a", index: 1 });
+    });
+    fireEvent.click(screen.getByRole("link", { name: /Mario, статус: Играю.*пробел — перетащить/ }));
     expect(onOpenGame).not.toHaveBeenCalled();
   });
 
