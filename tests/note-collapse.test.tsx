@@ -44,7 +44,7 @@ describe("scrollable long note cards", () => {
     expect(viewport).toContain("overscroll-behavior: contain");
     expect(viewport).toContain("scrollbar-width: thin");
     expect(styles).toMatch(/\.note-card__viewport-frame::after\s*\{[^}]*content:\s*"Прокрутить ↓"/);
-    expect(styles).toMatch(/\.note-card__viewport-frame\.can-scroll-up::before, \.note-card__viewport-frame\.can-scroll-down::after\s*\{[^}]*opacity:\s*1/);
+    expect(styles).toMatch(/\.note-card__viewport-frame\.can-scroll-up::before\s*,\s*\.note-card__viewport-frame\.can-scroll-down::after\s*\{[^}]*opacity:\s*1/);
     expect(styles).not.toContain("note-card__collapse-toggle");
     expect(styles).not.toContain("note-card--collapsed");
     expect(styles).not.toContain("note-card--expanded");

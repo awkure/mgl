@@ -1,21 +1,17 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
+import { declarationsIn } from "./cssTestUtils";
 
 const styles = readFileSync(resolve(process.cwd(), "src/styles.css"), "utf8");
 
-function declarations(selector: string): string {
-  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return new RegExp(`${escaped}\\s*\\{([^}]*)\\}`).exec(styles)?.[1] ?? "";
-}
-
 describe("note card footer", () => {
   it("floats every note's actions below its clipped surface without reserving space", () => {
-    const footer = declarations(".note-card__actions");
-    const card = declarations(".note-card:not(.note-card--editing)");
-    const surface = declarations(".note-card__surface");
-    const drag = declarations(".note-card__actions .note-card__drag");
-    const edit = declarations(".note-card__actions .note-card__edit");
+    const footer = declarationsIn(styles, ".note-card__actions");
+    const card = declarationsIn(styles, ".note-card:not(.note-card--editing)");
+    const surface = declarationsIn(styles, ".note-card__surface");
+    const drag = declarationsIn(styles, ".note-card__actions .note-card__drag");
+    const edit = declarationsIn(styles, ".note-card__actions .note-card__edit");
 
     expect(footer).toContain("position: absolute");
     expect(footer).toContain("top: 100%");
@@ -37,9 +33,12 @@ describe("note card footer", () => {
   });
 
   it("keeps hovered footer actions above the add-note slot", () => {
-    const activeCard = declarations(".note-card:not(.note-card--editing):hover, .note-card:not(.note-card--editing):focus-within");
-    const footer = declarations(".note-card__actions");
-    const addSlot = declarations(".note-group-add-slot");
+    const activeCard = declarationsIn(
+      styles,
+      ".note-card:not(.note-card--editing):hover, .note-card:not(.note-card--editing):focus-within",
+    );
+    const footer = declarationsIn(styles, ".note-card__actions");
+    const addSlot = declarationsIn(styles, ".note-group-add-slot");
     const activeCardLayer = Number(/z-index:\s*(\d+)/.exec(activeCard)?.[1]);
     const footerLayer = Number(/z-index:\s*(\d+)/.exec(footer)?.[1]);
     const addSlotLayer = Number(/z-index:\s*(\d+)/.exec(addSlot)?.[1]);

@@ -12,8 +12,8 @@ const NOW = "2026-07-18T09:00:00.000Z";
 const ASSET_IDS = ["a", "b", "c", "d"].map((value) => value.repeat(64));
 
 class ResizeObserverMock {
-  observe() {}
-  disconnect() {}
+  observe() { }
+  disconnect() { }
 }
 
 function game(): Game {
@@ -66,9 +66,9 @@ describe("note media gallery", () => {
   it("defines compact templates for three, four, and larger media runs", () => {
     const styles = readFileSync(resolve(process.cwd(), "src/styles.css"), "utf8");
 
-    expect(styles).toMatch(/\.note-media-gallery--count-3 > \.note-attachment-shell:first-child \{ grid-row: 1 \/ -1; \}/);
-    expect(styles).toMatch(/\.note-media-gallery--count-4 > \.note-attachment-shell:first-child \{ grid-column: 1 \/ -1; \}/);
-    expect(styles).toMatch(/\.note-media-gallery--count-5 \{ height: auto; grid-template-columns: repeat\(3, minmax\(0, 1fr\)\); grid-auto-rows: 128px; \}/);
-    expect(styles).toMatch(/@media \(max-width: 500px\)[\s\S]*?\.note-media-gallery \{ height: 220px; \}/);
+    expect(styles).toMatch(/\.note-media-gallery--count-3\s*>\s*\.note-attachment-shell:first-child\s*\{\s*grid-row:\s*1\s*\/\s*-1\s*;\s*\}/);
+    expect(styles).toMatch(/\.note-media-gallery--count-4\s*>\s*\.note-attachment-shell:first-child\s*\{\s*grid-column:\s*1\s*\/\s*-1\s*;\s*\}/);
+    expect(styles).toMatch(/\.note-media-gallery--count-5\s*\{\s*height:\s*auto;\s*grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\);\s*grid-auto-rows:\s*128px;\s*\}/);
+    expect(styles).toMatch(/@media \(max-width: 500px\)[\s\S]*?\.note-media-gallery\s*\{\s*height:\s*220px;\s*\}/);
   });
 });
