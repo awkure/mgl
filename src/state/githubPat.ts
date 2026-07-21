@@ -1,10 +1,17 @@
 export const GITHUB_PAT_STORAGE_KEY = "my-game-library.github-pat.v1";
 
-export const GITHUB_REPOSITORY_OWNER = "kana-sama";
-export const GITHUB_REPOSITORY_NAME = "mygameslist";
-export const GITHUB_PAT_NAME = "Publish mygameslist";
-export const GITHUB_PAT_DESCRIPTION =
-  "Publish library changes to kana-sama/mygameslist from My Game Library";
+function requireViteEnv(name: keyof ImportMetaEnv): string {
+  const value = import.meta.env[name];
+  if (typeof value !== "string" || value.trim() === "") {
+    throw new Error(`Missing ${name} — set it in the project-root .env (see .env.example)`);
+  }
+  return value.trim();
+}
+
+export const GITHUB_REPOSITORY_OWNER = requireViteEnv("VITE_GITHUB_REPOSITORY_OWNER");
+export const GITHUB_REPOSITORY_NAME = requireViteEnv("VITE_GITHUB_REPOSITORY_NAME");
+export const GITHUB_PAT_NAME = requireViteEnv("VITE_GITHUB_PAT_NAME");
+export const GITHUB_PAT_DESCRIPTION = requireViteEnv("VITE_GITHUB_PAT_DESCRIPTION");
 
 const GITHUB_PAT_CREATION_ENDPOINT =
   "https://github.com/settings/personal-access-tokens/new";

@@ -1,0 +1,57 @@
+# Dev recipes for mygameslist. Requires: just, Node ≥22.13
+# https://github.com/casey/just
+
+set shell := ["bash", "-eu", "-o", "pipefail", "-c"]
+set dotenv-load := true
+
+default:
+    @just --list
+
+# Install deps and ensure .env exists
+setup:
+    @[ -f .env ] || cp .env.example .env
+    npm ci
+
+# Vite dev server
+dev: ensure-env
+    npm run dev
+
+# Production build
+build: ensure-env
+    npm run build
+
+# Preview built dist/
+preview: ensure-env
+    npm run preview
+
+# Run Vitest once
+test: ensure-env
+    npm test
+
+# Vitest watch mode
+test-watch: ensure-env
+    npm run test:watch
+
+# Validate public/data/library.json + media
+validate:
+    npm run data:validate
+
+# Full local gate before push
+check: validate test build
+
+# Apply clipboard patch → local git/jj commit (macOS)
+publish-clipboard:
+    npm run publish:clipboard
+
+# Push main and wait for Pages deploy workflow
+push-ci:
+    npm run push:ci
+
+# Reset local Vite env from the example (keeps .env.local)
+env-reset:
+    cp .env.example .env
+    @echo "Wrote .env from .env.example"
+
+[private]
+ensure-env:
+    @[ -f .env ] || { echo "Missing .env — run: just setup (or just env-reset)"; exit 1; }

@@ -7,3 +7,5 @@ coverage/
 .cursor/*
 !.cursor/rules/
 !.cursor/skills/
+.env.local
+.env.*.local

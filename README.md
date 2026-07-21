@@ -14,27 +14,39 @@ Markdown-поле. Компактная кнопка `+` в редакторе �
 
 ## Разработка
 
-Требуется Node.js 22.13 или новее.
+Требуется Node.js 22.13 или новее. Удобные команды — через [just](https://github.com/casey/just):
+
+```sh
+just setup   # npm ci + .env из .env.example при отсутствии
+just dev
+just check   # validate + test + build
+```
+
+Без just:
 
 ```sh
 npm ci
+cp -n .env.example .env
 npm run dev
 ```
 
 Проверки:
 
 ```sh
-npm test
-npm run build
+just test    # или npm test
+just build   # или npm run build
 ```
+
+GitHub Sync читает владельца/репозиторий из `.env` (`VITE_GITHUB_*`).
+Локальные переопределения — в `.env.local` (не коммитится).
 
 ## Публикация данных
 
 Основной способ — кнопка **Синхронизировать** вверху окна «Локальные правки».
 При первом запуске она предлагает создать и вставить fine-grained PAT:
 
-- resource owner: `kana-sama`;
-- repository access: только `mygameslist`;
+- resource owner и репозиторий задаются в `.env`
+  (`VITE_GITHUB_REPOSITORY_OWNER` / `VITE_GITHUB_REPOSITORY_NAME`);
 - repository permission: только `Contents: write`;
 - срок действия лучше ограничить.
 
@@ -67,8 +79,7 @@ ruleset. Даже без ruleset само приложение никогда н
    заметок, изображений и файлов без полных Markdown-текстов и base64. Новые
    бинарные данные будут записаны по вычисленным SHA-256-путям в `public/media`.
    Статичная база не принимает inline-base64: он существует только в локальном `patch.blobs`.
-5. Самостоятельно передвиньте нужную Git-ветку или Jujutsu-bookmark и выполните
-   push привычным способом.
+5. Самостоятельно выполните push нужной Git-ветки привычным способом.
 6. Когда GitHub Pages обновится, перезагрузите сайт: уже опубликованные
    локальные операции исчезнут автоматически.
 
@@ -76,8 +87,8 @@ ruleset. Даже без ruleset само приложение никогда н
 значения каждой операции и применяет их к актуальному
 `public/data/library.json`. Он никогда не заменяет базу скачанным готовым JSON,
 не выполняет fetch, merge, установку зависимостей, build, preview или push и не
-двигает Git-ветки либо Jujutsu-bookmarks. В colocated Jujutsu-репозитории он
-создаёт отдельный change перед текущим `@`, сохраняя сам `@` и его описание.
+двигает Git-ветки. Публикация создаёт один локальный commit только по путям
+`public/data/library.json` и затронутым `public/media/*`.
 
 `publish:clipboard` рассчитан на macOS и использует системный
 `/usr/bin/pbpaste`. Экспорт patch-файла остаётся резервной копией и способом

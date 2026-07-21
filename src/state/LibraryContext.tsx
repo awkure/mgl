@@ -841,7 +841,7 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
       if (reason instanceof GitHubSyncError) {
         if (reason.status === 401) throw new Error("GitHub отклонил PAT. Создайте новый fine-grained PAT.");
         if (reason.status === 403) throw new Error("PAT не имеет права Contents: write либо GitHub запретил создание или удаление временной проверочной ветки.");
-        if (reason.status === 404) throw new Error("GitHub не нашёл репозиторий. Проверьте, что PAT выдан только для kana-sama/mygameslist.");
+        if (reason.status === 404) throw new Error(`GitHub не нашёл репозиторий. Проверьте, что PAT выдан только для ${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_NAME}.`);
       }
       throw reason;
     } finally {
@@ -924,7 +924,7 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
           if (reason instanceof GitHubSyncError) {
             if (reason.status === 401) throw new Error("GitHub отклонил PAT. Создайте новый fine-grained PAT.");
             if (reason.status === 403) throw new Error("PAT не имеет права Contents: write либо запись в main запрещена правилами репозитория.");
-            if (reason.status === 404) throw new Error("GitHub не нашёл репозиторий. Проверьте, что PAT выдан только для kana-sama/mygameslist.");
+            if (reason.status === 404) throw new Error(`GitHub не нашёл репозиторий. Проверьте, что PAT выдан только для ${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_NAME}.`);
             if (reason.code === "concurrent_update") throw new Error("Ветка main снова изменилась во время синхронизации. Повторите попытку.");
           }
           throw reason;
