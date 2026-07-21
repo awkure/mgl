@@ -107,6 +107,7 @@ export function AppShell({
   const mobileChrome = useMobileChrome();
   const theme = useLiveTheme();
   const shellRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLElement>(null);
   const tabBarRef = useRef<HTMLElement>(null);
   const addButtonRef = useRef<HTMLAnchorElement>(null);
   const budget = storage.budgetBytes ?? 4 * 1024 * 1024;
@@ -131,6 +132,7 @@ export function AppShell({
   useLiquidGlassEffect({
     enabled: theme === "glass" && mobileChrome,
     rootRef: shellRef,
+    contentRef: mainRef,
     glassRefs: [tabBarRef, addButtonRef],
   });
 
@@ -184,7 +186,7 @@ export function AppShell({
         </div>
       </header>
 
-      <main id="main-content" className="app-main" data-dynamic={theme === "glass" ? "" : undefined}>{children}</main>
+      <main id="main-content" className="app-main" ref={mainRef}>{children}</main>
 
       {mobileChrome ? (
         <>

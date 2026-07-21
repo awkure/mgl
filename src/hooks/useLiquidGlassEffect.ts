@@ -1,21 +1,26 @@
 import { useEffect, useRef, type RefObject } from "react";
 
-const FPS_FLOOR = 30;
-const FPS_SAMPLE_MS = 2500;
+export const FPS_FLOOR = 30;
+export const FPS_SAMPLE_MS = 2500;
+export const FPS_WATCH_MS = 1000;
+export const FPS_BAD_STREAK = 2;
+export const SCROLL_MARK_MS = 160;
 
 export interface UseLiquidGlassEffectOptions {
   enabled: boolean;
   rootRef: RefObject<HTMLElement | null>;
+  /** Scrolling content behind the glass — mark this on scroll, never data-dynamic. */
+  contentRef?: RefObject<HTMLElement | null>;
   glassRefs: Array<RefObject<HTMLElement | null>>;
 }
 
-function prefersReducedEffects(): boolean {
+export function prefersReducedEffects(): boolean {
   if (typeof window === "undefined" || typeof window.matchMedia !== "function") return true;
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches
     || window.matchMedia("(prefers-reduced-transparency: reduce)").matches;
 }
 
-function hasWebGl(): boolean {
+export function hasWebGl(): boolean {
   try {
     const canvas = document.createElement("canvas");
     return Boolean(canvas.getContext("webgl") || canvas.getContext("experimental-webgl"));
@@ -24,14 +29,33 @@ function hasWebGl(): boolean {
   }
 }
 
+/** Tear down on warm-up sample below floor, or after sustained low FPS while watching. */
+export function shouldDisableGlass(
+  fps: number,
+  mode: "warmup" | "watch",
+  badStreak = 0,
+): boolean {
+  if (fps <= 0 || fps >= FPS_FLOOR) return false;
+  if (mode === "warmup") return true;
+  return badStreak >= FPS_BAD_STREAK;
+}
+
+export function nextBadFpsStreak(fps: number, previous: number): number {
+  if (fps <= 0) return previous;
+  return fps < FPS_FLOOR ? previous + 1 : 0;
+}
+
 export function useLiquidGlassEffect({
   enabled,
   rootRef,
+  contentRef,
   glassRefs,
 }: UseLiquidGlassEffectOptions): void {
   const instanceRef = useRef<{ destroy: () => void; fps: number; markChanged: (el?: HTMLElement) => void } | null>(null);
   const glassRefsRef = useRef(glassRefs);
+  const contentRefInternal = useRef(contentRef);
   glassRefsRef.current = glassRefs;
+  contentRefInternal.current = contentRef;
 
   useEffect(() => {
     if (!enabled) return;
@@ -41,9 +65,21 @@ export function useLiquidGlassEffect({
     if (!root) return;
 
     let cancelled = false;
-    let fpsTimer = 0;
+    let warmUpTimer = 0;
+    let watchTimer = 0;
     let scrollTimer = 0;
+    let badStreak = 0;
     let cleanupScroll: (() => void) | undefined;
+
+    const teardown = () => {
+      instanceRef.current?.destroy();
+      instanceRef.current = null;
+      delete document.documentElement.dataset.glassEffect;
+      if (watchTimer) {
+        window.clearInterval(watchTimer);
+        watchTimer = 0;
+      }
+    };
 
     const start = async () => {
       const glassElements = glassRefsRef.current
@@ -76,21 +112,28 @@ export function useLiquidGlassEffect({
         instanceRef.current = instance;
         document.documentElement.dataset.glassEffect = "webgl";
 
-        fpsTimer = window.setTimeout(() => {
+        warmUpTimer = window.setTimeout(() => {
           if (cancelled || !instanceRef.current) return;
-          if (instance.fps > 0 && instance.fps < FPS_FLOOR) {
-            instance.destroy();
-            instanceRef.current = null;
-            delete document.documentElement.dataset.glassEffect;
+          if (shouldDisableGlass(instanceRef.current.fps, "warmup")) {
+            teardown();
+            return;
           }
+          watchTimer = window.setInterval(() => {
+            if (cancelled || !instanceRef.current) return;
+            badStreak = nextBadFpsStreak(instanceRef.current.fps, badStreak);
+            if (shouldDisableGlass(instanceRef.current.fps, "watch", badStreak)) {
+              teardown();
+            }
+          }, FPS_WATCH_MS);
         }, FPS_SAMPLE_MS);
 
         const onScroll = () => {
-          if (scrollTimer) return;
+          if (scrollTimer || !instanceRef.current) return;
           scrollTimer = window.setTimeout(() => {
             scrollTimer = 0;
-            instanceRef.current?.markChanged();
-          }, 120);
+            const content = contentRefInternal.current?.current ?? undefined;
+            instanceRef.current?.markChanged(content);
+          }, SCROLL_MARK_MS);
         };
         root.addEventListener("scroll", onScroll, true);
         cleanupScroll = () => root.removeEventListener("scroll", onScroll, true);
@@ -103,12 +146,11 @@ export function useLiquidGlassEffect({
 
     return () => {
       cancelled = true;
-      if (fpsTimer) window.clearTimeout(fpsTimer);
+      if (warmUpTimer) window.clearTimeout(warmUpTimer);
+      if (watchTimer) window.clearInterval(watchTimer);
       if (scrollTimer) window.clearTimeout(scrollTimer);
       cleanupScroll?.();
-      instanceRef.current?.destroy();
-      instanceRef.current = null;
-      delete document.documentElement.dataset.glassEffect;
+      teardown();
     };
-  }, [enabled, rootRef]);
+  }, [enabled, rootRef, contentRef]);
 }
