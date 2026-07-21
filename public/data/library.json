@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": "400ed4df80f4d0351f520d993617a9dcbec764af401c2e91246adb49015ccf88",
-  "publicationId": "207de1f2-7192-455e-a811-9d4772057200",
+  "revision": "8d7ac0c584e9ad233dd6b9320ab60488e864350c16e4278aac499032be46080a",
+  "publicationId": "e16f6f8b-519a-472f-9367-bd4bbde065d4",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
       "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
@@ -4606,14 +4606,14 @@
       "tags": [
         "Экшены"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 355328
+        "tierId": "c",
+        "rank": 2048
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:36:55.124Z"
     },
     "5d8d144a-d900-46bd-ad1c-c2de674a7937": {
       "id": "5d8d144a-d900-46bd-ad1c-c2de674a7937",
@@ -10115,14 +10115,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "platinum",
       "placement": {
-        "tierId": "unranked",
-        "rank": 204800
+        "tierId": "s",
+        "rank": 12288
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:37:08.622Z"
     },
     "e42e2b89-fde7-422a-8578-a42eb797d4dd": {
       "id": "e42e2b89-fde7-422a-8578-a42eb797d4dd",
