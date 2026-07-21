@@ -107,3 +107,78 @@ Workflow находится в `.github/workflows/deploy.yml`. После доб
 в любой момент скачать patch-файл. Обложки кадрируются до 512×512 и кодируются
 в WebP. Изображения в заметках сохраняют исходные пиксельные размеры: готовый
 WebP сохраняется как есть, остальные форматы кодируются в lossless WebP.
+
+## TODO: интеграция Steam
+
+Публичный Steam Web API требует ключ
+([steamcommunity.com/dev/apikey](https://steamcommunity.com/dev/apikey)).
+Прямые запросы из браузера блокируются CORS, ключ нельзя класть в SPA.
+Профиль Steam должен открывать **Game details** для чтения библиотеки.
+Ориентир архитектуры: CLI / скрипт (как publish), не live-sync из клиента.
+
+### Фундамент
+
+- [ ] Решить канал доступа к API: CLI с `STEAM_WEB_API_KEY`, либо тонкий
+      personal proxy / GitHub Action с секретом (не ключ в `localStorage`)
+- [ ] `ResolveVanityURL` + разбор profile URL / steamID64
+- [ ] Проверка публичности профиля (`GetPlayerSummaries`) и понятная ошибка,
+      если библиотека скрыта
+- [ ] Опциональное поле связи с Steam (`steamAppId` / `externalIds`) в схеме
+      v2: `types` → `validation` → `validate-data.mjs` → UI
+- [ ] Дедуп при импорте: по `steamAppId`, иначе по нормализованному `title`
+
+### Импорт библиотеки
+
+- [ ] `GetOwnedGames` (`include_appinfo`, `include_played_free_games`) →
+      кандидаты в каталог
+- [ ] CLI / команда вроде `npm run import:steam` → operation patch или
+      preview JSON (без автопубликации)
+- [ ] UI «импорт выбранных»: список кандидатов, чекбоксы, пропуск уже
+      существующих
+- [ ] Маппинг в `Game`: `title`, `platforms: ["Steam"]`, `tags` из жанров,
+      `status` по эвристикам, `placement.tierId: "unranked"`, пустой review
+- [ ] Скачивание обложки с CDN / `header_image` → encode WebP → SHA-256
+      asset (тот же пайплайн, что у ручных обложек)
+- [ ] Обогащение через Storefront `appdetails` (жанры, разработчики,
+      platforms, short description) с троттлингом
+- [ ] Фильтры импорта: только с playtime, исключить demos/tools/DLC,
+      лимит / dry-run
+
+### Заполнение одной игры
+
+- [ ] В редакторе: вставить Steam URL / appid → префилл title, tags, cover
+- [ ] Ссылка на страницу в Steam как note attachment / поле в карточке
+- [ ] Подтянуть screenshots / trailer URLs как опциональные вложения заметок
+
+### Статус и playtime
+
+- [ ] Эвристики статуса из `playtime_forever` / `playtime_2weeks`
+      (0 → wishlist/unplayed, недавняя активность → playing)
+- [ ] Не перезаписывать уже выставленный tier без подтверждения
+- [ ] Показать playtime в UI (часы) — отдельное поле или только при импорте
+- [ ] `GetRecentlyPlayedGames` → виджет «сейчас в ротации» / очередь
+      быстрого добавления
+
+### Достижения
+
+- [ ] `GetPlayerAchievements` + `GetSchemaForGame` для игр уже в каталоге
+- [ ] Подсказка статуса platinum / completed при 100% unlock
+- [ ] Бейдж прогресса достижений на карточке (опционально)
+
+### Синхронизация и эксплуатация (позже / низкий приоритет)
+
+- [ ] Повторный sync: только новые appid, без дублей и без сброса локальных
+      правок (title/tier/review)
+- [ ] GitHub Action «Import Steam» с секретом ключа → PR с diff
+      `library.json` + media
+- [ ] Live sync из SPA — не делать, пока нет безопасного серверного прокси
+- [ ] Обработка rate limit / 429, пагинация обогащения `appdetails`
+- [ ] `GetFriendList` — вне скоупа личной библиотеки (не планировать без
+      явного запроса)
+
+### Документация и тесты
+
+- [ ] Раздел в README / skill: ключ, privacy Steam, CLI-флоу, ограничения
+      CORS
+- [ ] Фикстуры ответов Steam API + unit-тесты маппинга в domain
+- [ ] Acceptance: импорт не ломает schema v2 и orphan-asset инварианты
