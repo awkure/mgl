@@ -387,6 +387,7 @@ export class GitHubGitDatabaseSyncClient {
     const libraryBlobSha = expectGitSha(libraryEntry.sha, "library blob SHA");
     const mediaPaths = tree.tree.flatMap((entry) => {
       if (!isObject(entry) || typeof entry.path !== "string" || !entry.path.startsWith("public/media/")) return [];
+      if (entry.path === "public/media/.gitkeep") return [];
       if (!GITHUB_MEDIA_PATH.test(entry.path)) throw new GitHubSyncError("invalid_response", "GitHub media directory contains an unexpected path");
       if (entry.type !== "blob") throw new GitHubSyncError("invalid_response", "GitHub media path is not a blob");
       return [entry.path];

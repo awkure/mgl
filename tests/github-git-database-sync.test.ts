@@ -282,6 +282,44 @@ describe("GitHub Git Database publication", () => {
     expect(refWrite?.body).toEqual({ sha: CREATED_COMMIT_SHA, force: false });
   });
 
+  it("ignores public/media/.gitkeep when reading the repository tree", async () => {
+    const base = databaseWithGame();
+    const api = apiMock(base, {
+      tree: {
+        sha: TREE_SHA,
+        truncated: false,
+        tree: [
+          { path: GITHUB_LIBRARY_PATH, mode: "100644", type: "blob", sha: LIBRARY_BLOB_SHA },
+          { path: "public/media/.gitkeep", mode: "100644", type: "blob", sha: "a".repeat(40) },
+        ],
+      },
+    });
+
+    const snapshot = await client(api.fetch).fetchLatestLibrary();
+
+    expect(snapshot.mediaPaths).toEqual([]);
+    expect(snapshot.database).toEqual(base);
+  });
+
+  it("still rejects other unexpected paths under public/media", async () => {
+    const base = databaseWithGame();
+    const api = apiMock(base, {
+      tree: {
+        sha: TREE_SHA,
+        truncated: false,
+        tree: [
+          { path: GITHUB_LIBRARY_PATH, mode: "100644", type: "blob", sha: LIBRARY_BLOB_SHA },
+          { path: "public/media/notes/readme.txt", mode: "100644", type: "blob", sha: "b".repeat(40) },
+        ],
+      },
+    });
+
+    await expect(client(api.fetch).fetchLatestLibrary()).rejects.toMatchObject({
+      code: "invalid_response",
+      message: "GitHub media directory contains an unexpected path",
+    });
+  });
+
   it("rebases clean fields onto a remotely changed library", async () => {
     const base = databaseWithGame();
     const patch = titlePatch(base);
