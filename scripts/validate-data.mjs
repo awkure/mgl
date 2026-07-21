@@ -24,6 +24,7 @@ const ROOT_KEYS = [
 ];
 const STATUS_IDS = new Set(["wishlist", "playing", "played", "completed", "platinum", "dropped"]);
 const TIER_IDS = new Set(["s", "a", "b", "c", "d", "f", "unranked"]);
+const IMPORTED_VIA_IDS = new Set(["steam", "manually"]);
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const SHA256_RE = /^[0-9a-f]{64}$/;
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/;
@@ -178,6 +179,8 @@ function validateGame(key, game, assets, at, error) {
     "title",
     "coverAssetId",
     "steamAppId",
+    "importedVia",
+    "hoursPlayed",
     "platforms",
     "tags",
     "status",
@@ -199,6 +202,12 @@ function validateGame(key, game, assets, at, error) {
   }
   if (game.steamAppId !== null && !(typeof game.steamAppId === "number" && Number.isSafeInteger(game.steamAppId) && game.steamAppId > 0)) {
     error(`${at}.steamAppId`, "must be null or a positive Steam App ID");
+  }
+  if (typeof game.importedVia !== "string" || !IMPORTED_VIA_IDS.has(game.importedVia)) {
+    error(`${at}.importedVia`, "must be steam or manually");
+  }
+  if (game.hoursPlayed !== null && !(typeof game.hoursPlayed === "number" && Number.isFinite(game.hoursPlayed) && game.hoursPlayed >= 0)) {
+    error(`${at}.hoursPlayed`, "must be null or a non-negative number of hours");
   }
   stringSet(game.platforms, `${at}.platforms`, error);
   stringSet(game.tags, `${at}.tags`, error);

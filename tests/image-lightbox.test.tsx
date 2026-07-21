@@ -47,7 +47,7 @@ afterEach(() => {
 describe("note image lightbox", () => {
   it("opens a tall media-only image without collapsing it or entering note editing", async () => {
     const user = userEvent.setup();
-    const game: Game = { id: GAME_ID, title: "DuckTales", coverAssetId: null, steamAppId: null, platforms: ["NES"], tags: [], status: "playing", placement: { tierId: "a", rank: 1024 }, reviewMarkdown: "", createdAt: NOW, updatedAt: NOW };
+    const game: Game = { id: GAME_ID, title: "DuckTales", coverAssetId: null, steamAppId: null, importedVia: "manually", hoursPlayed: null, platforms: ["NES"], tags: [], status: "playing", placement: { tierId: "a", rank: 1024 }, reviewMarkdown: "", createdAt: NOW, updatedAt: NOW };
     const note: Note = { id: NOTE_ID, gameId: GAME_ID, bodyMarkdown: "", attachments: [{ type: "image", assetId: ASSET_ID, alt: "Карта уровня" }], rank: 1024, createdAt: NOW, updatedAt: NOW };
     const asset: Asset = { id: ASSET_ID, kind: "image", mime: "image/webp", width: 1280, height: 720, byteLength: 100, alt: "Карта уровня", originalName: "map.webp" };
     const onSave = vi.fn();
@@ -90,7 +90,7 @@ describe("note image lightbox", () => {
 
   it("keeps extreme portrait images in the fixed preview while lightbox and editing stay available", async () => {
     const user = userEvent.setup();
-    const game: Game = { id: GAME_ID, title: "Wario Land 3", coverAssetId: null, steamAppId: null, platforms: ["GameBoy Color"], tags: [], status: "playing", placement: { tierId: "b", rank: 1024 }, reviewMarkdown: "", createdAt: NOW, updatedAt: NOW };
+    const game: Game = { id: GAME_ID, title: "Wario Land 3", coverAssetId: null, steamAppId: null, importedVia: "manually", hoursPlayed: null, platforms: ["GameBoy Color"], tags: [], status: "playing", placement: { tierId: "b", rank: 1024 }, reviewMarkdown: "", createdAt: NOW, updatedAt: NOW };
     const note: Note = { id: NOTE_ID, gameId: GAME_ID, bodyMarkdown: "", attachments: [{ type: "image", assetId: ASSET_ID, alt: "Карта переходов" }], rank: 1024, createdAt: NOW, updatedAt: NOW };
     const asset: Asset = { id: ASSET_ID, kind: "image", mime: "image/webp", width: 520, height: 3800, byteLength: 39_000, alt: "Карта переходов", originalName: "map.png" };
 
@@ -116,7 +116,7 @@ describe("note image lightbox", () => {
 
   it("does not open a text note editor when a portaled lightbox click closes the image", async () => {
     const user = userEvent.setup();
-    const game: Game = { id: GAME_ID, title: "DuckTales", coverAssetId: null, steamAppId: null, platforms: ["NES"], tags: [], status: "playing", placement: { tierId: "a", rank: 1024 }, reviewMarkdown: "", createdAt: NOW, updatedAt: NOW };
+    const game: Game = { id: GAME_ID, title: "DuckTales", coverAssetId: null, steamAppId: null, importedVia: "manually", hoursPlayed: null, platforms: ["NES"], tags: [], status: "playing", placement: { tierId: "a", rank: 1024 }, reviewMarkdown: "", createdAt: NOW, updatedAt: NOW };
     const note: Note = { id: NOTE_ID, gameId: GAME_ID, bodyMarkdown: "Маршрут уровня", attachments: [{ type: "image", assetId: ASSET_ID, alt: "Карта уровня" }], rank: 1024, createdAt: NOW, updatedAt: NOW };
     const asset: Asset = { id: ASSET_ID, kind: "image", mime: "image/webp", width: 1280, height: 720, byteLength: 100, alt: "Карта уровня", originalName: "map.webp" };
 

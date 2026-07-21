@@ -696,6 +696,8 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
         title: input.title.trim(),
         coverAssetId,
         steamAppId: input.steamAppId === undefined ? previous?.steamAppId ?? null : input.steamAppId,
+        importedVia: input.importedVia === undefined ? previous?.importedVia ?? "manually" : input.importedVia,
+        hoursPlayed: input.hoursPlayed === undefined ? previous?.hoursPlayed ?? null : input.hoursPlayed,
         platforms: uniqueStrings(input.platforms),
         tags: uniqueStrings(input.tags),
         status: input.status,

@@ -15,7 +15,7 @@ describe("published platinum status", () => {
           id: GAME_ID,
           title: "Synthetic platinum game",
           coverAssetId: null,
-          steamAppId: null, platforms: [],
+          steamAppId: null, importedVia: "manually", hoursPlayed: null, platforms: [],
           tags: [],
           status: "platinum",
           placement: { tierId: "s", rank: 1024 },

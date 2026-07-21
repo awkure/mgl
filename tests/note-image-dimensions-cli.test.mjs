@@ -15,7 +15,7 @@ function databaseWithImage(width, height) {
         id: "22222222-2222-4222-8222-222222222222",
         title: "Map",
         coverAssetId: null,
-        steamAppId: null, platforms: [],
+        steamAppId: null, importedVia: "manually", hoursPlayed: null, platforms: [],
         tags: [],
         status: "wishlist",
         placement: { tierId: "unranked", rank: 1024 },

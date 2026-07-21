@@ -63,7 +63,7 @@ function makeGame(overrides: Partial<Game> = {}): Game {
     id: DUCK_ID,
     title: "DuckTales",
     coverAssetId: null,
-    steamAppId: null, platforms: ["NES"],
+    steamAppId: null, importedVia: "manually", hoursPlayed: null, platforms: ["NES"],
     tags: ["platformer"],
     status: "playing",
     placement: { tierId: "a", rank: 1024 },

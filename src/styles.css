@@ -1866,6 +1866,12 @@ h4 {
   margin-left: -3px;
 }
 
+.game-sidebar__import-link {
+  color: var(--accent, #8ec8ff);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .game-sidebar__meta-short dd {
   min-width: 0;
   margin: 0;

@@ -1,5 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  getAppDetails,
+  getOwnedGames,
   getPlayerSummary,
   probeOwnedGamesVisibility,
   resolveSteamId,
@@ -61,6 +63,40 @@ describe("steamApi", () => {
     await expect(probeOwnedGamesVisibility("key", "76561197960287930")).resolves.toEqual({
       visible: true,
       gameCount: 2,
+    });
+  });
+
+  it("returns owned games with appinfo", async () => {
+    mockJson({
+      response: {
+        game_count: 1,
+        games: [{ appid: 570, name: "Dota 2", playtime_forever: 12 }],
+      },
+    });
+    await expect(getOwnedGames("key", "76561197960287930")).resolves.toMatchObject({
+      visible: true,
+      gameCount: 1,
+      games: [{ appid: 570, name: "Dota 2" }],
+    });
+  });
+
+  it("parses storefront appdetails", async () => {
+    mockJson({
+      "570": {
+        success: true,
+        data: {
+          type: "game",
+          name: "Dota 2",
+          genres: [{ description: "Action" }],
+          header_image: "https://example.com/header.jpg",
+        },
+      },
+    });
+    await expect(getAppDetails(570)).resolves.toEqual({
+      type: "game",
+      name: "Dota 2",
+      genres: ["Action"],
+      headerImage: "https://example.com/header.jpg",
     });
   });
 });

@@ -52,7 +52,7 @@ function receipt(): PendingPublicationReceipt {
     id: "00000000-0000-4000-8000-000000000002",
     title: "Saved game",
     coverAssetId: null,
-    steamAppId: null, platforms: [],
+    steamAppId: null, importedVia: "manually", hoursPlayed: null, platforms: [],
     tags: [],
     status: "playing",
     placement: { tierId: "unranked", rank: 1024 },

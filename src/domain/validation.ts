@@ -1,5 +1,5 @@
 import { MAX_WEBP_DIMENSION, base64ToBytes, isCanonicalBase64 } from "./assets";
-import { LIBRARY_SCHEMA_VERSION, STATUS_IDS, TIER_IDS, type Asset, type LibraryDatabase, type PatchEnvelope } from "./types";
+import { LIBRARY_SCHEMA_VERSION, STATUS_IDS, TIER_IDS, IMPORTED_VIA_IDS, type Asset, type LibraryDatabase, type PatchEnvelope } from "./types";
 import { computeLibraryRevision, MISSING_VALUE_HASH, sha256Bytes } from "./canonical";
 
 export interface ValidationIssue {
@@ -17,13 +17,13 @@ const ENTITY_MAPS = ["games", "notes", "assets"] as const;
 export type EntityMapName = (typeof ENTITY_MAPS)[number];
 
 export const ENTITY_FIELDS: Record<EntityMapName, readonly string[]> = {
-  games: ["id", "title", "coverAssetId", "steamAppId", "platforms", "tags", "status", "placement", "reviewMarkdown", "createdAt", "updatedAt"],
+  games: ["id", "title", "coverAssetId", "steamAppId", "importedVia", "hoursPlayed", "platforms", "tags", "status", "placement", "reviewMarkdown", "createdAt", "updatedAt"],
   notes: ["id", "gameId", "bodyMarkdown", "attachments", "groupRank", "rank", "createdAt", "updatedAt"],
   assets: ["id", "kind", "mime", "width", "height", "byteLength", "alt", "originalName"],
 };
 
 export const LOCALLY_PATCHABLE_FIELDS: Record<EntityMapName, readonly string[]> = {
-  games: ["title", "coverAssetId", "steamAppId", "platforms", "tags", "status", "placement", "reviewMarkdown"],
+  games: ["title", "coverAssetId", "steamAppId", "importedVia", "hoursPlayed", "platforms", "tags", "status", "placement", "reviewMarkdown"],
   notes: ["bodyMarkdown", "attachments", "groupRank", "rank"],
   assets: [],
 };
@@ -131,6 +131,12 @@ function validateGame(value: unknown, path: string, issues: ValidationIssue[]): 
   if (value.coverAssetId !== null && !(typeof value.coverAssetId === "string" && SHA256.test(value.coverAssetId))) issue(issues, `${path}/coverAssetId`, "Ожидался SHA-256 asset id или null");
   if (value.steamAppId !== null && !(typeof value.steamAppId === "number" && Number.isSafeInteger(value.steamAppId) && value.steamAppId > 0)) {
     issue(issues, `${path}/steamAppId`, "Ожидался положительный Steam App ID или null");
+  }
+  if (typeof value.importedVia !== "string" || !IMPORTED_VIA_IDS.includes(value.importedVia as never)) {
+    issue(issues, `${path}/importedVia`, "Ожидался источник импорта steam или manually");
+  }
+  if (value.hoursPlayed !== null && !(typeof value.hoursPlayed === "number" && Number.isFinite(value.hoursPlayed) && value.hoursPlayed >= 0)) {
+    issue(issues, `${path}/hoursPlayed`, "Ожидалось неотрицательное число часов или null");
   }
   stringList(value.platforms, `${path}/platforms`, issues);
   stringList(value.tags, `${path}/tags`, issues);

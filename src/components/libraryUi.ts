@@ -1,4 +1,4 @@
-import type { Asset, Game, StatusId, TierId } from "../domain/types";
+import type { Asset, Game, ImportedViaId, StatusId, TierId } from "../domain/types";
 import { publishedAssetUrl } from "../domain/assets";
 
 export const STATUS_LABELS: Record<StatusId, string> = {
@@ -19,6 +19,17 @@ export const TIER_LABELS: Record<TierId, string> = {
   f: "F",
   unranked: "Без оценки",
 };
+
+export const IMPORTED_VIA_LABELS: Record<ImportedViaId, string> = {
+  steam: "Steam",
+  manually: "Вручную",
+};
+
+export function formatHoursPlayed(hours: number): string {
+  if (!Number.isFinite(hours) || hours < 0) return "—";
+  const rounded = Math.round(hours * 10) / 10;
+  return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
+}
 
 export const TIER_DESCRIPTIONS: Record<TierId, string> = {
   s: "Лучшее из лучшего",

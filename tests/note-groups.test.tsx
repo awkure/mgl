@@ -66,7 +66,7 @@ const game = {
   id: GAME_ID,
   title: "Game",
   coverAssetId: null,
-  steamAppId: null, platforms: [],
+  steamAppId: null, importedVia: "manually", hoursPlayed: null, platforms: [],
   tags: [],
   status: "playing" as const,
   placement: { tierId: "unranked" as const, rank: 1024 },

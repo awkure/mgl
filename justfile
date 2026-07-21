@@ -59,6 +59,14 @@ steam-probe *ARGS:
 test-steam:
     npm run test:steam
 
+# Steam → patch file for UI import / publish:clipboard
+steam-import-via-patch *ARGS:
+    npm run import:steam -- {{ARGS}}
+
+# Steam → write games+covers into public/data/library.json + public/media (no git commit)
+steam-import *ARGS:
+    npm run import:steam -- --apply {{ARGS}}
+
 # Full local gate before push
 check: validate test build
 

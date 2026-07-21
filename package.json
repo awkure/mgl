@@ -17,6 +17,7 @@
     "data:migrate-assets": "node scripts/migrate-inline-assets.mjs",
     "data:validate": "node scripts/validate-data.mjs",
     "steam:probe": "node --experimental-strip-types scripts/steam-probe.mjs",
+    "import:steam": "node --experimental-strip-types scripts/import-steam.mjs",
     "test:steam": "vitest run tests/steam-live.test.ts"
   },
   "dependencies": {
@@ -40,6 +41,7 @@
     "@vitejs/plugin-react": "^6.0.3",
     "fake-indexeddb": "^6.2.5",
     "jsdom": "^29.1.1",
+    "sharp": "^0.35.3",
     "typescript": "^7.0.2",
     "vite": "^8.1.4",
     "vitest": "^4.1.10"

@@ -1,8 +1,171 @@
 {
   "schemaVersion": 2,
-  "revision": "",
-  "publicationId": null,
-  "games": {},
+  "revision": "f9f4aa7e36676789028d1f5a688d10417a76aec133915cd866863ffb97f975b0",
+  "publicationId": "f415a0e5-96ed-4b87-ac9e-15c7e62e8e0b",
+  "games": {
+    "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
+      "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
+      "title": "Portal 2",
+      "coverAssetId": "abbc4fa0ca03900768ccf055ecdca6fdb8f2230f1b2f2473e0562adaf735871b",
+      "steamAppId": 620,
+      "importedVia": "steam",
+      "hoursPlayed": 2.2,
+      "platforms": [
+        "Steam"
+      ],
+      "tags": [
+        "Экшены",
+        "Приключенческие игры"
+      ],
+      "status": "played",
+      "placement": {
+        "tierId": "unranked",
+        "rank": 5120
+      },
+      "reviewMarkdown": "",
+      "createdAt": "2026-07-21T18:39:52.049Z",
+      "updatedAt": "2026-07-21T18:39:52.049Z"
+    },
+    "8a83f21a-889c-4089-ad1c-cc2f515f5b02": {
+      "id": "8a83f21a-889c-4089-ad1c-cc2f515f5b02",
+      "title": "Half-Life 2",
+      "coverAssetId": "bb663717c8bc8b397046b5e8d373cef7821e5f84d26cc2fe677ffe0e76d5e3ae",
+      "steamAppId": 220,
+      "importedVia": "steam",
+      "hoursPlayed": 0,
+      "platforms": [
+        "Steam"
+      ],
+      "tags": [
+        "Экшены"
+      ],
+      "status": "wishlist",
+      "placement": {
+        "tierId": "unranked",
+        "rank": 2048
+      },
+      "reviewMarkdown": "",
+      "createdAt": "2026-07-21T18:39:52.049Z",
+      "updatedAt": "2026-07-21T18:39:52.049Z"
+    },
+    "90bdddad-389f-4cc1-bf5f-67f2f287a9d7": {
+      "id": "90bdddad-389f-4cc1-bf5f-67f2f287a9d7",
+      "title": "Half-Life 2: Deathmatch",
+      "coverAssetId": "b1cd3a5588a0c61c605220652282879e852b4eee07a5e510d299a1553f9fae5c",
+      "steamAppId": 320,
+      "importedVia": "steam",
+      "hoursPlayed": 0,
+      "platforms": [
+        "Steam"
+      ],
+      "tags": [
+        "Экшены"
+      ],
+      "status": "wishlist",
+      "placement": {
+        "tierId": "unranked",
+        "rank": 3072
+      },
+      "reviewMarkdown": "",
+      "createdAt": "2026-07-21T18:39:52.049Z",
+      "updatedAt": "2026-07-21T18:39:52.049Z"
+    },
+    "c28a15ca-4506-4048-b3dc-f3e44e81be28": {
+      "id": "c28a15ca-4506-4048-b3dc-f3e44e81be28",
+      "title": "Half-Life Deathmatch: Source",
+      "coverAssetId": "aedad679b0f5372f2581f31ecb06224e8d7998633e60a6537eaaf938895e3276",
+      "steamAppId": 360,
+      "importedVia": "steam",
+      "hoursPlayed": 0,
+      "platforms": [
+        "Steam"
+      ],
+      "tags": [
+        "Экшены"
+      ],
+      "status": "wishlist",
+      "placement": {
+        "tierId": "unranked",
+        "rank": 4096
+      },
+      "reviewMarkdown": "",
+      "createdAt": "2026-07-21T18:39:52.049Z",
+      "updatedAt": "2026-07-21T18:39:52.049Z"
+    },
+    "c30d2446-a98c-44ea-bcaf-db07beed18cd": {
+      "id": "c30d2446-a98c-44ea-bcaf-db07beed18cd",
+      "title": "Half-Life",
+      "coverAssetId": "0af8cd42a66a7304c62dd6ee12c0862237c0c229834bfa2ebdb2543a27e478d3",
+      "steamAppId": 70,
+      "importedVia": "steam",
+      "hoursPlayed": 0,
+      "platforms": [
+        "Steam"
+      ],
+      "tags": [
+        "Экшены"
+      ],
+      "status": "wishlist",
+      "placement": {
+        "tierId": "unranked",
+        "rank": 1024
+      },
+      "reviewMarkdown": "",
+      "createdAt": "2026-07-21T18:39:52.049Z",
+      "updatedAt": "2026-07-21T18:39:52.049Z"
+    }
+  },
   "notes": {},
-  "assets": {}
+  "assets": {
+    "0af8cd42a66a7304c62dd6ee12c0862237c0c229834bfa2ebdb2543a27e478d3": {
+      "id": "0af8cd42a66a7304c62dd6ee12c0862237c0c229834bfa2ebdb2543a27e478d3",
+      "kind": "image",
+      "mime": "image/webp",
+      "width": 512,
+      "height": 512,
+      "byteLength": 55834,
+      "alt": "Half-Life",
+      "originalName": "steam-70.webp"
+    },
+    "abbc4fa0ca03900768ccf055ecdca6fdb8f2230f1b2f2473e0562adaf735871b": {
+      "id": "abbc4fa0ca03900768ccf055ecdca6fdb8f2230f1b2f2473e0562adaf735871b",
+      "kind": "image",
+      "mime": "image/webp",
+      "width": 512,
+      "height": 512,
+      "byteLength": 33536,
+      "alt": "Portal 2",
+      "originalName": "steam-620.webp"
+    },
+    "aedad679b0f5372f2581f31ecb06224e8d7998633e60a6537eaaf938895e3276": {
+      "id": "aedad679b0f5372f2581f31ecb06224e8d7998633e60a6537eaaf938895e3276",
+      "kind": "image",
+      "mime": "image/webp",
+      "width": 512,
+      "height": 512,
+      "byteLength": 25274,
+      "alt": "Half-Life Deathmatch: Source",
+      "originalName": "steam-360.webp"
+    },
+    "b1cd3a5588a0c61c605220652282879e852b4eee07a5e510d299a1553f9fae5c": {
+      "id": "b1cd3a5588a0c61c605220652282879e852b4eee07a5e510d299a1553f9fae5c",
+      "kind": "image",
+      "mime": "image/webp",
+      "width": 512,
+      "height": 512,
+      "byteLength": 22260,
+      "alt": "Half-Life 2: Deathmatch",
+      "originalName": "steam-320.webp"
+    },
+    "bb663717c8bc8b397046b5e8d373cef7821e5f84d26cc2fe677ffe0e76d5e3ae": {
+      "id": "bb663717c8bc8b397046b5e8d373cef7821e5f84d26cc2fe677ffe0e76d5e3ae",
+      "kind": "image",
+      "mime": "image/webp",
+      "width": 512,
+      "height": 512,
+      "byteLength": 20902,
+      "alt": "Half-Life 2",
+      "originalName": "steam-220.webp"
+    }
+  }
 }

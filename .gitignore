@@ -8,3 +8,6 @@ coverage/
 .env.local
 .env.*.local
 .env
+
+# Local Steam import artifacts
+steam-import.patch.json

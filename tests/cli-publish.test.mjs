@@ -60,7 +60,7 @@ function game(overrides = {}) {
     title: "DuckTales",
     coverAssetId: null,
     steamAppId: null,
-    platforms: ["NES"],
+    importedVia: "manually", hoursPlayed: null, platforms: ["NES"],
     tags: ["platformer"],
     status: "playing",
     placement: { tierId: "unranked", rank: 1024 },
@@ -264,7 +264,7 @@ describe("publish patch payload", () => {
       title: "Celeste",
       coverAssetId: celesteAssetId,
       steamAppId: null,
-      tags: ["platformer"],
+      importedVia: "manually", hoursPlayed: null, tags: ["platformer"],
       placement: { tierId: "b", rank: 1024 },
     });
     before.games[CONTRA_ID] = game({ id: CONTRA_ID, title: "Contra", coverAssetId: contraAssetId });

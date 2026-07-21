@@ -4,6 +4,9 @@ export type StatusId = (typeof STATUS_IDS)[number];
 export const TIER_IDS = ["s", "a", "b", "c", "d", "f", "unranked"] as const;
 export type TierId = (typeof TIER_IDS)[number];
 
+export const IMPORTED_VIA_IDS = ["steam", "manually"] as const;
+export type ImportedViaId = (typeof IMPORTED_VIA_IDS)[number];
+
 export const LIBRARY_SCHEMA_VERSION = 2 as const;
 export const DEFAULT_NOTE_GROUP_RANK = 1024;
 
@@ -17,6 +20,8 @@ export interface Game {
   title: string;
   coverAssetId: string | null;
   steamAppId: number | null;
+  importedVia: ImportedViaId;
+  hoursPlayed: number | null;
   platforms: string[];
   tags: string[];
   status: StatusId;

@@ -133,7 +133,18 @@ WebP сохраняется как есть, остальные форматы �
 ```sh
 npm run steam:probe -- https://steamcommunity.com/id/awkure
 npm run test:steam   # live smoke; или just test-steam
+
+# Patch file (import via UI «Импорт» / publish:clipboard):
+just steam-import-via-patch --limit 5
+# or: npm run import:steam -- --limit 5
+
+# Write straight into public/data + public/media (reload dev server page):
+just steam-import --limit 5
+# or: npm run import:steam -- --apply --limit 5
 ```
+
+Флаги `import:steam`: `--profile`, `--out`, `--apply`, `--dry-run`, `--played-only`,
+`--limit`, `--appids`, `--no-covers`, `--skip-details`. `--apply` не делает git commit.
 
 ### Фундамент
 
@@ -149,20 +160,20 @@ npm run test:steam   # live smoke; или just test-steam
 
 ### Импорт библиотеки
 
-- [ ] `GetOwnedGames` (`include_appinfo`, `include_played_free_games`) →
+- [x] `GetOwnedGames` (`include_appinfo`, `include_played_free_games`) →
       кандидаты в каталог
-- [ ] CLI / команда вроде `npm run import:steam` → operation patch или
-      preview JSON (без автопубликации)
-- [ ] UI «импорт выбранных»: список кандидатов, чекбоксы, пропуск уже
-      существующих
-- [ ] Маппинг в `Game`: `title`, `platforms: ["Steam"]`, `tags` из жанров,
-      `status` по эвристикам, `placement.tierId: "unranked"`, пустой review
-- [ ] Скачивание обложки с CDN / `header_image` → encode WebP → SHA-256
-      asset (тот же пайплайн, что у ручных обложек)
-- [ ] Обогащение через Storefront `appdetails` (жанры, разработчики,
-      platforms, short description) с троттлингом
-- [ ] Фильтры импорта: только с playtime, исключить demos/tools/DLC,
-      лимит / dry-run
+- [x] CLI `npm run import:steam` → V2 OperationPatch / `--dry-run` preview
+      (без автопубликации)
+- [x] Выбор через CLI-флаги (`--appids`, `--limit`, `--played-only`, …);
+      SPA-чекбоксы отложены
+- [x] Маппинг в `Game`: `title`, `platforms: ["Steam"]`, `tags` из жанров,
+      `status` по playtime, `placement.tierId: "unranked"`, пустой review
+- [x] Скачивание обложки с CDN / `header_image` → encode WebP 512 → SHA-256
+      asset в `patch.blobs`
+- [x] Обогащение через Storefront `appdetails` (жанры, type, header) с
+      троттлингом ≥1.5s
+- [x] Фильтры: `--played-only`, exclude demos/DLC/tools по type+имени,
+      `--limit` / `--dry-run`
 
 ### Заполнение одной игры
 
@@ -199,5 +210,5 @@ npm run test:steam   # live smoke; или just test-steam
 ### Документация и тесты
 
 - [x] Раздел в README: ключ, privacy Steam, `steam:probe`, ограничения CORS
-- [ ] Фикстуры ответов Steam API + unit-тесты маппинга в domain (импорт)
+- [x] Фикстуры / unit-тесты маппинга и Steam API (импорт)
 - [ ] Acceptance: импорт не ломает schema v2 и orphan-asset инварианты

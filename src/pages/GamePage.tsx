@@ -22,7 +22,7 @@ import {
 import { SortableContext, sortableKeyboardCoordinates, useSortable, type SortingStrategy } from "@dnd-kit/sortable";
 import { isMp4FileMetadata, makeFileAssetMetadata, optimizeNoteImage, withVideoPreviewFragment } from "../domain/assets";
 import { moveRanked } from "../domain/ranks";
-import { DEFAULT_NOTE_GROUP_RANK, STATUS_IDS, TIER_IDS, type Asset, type Game, type Note, type NoteAttachment, type StatusId, type TierId } from "../domain/types";
+import { DEFAULT_NOTE_GROUP_RANK, STATUS_IDS, TIER_IDS, type Asset, type Game, type ImportedViaId, type Note, type NoteAttachment, type StatusId, type TierId } from "../domain/types";
 import { getYouTubeEmbedUrl, normalizeYouTubeUrl } from "../domain/youtube";
 import { Icon } from "../components/Icon";
 import { GameLinkMarkdownTextarea } from "../components/GameLinkMarkdownTextarea";
@@ -31,7 +31,7 @@ import { ImagePicker, type PreparedImage } from "../components/ImagePicker";
 import { hasFilePayload, isImageFile, MarkdownView, snapshotFiles } from "../components/Markdown";
 import { ShelfGrid } from "../components/ShelfGrid";
 import { TagInput } from "../components/TagInput";
-import { formatBytes, formatRelativeDate, getAssetUrl, safeUrl, STATUS_LABELS, TIER_LABELS } from "../components/libraryUi";
+import { formatBytes, formatHoursPlayed, formatRelativeDate, getAssetUrl, IMPORTED_VIA_LABELS, safeUrl, STATUS_LABELS, TIER_LABELS } from "../components/libraryUi";
 
 export interface PreparedFile {
   clientId: string;
@@ -51,6 +51,8 @@ export interface GameSaveInput {
   title: string;
   coverAssetId: string | null;
   steamAppId?: number | null;
+  importedVia?: ImportedViaId;
+  hoursPlayed?: number | null;
   pendingCover: PreparedImage | null;
   platforms: string[];
   tags: string[];
@@ -1033,6 +1035,8 @@ function InlineGamePage({ game, notes, assets, platformSuggestions = [], tagSugg
         title: overrides.title ?? game.title,
         coverAssetId: overrides.coverAssetId === undefined ? game.coverAssetId : overrides.coverAssetId,
         steamAppId: overrides.steamAppId === undefined ? game.steamAppId : overrides.steamAppId,
+        importedVia: overrides.importedVia === undefined ? game.importedVia : overrides.importedVia,
+        hoursPlayed: overrides.hoursPlayed === undefined ? game.hoursPlayed : overrides.hoursPlayed,
         pendingCover: overrides.pendingCover ?? null,
         platforms: overrides.platforms ?? game.platforms,
         tags: overrides.tags ?? game.tags,
@@ -1153,6 +1157,16 @@ function InlineGamePage({ game, notes, assets, platformSuggestions = [], tagSugg
               if (!Number.isSafeInteger(steamAppId) || steamAppId <= 0) { setError("Steam App ID должен быть положительным числом."); return false; }
               return persist({ steamAppId });
             }} onEnd={() => setEditingField((field) => field === "steamAppId" ? null : field)} value={game.steamAppId == null ? "" : String(game.steamAppId)}>{game.steamAppId == null ? "Не указан" : game.steamAppId}</InlineTextField></dd></div>
+            <div><dt>Импорт через</dt><dd>{game.importedVia === "steam" && game.steamAppId != null ? (
+              <a className="game-sidebar__import-link" href={`https://store.steampowered.com/app/${game.steamAppId}/`} rel="noreferrer" target="_blank">{IMPORTED_VIA_LABELS.steam}</a>
+            ) : IMPORTED_VIA_LABELS[game.importedVia]}</dd></div>
+            <div><dt>Часов в игре</dt><dd><InlineTextField active={editingField === "hoursPlayed"} ariaLabel="Часов в игре" onBegin={() => !saving && setEditingField("hoursPlayed")} onCommit={async (raw) => {
+              const trimmed = raw.trim().replace(",", ".");
+              if (!trimmed) return persist({ hoursPlayed: null });
+              const hoursPlayed = Number(trimmed);
+              if (!Number.isFinite(hoursPlayed) || hoursPlayed < 0) { setError("Часов в игре — неотрицательное число."); return false; }
+              return persist({ hoursPlayed });
+            }} onEnd={() => setEditingField((field) => field === "hoursPlayed" ? null : field)} value={game.hoursPlayed == null ? "" : String(game.hoursPlayed)}>{game.hoursPlayed == null ? "—" : formatHoursPlayed(game.hoursPlayed)}</InlineTextField></dd></div>
             <div><dt>Изменено</dt><dd>{formatRelativeDate(game.updatedAt)}</dd></div>
           </dl>
           {onDelete ? <div className="game-sidebar__tools"><button aria-label="Удалить игру" disabled={saving} onClick={() => void deleteGame()} title="Удалить игру" type="button"><Icon name="trash" size={15} /></button></div> : null}
@@ -1231,7 +1245,7 @@ function NewGamePage({ assets, platformSuggestions = [], tagSuggestions = [], st
     if (processingNoteIds.size || coverDraftDirty) return;
     if (!title.trim()) { setError("Укажите название игры."); return; }
     setSaving(true); setError(null);
-    try { await onSave({ title: title.trim(), coverAssetId: null, steamAppId: null, pendingCover, platforms, tags, status, tierId, reviewMarkdown: "", notes: draftNotes }); setDirty(false); }
+    try { await onSave({ title: title.trim(), coverAssetId: null, steamAppId: null, importedVia: "manually", hoursPlayed: null, pendingCover, platforms, tags, status, tierId, reviewMarkdown: "", notes: draftNotes }); setDirty(false); }
     catch (reason) { setError(reason instanceof Error ? reason.message : "Не удалось сохранить игру"); }
     finally { setSaving(false); }
   };
