@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": "1c7eeb873781a942666a07306c87f0562167c48898fecdc9bd796f4aec272bac",
-  "publicationId": "091f0fb8-515c-4d9a-81f7-aa439e7d2a0d",
+  "revision": "400ed4df80f4d0351f520d993617a9dcbec764af401c2e91246adb49015ccf88",
+  "publicationId": "207de1f2-7192-455e-a811-9d4772057200",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
       "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
@@ -1238,14 +1238,14 @@
       "tags": [
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 20480
+        "tierId": "a",
+        "rank": 3072
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:35:35.621Z"
     },
     "19d93188-30d5-4760-8dfd-6489ba0eebcc": {
       "id": "19d93188-30d5-4760-8dfd-6489ba0eebcc",
@@ -1288,14 +1288,14 @@
         "Инди",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "platinum",
       "placement": {
-        "tierId": "unranked",
-        "rank": 70656
+        "tierId": "s",
+        "rank": 11264
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:36:06.032Z"
     },
     "1b03a96a-745b-4f99-af2a-f63ebe4a19c7": {
       "id": "1b03a96a-745b-4f99-af2a-f63ebe4a19c7",
@@ -2295,14 +2295,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 160768
+        "tierId": "b",
+        "rank": 5120
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:34:52.535Z"
     },
     "3070efd7-2114-4d18-bdea-2c849f521715": {
       "id": "3070efd7-2114-4d18-bdea-2c849f521715",
@@ -3098,14 +3098,14 @@
         "Steam"
       ],
       "tags": [],
-      "status": "wishlist",
+      "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 8192
+        "tierId": "s",
+        "rank": 9216
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:35:12.174Z"
     },
     "44206b25-bea2-47f8-ab81-9630801da401": {
       "id": "44206b25-bea2-47f8-ab81-9630801da401",
@@ -8742,14 +8742,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "platinum",
       "placement": {
-        "tierId": "unranked",
-        "rank": 27648
+        "tierId": "s",
+        "rank": 10240
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-21T19:35:45.389Z"
     },
     "c3bb8348-a1bf-4b93-800e-b2c7009f5952": {
       "id": "c3bb8348-a1bf-4b93-800e-b2c7009f5952",
