@@ -1598,7 +1598,9 @@ describe("TierListPage", () => {
     expect(card?.querySelector(".game-card__move")).not.toBeInTheDocument();
     expect(within(card as HTMLElement).queryByRole("button")).not.toBeInTheDocument();
     expect(card?.querySelector(".status-dot")).not.toBeInTheDocument();
-    expect(card?.textContent).toBe("");
+    const hoverTitle = card?.querySelector(".game-card__hover-title");
+    expect(hoverTitle).toHaveAttribute("aria-hidden", "true");
+    expect(hoverTitle?.textContent).toBe("DuckTales");
     expect(screen.queryByLabelText("1 игр")).not.toBeInTheDocument();
   });
 
@@ -1608,7 +1610,9 @@ describe("TierListPage", () => {
     const cover = screen.getByRole("link", { name: /DuckTales, статус: Платина.*пробел — перетащить/ });
     const card = cover.closest("article");
     expect(cover).toHaveClass("cover--platinum");
-    expect(card?.textContent).toBe("");
+    const hoverTitle = card?.querySelector(".game-card__hover-title");
+    expect(hoverTitle).toHaveAttribute("aria-hidden", "true");
+    expect(hoverTitle?.textContent).toBe("DuckTales");
     expect(card?.querySelector(".status-dot")).not.toBeInTheDocument();
   });
 
