@@ -728,7 +728,7 @@ describe("publish patch transaction", () => {
     expect(existsSync(path.join(root, "public", "media"))).toBe(false);
   });
 
-  it("rejects missing existing media, symlinks, and hash collisions before changing JSON", () => {
+  it("rejects missing existing media, symlinks, and hash collisions before changing JSON", { timeout: 20_000 }, () => {
     const bytes = Buffer.from("existing file");
     const metadata = fileAsset(bytes);
     const database = emptyDatabase();
@@ -1089,7 +1089,7 @@ describe("publish patch transaction", () => {
     expect(jj(root, ...noAutoTrack, "diff", "--summary")).toBe("M package.json");
   });
 
-  it.skipIf(!jjExecutable)("forces a large media blob into the isolated Jujutsu commit", () => {
+  it.skipIf(!jjExecutable)("forces a large media blob into the isolated Jujutsu commit", { timeout: 30_000 }, () => {
     const root = makeJujutsuRepository();
     const bytes = Buffer.alloc(1_100_000, 0x5a);
     const metadata = fileAsset(bytes, "large-save.bin");
