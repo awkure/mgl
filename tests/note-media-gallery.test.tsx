@@ -17,7 +17,7 @@ class ResizeObserverMock {
 }
 
 function game(): Game {
-  return { id: GAME_ID, title: "Metroid", coverAssetId: null, platforms: ["NES"], tags: [], status: "playing", placement: { tierId: "a", rank: 1024 }, reviewMarkdown: "", createdAt: NOW, updatedAt: NOW };
+  return { id: GAME_ID, title: "Metroid", coverAssetId: null, steamAppId: null, platforms: ["NES"], tags: [], status: "playing", placement: { tierId: "a", rank: 1024 }, reviewMarkdown: "", createdAt: NOW, updatedAt: NOW };
 }
 
 function assets(): Record<string, Asset> {

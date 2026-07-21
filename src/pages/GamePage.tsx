@@ -50,6 +50,7 @@ export interface GameSaveInput {
   id?: string;
   title: string;
   coverAssetId: string | null;
+  steamAppId?: number | null;
   pendingCover: PreparedImage | null;
   platforms: string[];
   tags: string[];
@@ -578,8 +579,8 @@ function PlainNoteEditor({
   useEffect(() => {
     const files = initialFilesSource.current?.() ?? [];
     if (files.length) enqueueAttachmentFiles(files, "auto");
-  // Initial files are an ephemeral, consume-once batch owned by the page.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Initial files are an ephemeral, consume-once batch owned by the page.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const closeYouTubeInput = () => {
@@ -1031,6 +1032,7 @@ function InlineGamePage({ game, notes, assets, platformSuggestions = [], tagSugg
         id: game.id,
         title: overrides.title ?? game.title,
         coverAssetId: overrides.coverAssetId === undefined ? game.coverAssetId : overrides.coverAssetId,
+        steamAppId: overrides.steamAppId === undefined ? game.steamAppId : overrides.steamAppId,
         pendingCover: overrides.pendingCover ?? null,
         platforms: overrides.platforms ?? game.platforms,
         tags: overrides.tags ?? game.tags,
@@ -1143,6 +1145,14 @@ function InlineGamePage({ game, notes, assets, platformSuggestions = [], tagSugg
             <div className="game-sidebar__meta-short"><dt>Тир</dt><dd><InlineSelectField active={editingField === "tier"} ariaLabel="Тир" onBegin={() => !saving && setEditingField("tier")} onCommit={(tierId) => persist({ tierId })} onEnd={() => setEditingField((field) => field === "tier" ? null : field)} options={TIER_IDS} value={game.placement.tierId}><b className={`tier-badge tier-badge--${game.placement.tierId}`}>{TIER_LABELS[game.placement.tierId]}</b></InlineSelectField></dd></div>
             <div><dt>Платформы</dt><dd><InlineValuesField active={editingField === "platforms"} ariaLabel="Платформы" onBegin={() => !saving && setEditingField("platforms")} onCommit={(platforms) => persist({ platforms })} onEnd={() => setEditingField((field) => field === "platforms" ? null : field)} suggestions={platformSuggestions} values={game.platforms}>{game.platforms.length ? game.platforms.join(" · ") : "Не указаны"}</InlineValuesField></dd></div>
             <div><dt>Теги</dt><dd><InlineValuesField active={editingField === "tags"} ariaLabel="Теги" onBegin={() => !saving && setEditingField("tags")} onCommit={(tags) => persist({ tags })} onEnd={() => setEditingField((field) => field === "tags" ? null : field)} suggestions={tagSuggestions} values={game.tags}>{game.tags.length ? game.tags.map((tag) => <span className="inline-tag" key={tag}>{tag}</span>) : "Не указаны"}</InlineValuesField></dd></div>
+            <div><dt>Steam App ID</dt><dd><InlineTextField active={editingField === "steamAppId"} ariaLabel="Steam App ID" onBegin={() => !saving && setEditingField("steamAppId")} onCommit={async (raw) => {
+              const trimmed = raw.trim();
+              if (!trimmed) return persist({ steamAppId: null });
+              if (!/^\d+$/.test(trimmed)) { setError("Steam App ID должен быть положительным числом."); return false; }
+              const steamAppId = Number(trimmed);
+              if (!Number.isSafeInteger(steamAppId) || steamAppId <= 0) { setError("Steam App ID должен быть положительным числом."); return false; }
+              return persist({ steamAppId });
+            }} onEnd={() => setEditingField((field) => field === "steamAppId" ? null : field)} value={game.steamAppId == null ? "" : String(game.steamAppId)}>{game.steamAppId == null ? "Не указан" : game.steamAppId}</InlineTextField></dd></div>
             <div><dt>Изменено</dt><dd>{formatRelativeDate(game.updatedAt)}</dd></div>
           </dl>
           {onDelete ? <div className="game-sidebar__tools"><button aria-label="Удалить игру" disabled={saving} onClick={() => void deleteGame()} title="Удалить игру" type="button"><Icon name="trash" size={15} /></button></div> : null}
@@ -1221,7 +1231,7 @@ function NewGamePage({ assets, platformSuggestions = [], tagSuggestions = [], st
     if (processingNoteIds.size || coverDraftDirty) return;
     if (!title.trim()) { setError("Укажите название игры."); return; }
     setSaving(true); setError(null);
-    try { await onSave({ title: title.trim(), coverAssetId: null, pendingCover, platforms, tags, status, tierId, reviewMarkdown: "", notes: draftNotes }); setDirty(false); }
+    try { await onSave({ title: title.trim(), coverAssetId: null, steamAppId: null, pendingCover, platforms, tags, status, tierId, reviewMarkdown: "", notes: draftNotes }); setDirty(false); }
     catch (reason) { setError(reason instanceof Error ? reason.message : "Не удалось сохранить игру"); }
     finally { setSaving(false); }
   };

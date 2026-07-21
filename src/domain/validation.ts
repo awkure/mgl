@@ -17,13 +17,13 @@ const ENTITY_MAPS = ["games", "notes", "assets"] as const;
 export type EntityMapName = (typeof ENTITY_MAPS)[number];
 
 export const ENTITY_FIELDS: Record<EntityMapName, readonly string[]> = {
-  games: ["id", "title", "coverAssetId", "platforms", "tags", "status", "placement", "reviewMarkdown", "createdAt", "updatedAt"],
+  games: ["id", "title", "coverAssetId", "steamAppId", "platforms", "tags", "status", "placement", "reviewMarkdown", "createdAt", "updatedAt"],
   notes: ["id", "gameId", "bodyMarkdown", "attachments", "groupRank", "rank", "createdAt", "updatedAt"],
   assets: ["id", "kind", "mime", "width", "height", "byteLength", "alt", "originalName"],
 };
 
 export const LOCALLY_PATCHABLE_FIELDS: Record<EntityMapName, readonly string[]> = {
-  games: ["title", "coverAssetId", "platforms", "tags", "status", "placement", "reviewMarkdown"],
+  games: ["title", "coverAssetId", "steamAppId", "platforms", "tags", "status", "placement", "reviewMarkdown"],
   notes: ["bodyMarkdown", "attachments", "groupRank", "rank"],
   assets: [],
 };
@@ -129,6 +129,9 @@ function validateGame(value: unknown, path: string, issues: ValidationIssue[]): 
   uuid(value.id, `${path}/id`, issues);
   string(value.title, `${path}/title`, issues, false, 500);
   if (value.coverAssetId !== null && !(typeof value.coverAssetId === "string" && SHA256.test(value.coverAssetId))) issue(issues, `${path}/coverAssetId`, "Ожидался SHA-256 asset id или null");
+  if (value.steamAppId !== null && !(typeof value.steamAppId === "number" && Number.isSafeInteger(value.steamAppId) && value.steamAppId > 0)) {
+    issue(issues, `${path}/steamAppId`, "Ожидался положительный Steam App ID или null");
+  }
   stringList(value.platforms, `${path}/platforms`, issues);
   stringList(value.tags, `${path}/tags`, issues);
   if (!STATUS_IDS.includes(value.status as never)) issue(issues, `${path}/status`, "Неизвестный статус");
@@ -226,15 +229,15 @@ export function validateLibrary(value: unknown): ValidationResult<LibraryDatabas
   if (isObject(value.notes) && isObject(value.games) && isObject(value.assets)) {
     const games = value.games; const assets = value.assets as Record<string, Asset>;
     for (const [id, note] of Object.entries(value.notes)) if (isObject(note)) {
-    if (typeof note.gameId === "string" && !(note.gameId in games)) issue(issues, `/notes/${id}/gameId`, "Игра не найдена");
-    if (Array.isArray(note.attachments)) note.attachments.forEach((attachment, index) => {
-      if (isObject(attachment) && (attachment.type === "image" || attachment.type === "file") && typeof attachment.assetId === "string") {
-        const asset = assets[attachment.assetId];
-        if (!asset) issue(issues, `/notes/${id}/attachments/${index}/assetId`, "Asset не найден");
-        else if (attachment.type === "image" && asset.kind === "file") issue(issues, `/notes/${id}/attachments/${index}/assetId`, "Изображение должно ссылаться на image asset");
-        else if (attachment.type === "file" && asset.kind !== "file") issue(issues, `/notes/${id}/attachments/${index}/assetId`, "Файл должен ссылаться на file asset");
-      }
-    });
+      if (typeof note.gameId === "string" && !(note.gameId in games)) issue(issues, `/notes/${id}/gameId`, "Игра не найдена");
+      if (Array.isArray(note.attachments)) note.attachments.forEach((attachment, index) => {
+        if (isObject(attachment) && (attachment.type === "image" || attachment.type === "file") && typeof attachment.assetId === "string") {
+          const asset = assets[attachment.assetId];
+          if (!asset) issue(issues, `/notes/${id}/attachments/${index}/assetId`, "Asset не найден");
+          else if (attachment.type === "image" && asset.kind === "file") issue(issues, `/notes/${id}/attachments/${index}/assetId`, "Изображение должно ссылаться на image asset");
+          else if (attachment.type === "file" && asset.kind !== "file") issue(issues, `/notes/${id}/attachments/${index}/assetId`, "Файл должен ссылаться на file asset");
+        }
+      });
     }
   }
   if (isObject(value.games) && isObject(value.notes) && isObject(value.assets)) {

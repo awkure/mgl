@@ -488,8 +488,8 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
     };
     void load();
     return () => { active = false; };
-  // corruptedPatchRaw must not restart the initial fetch.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // corruptedPatchRaw must not restart the initial fetch.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [installLocalAssets, refreshLocalAssets, setLibraryState]);
 
   useEffect(() => {
@@ -695,6 +695,7 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
         id,
         title: input.title.trim(),
         coverAssetId,
+        steamAppId: input.steamAppId === undefined ? previous?.steamAppId ?? null : input.steamAppId,
         platforms: uniqueStrings(input.platforms),
         tags: uniqueStrings(input.tags),
         status: input.status,

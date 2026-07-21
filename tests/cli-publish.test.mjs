@@ -59,6 +59,7 @@ function game(overrides = {}) {
     id: GAME_ID,
     title: "DuckTales",
     coverAssetId: null,
+    steamAppId: null,
     platforms: ["NES"],
     tags: ["platformer"],
     status: "playing",
@@ -262,6 +263,7 @@ describe("publish patch payload", () => {
       id: CELESTE_ID,
       title: "Celeste",
       coverAssetId: celesteAssetId,
+      steamAppId: null,
       tags: ["platformer"],
       placement: { tierId: "b", rank: 1024 },
     });

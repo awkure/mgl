@@ -15,7 +15,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "data:migrate-assets": "node scripts/migrate-inline-assets.mjs",
-    "data:validate": "node scripts/validate-data.mjs"
+    "data:validate": "node scripts/validate-data.mjs",
+    "steam:probe": "node --experimental-strip-types scripts/steam-probe.mjs",
+    "test:steam": "vitest run tests/steam-live.test.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

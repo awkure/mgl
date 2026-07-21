@@ -17,7 +17,7 @@ function game(id: string, title: string, platforms = ["PC"], tags: string[] = []
     id,
     title,
     coverAssetId: null,
-    platforms,
+    steamAppId: null, platforms,
     tags,
     status: "playing",
     placement: { tierId: "unranked", rank: 1024 },

@@ -16,6 +16,7 @@ export interface Game {
   id: string;
   title: string;
   coverAssetId: string | null;
+  steamAppId: number | null;
   platforms: string[];
   tags: string[];
   status: StatusId;

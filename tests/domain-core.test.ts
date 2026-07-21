@@ -28,7 +28,7 @@ function empty(): LibraryDatabase {
 }
 
 function game(title = "DuckTales"): Game {
-  return { id: GAME_ID, title, coverAssetId: null, platforms: ["NES"], tags: ["platformer"], status: "playing", placement: { tierId: "a", rank: 1024 }, reviewMarkdown: "Хорошая игра", createdAt: NOW, updatedAt: NOW };
+  return { id: GAME_ID, title, coverAssetId: null, steamAppId: null, platforms: ["NES"], tags: ["platformer"], status: "playing", placement: { tierId: "a", rank: 1024 }, reviewMarkdown: "Хорошая игра", createdAt: NOW, updatedAt: NOW };
 }
 
 function note(groupRank?: number): Note {
@@ -63,6 +63,16 @@ describe("library validation", () => {
     database.games[GAME_ID] = { ...game(), status: "platinum" };
 
     expect(validateLibrary(database).ok).toBe(true);
+  });
+
+  it("accepts null or positive steamAppId and rejects invalid values", () => {
+    const database = empty();
+    database.games[GAME_ID] = { ...game(), steamAppId: 570 };
+    expect(validateLibrary(database).ok).toBe(true);
+    database.games[GAME_ID] = { ...game(), steamAppId: 0 };
+    expect(validateLibrary(database).issues).toContainEqual(expect.objectContaining({ path: `/games/${GAME_ID}/steamAppId` }));
+    database.games[GAME_ID] = { ...game(), steamAppId: "570" as never };
+    expect(validateLibrary(database).issues).toContainEqual(expect.objectContaining({ path: `/games/${GAME_ID}/steamAppId` }));
   });
 
   it("accepts legacy and grouped notes while rejecting invalid group ranks", () => {

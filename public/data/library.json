@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "revision": "43c5378aee132b7add36fcc8db4e475217f2410ab8aa5657805195dc30f10bf3",
+  "revision": "69937aff7b2056467d5cc3f6791a6878bfa9e2de31bf1723990bcae5c6e11d59",
   "publicationId": "0a4fdc84-46a3-4154-9a09-9f0c0bd16e1d",
   "games": {
     "01333afa-b788-4417-afda-8e160af83719": {
@@ -20,7 +20,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-16T21:27:53.664Z",
-      "updatedAt": "2026-07-17T04:33:57.558Z"
+      "updatedAt": "2026-07-17T04:33:57.558Z",
+      "steamAppId": null
     },
     "1ab7a769-7552-4afb-a6f9-c282416ca3c3": {
       "id": "1ab7a769-7552-4afb-a6f9-c282416ca3c3",
@@ -37,7 +38,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-16T21:25:21.887Z",
-      "updatedAt": "2026-07-17T00:17:04.742Z"
+      "updatedAt": "2026-07-17T00:17:04.742Z",
+      "steamAppId": null
     },
     "313958f6-f9a5-41ee-bd04-3e87a0015554": {
       "id": "313958f6-f9a5-41ee-bd04-3e87a0015554",
@@ -54,7 +56,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-16T21:29:00.551Z",
-      "updatedAt": "2026-07-16T21:32:25.545Z"
+      "updatedAt": "2026-07-16T21:32:25.545Z",
+      "steamAppId": null
     },
     "872e5d6a-a72f-4441-bab4-fa075de62255": {
       "id": "872e5d6a-a72f-4441-bab4-fa075de62255",
@@ -71,7 +74,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-16T21:31:45.945Z",
-      "updatedAt": "2026-07-16T21:32:25.545Z"
+      "updatedAt": "2026-07-16T21:32:25.545Z",
+      "steamAppId": null
     },
     "abb6c87b-8f3c-45fa-adb6-822c55b24c05": {
       "id": "abb6c87b-8f3c-45fa-adb6-822c55b24c05",
@@ -90,7 +94,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-16T11:33:58.259Z",
-      "updatedAt": "2026-07-18T07:50:31.778Z"
+      "updatedAt": "2026-07-18T07:50:31.778Z",
+      "steamAppId": null
     },
     "cc5b015a-3fef-41cf-b596-36322578efa4": {
       "id": "cc5b015a-3fef-41cf-b596-36322578efa4",
@@ -107,7 +112,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-16T21:29:25.034Z",
-      "updatedAt": "2026-07-16T21:32:25.545Z"
+      "updatedAt": "2026-07-16T21:32:25.545Z",
+      "steamAppId": null
     },
     "ed1097a1-1eeb-4506-93ac-d76c595bd401": {
       "id": "ed1097a1-1eeb-4506-93ac-d76c595bd401",
@@ -126,7 +132,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-16T21:23:34.775Z",
-      "updatedAt": "2026-07-17T05:27:01.553Z"
+      "updatedAt": "2026-07-17T05:27:01.553Z",
+      "steamAppId": null
     },
     "fe85ccd2-f6fd-4d98-a571-66a2d7a37cf7": {
       "id": "fe85ccd2-f6fd-4d98-a571-66a2d7a37cf7",
@@ -143,7 +150,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-16T21:30:14.132Z",
-      "updatedAt": "2026-07-16T21:32:25.545Z"
+      "updatedAt": "2026-07-16T21:32:25.545Z",
+      "steamAppId": null
     },
     "9fed3387-4aa1-46d8-9b54-0ae130aaa8b5": {
       "id": "9fed3387-4aa1-46d8-9b54-0ae130aaa8b5",
@@ -162,7 +170,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T00:27:03.048Z",
-      "updatedAt": "2026-07-17T12:10:10.010Z"
+      "updatedAt": "2026-07-17T12:10:10.010Z",
+      "steamAppId": null
     },
     "bf484eba-6d37-48de-80e8-412b9492ced3": {
       "id": "bf484eba-6d37-48de-80e8-412b9492ced3",
@@ -179,7 +188,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T00:18:31.770Z",
-      "updatedAt": "2026-07-17T06:08:41.636Z"
+      "updatedAt": "2026-07-17T06:08:41.636Z",
+      "steamAppId": null
     },
     "8a91fe92-faf5-4393-bedf-cc09bd852601": {
       "id": "8a91fe92-faf5-4393-bedf-cc09bd852601",
@@ -196,7 +206,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T02:10:15.934Z",
-      "updatedAt": "2026-07-17T02:10:15.949Z"
+      "updatedAt": "2026-07-17T02:10:15.949Z",
+      "steamAppId": null
     },
     "d8f0e5ee-c0a3-4aee-beeb-76dc16affb7f": {
       "id": "d8f0e5ee-c0a3-4aee-beeb-76dc16affb7f",
@@ -213,7 +224,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T02:11:06.870Z",
-      "updatedAt": "2026-07-17T02:11:06.928Z"
+      "updatedAt": "2026-07-17T02:11:06.928Z",
+      "steamAppId": null
     },
     "ed3fc057-e128-44d7-8723-1be7bbd04840": {
       "id": "ed3fc057-e128-44d7-8723-1be7bbd04840",
@@ -231,7 +243,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T02:13:11.599Z",
-      "updatedAt": "2026-07-17T05:48:30.164Z"
+      "updatedAt": "2026-07-17T05:48:30.164Z",
+      "steamAppId": null
     },
     "146bf865-cbbd-44f2-acea-59fe05906723": {
       "id": "146bf865-cbbd-44f2-acea-59fe05906723",
@@ -250,7 +263,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T04:55:47.280Z",
-      "updatedAt": "2026-07-21T05:28:47.499Z"
+      "updatedAt": "2026-07-21T05:28:47.499Z",
+      "steamAppId": null
     },
     "2a65d3ab-2736-4624-a1e6-66b11f23ebd1": {
       "id": "2a65d3ab-2736-4624-a1e6-66b11f23ebd1",
@@ -269,7 +283,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T04:55:00.194Z",
-      "updatedAt": "2026-07-17T04:56:01.513Z"
+      "updatedAt": "2026-07-17T04:56:01.513Z",
+      "steamAppId": null
     },
     "303a2be3-6ea4-427c-82d6-40bb43faa4d5": {
       "id": "303a2be3-6ea4-427c-82d6-40bb43faa4d5",
@@ -288,7 +303,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T04:57:27.612Z",
-      "updatedAt": "2026-07-17T05:02:10.703Z"
+      "updatedAt": "2026-07-17T05:02:10.703Z",
+      "steamAppId": null
     },
     "6a60c30b-d42b-4a6a-8471-6a819be25855": {
       "id": "6a60c30b-d42b-4a6a-8471-6a819be25855",
@@ -307,7 +323,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T04:33:33.867Z",
-      "updatedAt": "2026-07-17T04:39:08.767Z"
+      "updatedAt": "2026-07-17T04:39:08.767Z",
+      "steamAppId": null
     },
     "7578a037-d926-40a6-bbfa-1b4545da8ce3": {
       "id": "7578a037-d926-40a6-bbfa-1b4545da8ce3",
@@ -326,7 +343,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T04:52:22.203Z",
-      "updatedAt": "2026-07-18T15:56:45.139Z"
+      "updatedAt": "2026-07-18T15:56:45.139Z",
+      "steamAppId": null
     },
     "a1146211-e565-405f-8b27-c5d039659d20": {
       "id": "a1146211-e565-405f-8b27-c5d039659d20",
@@ -341,7 +359,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T04:25:21.302Z",
-      "updatedAt": "2026-07-17T04:32:11.471Z"
+      "updatedAt": "2026-07-17T04:32:11.471Z",
+      "steamAppId": null
     },
     "e0eaac29-6ac2-4b69-80c5-2136c55603a6": {
       "id": "e0eaac29-6ac2-4b69-80c5-2136c55603a6",
@@ -360,7 +379,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:02:03.242Z",
-      "updatedAt": "2026-07-17T05:02:03.286Z"
+      "updatedAt": "2026-07-17T05:02:03.286Z",
+      "steamAppId": null
     },
     "e2fccef0-1c62-488d-8e6f-340b846db93f": {
       "id": "e2fccef0-1c62-488d-8e6f-340b846db93f",
@@ -379,7 +399,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T04:50:28.600Z",
-      "updatedAt": "2026-07-17T06:29:05.628Z"
+      "updatedAt": "2026-07-17T06:29:05.628Z",
+      "steamAppId": null
     },
     "ed94769e-bcfd-4a2b-aa98-cbf19f79892b": {
       "id": "ed94769e-bcfd-4a2b-aa98-cbf19f79892b",
@@ -398,7 +419,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T04:56:55.315Z",
-      "updatedAt": "2026-07-17T04:56:55.398Z"
+      "updatedAt": "2026-07-17T04:56:55.398Z",
+      "steamAppId": null
     },
     "0ff649e1-9f3e-455a-9566-3fb11dfd8615": {
       "id": "0ff649e1-9f3e-455a-9566-3fb11dfd8615",
@@ -415,7 +437,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:29:16.036Z",
-      "updatedAt": "2026-07-17T05:29:16.072Z"
+      "updatedAt": "2026-07-17T05:29:16.072Z",
+      "steamAppId": null
     },
     "198cba02-338f-4886-a1a0-fc8925172636": {
       "id": "198cba02-338f-4886-a1a0-fc8925172636",
@@ -432,7 +455,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:33:29.953Z",
-      "updatedAt": "2026-07-18T07:59:28.077Z"
+      "updatedAt": "2026-07-18T07:59:28.077Z",
+      "steamAppId": null
     },
     "4b94d022-dd72-4db6-a41a-ea0b3a1a301e": {
       "id": "4b94d022-dd72-4db6-a41a-ea0b3a1a301e",
@@ -447,7 +471,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:30:35.481Z",
-      "updatedAt": "2026-07-17T05:30:35.506Z"
+      "updatedAt": "2026-07-17T05:30:35.506Z",
+      "steamAppId": null
     },
     "4e6b1eb9-d312-410f-b052-9668cfef46f0": {
       "id": "4e6b1eb9-d312-410f-b052-9668cfef46f0",
@@ -462,7 +487,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:32:36.958Z",
-      "updatedAt": "2026-07-17T05:58:55.913Z"
+      "updatedAt": "2026-07-17T05:58:55.913Z",
+      "steamAppId": null
     },
     "74d83fb9-e0a2-4edf-9f0d-1731ef57d3e2": {
       "id": "74d83fb9-e0a2-4edf-9f0d-1731ef57d3e2",
@@ -479,7 +505,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:22:16.422Z",
-      "updatedAt": "2026-07-18T07:57:51.957Z"
+      "updatedAt": "2026-07-18T07:57:51.957Z",
+      "steamAppId": null
     },
     "7a362513-f98c-4a79-9a75-76e10ab61baf": {
       "id": "7a362513-f98c-4a79-9a75-76e10ab61baf",
@@ -496,7 +523,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:12:30.551Z",
-      "updatedAt": "2026-07-17T05:17:31.882Z"
+      "updatedAt": "2026-07-17T05:17:31.882Z",
+      "steamAppId": null
     },
     "844e5094-9d7f-46d2-b5a3-a0d9afabc377": {
       "id": "844e5094-9d7f-46d2-b5a3-a0d9afabc377",
@@ -513,7 +541,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:38:11.575Z",
-      "updatedAt": "2026-07-17T05:38:11.615Z"
+      "updatedAt": "2026-07-17T05:38:11.615Z",
+      "steamAppId": null
     },
     "934bdedf-009d-420d-87be-bfdddab1b96e": {
       "id": "934bdedf-009d-420d-87be-bfdddab1b96e",
@@ -530,7 +559,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:35:23.983Z",
-      "updatedAt": "2026-07-18T08:02:07.811Z"
+      "updatedAt": "2026-07-18T08:02:07.811Z",
+      "steamAppId": null
     },
     "9ba8c99f-0334-4ca6-911b-8dc836873e75": {
       "id": "9ba8c99f-0334-4ca6-911b-8dc836873e75",
@@ -545,7 +575,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:31:31.056Z",
-      "updatedAt": "2026-07-17T05:59:06.933Z"
+      "updatedAt": "2026-07-17T05:59:06.933Z",
+      "steamAppId": null
     },
     "af7c1db6-78db-4416-a6f9-a958c5424203": {
       "id": "af7c1db6-78db-4416-a6f9-a958c5424203",
@@ -562,7 +593,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:34:32.267Z",
-      "updatedAt": "2026-07-17T05:37:14.354Z"
+      "updatedAt": "2026-07-17T05:37:14.354Z",
+      "steamAppId": null
     },
     "b34190bd-9380-4942-8418-e2dff1a7cec2": {
       "id": "b34190bd-9380-4942-8418-e2dff1a7cec2",
@@ -577,7 +609,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:28:12.047Z",
-      "updatedAt": "2026-07-19T09:45:05.108Z"
+      "updatedAt": "2026-07-19T09:45:05.108Z",
+      "steamAppId": null
     },
     "b44b2982-f7f0-4fbf-bfef-e6185cf87cd7": {
       "id": "b44b2982-f7f0-4fbf-bfef-e6185cf87cd7",
@@ -594,7 +627,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:24:57.885Z",
-      "updatedAt": "2026-07-17T05:26:43.407Z"
+      "updatedAt": "2026-07-17T05:26:43.407Z",
+      "steamAppId": null
     },
     "d048193a-d529-40e9-b48e-a3dd1fe91357": {
       "id": "d048193a-d529-40e9-b48e-a3dd1fe91357",
@@ -611,7 +645,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:11:19.372Z",
-      "updatedAt": "2026-07-17T05:11:19.412Z"
+      "updatedAt": "2026-07-17T05:11:19.412Z",
+      "steamAppId": null
     },
     "e0ab9d69-8ce5-4aa9-a56f-2792da06dd89": {
       "id": "e0ab9d69-8ce5-4aa9-a56f-2792da06dd89",
@@ -626,7 +661,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:31:07.107Z",
-      "updatedAt": "2026-07-17T05:58:53.869Z"
+      "updatedAt": "2026-07-17T05:58:53.869Z",
+      "steamAppId": null
     },
     "fe7b0d6b-9983-46d1-9530-d1a86742bb97": {
       "id": "fe7b0d6b-9983-46d1-9530-d1a86742bb97",
@@ -643,7 +679,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:25:35.330Z",
-      "updatedAt": "2026-07-17T05:48:33.780Z"
+      "updatedAt": "2026-07-17T05:48:33.780Z",
+      "steamAppId": null
     },
     "3b5f3810-69a0-4603-a016-245306ca440b": {
       "id": "3b5f3810-69a0-4603-a016-245306ca440b",
@@ -662,7 +699,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:46:31.261Z",
-      "updatedAt": "2026-07-21T05:27:24.868Z"
+      "updatedAt": "2026-07-21T05:27:24.868Z",
+      "steamAppId": null
     },
     "422480b0-e3f2-44a8-976e-fb3511a7f00e": {
       "id": "422480b0-e3f2-44a8-976e-fb3511a7f00e",
@@ -677,7 +715,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:53:05.743Z",
-      "updatedAt": "2026-07-17T05:53:05.791Z"
+      "updatedAt": "2026-07-17T05:53:05.791Z",
+      "steamAppId": null
     },
     "42b7a542-dd30-4fe0-94c3-cd4aae8377e0": {
       "id": "42b7a542-dd30-4fe0-94c3-cd4aae8377e0",
@@ -696,7 +735,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:50:36.452Z",
-      "updatedAt": "2026-07-18T13:33:15.857Z"
+      "updatedAt": "2026-07-18T13:33:15.857Z",
+      "steamAppId": null
     },
     "4d93887a-b720-4f75-9030-fe0476344c79": {
       "id": "4d93887a-b720-4f75-9030-fe0476344c79",
@@ -713,7 +753,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:45:31.111Z",
-      "updatedAt": "2026-07-17T05:45:31.145Z"
+      "updatedAt": "2026-07-17T05:45:31.145Z",
+      "steamAppId": null
     },
     "4eaaf010-e0d6-464c-ba3e-0a1faf49406e": {
       "id": "4eaaf010-e0d6-464c-ba3e-0a1faf49406e",
@@ -730,7 +771,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:39:56.880Z",
-      "updatedAt": "2026-07-17T05:39:56.920Z"
+      "updatedAt": "2026-07-17T05:39:56.920Z",
+      "steamAppId": null
     },
     "5cb69f84-6902-4147-b75b-61477b7b0722": {
       "id": "5cb69f84-6902-4147-b75b-61477b7b0722",
@@ -745,7 +787,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:47:38.716Z",
-      "updatedAt": "2026-07-17T05:47:38.747Z"
+      "updatedAt": "2026-07-17T05:47:38.747Z",
+      "steamAppId": null
     },
     "693ea235-1ced-468a-aca0-4597a561dea1": {
       "id": "693ea235-1ced-468a-aca0-4597a561dea1",
@@ -764,7 +807,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:41:38.870Z",
-      "updatedAt": "2026-07-18T09:11:32.158Z"
+      "updatedAt": "2026-07-18T09:11:32.158Z",
+      "steamAppId": null
     },
     "6acaf42a-d1ef-4af9-8ac6-61cc64033bf9": {
       "id": "6acaf42a-d1ef-4af9-8ac6-61cc64033bf9",
@@ -781,7 +825,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:43:35.604Z",
-      "updatedAt": "2026-07-17T05:43:35.642Z"
+      "updatedAt": "2026-07-17T05:43:35.642Z",
+      "steamAppId": null
     },
     "6da2887a-0da1-43cd-9052-30466209b14f": {
       "id": "6da2887a-0da1-43cd-9052-30466209b14f",
@@ -796,7 +841,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:49:34.880Z",
-      "updatedAt": "2026-07-17T05:49:34.923Z"
+      "updatedAt": "2026-07-17T05:49:34.923Z",
+      "steamAppId": null
     },
     "6e163241-6f25-4de9-9281-253bec0ae09a": {
       "id": "6e163241-6f25-4de9-9281-253bec0ae09a",
@@ -811,7 +857,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:52:26.964Z",
-      "updatedAt": "2026-07-19T09:17:36.121Z"
+      "updatedAt": "2026-07-19T09:17:36.121Z",
+      "steamAppId": null
     },
     "71aa5dd9-2664-47a5-97a3-e4a8597fb960": {
       "id": "71aa5dd9-2664-47a5-97a3-e4a8597fb960",
@@ -826,7 +873,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:49:47.190Z",
-      "updatedAt": "2026-07-17T05:49:47.204Z"
+      "updatedAt": "2026-07-17T05:49:47.204Z",
+      "steamAppId": null
     },
     "87293412-21ab-49c5-b075-13107c0eace4": {
       "id": "87293412-21ab-49c5-b075-13107c0eace4",
@@ -841,7 +889,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:48:11.730Z",
-      "updatedAt": "2026-07-18T14:53:28.631Z"
+      "updatedAt": "2026-07-18T14:53:28.631Z",
+      "steamAppId": null
     },
     "c850c7e6-9bd1-41a7-ac64-052e406d72a4": {
       "id": "c850c7e6-9bd1-41a7-ac64-052e406d72a4",
@@ -856,7 +905,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:51:20.824Z",
-      "updatedAt": "2026-07-17T05:51:20.877Z"
+      "updatedAt": "2026-07-17T05:51:20.877Z",
+      "steamAppId": null
     },
     "de49c645-ec06-4fd7-8e53-3277606ab5ee": {
       "id": "de49c645-ec06-4fd7-8e53-3277606ab5ee",
@@ -875,7 +925,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:43:02.615Z",
-      "updatedAt": "2026-07-18T09:00:28.437Z"
+      "updatedAt": "2026-07-18T09:00:28.437Z",
+      "steamAppId": null
     },
     "e8c23b3b-9b36-4566-8c47-1e0e0f6a4612": {
       "id": "e8c23b3b-9b36-4566-8c47-1e0e0f6a4612",
@@ -890,7 +941,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:42:34.475Z",
-      "updatedAt": "2026-07-17T05:42:34.521Z"
+      "updatedAt": "2026-07-17T05:42:34.521Z",
+      "steamAppId": null
     },
     "ea1ec2ba-5956-4f3f-8e8c-15382d9abb27": {
       "id": "ea1ec2ba-5956-4f3f-8e8c-15382d9abb27",
@@ -907,7 +959,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:40:48.604Z",
-      "updatedAt": "2026-07-17T05:40:48.643Z"
+      "updatedAt": "2026-07-17T05:40:48.643Z",
+      "steamAppId": null
     },
     "ec45bd3e-6703-49b1-9364-56811c185e0c": {
       "id": "ec45bd3e-6703-49b1-9364-56811c185e0c",
@@ -925,7 +978,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:44:34.608Z",
-      "updatedAt": "2026-07-17T05:44:34.649Z"
+      "updatedAt": "2026-07-17T05:44:34.649Z",
+      "steamAppId": null
     },
     "fc4e28a2-2633-4bde-9504-eea648b3bab3": {
       "id": "fc4e28a2-2633-4bde-9504-eea648b3bab3",
@@ -940,7 +994,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:51:48.531Z",
-      "updatedAt": "2026-07-17T05:51:48.595Z"
+      "updatedAt": "2026-07-17T05:51:48.595Z",
+      "steamAppId": null
     },
     "5bed0be6-feab-46e7-b890-ecf96abca49d": {
       "id": "5bed0be6-feab-46e7-b890-ecf96abca49d",
@@ -957,7 +1012,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:55:26.867Z",
-      "updatedAt": "2026-07-18T13:36:21.929Z"
+      "updatedAt": "2026-07-18T13:36:21.929Z",
+      "steamAppId": null
     },
     "75fbbe1c-30a5-4aed-b2c8-b1a66fb3189f": {
       "id": "75fbbe1c-30a5-4aed-b2c8-b1a66fb3189f",
@@ -972,7 +1028,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T05:58:18.851Z",
-      "updatedAt": "2026-07-17T05:58:18.897Z"
+      "updatedAt": "2026-07-17T05:58:18.897Z",
+      "steamAppId": null
     },
     "b02de528-e181-4148-8350-0aa8f0afc66d": {
       "id": "b02de528-e181-4148-8350-0aa8f0afc66d",
@@ -987,7 +1044,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T06:02:00.875Z",
-      "updatedAt": "2026-07-17T06:02:45.718Z"
+      "updatedAt": "2026-07-17T06:02:45.718Z",
+      "steamAppId": null
     },
     "be82dad0-43c1-454c-a68d-e72edfb9bf9d": {
       "id": "be82dad0-43c1-454c-a68d-e72edfb9bf9d",
@@ -1002,7 +1060,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T06:03:17.018Z",
-      "updatedAt": "2026-07-17T06:03:17.059Z"
+      "updatedAt": "2026-07-17T06:03:17.059Z",
+      "steamAppId": null
     },
     "d4ea2f9f-aac0-4b02-8104-ed92ae3e0215": {
       "id": "d4ea2f9f-aac0-4b02-8104-ed92ae3e0215",
@@ -1017,7 +1076,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T06:01:20.175Z",
-      "updatedAt": "2026-07-17T06:01:30.612Z"
+      "updatedAt": "2026-07-17T06:01:30.612Z",
+      "steamAppId": null
     },
     "06fa060e-74ed-4aca-9c6b-b4734b90b776": {
       "id": "06fa060e-74ed-4aca-9c6b-b4734b90b776",
@@ -1034,7 +1094,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T06:08:08.883Z",
-      "updatedAt": "2026-07-18T15:00:41.369Z"
+      "updatedAt": "2026-07-18T15:00:41.369Z",
+      "steamAppId": null
     },
     "2e26020e-0bdb-44c5-84fa-41d2a104ae71": {
       "id": "2e26020e-0bdb-44c5-84fa-41d2a104ae71",
@@ -1049,7 +1110,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T06:06:49.537Z",
-      "updatedAt": "2026-07-17T11:06:24.049Z"
+      "updatedAt": "2026-07-17T11:06:24.049Z",
+      "steamAppId": null
     },
     "4b2da015-1f04-4972-9a60-7e2125ab6477": {
       "id": "4b2da015-1f04-4972-9a60-7e2125ab6477",
@@ -1066,7 +1128,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T06:06:08.453Z",
-      "updatedAt": "2026-07-17T06:06:08.491Z"
+      "updatedAt": "2026-07-17T06:06:08.491Z",
+      "steamAppId": null
     },
     "68eb74b5-115e-4718-a529-88ec490554d1": {
       "id": "68eb74b5-115e-4718-a529-88ec490554d1",
@@ -1083,7 +1146,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T06:07:38.871Z",
-      "updatedAt": "2026-07-17T06:07:38.923Z"
+      "updatedAt": "2026-07-17T06:07:38.923Z",
+      "steamAppId": null
     },
     "83391aac-2a5c-4f0c-b698-b227deb371f1": {
       "id": "83391aac-2a5c-4f0c-b698-b227deb371f1",
@@ -1100,7 +1164,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T06:05:13.565Z",
-      "updatedAt": "2026-07-17T06:05:38.189Z"
+      "updatedAt": "2026-07-17T06:05:38.189Z",
+      "steamAppId": null
     },
     "a0586b25-611c-42ff-88a1-0a81791b42ce": {
       "id": "a0586b25-611c-42ff-88a1-0a81791b42ce",
@@ -1115,7 +1180,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T06:08:31.852Z",
-      "updatedAt": "2026-07-19T09:17:44.424Z"
+      "updatedAt": "2026-07-19T09:17:44.424Z",
+      "steamAppId": null
     },
     "a4d41f18-0f41-45e1-90c0-e483dc9ce054": {
       "id": "a4d41f18-0f41-45e1-90c0-e483dc9ce054",
@@ -1132,7 +1198,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T06:05:32.277Z",
-      "updatedAt": "2026-07-17T06:05:32.316Z"
+      "updatedAt": "2026-07-17T06:05:32.316Z",
+      "steamAppId": null
     },
     "b58db8c5-6932-4ac4-8f7f-84c0cfc722c0": {
       "id": "b58db8c5-6932-4ac4-8f7f-84c0cfc722c0",
@@ -1147,7 +1214,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T06:10:05.894Z",
-      "updatedAt": "2026-07-17T06:10:08.975Z"
+      "updatedAt": "2026-07-17T06:10:08.975Z",
+      "steamAppId": null
     },
     "c2aafaaa-3a11-4302-b0d7-64e666910c78": {
       "id": "c2aafaaa-3a11-4302-b0d7-64e666910c78",
@@ -1162,7 +1230,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T06:04:05.172Z",
-      "updatedAt": "2026-07-17T06:04:05.208Z"
+      "updatedAt": "2026-07-17T06:04:05.208Z",
+      "steamAppId": null
     },
     "c56a09e9-1b6b-4bb9-9f72-25860ad6562c": {
       "id": "c56a09e9-1b6b-4bb9-9f72-25860ad6562c",
@@ -1179,7 +1248,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T06:06:22.877Z",
-      "updatedAt": "2026-07-17T06:06:22.888Z"
+      "updatedAt": "2026-07-17T06:06:22.888Z",
+      "steamAppId": null
     },
     "9eb21690-4409-43dd-baf6-a24b4e9d3ca8": {
       "id": "9eb21690-4409-43dd-baf6-a24b4e9d3ca8",
@@ -1194,7 +1264,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T09:36:47.874Z",
-      "updatedAt": "2026-07-17T09:41:20.841Z"
+      "updatedAt": "2026-07-17T09:41:20.841Z",
+      "steamAppId": null
     },
     "0eb180a2-e8ef-4b20-9111-3b5233d51bd3": {
       "id": "0eb180a2-e8ef-4b20-9111-3b5233d51bd3",
@@ -1209,7 +1280,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T09:48:06.589Z",
-      "updatedAt": "2026-07-17T09:48:06.633Z"
+      "updatedAt": "2026-07-17T09:48:06.633Z",
+      "steamAppId": null
     },
     "14cccd1b-0d52-483a-80c8-5f3f6b38dc82": {
       "id": "14cccd1b-0d52-483a-80c8-5f3f6b38dc82",
@@ -1228,7 +1300,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T09:49:41.789Z",
-      "updatedAt": "2026-07-17T09:49:41.830Z"
+      "updatedAt": "2026-07-17T09:49:41.830Z",
+      "steamAppId": null
     },
     "16ea76ef-b2bf-44f6-8018-bf369c6ca3e5": {
       "id": "16ea76ef-b2bf-44f6-8018-bf369c6ca3e5",
@@ -1243,7 +1316,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T09:48:41.130Z",
-      "updatedAt": "2026-07-17T09:48:41.162Z"
+      "updatedAt": "2026-07-17T09:48:41.162Z",
+      "steamAppId": null
     },
     "1e701add-f877-486b-8b87-0a5dbc6dea8a": {
       "id": "1e701add-f877-486b-8b87-0a5dbc6dea8a",
@@ -1258,7 +1332,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T09:46:14.214Z",
-      "updatedAt": "2026-07-17T09:46:14.235Z"
+      "updatedAt": "2026-07-17T09:46:14.235Z",
+      "steamAppId": null
     },
     "1f4c9a95-cb96-40ad-bfb3-4761a454015a": {
       "id": "1f4c9a95-cb96-40ad-bfb3-4761a454015a",
@@ -1275,7 +1350,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T09:53:28.311Z",
-      "updatedAt": "2026-07-17T09:53:28.323Z"
+      "updatedAt": "2026-07-17T09:53:28.323Z",
+      "steamAppId": null
     },
     "4a22bf4f-3f13-4065-b302-32c8cf0c7801": {
       "id": "4a22bf4f-3f13-4065-b302-32c8cf0c7801",
@@ -1292,7 +1368,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T09:56:35.034Z",
-      "updatedAt": "2026-07-18T14:59:24.937Z"
+      "updatedAt": "2026-07-18T14:59:24.937Z",
+      "steamAppId": null
     },
     "4c892c9b-055c-46e1-aeaa-3b1b8ed2431c": {
       "id": "4c892c9b-055c-46e1-aeaa-3b1b8ed2431c",
@@ -1309,7 +1386,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T09:55:47.287Z",
-      "updatedAt": "2026-07-17T09:55:47.353Z"
+      "updatedAt": "2026-07-17T09:55:47.353Z",
+      "steamAppId": null
     },
     "82084516-5cb3-4ab3-951f-3204a88d19d0": {
       "id": "82084516-5cb3-4ab3-951f-3204a88d19d0",
@@ -1326,7 +1404,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T09:51:59.038Z",
-      "updatedAt": "2026-07-17T09:52:25.484Z"
+      "updatedAt": "2026-07-17T09:52:25.484Z",
+      "steamAppId": null
     },
     "f9786bc4-dc16-411f-9c74-568b8153aeef": {
       "id": "f9786bc4-dc16-411f-9c74-568b8153aeef",
@@ -1341,7 +1420,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-17T09:51:35.142Z",
-      "updatedAt": "2026-07-17T09:51:35.173Z"
+      "updatedAt": "2026-07-17T09:51:35.173Z",
+      "steamAppId": null
     },
     "808fa677-6ff0-4bd9-85ec-2658ed26ac5d": {
       "id": "808fa677-6ff0-4bd9-85ec-2658ed26ac5d",
@@ -1358,7 +1438,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T09:15:41.230Z",
-      "updatedAt": "2026-07-18T09:15:41.235Z"
+      "updatedAt": "2026-07-18T09:15:41.235Z",
+      "steamAppId": null
     },
     "335bd530-3114-473a-8bc4-50ac5e688579": {
       "id": "335bd530-3114-473a-8bc4-50ac5e688579",
@@ -1375,7 +1456,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T14:52:22.660Z",
-      "updatedAt": "2026-07-21T04:26:50.386Z"
+      "updatedAt": "2026-07-21T04:26:50.386Z",
+      "steamAppId": null
     },
     "37cf1dfe-3904-43a3-9b03-ba792275317b": {
       "id": "37cf1dfe-3904-43a3-9b03-ba792275317b",
@@ -1392,7 +1474,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T14:51:10.991Z",
-      "updatedAt": "2026-07-21T04:21:15.264Z"
+      "updatedAt": "2026-07-21T04:21:15.264Z",
+      "steamAppId": null
     },
     "17feaa9f-e7ef-401c-9268-7f3f8106a996": {
       "id": "17feaa9f-e7ef-401c-9268-7f3f8106a996",
@@ -1407,7 +1490,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:37:13.907Z",
-      "updatedAt": "2026-07-18T15:37:13.912Z"
+      "updatedAt": "2026-07-18T15:37:13.912Z",
+      "steamAppId": null
     },
     "2c029e30-592c-4dcb-8401-d8af2728b66f": {
       "id": "2c029e30-592c-4dcb-8401-d8af2728b66f",
@@ -1427,7 +1511,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T16:00:02.641Z",
-      "updatedAt": "2026-07-18T16:00:02.647Z"
+      "updatedAt": "2026-07-18T16:00:02.647Z",
+      "steamAppId": null
     },
     "2cff2aa5-7676-4d7d-a460-fe140106d999": {
       "id": "2cff2aa5-7676-4d7d-a460-fe140106d999",
@@ -1444,7 +1529,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:50:01.046Z",
-      "updatedAt": "2026-07-18T15:50:01.051Z"
+      "updatedAt": "2026-07-18T15:50:01.051Z",
+      "steamAppId": null
     },
     "36a741fb-1659-4704-b76b-ded5bb72df22": {
       "id": "36a741fb-1659-4704-b76b-ded5bb72df22",
@@ -1459,7 +1545,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:54:39.496Z",
-      "updatedAt": "2026-07-18T15:54:39.502Z"
+      "updatedAt": "2026-07-18T15:54:39.502Z",
+      "steamAppId": null
     },
     "3cfe314d-202e-43d0-808d-a2a068fb3db4": {
       "id": "3cfe314d-202e-43d0-808d-a2a068fb3db4",
@@ -1474,7 +1561,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:38:39.353Z",
-      "updatedAt": "2026-07-18T15:38:39.359Z"
+      "updatedAt": "2026-07-18T15:38:39.359Z",
+      "steamAppId": null
     },
     "413ae04a-af30-4aba-822c-387d7228b3cb": {
       "id": "413ae04a-af30-4aba-822c-387d7228b3cb",
@@ -1489,7 +1577,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:40:39.289Z",
-      "updatedAt": "2026-07-18T15:40:39.295Z"
+      "updatedAt": "2026-07-18T15:40:39.295Z",
+      "steamAppId": null
     },
     "440609ee-5e42-48a1-8d43-8b492437b43d": {
       "id": "440609ee-5e42-48a1-8d43-8b492437b43d",
@@ -1504,7 +1593,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T16:00:37.059Z",
-      "updatedAt": "2026-07-18T16:00:37.065Z"
+      "updatedAt": "2026-07-18T16:00:37.065Z",
+      "steamAppId": null
     },
     "4958f9d4-c162-4551-a718-d46b9ef0eef5": {
       "id": "4958f9d4-c162-4551-a718-d46b9ef0eef5",
@@ -1519,7 +1609,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:54:22.285Z",
-      "updatedAt": "2026-07-18T15:54:22.292Z"
+      "updatedAt": "2026-07-18T15:54:22.292Z",
+      "steamAppId": null
     },
     "499727cb-61c2-4ee7-b615-462f0ade8028": {
       "id": "499727cb-61c2-4ee7-b615-462f0ade8028",
@@ -1534,7 +1625,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:59:22.681Z",
-      "updatedAt": "2026-07-18T15:59:22.688Z"
+      "updatedAt": "2026-07-18T15:59:22.688Z",
+      "steamAppId": null
     },
     "4e904a2a-8819-4ebd-a1d6-f13eb935c71b": {
       "id": "4e904a2a-8819-4ebd-a1d6-f13eb935c71b",
@@ -1549,7 +1641,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:44:43.896Z",
-      "updatedAt": "2026-07-18T15:44:43.902Z"
+      "updatedAt": "2026-07-18T15:44:43.902Z",
+      "steamAppId": null
     },
     "4ef12da9-9831-4b1f-a9f0-f8a893586f57": {
       "id": "4ef12da9-9831-4b1f-a9f0-f8a893586f57",
@@ -1564,7 +1657,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:44:01.193Z",
-      "updatedAt": "2026-07-18T15:44:01.198Z"
+      "updatedAt": "2026-07-18T15:44:01.198Z",
+      "steamAppId": null
     },
     "5109d200-1b76-4c07-b628-c911febaf657": {
       "id": "5109d200-1b76-4c07-b628-c911febaf657",
@@ -1579,7 +1673,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:48:12.375Z",
-      "updatedAt": "2026-07-18T15:48:12.380Z"
+      "updatedAt": "2026-07-18T15:48:12.380Z",
+      "steamAppId": null
     },
     "578175e8-33cf-45a5-b59b-04a80146d73e": {
       "id": "578175e8-33cf-45a5-b59b-04a80146d73e",
@@ -1594,7 +1689,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:48:39.639Z",
-      "updatedAt": "2026-07-18T15:48:39.645Z"
+      "updatedAt": "2026-07-18T15:48:39.645Z",
+      "steamAppId": null
     },
     "5ffa243a-1e1d-4a61-b0ae-86ac4dbfa325": {
       "id": "5ffa243a-1e1d-4a61-b0ae-86ac4dbfa325",
@@ -1611,7 +1707,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:49:18.504Z",
-      "updatedAt": "2026-07-18T15:49:18.510Z"
+      "updatedAt": "2026-07-18T15:49:18.510Z",
+      "steamAppId": null
     },
     "62fbd5bc-d025-4ab2-8b9a-988194ca037a": {
       "id": "62fbd5bc-d025-4ab2-8b9a-988194ca037a",
@@ -1626,7 +1723,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:53:57.465Z",
-      "updatedAt": "2026-07-18T15:53:57.472Z"
+      "updatedAt": "2026-07-18T15:53:57.472Z",
+      "steamAppId": null
     },
     "66eb24ab-14ee-4b7a-916e-be44381e2a57": {
       "id": "66eb24ab-14ee-4b7a-916e-be44381e2a57",
@@ -1641,7 +1739,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:58:02.502Z",
-      "updatedAt": "2026-07-18T15:58:02.505Z"
+      "updatedAt": "2026-07-18T15:58:02.505Z",
+      "steamAppId": null
     },
     "677ceb14-368b-468d-b166-cc01bf7c18fc": {
       "id": "677ceb14-368b-468d-b166-cc01bf7c18fc",
@@ -1660,7 +1759,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:57:38.116Z",
-      "updatedAt": "2026-07-18T15:57:38.121Z"
+      "updatedAt": "2026-07-18T15:57:38.121Z",
+      "steamAppId": null
     },
     "7996fa2e-5aa4-43d4-88de-a63165883722": {
       "id": "7996fa2e-5aa4-43d4-88de-a63165883722",
@@ -1679,7 +1779,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:40:17.105Z",
-      "updatedAt": "2026-07-18T15:40:17.111Z"
+      "updatedAt": "2026-07-18T15:40:17.111Z",
+      "steamAppId": null
     },
     "7c3bef3a-5a46-4a5b-b64e-6a4df767f0af": {
       "id": "7c3bef3a-5a46-4a5b-b64e-6a4df767f0af",
@@ -1694,7 +1795,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:50:39.476Z",
-      "updatedAt": "2026-07-18T15:50:39.482Z"
+      "updatedAt": "2026-07-18T15:50:39.482Z",
+      "steamAppId": null
     },
     "80d541e5-8148-490e-bfcd-bd379f5f4a6a": {
       "id": "80d541e5-8148-490e-bfcd-bd379f5f4a6a",
@@ -1709,7 +1811,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:39:38.998Z",
-      "updatedAt": "2026-07-19T08:39:58.253Z"
+      "updatedAt": "2026-07-19T08:39:58.253Z",
+      "steamAppId": null
     },
     "89f080ef-040e-4e05-b5e8-838a6f8fddc4": {
       "id": "89f080ef-040e-4e05-b5e8-838a6f8fddc4",
@@ -1724,7 +1827,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:55:43.861Z",
-      "updatedAt": "2026-07-18T15:55:43.866Z"
+      "updatedAt": "2026-07-18T15:55:43.866Z",
+      "steamAppId": null
     },
     "90a54958-a505-4039-8ca8-344b12f6345f": {
       "id": "90a54958-a505-4039-8ca8-344b12f6345f",
@@ -1739,7 +1843,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:53:15.419Z",
-      "updatedAt": "2026-07-18T15:53:15.425Z"
+      "updatedAt": "2026-07-18T15:53:15.425Z",
+      "steamAppId": null
     },
     "940331ac-880f-44a8-9142-82bc24577a15": {
       "id": "940331ac-880f-44a8-9142-82bc24577a15",
@@ -1754,7 +1859,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:41:53.465Z",
-      "updatedAt": "2026-07-18T15:41:53.471Z"
+      "updatedAt": "2026-07-18T15:41:53.471Z",
+      "steamAppId": null
     },
     "9cad2052-a227-44aa-93e0-9d762bf53089": {
       "id": "9cad2052-a227-44aa-93e0-9d762bf53089",
@@ -1771,7 +1877,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:58:19.973Z",
-      "updatedAt": "2026-07-18T15:58:19.979Z"
+      "updatedAt": "2026-07-18T15:58:19.979Z",
+      "steamAppId": null
     },
     "a13676eb-5014-4ead-a6ff-037acc0dc1ac": {
       "id": "a13676eb-5014-4ead-a6ff-037acc0dc1ac",
@@ -1786,7 +1893,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:46:49.226Z",
-      "updatedAt": "2026-07-18T15:47:02.621Z"
+      "updatedAt": "2026-07-18T15:47:02.621Z",
+      "steamAppId": null
     },
     "a7108c3e-4ce6-4166-b649-d7976cd6388c": {
       "id": "a7108c3e-4ce6-4166-b649-d7976cd6388c",
@@ -1801,7 +1909,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:42:13.800Z",
-      "updatedAt": "2026-07-19T08:42:44.192Z"
+      "updatedAt": "2026-07-19T08:42:44.192Z",
+      "steamAppId": null
     },
     "ad4a9f81-0b6b-43c4-8137-d51595bf1734": {
       "id": "ad4a9f81-0b6b-43c4-8137-d51595bf1734",
@@ -1816,7 +1925,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:58:50.463Z",
-      "updatedAt": "2026-07-18T15:58:50.469Z"
+      "updatedAt": "2026-07-18T15:58:50.469Z",
+      "steamAppId": null
     },
     "b22a058a-46d7-4d1c-8fc2-536ab27a9f7f": {
       "id": "b22a058a-46d7-4d1c-8fc2-536ab27a9f7f",
@@ -1831,7 +1941,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:55:09.899Z",
-      "updatedAt": "2026-07-18T15:55:09.904Z"
+      "updatedAt": "2026-07-18T15:55:09.904Z",
+      "steamAppId": null
     },
     "b9c3d042-c999-4748-b755-4e614eec0d5e": {
       "id": "b9c3d042-c999-4748-b755-4e614eec0d5e",
@@ -1846,7 +1957,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:52:26.276Z",
-      "updatedAt": "2026-07-18T15:52:26.282Z"
+      "updatedAt": "2026-07-18T15:52:26.282Z",
+      "steamAppId": null
     },
     "bb585ab0-4aeb-453e-bdb5-3cfa0662a21e": {
       "id": "bb585ab0-4aeb-453e-bdb5-3cfa0662a21e",
@@ -1861,7 +1973,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:43:07.784Z",
-      "updatedAt": "2026-07-18T15:43:07.790Z"
+      "updatedAt": "2026-07-18T15:43:07.790Z",
+      "steamAppId": null
     },
     "c1e46d5f-e8d9-4062-899a-7e73367b5603": {
       "id": "c1e46d5f-e8d9-4062-899a-7e73367b5603",
@@ -1876,7 +1989,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:51:07.520Z",
-      "updatedAt": "2026-07-18T15:51:07.526Z"
+      "updatedAt": "2026-07-18T15:51:07.526Z",
+      "steamAppId": null
     },
     "dd55bcdb-53c5-4dd3-afc4-f9366d7bfd6a": {
       "id": "dd55bcdb-53c5-4dd3-afc4-f9366d7bfd6a",
@@ -1891,7 +2005,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:44:12.875Z",
-      "updatedAt": "2026-07-18T15:44:12.881Z"
+      "updatedAt": "2026-07-18T15:44:12.881Z",
+      "steamAppId": null
     },
     "df43b7b7-8301-4aa6-b732-1dd0d5e14a1d": {
       "id": "df43b7b7-8301-4aa6-b732-1dd0d5e14a1d",
@@ -1906,7 +2021,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:55:17.611Z",
-      "updatedAt": "2026-07-18T15:55:17.614Z"
+      "updatedAt": "2026-07-18T15:55:17.614Z",
+      "steamAppId": null
     },
     "e1de32b4-665f-464f-94bc-46366c5977b3": {
       "id": "e1de32b4-665f-464f-94bc-46366c5977b3",
@@ -1921,7 +2037,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:51:54.216Z",
-      "updatedAt": "2026-07-18T15:51:54.221Z"
+      "updatedAt": "2026-07-18T15:51:54.221Z",
+      "steamAppId": null
     },
     "eecd5d5d-a4fd-4328-b72a-29517c153399": {
       "id": "eecd5d5d-a4fd-4328-b72a-29517c153399",
@@ -1936,7 +2053,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:45:11.112Z",
-      "updatedAt": "2026-07-18T15:45:11.119Z"
+      "updatedAt": "2026-07-18T15:45:11.119Z",
+      "steamAppId": null
     },
     "f16e26fc-d124-42bb-8e34-d422c5a455c1": {
       "id": "f16e26fc-d124-42bb-8e34-d422c5a455c1",
@@ -1955,7 +2073,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:56:11.413Z",
-      "updatedAt": "2026-07-18T15:56:37.783Z"
+      "updatedAt": "2026-07-18T15:56:37.783Z",
+      "steamAppId": null
     },
     "fca9097a-1862-458c-9d0b-6fbab61fd736": {
       "id": "fca9097a-1862-458c-9d0b-6fbab61fd736",
@@ -1970,7 +2089,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T15:39:23.208Z",
-      "updatedAt": "2026-07-18T15:39:23.214Z"
+      "updatedAt": "2026-07-18T15:39:23.214Z",
+      "steamAppId": null
     },
     "fd87b343-85cb-4e0a-be96-9a6868c3dc41": {
       "id": "fd87b343-85cb-4e0a-be96-9a6868c3dc41",
@@ -1985,7 +2105,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-18T16:00:54.455Z",
-      "updatedAt": "2026-07-18T16:00:54.458Z"
+      "updatedAt": "2026-07-18T16:00:54.458Z",
+      "steamAppId": null
     },
     "0843da2c-006c-4d0a-b4ab-d5bccf758ef0": {
       "id": "0843da2c-006c-4d0a-b4ab-d5bccf758ef0",
@@ -2000,7 +2121,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:10:09.628Z",
-      "updatedAt": "2026-07-19T08:10:50.467Z"
+      "updatedAt": "2026-07-19T08:10:50.467Z",
+      "steamAppId": null
     },
     "12c8f03a-633e-4655-9b5e-f37d493a98d3": {
       "id": "12c8f03a-633e-4655-9b5e-f37d493a98d3",
@@ -2015,7 +2137,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:21:00.401Z",
-      "updatedAt": "2026-07-19T08:21:00.404Z"
+      "updatedAt": "2026-07-19T08:21:00.404Z",
+      "steamAppId": null
     },
     "1329f818-2b9e-4514-abe4-e02463fabfdf": {
       "id": "1329f818-2b9e-4514-abe4-e02463fabfdf",
@@ -2032,7 +2155,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:27:46.903Z",
-      "updatedAt": "2026-07-19T08:27:46.906Z"
+      "updatedAt": "2026-07-19T08:27:46.906Z",
+      "steamAppId": null
     },
     "14dbd021-02e4-4ab9-8f74-4760b44566b5": {
       "id": "14dbd021-02e4-4ab9-8f74-4760b44566b5",
@@ -2049,7 +2173,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:14:55.890Z",
-      "updatedAt": "2026-07-19T08:14:55.894Z"
+      "updatedAt": "2026-07-19T08:14:55.894Z",
+      "steamAppId": null
     },
     "1b3dbe0a-a1b2-4ebb-8da0-9daa03991318": {
       "id": "1b3dbe0a-a1b2-4ebb-8da0-9daa03991318",
@@ -2064,7 +2189,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:20:23.203Z",
-      "updatedAt": "2026-07-19T08:20:23.207Z"
+      "updatedAt": "2026-07-19T08:20:23.207Z",
+      "steamAppId": null
     },
     "33350b16-f2cf-4d04-a2f8-8c195daefed2": {
       "id": "33350b16-f2cf-4d04-a2f8-8c195daefed2",
@@ -2079,7 +2205,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T07:56:47.170Z",
-      "updatedAt": "2026-07-19T07:56:47.174Z"
+      "updatedAt": "2026-07-19T07:56:47.174Z",
+      "steamAppId": null
     },
     "48034c12-80bd-4f1e-8bed-9c32a3455fb6": {
       "id": "48034c12-80bd-4f1e-8bed-9c32a3455fb6",
@@ -2094,7 +2221,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:12:32.875Z",
-      "updatedAt": "2026-07-19T08:12:32.878Z"
+      "updatedAt": "2026-07-19T08:12:32.878Z",
+      "steamAppId": null
     },
     "4c90b9d4-c472-42c1-a933-a6936c25e4f3": {
       "id": "4c90b9d4-c472-42c1-a933-a6936c25e4f3",
@@ -2111,7 +2239,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:28:28.041Z",
-      "updatedAt": "2026-07-19T08:28:28.043Z"
+      "updatedAt": "2026-07-19T08:28:28.043Z",
+      "steamAppId": null
     },
     "54ff56c9-be32-47fb-adff-29f5645866ba": {
       "id": "54ff56c9-be32-47fb-adff-29f5645866ba",
@@ -2128,7 +2257,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:18:29.991Z",
-      "updatedAt": "2026-07-19T08:18:29.998Z"
+      "updatedAt": "2026-07-19T08:18:29.998Z",
+      "steamAppId": null
     },
     "560f4cde-5661-475f-b959-26b6f46aaa4a": {
       "id": "560f4cde-5661-475f-b959-26b6f46aaa4a",
@@ -2143,7 +2273,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:13:42.748Z",
-      "updatedAt": "2026-07-19T08:13:42.751Z"
+      "updatedAt": "2026-07-19T08:13:42.751Z",
+      "steamAppId": null
     },
     "5cfac20a-5eb4-437f-9936-bb291c53a52c": {
       "id": "5cfac20a-5eb4-437f-9936-bb291c53a52c",
@@ -2160,7 +2291,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:19:09.327Z",
-      "updatedAt": "2026-07-19T08:19:09.331Z"
+      "updatedAt": "2026-07-19T08:19:09.331Z",
+      "steamAppId": null
     },
     "5de2d650-6788-4b36-891e-0c4aeab10701": {
       "id": "5de2d650-6788-4b36-891e-0c4aeab10701",
@@ -2175,7 +2307,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:21:58.463Z",
-      "updatedAt": "2026-07-19T09:17:30.107Z"
+      "updatedAt": "2026-07-19T09:17:30.107Z",
+      "steamAppId": null
     },
     "8d414a33-5ea5-43ad-9230-8c1fab38b09e": {
       "id": "8d414a33-5ea5-43ad-9230-8c1fab38b09e",
@@ -2192,7 +2325,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:16:12.948Z",
-      "updatedAt": "2026-07-19T08:16:12.951Z"
+      "updatedAt": "2026-07-19T08:16:12.951Z",
+      "steamAppId": null
     },
     "936ad103-b542-4442-b0de-e9deb24fefa0": {
       "id": "936ad103-b542-4442-b0de-e9deb24fefa0",
@@ -2207,7 +2341,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:22:40.530Z",
-      "updatedAt": "2026-07-19T08:22:40.533Z"
+      "updatedAt": "2026-07-19T08:22:40.533Z",
+      "steamAppId": null
     },
     "93e49196-b826-4188-8dd1-f54c329ff6a1": {
       "id": "93e49196-b826-4188-8dd1-f54c329ff6a1",
@@ -2224,7 +2359,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:16:52.294Z",
-      "updatedAt": "2026-07-19T08:16:52.297Z"
+      "updatedAt": "2026-07-19T08:16:52.297Z",
+      "steamAppId": null
     },
     "97e1806b-4574-47ef-9920-0a5b5ed9c4ae": {
       "id": "97e1806b-4574-47ef-9920-0a5b5ed9c4ae",
@@ -2239,7 +2375,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:10:37.847Z",
-      "updatedAt": "2026-07-19T08:33:52.743Z"
+      "updatedAt": "2026-07-19T08:33:52.743Z",
+      "steamAppId": null
     },
     "9b866b78-9240-4ca3-96e2-8a3fdfc8afd4": {
       "id": "9b866b78-9240-4ca3-96e2-8a3fdfc8afd4",
@@ -2254,7 +2391,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:14:12.789Z",
-      "updatedAt": "2026-07-19T08:14:12.793Z"
+      "updatedAt": "2026-07-19T08:14:12.793Z",
+      "steamAppId": null
     },
     "a203c457-3c3f-40a2-924e-214d3bf7f9c5": {
       "id": "a203c457-3c3f-40a2-924e-214d3bf7f9c5",
@@ -2269,7 +2407,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:08:30.327Z",
-      "updatedAt": "2026-07-19T08:08:30.331Z"
+      "updatedAt": "2026-07-19T08:08:30.331Z",
+      "steamAppId": null
     },
     "ad8755a6-5291-47a9-9f2d-7c5ece108c3e": {
       "id": "ad8755a6-5291-47a9-9f2d-7c5ece108c3e",
@@ -2284,7 +2423,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:19:40.600Z",
-      "updatedAt": "2026-07-19T08:19:40.603Z"
+      "updatedAt": "2026-07-19T08:19:40.603Z",
+      "steamAppId": null
     },
     "bbfdfea2-ce18-4151-b61f-222c73021785": {
       "id": "bbfdfea2-ce18-4151-b61f-222c73021785",
@@ -2299,7 +2439,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:21:24.832Z",
-      "updatedAt": "2026-07-19T08:21:24.836Z"
+      "updatedAt": "2026-07-19T08:21:24.836Z",
+      "steamAppId": null
     },
     "beb99135-ab93-4bd5-9027-fcf0db1aec9d": {
       "id": "beb99135-ab93-4bd5-9027-fcf0db1aec9d",
@@ -2314,7 +2455,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:23:27.963Z",
-      "updatedAt": "2026-07-19T08:23:27.966Z"
+      "updatedAt": "2026-07-19T08:23:27.966Z",
+      "steamAppId": null
     },
     "cc7746b6-6cfa-4745-a765-b1996153c701": {
       "id": "cc7746b6-6cfa-4745-a765-b1996153c701",
@@ -2329,7 +2471,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:24:04.695Z",
-      "updatedAt": "2026-07-19T08:24:04.698Z"
+      "updatedAt": "2026-07-19T08:24:04.698Z",
+      "steamAppId": null
     },
     "da73a233-782b-471b-bf1e-4f5bf0aa561b": {
       "id": "da73a233-782b-471b-bf1e-4f5bf0aa561b",
@@ -2344,7 +2487,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:15:21.028Z",
-      "updatedAt": "2026-07-19T08:15:26.402Z"
+      "updatedAt": "2026-07-19T08:15:26.402Z",
+      "steamAppId": null
     },
     "f10a6d35-2d89-471e-808f-de279d865114": {
       "id": "f10a6d35-2d89-471e-808f-de279d865114",
@@ -2359,7 +2503,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:11:18.684Z",
-      "updatedAt": "2026-07-19T08:11:18.687Z"
+      "updatedAt": "2026-07-19T08:11:18.687Z",
+      "steamAppId": null
     },
     "048829c3-ff7f-40f8-822c-2ab0a76ab1b5": {
       "id": "048829c3-ff7f-40f8-822c-2ab0a76ab1b5",
@@ -2374,7 +2519,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:57:21.274Z",
-      "updatedAt": "2026-07-19T08:57:21.278Z"
+      "updatedAt": "2026-07-19T08:57:21.278Z",
+      "steamAppId": null
     },
     "07c2b679-7ca1-49f0-a93b-f67eb5881318": {
       "id": "07c2b679-7ca1-49f0-a93b-f67eb5881318",
@@ -2389,7 +2535,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:56:56.236Z",
-      "updatedAt": "2026-07-19T08:56:56.239Z"
+      "updatedAt": "2026-07-19T08:56:56.239Z",
+      "steamAppId": null
     },
     "083852e1-011d-49f5-bebc-0655b0126e1d": {
       "id": "083852e1-011d-49f5-bebc-0655b0126e1d",
@@ -2404,7 +2551,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:02:41.638Z",
-      "updatedAt": "2026-07-19T09:02:41.641Z"
+      "updatedAt": "2026-07-19T09:02:41.641Z",
+      "steamAppId": null
     },
     "08fc73ce-a618-472c-a634-ab086483c370": {
       "id": "08fc73ce-a618-472c-a634-ab086483c370",
@@ -2419,7 +2567,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:50:40.163Z",
-      "updatedAt": "2026-07-19T08:50:40.166Z"
+      "updatedAt": "2026-07-19T08:50:40.166Z",
+      "steamAppId": null
     },
     "0b0e45e5-83e1-411a-a9a4-9866eec24954": {
       "id": "0b0e45e5-83e1-411a-a9a4-9866eec24954",
@@ -2434,7 +2583,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:44:31.566Z",
-      "updatedAt": "2026-07-19T08:44:31.569Z"
+      "updatedAt": "2026-07-19T08:44:31.569Z",
+      "steamAppId": null
     },
     "17e0ea3b-d0da-4051-9270-a78bae81981d": {
       "id": "17e0ea3b-d0da-4051-9270-a78bae81981d",
@@ -2451,7 +2601,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:40:41.163Z",
-      "updatedAt": "2026-07-19T08:40:41.167Z"
+      "updatedAt": "2026-07-19T08:40:41.167Z",
+      "steamAppId": null
     },
     "19b7309d-b39b-4fa3-8935-01bea4c6b1c0": {
       "id": "19b7309d-b39b-4fa3-8935-01bea4c6b1c0",
@@ -2466,7 +2617,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:44:08.483Z",
-      "updatedAt": "2026-07-19T08:44:08.487Z"
+      "updatedAt": "2026-07-19T08:44:08.487Z",
+      "steamAppId": null
     },
     "1c7d09d2-6d02-4354-b41f-eddf553c8c76": {
       "id": "1c7d09d2-6d02-4354-b41f-eddf553c8c76",
@@ -2481,7 +2633,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:45:50.976Z",
-      "updatedAt": "2026-07-19T08:45:50.980Z"
+      "updatedAt": "2026-07-19T08:45:50.980Z",
+      "steamAppId": null
     },
     "1ee9d1b7-fd82-4ce9-b8a9-b0a5638c6adb": {
       "id": "1ee9d1b7-fd82-4ce9-b8a9-b0a5638c6adb",
@@ -2496,7 +2649,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:58:18.871Z",
-      "updatedAt": "2026-07-19T08:58:18.874Z"
+      "updatedAt": "2026-07-19T08:58:18.874Z",
+      "steamAppId": null
     },
     "34e17d15-4565-4c87-aa49-7d633812616f": {
       "id": "34e17d15-4565-4c87-aa49-7d633812616f",
@@ -2511,7 +2665,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:31:43.001Z",
-      "updatedAt": "2026-07-19T08:31:43.004Z"
+      "updatedAt": "2026-07-19T08:31:43.004Z",
+      "steamAppId": null
     },
     "36f9acdf-bf09-4ba4-9c06-cab592c205ca": {
       "id": "36f9acdf-bf09-4ba4-9c06-cab592c205ca",
@@ -2526,7 +2681,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:52:33.414Z",
-      "updatedAt": "2026-07-19T08:52:33.417Z"
+      "updatedAt": "2026-07-19T08:52:33.417Z",
+      "steamAppId": null
     },
     "3d4382b5-2ce1-4bb0-801f-7d8cddf2a9e9": {
       "id": "3d4382b5-2ce1-4bb0-801f-7d8cddf2a9e9",
@@ -2543,7 +2699,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:42:06.096Z",
-      "updatedAt": "2026-07-19T09:17:47.172Z"
+      "updatedAt": "2026-07-19T09:17:47.172Z",
+      "steamAppId": null
     },
     "50c09e64-fadf-4856-8c23-5234ef475628": {
       "id": "50c09e64-fadf-4856-8c23-5234ef475628",
@@ -2558,7 +2715,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:58:55.025Z",
-      "updatedAt": "2026-07-19T08:58:55.028Z"
+      "updatedAt": "2026-07-19T08:58:55.028Z",
+      "steamAppId": null
     },
     "53af7016-98f5-4c84-b848-f7b9c35fc199": {
       "id": "53af7016-98f5-4c84-b848-f7b9c35fc199",
@@ -2575,7 +2733,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:48:14.992Z",
-      "updatedAt": "2026-07-19T08:48:14.996Z"
+      "updatedAt": "2026-07-19T08:48:14.996Z",
+      "steamAppId": null
     },
     "578360e5-f48c-4c58-bfff-a0ce58ad8131": {
       "id": "578360e5-f48c-4c58-bfff-a0ce58ad8131",
@@ -2590,7 +2749,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:36:45.742Z",
-      "updatedAt": "2026-07-19T08:36:45.747Z"
+      "updatedAt": "2026-07-19T08:36:45.747Z",
+      "steamAppId": null
     },
     "57a3c065-65d0-476f-be9a-59ad3d8b9941": {
       "id": "57a3c065-65d0-476f-be9a-59ad3d8b9941",
@@ -2605,7 +2765,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:32:45.441Z",
-      "updatedAt": "2026-07-19T08:32:45.445Z"
+      "updatedAt": "2026-07-19T08:32:45.445Z",
+      "steamAppId": null
     },
     "5833f4d6-3a2a-449b-9682-a201e8969ec3": {
       "id": "5833f4d6-3a2a-449b-9682-a201e8969ec3",
@@ -2620,7 +2781,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:35:19.041Z",
-      "updatedAt": "2026-07-19T08:35:19.044Z"
+      "updatedAt": "2026-07-19T08:35:19.044Z",
+      "steamAppId": null
     },
     "5907150f-0908-4ffb-82a7-f9ab096903ba": {
       "id": "5907150f-0908-4ffb-82a7-f9ab096903ba",
@@ -2635,7 +2797,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:53:04.283Z",
-      "updatedAt": "2026-07-19T08:53:04.286Z"
+      "updatedAt": "2026-07-19T08:53:04.286Z",
+      "steamAppId": null
     },
     "602b26ee-ee82-4135-9830-9dae64540777": {
       "id": "602b26ee-ee82-4135-9830-9dae64540777",
@@ -2650,7 +2813,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:35:46.582Z",
-      "updatedAt": "2026-07-19T08:35:46.586Z"
+      "updatedAt": "2026-07-19T08:35:46.586Z",
+      "steamAppId": null
     },
     "64bf0252-35b1-4eed-891a-8e41a7a486b0": {
       "id": "64bf0252-35b1-4eed-891a-8e41a7a486b0",
@@ -2665,7 +2829,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:59:19.794Z",
-      "updatedAt": "2026-07-19T08:59:19.797Z"
+      "updatedAt": "2026-07-19T08:59:19.797Z",
+      "steamAppId": null
     },
     "6742cc53-8632-4936-a7d8-615f872fe835": {
       "id": "6742cc53-8632-4936-a7d8-615f872fe835",
@@ -2680,7 +2845,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:52:00.976Z",
-      "updatedAt": "2026-07-19T08:52:00.979Z"
+      "updatedAt": "2026-07-19T08:52:00.979Z",
+      "steamAppId": null
     },
     "677dcd01-e8c7-4375-a3ea-63dcf44fb1c0": {
       "id": "677dcd01-e8c7-4375-a3ea-63dcf44fb1c0",
@@ -2695,7 +2861,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:41:06.595Z",
-      "updatedAt": "2026-07-19T08:41:06.599Z"
+      "updatedAt": "2026-07-19T08:41:06.599Z",
+      "steamAppId": null
     },
     "680209bd-4c4f-4a7c-b67c-5f1daa9b276a": {
       "id": "680209bd-4c4f-4a7c-b67c-5f1daa9b276a",
@@ -2710,7 +2877,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:43:33.054Z",
-      "updatedAt": "2026-07-19T09:17:49.177Z"
+      "updatedAt": "2026-07-19T09:17:49.177Z",
+      "steamAppId": null
     },
     "68a20070-bb33-4201-9671-38d4687bd30b": {
       "id": "68a20070-bb33-4201-9671-38d4687bd30b",
@@ -2725,7 +2893,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:46:48.308Z",
-      "updatedAt": "2026-07-19T08:46:48.312Z"
+      "updatedAt": "2026-07-19T08:46:48.312Z",
+      "steamAppId": null
     },
     "6c7eefe4-9b3e-49a8-9f40-b33a7b5e3367": {
       "id": "6c7eefe4-9b3e-49a8-9f40-b33a7b5e3367",
@@ -2740,7 +2909,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:32:26.989Z",
-      "updatedAt": "2026-07-19T08:32:26.992Z"
+      "updatedAt": "2026-07-19T08:32:26.992Z",
+      "steamAppId": null
     },
     "6f71f70a-c8b7-4860-898e-105c261f117d": {
       "id": "6f71f70a-c8b7-4860-898e-105c261f117d",
@@ -2755,7 +2925,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:50:10.587Z",
-      "updatedAt": "2026-07-19T08:50:10.590Z"
+      "updatedAt": "2026-07-19T08:50:10.590Z",
+      "steamAppId": null
     },
     "6f8a7e67-1319-4c0e-8d52-61326bb15317": {
       "id": "6f8a7e67-1319-4c0e-8d52-61326bb15317",
@@ -2770,7 +2941,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:41:28.312Z",
-      "updatedAt": "2026-07-19T08:41:32.399Z"
+      "updatedAt": "2026-07-19T08:41:32.399Z",
+      "steamAppId": null
     },
     "745e7621-a5f6-4ba4-85c2-70f88deb9e07": {
       "id": "745e7621-a5f6-4ba4-85c2-70f88deb9e07",
@@ -2787,7 +2959,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:37:36.112Z",
-      "updatedAt": "2026-07-19T08:37:36.116Z"
+      "updatedAt": "2026-07-19T08:37:36.116Z",
+      "steamAppId": null
     },
     "7a8d75ff-6990-4718-ab05-7f987c8a7b9f": {
       "id": "7a8d75ff-6990-4718-ab05-7f987c8a7b9f",
@@ -2802,7 +2975,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:02:03.100Z",
-      "updatedAt": "2026-07-19T09:02:03.104Z"
+      "updatedAt": "2026-07-19T09:02:03.104Z",
+      "steamAppId": null
     },
     "7c0684fe-6450-4b0f-a05a-febbb015eadd": {
       "id": "7c0684fe-6450-4b0f-a05a-febbb015eadd",
@@ -2817,7 +2991,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:29:37.191Z",
-      "updatedAt": "2026-07-19T08:29:37.195Z"
+      "updatedAt": "2026-07-19T08:29:37.195Z",
+      "steamAppId": null
     },
     "7e05db30-da42-4ec5-9b44-07ceb02daa20": {
       "id": "7e05db30-da42-4ec5-9b44-07ceb02daa20",
@@ -2832,7 +3007,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:34:18.401Z",
-      "updatedAt": "2026-07-19T09:17:41.322Z"
+      "updatedAt": "2026-07-19T09:17:41.322Z",
+      "steamAppId": null
     },
     "81cc32d4-eeee-465a-87ea-2c755dd7ff2b": {
       "id": "81cc32d4-eeee-465a-87ea-2c755dd7ff2b",
@@ -2849,7 +3025,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:33:44.348Z",
-      "updatedAt": "2026-07-19T08:33:44.352Z"
+      "updatedAt": "2026-07-19T08:33:44.352Z",
+      "steamAppId": null
     },
     "888036bb-049f-4ce8-948e-8c8ad50a14f8": {
       "id": "888036bb-049f-4ce8-948e-8c8ad50a14f8",
@@ -2864,7 +3041,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:51:44.179Z",
-      "updatedAt": "2026-07-19T08:51:44.182Z"
+      "updatedAt": "2026-07-19T08:51:44.182Z",
+      "steamAppId": null
     },
     "8c7dea78-2246-4e68-81d8-9812495bdd60": {
       "id": "8c7dea78-2246-4e68-81d8-9812495bdd60",
@@ -2879,7 +3057,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:59:42.528Z",
-      "updatedAt": "2026-07-19T08:59:42.531Z"
+      "updatedAt": "2026-07-19T08:59:42.531Z",
+      "steamAppId": null
     },
     "8f9e6239-5839-4c3f-afda-a7b560ea8c79": {
       "id": "8f9e6239-5839-4c3f-afda-a7b560ea8c79",
@@ -2894,7 +3073,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:00:36.937Z",
-      "updatedAt": "2026-07-19T09:00:36.940Z"
+      "updatedAt": "2026-07-19T09:00:36.940Z",
+      "steamAppId": null
     },
     "919263ff-490e-47cd-8ea0-756e1ad273d7": {
       "id": "919263ff-490e-47cd-8ea0-756e1ad273d7",
@@ -2909,7 +3089,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:44:55.065Z",
-      "updatedAt": "2026-07-19T08:44:55.068Z"
+      "updatedAt": "2026-07-19T08:44:55.068Z",
+      "steamAppId": null
     },
     "91c532e5-49b1-42eb-8952-e8817986b383": {
       "id": "91c532e5-49b1-42eb-8952-e8817986b383",
@@ -2924,7 +3105,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:32:02.710Z",
-      "updatedAt": "2026-07-19T08:32:02.714Z"
+      "updatedAt": "2026-07-19T08:32:02.714Z",
+      "steamAppId": null
     },
     "9c634c86-bf61-4e40-bb6f-faa0f5d0d9f3": {
       "id": "9c634c86-bf61-4e40-bb6f-faa0f5d0d9f3",
@@ -2939,7 +3121,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:46:25.592Z",
-      "updatedAt": "2026-07-19T09:17:51.324Z"
+      "updatedAt": "2026-07-19T09:17:51.324Z",
+      "steamAppId": null
     },
     "9e55de0f-35fa-4463-b287-d0a93b83ede8": {
       "id": "9e55de0f-35fa-4463-b287-d0a93b83ede8",
@@ -2954,7 +3137,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:55:46.759Z",
-      "updatedAt": "2026-07-19T08:55:46.762Z"
+      "updatedAt": "2026-07-19T08:55:46.762Z",
+      "steamAppId": null
     },
     "a698233c-cf41-4689-95f8-3d97c2663f05": {
       "id": "a698233c-cf41-4689-95f8-3d97c2663f05",
@@ -2969,7 +3153,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:30:46.006Z",
-      "updatedAt": "2026-07-19T11:11:17.410Z"
+      "updatedAt": "2026-07-19T11:11:17.410Z",
+      "steamAppId": null
     },
     "a7f8c635-5289-423c-830d-32bb97244aa3": {
       "id": "a7f8c635-5289-423c-830d-32bb97244aa3",
@@ -2984,7 +3169,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:53:34.224Z",
-      "updatedAt": "2026-07-19T08:53:34.227Z"
+      "updatedAt": "2026-07-19T08:53:34.227Z",
+      "steamAppId": null
     },
     "aa176db3-a397-4738-b9f0-22bca7653adb": {
       "id": "aa176db3-a397-4738-b9f0-22bca7653adb",
@@ -2999,7 +3185,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:49:08.865Z",
-      "updatedAt": "2026-07-19T08:49:08.868Z"
+      "updatedAt": "2026-07-19T08:49:08.868Z",
+      "steamAppId": null
     },
     "b56ec0da-778d-401c-b321-cf6000fd2a90": {
       "id": "b56ec0da-778d-401c-b321-cf6000fd2a90",
@@ -3014,7 +3201,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:51:07.249Z",
-      "updatedAt": "2026-07-19T08:51:07.252Z"
+      "updatedAt": "2026-07-19T08:51:07.252Z",
+      "steamAppId": null
     },
     "b9fcc158-5018-4a94-9e8d-87677c59e44b": {
       "id": "b9fcc158-5018-4a94-9e8d-87677c59e44b",
@@ -3029,7 +3217,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:33:13.776Z",
-      "updatedAt": "2026-07-19T08:33:13.780Z"
+      "updatedAt": "2026-07-19T08:33:13.780Z",
+      "steamAppId": null
     },
     "bb943003-1792-43a7-9ec6-05fac3cee9f5": {
       "id": "bb943003-1792-43a7-9ec6-05fac3cee9f5",
@@ -3046,7 +3235,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:48:30.149Z",
-      "updatedAt": "2026-07-19T08:48:30.152Z"
+      "updatedAt": "2026-07-19T08:48:30.152Z",
+      "steamAppId": null
     },
     "bf956b9c-63ed-44f3-b167-3169f24bea56": {
       "id": "bf956b9c-63ed-44f3-b167-3169f24bea56",
@@ -3063,7 +3253,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:39:42.813Z",
-      "updatedAt": "2026-07-19T08:39:42.816Z"
+      "updatedAt": "2026-07-19T08:39:42.816Z",
+      "steamAppId": null
     },
     "c0d01f89-2f23-4b7d-90f9-685d051d9c00": {
       "id": "c0d01f89-2f23-4b7d-90f9-685d051d9c00",
@@ -3078,7 +3269,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:01:18.954Z",
-      "updatedAt": "2026-07-21T03:54:25.487Z"
+      "updatedAt": "2026-07-21T03:54:25.487Z",
+      "steamAppId": null
     },
     "c2585b33-52e1-4528-9896-66dd133a8f66": {
       "id": "c2585b33-52e1-4528-9896-66dd133a8f66",
@@ -3093,7 +3285,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:47:14.136Z",
-      "updatedAt": "2026-07-19T08:47:33.842Z"
+      "updatedAt": "2026-07-19T08:47:33.842Z",
+      "steamAppId": null
     },
     "c7228cd3-460d-4e48-beed-8bb5c2aa17a4": {
       "id": "c7228cd3-460d-4e48-beed-8bb5c2aa17a4",
@@ -3108,7 +3301,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:34:48.178Z",
-      "updatedAt": "2026-07-19T08:34:48.182Z"
+      "updatedAt": "2026-07-19T08:34:48.182Z",
+      "steamAppId": null
     },
     "c7c81688-3816-4757-b465-795e25a57a2d": {
       "id": "c7c81688-3816-4757-b465-795e25a57a2d",
@@ -3125,7 +3319,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:39:07.480Z",
-      "updatedAt": "2026-07-19T08:39:07.484Z"
+      "updatedAt": "2026-07-19T08:39:07.484Z",
+      "steamAppId": null
     },
     "c85c6a69-997a-43dc-90b9-ccb82dd3018c": {
       "id": "c85c6a69-997a-43dc-90b9-ccb82dd3018c",
@@ -3140,7 +3335,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:01:35.615Z",
-      "updatedAt": "2026-07-19T09:01:35.618Z"
+      "updatedAt": "2026-07-19T09:01:35.618Z",
+      "steamAppId": null
     },
     "c8dbfd1c-67b7-4047-ab2b-597e6f2d1039": {
       "id": "c8dbfd1c-67b7-4047-ab2b-597e6f2d1039",
@@ -3155,7 +3351,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:30:21.111Z",
-      "updatedAt": "2026-07-19T08:30:21.115Z"
+      "updatedAt": "2026-07-19T08:30:21.115Z",
+      "steamAppId": null
     },
     "d12f864e-74c9-4d91-bb81-44615028b0f1": {
       "id": "d12f864e-74c9-4d91-bb81-44615028b0f1",
@@ -3170,7 +3367,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:56:02.144Z",
-      "updatedAt": "2026-07-19T08:56:02.147Z"
+      "updatedAt": "2026-07-19T08:56:02.147Z",
+      "steamAppId": null
     },
     "d19881a3-b97b-4d0e-b622-ab84528a72b0": {
       "id": "d19881a3-b97b-4d0e-b622-ab84528a72b0",
@@ -3185,7 +3383,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:00:13.647Z",
-      "updatedAt": "2026-07-19T09:00:13.650Z"
+      "updatedAt": "2026-07-19T09:00:13.650Z",
+      "steamAppId": null
     },
     "d6617284-d6ef-4880-b3f2-f5f111c0a5b3": {
       "id": "d6617284-d6ef-4880-b3f2-f5f111c0a5b3",
@@ -3200,7 +3399,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:49:29.703Z",
-      "updatedAt": "2026-07-19T08:49:29.706Z"
+      "updatedAt": "2026-07-19T08:49:29.706Z",
+      "steamAppId": null
     },
     "d7f7a1ab-d059-4482-98d1-6ebb9bf0a2d3": {
       "id": "d7f7a1ab-d059-4482-98d1-6ebb9bf0a2d3",
@@ -3215,7 +3415,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:49:48.555Z",
-      "updatedAt": "2026-07-19T08:49:48.558Z"
+      "updatedAt": "2026-07-19T08:49:48.558Z",
+      "steamAppId": null
     },
     "df613cb4-3eef-4065-97e2-4097649e5d5b": {
       "id": "df613cb4-3eef-4065-97e2-4097649e5d5b",
@@ -3230,7 +3431,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:31:17.831Z",
-      "updatedAt": "2026-07-19T08:31:17.835Z"
+      "updatedAt": "2026-07-19T08:31:17.835Z",
+      "steamAppId": null
     },
     "dfb9ce6e-506b-4554-9d5e-91d416e3ebde": {
       "id": "dfb9ce6e-506b-4554-9d5e-91d416e3ebde",
@@ -3245,7 +3447,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:00:54.596Z",
-      "updatedAt": "2026-07-19T09:00:54.599Z"
+      "updatedAt": "2026-07-19T09:00:54.599Z",
+      "steamAppId": null
     },
     "e4ca1bcb-e665-49c8-96d3-890369609ce3": {
       "id": "e4ca1bcb-e665-49c8-96d3-890369609ce3",
@@ -3263,7 +3466,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:38:25.973Z",
-      "updatedAt": "2026-07-19T08:38:25.977Z"
+      "updatedAt": "2026-07-19T08:38:25.977Z",
+      "steamAppId": null
     },
     "f0ac4296-d406-46c8-a082-6c811c09cdcb": {
       "id": "f0ac4296-d406-46c8-a082-6c811c09cdcb",
@@ -3278,7 +3482,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:43:07.887Z",
-      "updatedAt": "2026-07-19T08:43:07.891Z"
+      "updatedAt": "2026-07-19T08:43:07.891Z",
+      "steamAppId": null
     },
     "f68435c6-7d35-41dd-be2a-55d3b6aa5e16": {
       "id": "f68435c6-7d35-41dd-be2a-55d3b6aa5e16",
@@ -3293,7 +3498,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:57:48.695Z",
-      "updatedAt": "2026-07-19T08:57:48.698Z"
+      "updatedAt": "2026-07-19T08:57:48.698Z",
+      "steamAppId": null
     },
     "fd4f7422-792f-4d10-a6b9-121e67d48c60": {
       "id": "fd4f7422-792f-4d10-a6b9-121e67d48c60",
@@ -3308,7 +3514,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T08:52:13.549Z",
-      "updatedAt": "2026-07-19T08:52:13.552Z"
+      "updatedAt": "2026-07-19T08:52:13.552Z",
+      "steamAppId": null
     },
     "01f32c8b-fadd-425f-95ab-a4e24c8ee1f9": {
       "id": "01f32c8b-fadd-425f-95ab-a4e24c8ee1f9",
@@ -3323,7 +3530,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:14:26.918Z",
-      "updatedAt": "2026-07-19T09:14:26.922Z"
+      "updatedAt": "2026-07-19T09:14:26.922Z",
+      "steamAppId": null
     },
     "02cc1b54-7ef6-4538-9fe4-2681df7338df": {
       "id": "02cc1b54-7ef6-4538-9fe4-2681df7338df",
@@ -3338,7 +3546,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:05:51.571Z",
-      "updatedAt": "2026-07-19T09:05:51.575Z"
+      "updatedAt": "2026-07-19T09:05:51.575Z",
+      "steamAppId": null
     },
     "03a00b34-ae5e-4502-84f0-2859327e65a2": {
       "id": "03a00b34-ae5e-4502-84f0-2859327e65a2",
@@ -3353,7 +3562,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:08:52.244Z",
-      "updatedAt": "2026-07-19T09:08:52.249Z"
+      "updatedAt": "2026-07-19T09:08:52.249Z",
+      "steamAppId": null
     },
     "0ac5a998-2843-492e-a3cf-01299a168006": {
       "id": "0ac5a998-2843-492e-a3cf-01299a168006",
@@ -3368,7 +3578,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:05:15.277Z",
-      "updatedAt": "2026-07-19T09:05:15.282Z"
+      "updatedAt": "2026-07-19T09:05:15.282Z",
+      "steamAppId": null
     },
     "1457ee10-faa7-4691-8d13-2bd696e27901": {
       "id": "1457ee10-faa7-4691-8d13-2bd696e27901",
@@ -3383,7 +3594,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:06:16.729Z",
-      "updatedAt": "2026-07-19T09:06:16.733Z"
+      "updatedAt": "2026-07-19T09:06:16.733Z",
+      "steamAppId": null
     },
     "14943098-6584-45e5-b9f4-82d2c333b0b9": {
       "id": "14943098-6584-45e5-b9f4-82d2c333b0b9",
@@ -3398,7 +3610,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:07:24.924Z",
-      "updatedAt": "2026-07-19T09:07:24.929Z"
+      "updatedAt": "2026-07-19T09:07:24.929Z",
+      "steamAppId": null
     },
     "39f434e7-0fcf-44a1-b6f0-675082ebcef5": {
       "id": "39f434e7-0fcf-44a1-b6f0-675082ebcef5",
@@ -3413,7 +3626,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:07:49.220Z",
-      "updatedAt": "2026-07-19T09:07:49.223Z"
+      "updatedAt": "2026-07-19T09:07:49.223Z",
+      "steamAppId": null
     },
     "49cd9596-363a-47f2-94e2-11ba7c8cce27": {
       "id": "49cd9596-363a-47f2-94e2-11ba7c8cce27",
@@ -3428,7 +3642,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:09:26.119Z",
-      "updatedAt": "2026-07-19T09:09:26.123Z"
+      "updatedAt": "2026-07-19T09:09:26.123Z",
+      "steamAppId": null
     },
     "61bd35a2-7224-4456-bbd3-8b3f9d525279": {
       "id": "61bd35a2-7224-4456-bbd3-8b3f9d525279",
@@ -3443,7 +3658,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:14:56.240Z",
-      "updatedAt": "2026-07-19T09:14:56.244Z"
+      "updatedAt": "2026-07-19T09:14:56.244Z",
+      "steamAppId": null
     },
     "77765679-72ed-497d-8bda-884230b15d5e": {
       "id": "77765679-72ed-497d-8bda-884230b15d5e",
@@ -3458,7 +3674,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:11:00.426Z",
-      "updatedAt": "2026-07-19T09:11:00.430Z"
+      "updatedAt": "2026-07-19T09:11:00.430Z",
+      "steamAppId": null
     },
     "7a514a12-853a-406a-9eea-c8194e834d03": {
       "id": "7a514a12-853a-406a-9eea-c8194e834d03",
@@ -3473,7 +3690,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:09:52.798Z",
-      "updatedAt": "2026-07-19T09:09:52.802Z"
+      "updatedAt": "2026-07-19T09:09:52.802Z",
+      "steamAppId": null
     },
     "92cb4efc-5896-485f-9e7d-43777ab1f3d0": {
       "id": "92cb4efc-5896-485f-9e7d-43777ab1f3d0",
@@ -3488,7 +3706,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:06:47.139Z",
-      "updatedAt": "2026-07-19T09:06:47.142Z"
+      "updatedAt": "2026-07-19T09:06:47.142Z",
+      "steamAppId": null
     },
     "acb74738-a0f8-4293-ad00-c3852d1749f9": {
       "id": "acb74738-a0f8-4293-ad00-c3852d1749f9",
@@ -3503,7 +3722,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:05:30.139Z",
-      "updatedAt": "2026-07-19T09:05:30.144Z"
+      "updatedAt": "2026-07-19T09:05:30.144Z",
+      "steamAppId": null
     },
     "b36665d9-49f6-497b-8bef-ccf710c08e75": {
       "id": "b36665d9-49f6-497b-8bef-ccf710c08e75",
@@ -3518,7 +3738,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:11:37.935Z",
-      "updatedAt": "2026-07-19T09:11:37.939Z"
+      "updatedAt": "2026-07-19T09:11:37.939Z",
+      "steamAppId": null
     },
     "b8479fd4-491b-4483-956e-b82ef3b889e8": {
       "id": "b8479fd4-491b-4483-956e-b82ef3b889e8",
@@ -3533,7 +3754,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:08:30.018Z",
-      "updatedAt": "2026-07-19T09:08:30.021Z"
+      "updatedAt": "2026-07-19T09:08:30.021Z",
+      "steamAppId": null
     },
     "d0c471e8-abad-432d-9fc5-13e5f491b090": {
       "id": "d0c471e8-abad-432d-9fc5-13e5f491b090",
@@ -3548,7 +3770,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:04:09.423Z",
-      "updatedAt": "2026-07-19T09:04:09.426Z"
+      "updatedAt": "2026-07-19T09:04:09.426Z",
+      "steamAppId": null
     },
     "e2b11834-ab3e-4063-99d9-6299c6750172": {
       "id": "e2b11834-ab3e-4063-99d9-6299c6750172",
@@ -3563,7 +3786,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:10:06.917Z",
-      "updatedAt": "2026-07-19T09:10:06.921Z"
+      "updatedAt": "2026-07-19T09:10:06.921Z",
+      "steamAppId": null
     },
     "ebd0aad2-6d2f-4744-95f7-efc4bf09ba0a": {
       "id": "ebd0aad2-6d2f-4744-95f7-efc4bf09ba0a",
@@ -3578,7 +3802,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:07:02.254Z",
-      "updatedAt": "2026-07-19T09:07:02.258Z"
+      "updatedAt": "2026-07-19T09:07:02.258Z",
+      "steamAppId": null
     },
     "ebe5a175-810a-4da9-87d6-fdb4ab2e1b92": {
       "id": "ebe5a175-810a-4da9-87d6-fdb4ab2e1b92",
@@ -3593,7 +3818,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:10:42.439Z",
-      "updatedAt": "2026-07-19T09:10:42.443Z"
+      "updatedAt": "2026-07-19T09:10:42.443Z",
+      "steamAppId": null
     },
     "eebbb6e5-19df-4fc0-83a0-1b3d418657a7": {
       "id": "eebbb6e5-19df-4fc0-83a0-1b3d418657a7",
@@ -3608,7 +3834,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:15:28.225Z",
-      "updatedAt": "2026-07-19T09:15:28.229Z"
+      "updatedAt": "2026-07-19T09:15:28.229Z",
+      "steamAppId": null
     },
     "f1918224-2b3c-4f29-a159-568dd42bfdb7": {
       "id": "f1918224-2b3c-4f29-a159-568dd42bfdb7",
@@ -3623,7 +3850,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-19T09:12:23.947Z",
-      "updatedAt": "2026-07-19T09:12:23.951Z"
+      "updatedAt": "2026-07-19T09:12:23.951Z",
+      "steamAppId": null
     },
     "1a409ee2-4150-4ede-ae09-61b1cc0d2def": {
       "id": "1a409ee2-4150-4ede-ae09-61b1cc0d2def",
@@ -3641,7 +3869,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:33:03.539Z",
-      "updatedAt": "2026-07-21T04:33:03.544Z"
+      "updatedAt": "2026-07-21T04:33:03.544Z",
+      "steamAppId": null
     },
     "1eebf27d-555d-400a-bd5f-2709ebe17db8": {
       "id": "1eebf27d-555d-400a-bd5f-2709ebe17db8",
@@ -3658,7 +3887,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T03:55:55.779Z",
-      "updatedAt": "2026-07-21T04:00:44.685Z"
+      "updatedAt": "2026-07-21T04:00:44.685Z",
+      "steamAppId": null
     },
     "1f208d2c-c935-4fcc-ba66-c75ebf3aab0a": {
       "id": "1f208d2c-c935-4fcc-ba66-c75ebf3aab0a",
@@ -3673,7 +3903,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:52:23.075Z",
-      "updatedAt": "2026-07-21T04:52:23.079Z"
+      "updatedAt": "2026-07-21T04:52:23.079Z",
+      "steamAppId": null
     },
     "216fff27-2997-4560-8371-3b6a4e2705c1": {
       "id": "216fff27-2997-4560-8371-3b6a4e2705c1",
@@ -3690,7 +3921,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T03:57:57.858Z",
-      "updatedAt": "2026-07-21T03:59:38.796Z"
+      "updatedAt": "2026-07-21T03:59:38.796Z",
+      "steamAppId": null
     },
     "21a23c79-1fa4-4d6e-a10f-08e7895c5d0f": {
       "id": "21a23c79-1fa4-4d6e-a10f-08e7895c5d0f",
@@ -3707,7 +3939,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:31:40.906Z",
-      "updatedAt": "2026-07-21T04:32:06.757Z"
+      "updatedAt": "2026-07-21T04:32:06.757Z",
+      "steamAppId": null
     },
     "224dd184-19ca-4526-874d-16533c5ecba0": {
       "id": "224dd184-19ca-4526-874d-16533c5ecba0",
@@ -3727,7 +3960,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:17:02.656Z",
-      "updatedAt": "2026-07-21T04:17:02.661Z"
+      "updatedAt": "2026-07-21T04:17:02.661Z",
+      "steamAppId": null
     },
     "24e3c0b1-e548-4d37-810e-ccf1d32922af": {
       "id": "24e3c0b1-e548-4d37-810e-ccf1d32922af",
@@ -3746,7 +3980,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:42:04.353Z",
-      "updatedAt": "2026-07-21T04:42:09.490Z"
+      "updatedAt": "2026-07-21T04:42:09.490Z",
+      "steamAppId": null
     },
     "4aa5ae37-6920-483b-9da3-795716306ca8": {
       "id": "4aa5ae37-6920-483b-9da3-795716306ca8",
@@ -3761,7 +3996,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:45:24.767Z",
-      "updatedAt": "2026-07-21T04:56:53.320Z"
+      "updatedAt": "2026-07-21T04:56:53.320Z",
+      "steamAppId": null
     },
     "58b3339f-f844-42d4-8e58-9e47e0e6f19d": {
       "id": "58b3339f-f844-42d4-8e58-9e47e0e6f19d",
@@ -3780,7 +4016,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:35:48.712Z",
-      "updatedAt": "2026-07-21T04:35:48.717Z"
+      "updatedAt": "2026-07-21T04:35:48.717Z",
+      "steamAppId": null
     },
     "6728987a-6d21-4bce-9599-4b618a8d67fb": {
       "id": "6728987a-6d21-4bce-9599-4b618a8d67fb",
@@ -3797,7 +4034,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:04:57.079Z",
-      "updatedAt": "2026-07-21T04:06:09.262Z"
+      "updatedAt": "2026-07-21T04:06:09.262Z",
+      "steamAppId": null
     },
     "6c1cf764-dcf9-47c7-a190-01f079bd4e84": {
       "id": "6c1cf764-dcf9-47c7-a190-01f079bd4e84",
@@ -3815,7 +4053,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:09:36.658Z",
-      "updatedAt": "2026-07-21T04:09:36.665Z"
+      "updatedAt": "2026-07-21T04:09:36.665Z",
+      "steamAppId": null
     },
     "6fe7c9e2-7f62-4d5c-a6de-5267c63c41f0": {
       "id": "6fe7c9e2-7f62-4d5c-a6de-5267c63c41f0",
@@ -3834,7 +4073,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:29:53.523Z",
-      "updatedAt": "2026-07-21T04:29:53.528Z"
+      "updatedAt": "2026-07-21T04:29:53.528Z",
+      "steamAppId": null
     },
     "795b33a7-71bd-4da6-ad2b-c931009991ca": {
       "id": "795b33a7-71bd-4da6-ad2b-c931009991ca",
@@ -3852,7 +4092,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:39:53.369Z",
-      "updatedAt": "2026-07-21T04:40:12.703Z"
+      "updatedAt": "2026-07-21T04:40:12.703Z",
+      "steamAppId": null
     },
     "911a0818-a14a-4374-8f01-e36a88e400e7": {
       "id": "911a0818-a14a-4374-8f01-e36a88e400e7",
@@ -3871,7 +4112,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:10:46.909Z",
-      "updatedAt": "2026-07-21T04:14:17.206Z"
+      "updatedAt": "2026-07-21T04:14:17.206Z",
+      "steamAppId": null
     },
     "a05b22ff-066d-4d5f-99a6-82429b6e80bf": {
       "id": "a05b22ff-066d-4d5f-99a6-82429b6e80bf",
@@ -3889,7 +4131,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:05:20.872Z",
-      "updatedAt": "2026-07-21T04:06:44.555Z"
+      "updatedAt": "2026-07-21T04:06:44.555Z",
+      "steamAppId": null
     },
     "a3632540-8d54-4773-8e89-e712601cb1d7": {
       "id": "a3632540-8d54-4773-8e89-e712601cb1d7",
@@ -3908,7 +4151,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:18:40.045Z",
-      "updatedAt": "2026-07-21T04:19:19.142Z"
+      "updatedAt": "2026-07-21T04:19:19.142Z",
+      "steamAppId": null
     },
     "b1f6485f-324f-4ce0-ae8d-40600fd0c537": {
       "id": "b1f6485f-324f-4ce0-ae8d-40600fd0c537",
@@ -3923,7 +4167,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:44:08.694Z",
-      "updatedAt": "2026-07-21T04:44:08.699Z"
+      "updatedAt": "2026-07-21T04:44:08.699Z",
+      "steamAppId": null
     },
     "b4a61db6-a68e-43c4-8974-79e2005f03ad": {
       "id": "b4a61db6-a68e-43c4-8974-79e2005f03ad",
@@ -3942,7 +4187,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:37:38.747Z",
-      "updatedAt": "2026-07-21T04:37:38.752Z"
+      "updatedAt": "2026-07-21T04:37:38.752Z",
+      "steamAppId": null
     },
     "c785bbd4-f924-46ff-be2b-223911a2cb82": {
       "id": "c785bbd4-f924-46ff-be2b-223911a2cb82",
@@ -3959,7 +4205,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:08:29.890Z",
-      "updatedAt": "2026-07-21T04:08:29.897Z"
+      "updatedAt": "2026-07-21T04:08:29.897Z",
+      "steamAppId": null
     },
     "cb9ded50-a095-425a-be5e-6e8ebf9824f6": {
       "id": "cb9ded50-a095-425a-be5e-6e8ebf9824f6",
@@ -3976,7 +4223,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:00:37.346Z",
-      "updatedAt": "2026-07-21T04:07:00.270Z"
+      "updatedAt": "2026-07-21T04:07:00.270Z",
+      "steamAppId": null
     },
     "d1f0980c-7d6f-4dd0-a09d-751fed9af697": {
       "id": "d1f0980c-7d6f-4dd0-a09d-751fed9af697",
@@ -3991,7 +4239,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:19:02.077Z",
-      "updatedAt": "2026-07-21T04:19:02.082Z"
+      "updatedAt": "2026-07-21T04:19:02.082Z",
+      "steamAppId": null
     },
     "d41878a7-4a84-4889-b12e-56edd436bc4b": {
       "id": "d41878a7-4a84-4889-b12e-56edd436bc4b",
@@ -4011,7 +4260,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:13:59.517Z",
-      "updatedAt": "2026-07-21T04:15:57.081Z"
+      "updatedAt": "2026-07-21T04:15:57.081Z",
+      "steamAppId": null
     },
     "dce4c3fa-0061-4cfd-b3cf-8285adc1f7c2": {
       "id": "dce4c3fa-0061-4cfd-b3cf-8285adc1f7c2",
@@ -4029,7 +4279,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T03:59:09.887Z",
-      "updatedAt": "2026-07-21T04:01:38.926Z"
+      "updatedAt": "2026-07-21T04:01:38.926Z",
+      "steamAppId": null
     },
     "e0d0284b-0b83-494a-b67a-1397d1908f4b": {
       "id": "e0d0284b-0b83-494a-b67a-1397d1908f4b",
@@ -4044,7 +4295,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:53:50.618Z",
-      "updatedAt": "2026-07-21T04:53:50.623Z"
+      "updatedAt": "2026-07-21T04:53:50.623Z",
+      "steamAppId": null
     },
     "e47a8198-bc90-42b7-8c92-d9d542e2a35b": {
       "id": "e47a8198-bc90-42b7-8c92-d9d542e2a35b",
@@ -4061,7 +4313,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:20:27.756Z",
-      "updatedAt": "2026-07-21T04:20:27.761Z"
+      "updatedAt": "2026-07-21T04:20:27.761Z",
+      "steamAppId": null
     },
     "f76099b0-d2ff-4ad5-bb54-3acef59ae37d": {
       "id": "f76099b0-d2ff-4ad5-bb54-3acef59ae37d",
@@ -4076,7 +4329,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T04:55:15.103Z",
-      "updatedAt": "2026-07-21T04:55:15.107Z"
+      "updatedAt": "2026-07-21T04:55:15.107Z",
+      "steamAppId": null
     },
     "1721b37d-47bf-43a0-8023-d0be62f548c0": {
       "id": "1721b37d-47bf-43a0-8023-d0be62f548c0",
@@ -4095,7 +4349,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:35:39.995Z",
-      "updatedAt": "2026-07-21T05:39:27.874Z"
+      "updatedAt": "2026-07-21T05:39:27.874Z",
+      "steamAppId": null
     },
     "2242520a-bfe1-4586-9009-78f211b2df02": {
       "id": "2242520a-bfe1-4586-9009-78f211b2df02",
@@ -4114,7 +4369,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:37:00.542Z",
-      "updatedAt": "2026-07-21T05:39:19.320Z"
+      "updatedAt": "2026-07-21T05:39:19.320Z",
+      "steamAppId": null
     },
     "26ce212d-3cb5-40ef-ad34-90258820ad42": {
       "id": "26ce212d-3cb5-40ef-ad34-90258820ad42",
@@ -4131,7 +4387,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:30:25.541Z",
-      "updatedAt": "2026-07-21T05:30:25.546Z"
+      "updatedAt": "2026-07-21T05:30:25.546Z",
+      "steamAppId": null
     },
     "29632586-55bb-4812-a9d0-9d2e6242b9e9": {
       "id": "29632586-55bb-4812-a9d0-9d2e6242b9e9",
@@ -4150,7 +4407,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:20:14.506Z",
-      "updatedAt": "2026-07-21T05:20:41.620Z"
+      "updatedAt": "2026-07-21T05:20:41.620Z",
+      "steamAppId": null
     },
     "2a34c33b-0f0e-4243-b09e-307820e261cc": {
       "id": "2a34c33b-0f0e-4243-b09e-307820e261cc",
@@ -4167,7 +4425,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:22:53.915Z",
-      "updatedAt": "2026-07-21T05:22:53.921Z"
+      "updatedAt": "2026-07-21T05:22:53.921Z",
+      "steamAppId": null
     },
     "2eb3ae36-507b-4b01-8586-5208cfaa911f": {
       "id": "2eb3ae36-507b-4b01-8586-5208cfaa911f",
@@ -4186,7 +4445,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:31:39.006Z",
-      "updatedAt": "2026-07-21T05:31:39.014Z"
+      "updatedAt": "2026-07-21T05:31:39.014Z",
+      "steamAppId": null
     },
     "3c7f41fb-5e0c-409d-9a5d-a6e08dc02253": {
       "id": "3c7f41fb-5e0c-409d-9a5d-a6e08dc02253",
@@ -4203,7 +4463,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:29:34.780Z",
-      "updatedAt": "2026-07-21T05:29:34.785Z"
+      "updatedAt": "2026-07-21T05:29:34.785Z",
+      "steamAppId": null
     },
     "51caf17a-bed9-4420-9ab9-c4d1b4c0d093": {
       "id": "51caf17a-bed9-4420-9ab9-c4d1b4c0d093",
@@ -4222,7 +4483,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:20:36.636Z",
-      "updatedAt": "2026-07-21T05:20:36.643Z"
+      "updatedAt": "2026-07-21T05:20:36.643Z",
+      "steamAppId": null
     },
     "55f0845b-c7cb-4537-a546-799735375e6e": {
       "id": "55f0845b-c7cb-4537-a546-799735375e6e",
@@ -4239,7 +4501,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:21:48.588Z",
-      "updatedAt": "2026-07-21T05:21:48.593Z"
+      "updatedAt": "2026-07-21T05:21:48.593Z",
+      "steamAppId": null
     },
     "66cca0e3-2147-417c-826a-c77e50e4f20a": {
       "id": "66cca0e3-2147-417c-826a-c77e50e4f20a",
@@ -4256,7 +4519,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:24:29.095Z",
-      "updatedAt": "2026-07-21T05:24:29.100Z"
+      "updatedAt": "2026-07-21T05:24:29.100Z",
+      "steamAppId": null
     },
     "6f3eb95f-6a22-4753-affb-54caf0a8b819": {
       "id": "6f3eb95f-6a22-4753-affb-54caf0a8b819",
@@ -4275,7 +4539,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:15:02.986Z",
-      "updatedAt": "2026-07-21T05:15:02.992Z"
+      "updatedAt": "2026-07-21T05:15:02.992Z",
+      "steamAppId": null
     },
     "754201f8-e6a4-4e1e-963e-fe022891ad2b": {
       "id": "754201f8-e6a4-4e1e-963e-fe022891ad2b",
@@ -4295,7 +4560,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:26:56.388Z",
-      "updatedAt": "2026-07-21T05:26:56.394Z"
+      "updatedAt": "2026-07-21T05:26:56.394Z",
+      "steamAppId": null
     },
     "8339f7d3-063c-4444-a172-5afa1c70a45d": {
       "id": "8339f7d3-063c-4444-a172-5afa1c70a45d",
@@ -4314,7 +4580,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:16:34.609Z",
-      "updatedAt": "2026-07-21T05:16:34.614Z"
+      "updatedAt": "2026-07-21T05:16:34.614Z",
+      "steamAppId": null
     },
     "895eaa89-d944-4322-920e-f3f78d526806": {
       "id": "895eaa89-d944-4322-920e-f3f78d526806",
@@ -4331,7 +4598,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:23:38.606Z",
-      "updatedAt": "2026-07-21T05:23:38.611Z"
+      "updatedAt": "2026-07-21T05:23:38.611Z",
+      "steamAppId": null
     },
     "9138e5f7-1ebc-43a1-b993-f01e59666262": {
       "id": "9138e5f7-1ebc-43a1-b993-f01e59666262",
@@ -4350,7 +4618,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:18:29.283Z",
-      "updatedAt": "2026-07-21T05:18:29.289Z"
+      "updatedAt": "2026-07-21T05:18:29.289Z",
+      "steamAppId": null
     },
     "970ba1d9-9b66-42bc-af33-096a59fc383f": {
       "id": "970ba1d9-9b66-42bc-af33-096a59fc383f",
@@ -4369,7 +4638,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:38:12.535Z",
-      "updatedAt": "2026-07-21T05:39:14.835Z"
+      "updatedAt": "2026-07-21T05:39:14.835Z",
+      "steamAppId": null
     },
     "9d7fbbcb-71e7-4519-ad0b-788d8d60b7ca": {
       "id": "9d7fbbcb-71e7-4519-ad0b-788d8d60b7ca",
@@ -4386,7 +4656,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:09:57.886Z",
-      "updatedAt": "2026-07-21T05:09:57.890Z"
+      "updatedAt": "2026-07-21T05:09:57.890Z",
+      "steamAppId": null
     },
     "9ece1624-526b-41e5-8073-eff8429bb85c": {
       "id": "9ece1624-526b-41e5-8073-eff8429bb85c",
@@ -4403,7 +4674,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:09:20.285Z",
-      "updatedAt": "2026-07-21T05:09:20.291Z"
+      "updatedAt": "2026-07-21T05:09:20.291Z",
+      "steamAppId": null
     },
     "9f9a6f99-f053-4fc6-8604-d2925b47d695": {
       "id": "9f9a6f99-f053-4fc6-8604-d2925b47d695",
@@ -4422,7 +4694,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:39:10.036Z",
-      "updatedAt": "2026-07-21T05:39:10.044Z"
+      "updatedAt": "2026-07-21T05:39:10.044Z",
+      "steamAppId": null
     },
     "a661c534-6087-4a8d-971b-06620259ca30": {
       "id": "a661c534-6087-4a8d-971b-06620259ca30",
@@ -4437,7 +4710,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:08:19.999Z",
-      "updatedAt": "2026-07-21T05:08:20.004Z"
+      "updatedAt": "2026-07-21T05:08:20.004Z",
+      "steamAppId": null
     },
     "b2c60071-938b-492e-8bf6-569a12d6e71b": {
       "id": "b2c60071-938b-492e-8bf6-569a12d6e71b",
@@ -4456,7 +4730,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:19:23.771Z",
-      "updatedAt": "2026-07-21T05:19:23.778Z"
+      "updatedAt": "2026-07-21T05:19:23.778Z",
+      "steamAppId": null
     },
     "c246d576-e29a-487b-b499-1e5c9a015ac4": {
       "id": "c246d576-e29a-487b-b499-1e5c9a015ac4",
@@ -4473,7 +4748,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:25:47.176Z",
-      "updatedAt": "2026-07-21T05:25:47.182Z"
+      "updatedAt": "2026-07-21T05:25:47.182Z",
+      "steamAppId": null
     },
     "cb266a9c-4027-4047-8076-9f643b742cd6": {
       "id": "cb266a9c-4027-4047-8076-9f643b742cd6",
@@ -4490,7 +4766,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:11:52.834Z",
-      "updatedAt": "2026-07-21T05:11:52.840Z"
+      "updatedAt": "2026-07-21T05:11:52.840Z",
+      "steamAppId": null
     },
     "dbe835a8-525b-4b3b-9a70-b571e2249cbb": {
       "id": "dbe835a8-525b-4b3b-9a70-b571e2249cbb",
@@ -4509,7 +4786,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:32:31.676Z",
-      "updatedAt": "2026-07-21T05:32:31.684Z"
+      "updatedAt": "2026-07-21T05:32:31.684Z",
+      "steamAppId": null
     },
     "e64e8b41-de83-409e-bdb8-0598f9a6f5b4": {
       "id": "e64e8b41-de83-409e-bdb8-0598f9a6f5b4",
@@ -4528,7 +4806,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:28:27.968Z",
-      "updatedAt": "2026-07-21T05:28:27.976Z"
+      "updatedAt": "2026-07-21T05:28:27.976Z",
+      "steamAppId": null
     },
     "e7620964-ac6c-4416-8dc9-3b979d210853": {
       "id": "e7620964-ac6c-4416-8dc9-3b979d210853",
@@ -4543,7 +4822,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:05:46.045Z",
-      "updatedAt": "2026-07-21T05:05:46.052Z"
+      "updatedAt": "2026-07-21T05:05:46.052Z",
+      "steamAppId": null
     },
     "eabb9e97-3e99-4d40-9640-6e96090e78b5": {
       "id": "eabb9e97-3e99-4d40-9640-6e96090e78b5",
@@ -4560,7 +4840,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:12:37.237Z",
-      "updatedAt": "2026-07-21T05:13:17.835Z"
+      "updatedAt": "2026-07-21T05:13:17.835Z",
+      "steamAppId": null
     },
     "eeea7b41-85ce-48dd-8ed7-35dc7b75bb9a": {
       "id": "eeea7b41-85ce-48dd-8ed7-35dc7b75bb9a",
@@ -4579,7 +4860,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:25:09.964Z",
-      "updatedAt": "2026-07-21T05:25:09.969Z"
+      "updatedAt": "2026-07-21T05:25:09.969Z",
+      "steamAppId": null
     },
     "f719be14-4cc7-44fc-8933-d047e0e20ff7": {
       "id": "f719be14-4cc7-44fc-8933-d047e0e20ff7",
@@ -4598,7 +4880,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T05:36:17.648Z",
-      "updatedAt": "2026-07-21T05:39:23.425Z"
+      "updatedAt": "2026-07-21T05:39:23.425Z",
+      "steamAppId": null
     },
     "2a27a37e-1f8f-4efb-a400-22b3936e675e": {
       "id": "2a27a37e-1f8f-4efb-a400-22b3936e675e",
@@ -4613,7 +4896,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T15:54:37.707Z",
-      "updatedAt": "2026-07-21T15:54:37.713Z"
+      "updatedAt": "2026-07-21T15:54:37.713Z",
+      "steamAppId": null
     },
     "ae32f681-4b76-4628-9d73-a08cb7a6ac3a": {
       "id": "ae32f681-4b76-4628-9d73-a08cb7a6ac3a",
@@ -4630,7 +4914,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T15:54:05.297Z",
-      "updatedAt": "2026-07-21T15:54:05.305Z"
+      "updatedAt": "2026-07-21T15:54:05.305Z",
+      "steamAppId": null
     },
     "d8a7017c-62ef-459f-ac95-a43f97ebe5ba": {
       "id": "d8a7017c-62ef-459f-ac95-a43f97ebe5ba",
@@ -4645,7 +4930,8 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T15:56:32.953Z",
-      "updatedAt": "2026-07-21T15:56:32.960Z"
+      "updatedAt": "2026-07-21T15:56:32.960Z",
+      "steamAppId": null
     }
   },
   "notes": {

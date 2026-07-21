@@ -116,16 +116,28 @@ WebP сохраняется как есть, остальные форматы �
 Профиль Steam должен открывать **Game details** для чтения библиотеки.
 Ориентир архитектуры: CLI / скрипт (как publish), не live-sync из клиента.
 
+Ключ: `STEAM_WEB_API_KEY` в `.env` / `.env.local` (только Node, без `VITE_`).
+`STEAM_PROFILE_ID` — это **steamID64** со страницы
+[store.steampowered.com/account](https://store.steampowered.com/account/)
+(поле Steam ID, вида `7656119…`). Vanity `awkure` и URL
+[steamcommunity.com/id/awkure](https://steamcommunity.com/id/awkure/) тоже ок.
+
+```sh
+npm run steam:probe -- https://steamcommunity.com/id/awkure
+npm run test:steam   # live smoke; или just test-steam
+```
+
 ### Фундамент
 
-- [ ] Решить канал доступа к API: CLI с `STEAM_WEB_API_KEY`, либо тонкий
-      personal proxy / GitHub Action с секретом (не ключ в `localStorage`)
-- [ ] `ResolveVanityURL` + разбор profile URL / steamID64
-- [ ] Проверка публичности профиля (`GetPlayerSummaries`) и понятная ошибка,
-      если библиотека скрыта
-- [ ] Опциональное поле связи с Steam (`steamAppId` / `externalIds`) в схеме
-      v2: `types` → `validation` → `validate-data.mjs` → UI
-- [ ] Дедуп при импорте: по `steamAppId`, иначе по нормализованному `title`
+- [x] Канал доступа: CLI с `STEAM_WEB_API_KEY` (не ключ в SPA / `localStorage`)
+- [x] `ResolveVanityURL` + разбор profile URL / steamID64 (`src/domain/steamIdentity.ts`,
+      `scripts/lib/steamApi.mjs`, `npm run steam:probe`)
+- [x] Проверка видимости библиотеки через `GetOwnedGames` + понятная ошибка,
+      если скрыта (`steam:probe`)
+- [x] Поле `steamAppId: number | null` в схеме v2: `types` → `validation` →
+      `validate-data.mjs` → UI на странице игры
+- [x] Дедуп-хелперы: по `steamAppId`, иначе по нормализованному `title`
+      (`findDuplicateGame`)
 
 ### Импорт библиотеки
 
@@ -178,7 +190,6 @@ WebP сохраняется как есть, остальные форматы �
 
 ### Документация и тесты
 
-- [ ] Раздел в README / skill: ключ, privacy Steam, CLI-флоу, ограничения
-      CORS
-- [ ] Фикстуры ответов Steam API + unit-тесты маппинга в domain
+- [x] Раздел в README: ключ, privacy Steam, `steam:probe`, ограничения CORS
+- [ ] Фикстуры ответов Steam API + unit-тесты маппинга в domain (импорт)
 - [ ] Acceptance: импорт не ломает schema v2 и orphan-asset инварианты

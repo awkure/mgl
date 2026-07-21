@@ -176,6 +176,7 @@ function validateGame(key, game, assets, at, error) {
     "id",
     "title",
     "coverAssetId",
+    "steamAppId",
     "platforms",
     "tags",
     "status",
@@ -194,6 +195,9 @@ function validateGame(key, game, assets, at, error) {
     error(`${at}.coverAssetId`, "references a missing asset");
   } else if (typeof game.coverAssetId === "string" && assetStorageKind(assets[game.coverAssetId]) !== "image") {
     error(`${at}.coverAssetId`, "must reference an image asset");
+  }
+  if (game.steamAppId !== null && !(typeof game.steamAppId === "number" && Number.isSafeInteger(game.steamAppId) && game.steamAppId > 0)) {
+    error(`${at}.steamAppId`, "must be null or a positive Steam App ID");
   }
   stringSet(game.platforms, `${at}.platforms`, error);
   stringSet(game.tags, `${at}.tags`, error);

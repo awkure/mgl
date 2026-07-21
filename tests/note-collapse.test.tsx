@@ -18,7 +18,7 @@ const game: Game = {
   id: GAME_ID,
   title: "Synthetic game",
   coverAssetId: null,
-  platforms: [],
+  steamAppId: null, platforms: [],
   tags: [],
   status: "playing",
   placement: { tierId: "unranked", rank: 1024 },

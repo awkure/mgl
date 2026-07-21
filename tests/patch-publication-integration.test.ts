@@ -33,7 +33,7 @@ function game(id: string, title: string, updatedAt = CREATED_AT): Game {
     id,
     title,
     coverAssetId: null,
-    platforms: [],
+    steamAppId: null, platforms: [],
     tags: [],
     status: "playing",
     placement: { tierId: "unranked", rank: 1024 },

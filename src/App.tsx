@@ -45,6 +45,7 @@ import {
 const fieldLabels: Record<string, string> = {
   title: "Название",
   coverAssetId: "Обложка",
+  steamAppId: "Steam App ID",
   platforms: "Платформы",
   tags: "Теги",
   status: "Статус",

@@ -36,6 +36,14 @@ test-watch: ensure-env
 validate:
     npm run data:validate
 
+# Resolve Steam profile + check owned-games visibility (needs STEAM_WEB_API_KEY)
+steam-probe *ARGS:
+    npm run steam:probe -- {{ARGS}}
+
+# Live Steam API smoke tests (.env.local: STEAM_WEB_API_KEY, optional STEAM_PROFILE_ID)
+test-steam:
+    npm run test:steam
+
 # Full local gate before push
 check: validate test build
 

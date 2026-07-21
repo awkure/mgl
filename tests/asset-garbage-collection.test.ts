@@ -34,7 +34,7 @@ function database(): LibraryDatabase {
         id: GAME_ID,
         title: "Game",
         coverAssetId: COVER_ID,
-        platforms: [],
+        steamAppId: null, platforms: [],
         tags: [],
         status: "playing",
         placement: { tierId: "unranked", rank: 1024 },

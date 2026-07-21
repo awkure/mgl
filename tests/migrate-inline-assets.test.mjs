@@ -29,7 +29,7 @@ describe("inline asset migration", () => {
           id: "22222222-2222-4222-8222-222222222222",
           title: "Synthetic game",
           coverAssetId: id,
-          platforms: [],
+          steamAppId: null, platforms: [],
           tags: [],
           status: "wishlist",
           placement: { tierId: "unranked", rank: 1024 },

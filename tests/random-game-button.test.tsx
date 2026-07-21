@@ -19,6 +19,7 @@ function game(id: string, title: string, status: StatusId): Game {
     id,
     title,
     coverAssetId: null,
+    steamAppId: null,
     platforms: ["PC"],
     tags: [],
     status,
@@ -117,7 +118,7 @@ describe("RandomGameButton", () => {
   });
 
   it("decodes covers before showing the reel and keeps their image nodes mounted", async () => {
-    let releaseCovers = () => {};
+    let releaseCovers = () => { };
     const coversReady = new Promise<void>((resolve) => { releaseCovers = resolve; });
     const decode = vi.fn(() => coversReady);
     vi.stubGlobal("Image", class {
