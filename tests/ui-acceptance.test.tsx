@@ -22,8 +22,11 @@ import {
   type GameSaveInput,
 } from "../src/pages/GamePage";
 import {
+  buildTierGameIds,
+  findTierIdForSortable,
   getTierDropTarget,
   NonTouchPointerSensor,
+  relocateActiveGameAcrossTiers,
   TIER_LIST_SENSOR_OPTIONS,
   TIER_LIST_SORTING_STRATEGY,
   TIER_LIST_SENSOR_TYPES,
@@ -1678,6 +1681,91 @@ describe("TierListPage", () => {
     expect(getTierDropTarget(games, MARIO_ID, "a", ZELDA_ID)).toEqual({ tierId: "a", index: 2 });
     expect(getTierDropTarget(games, MARIO_ID, "a", DUCK_ID)).toEqual({ tierId: "a", index: 0 });
     expect(getTierDropTarget(games, DUCK_ID, "a", DUCK_ID)).toBeNull();
+  });
+
+  it("builds per-tier game id lists and finds the container for sortable ids", () => {
+    const games = [
+      makeGame({ placement: { tierId: "a", rank: 1024 } }),
+      makeGame({ id: MARIO_ID, title: "Mario", placement: { tierId: "b", rank: 1024 } }),
+      makeGame({ id: ZELDA_ID, title: "Zelda", placement: { tierId: "b", rank: 2048 } }),
+    ];
+    const items = buildTierGameIds(games);
+
+    expect(items.a).toEqual([DUCK_ID]);
+    expect(items.b).toEqual([MARIO_ID, ZELDA_ID]);
+    expect(findTierIdForSortable(items, `game:${MARIO_ID}`)).toBe("b");
+    expect(findTierIdForSortable(items, "tier:s")).toBe("s");
+    expect(findTierIdForSortable(items, "game:missing")).toBeNull();
+  });
+
+  it("relocates an active game into another tier for cross-tier sortable preview", () => {
+    const items = buildTierGameIds([
+      makeGame({ placement: { tierId: "a", rank: 1024 } }),
+      makeGame({ id: MARIO_ID, title: "Mario", placement: { tierId: "b", rank: 1024 } }),
+      makeGame({ id: ZELDA_ID, title: "Zelda", placement: { tierId: "b", rank: 2048 } }),
+    ]);
+
+    expect(relocateActiveGameAcrossTiers(items, DUCK_ID, "a", MARIO_ID)).toBeNull();
+    expect(relocateActiveGameAcrossTiers(items, DUCK_ID, "s", null)).toBeNull();
+    expect(relocateActiveGameAcrossTiers(items, DUCK_ID, "b", MARIO_ID)).toEqual({
+      ...items,
+      a: [],
+      b: [DUCK_ID, MARIO_ID, ZELDA_ID],
+    });
+    expect(relocateActiveGameAcrossTiers(items, DUCK_ID, "b", ZELDA_ID)).toEqual({
+      ...items,
+      a: [],
+      b: [MARIO_ID, DUCK_ID, ZELDA_ID],
+    });
+    expect(relocateActiveGameAcrossTiers(items, DUCK_ID, "b", null)).toEqual({
+      ...items,
+      a: [],
+      b: [MARIO_ID, ZELDA_ID, DUCK_ID],
+    });
+  });
+
+  it("mounts the dragged game inside the hovered tier so sibling cards can shift", async () => {
+    const user = userEvent.setup();
+    const onMoveGame = vi.fn();
+    const games = [
+      makeGame({ placement: { tierId: "a", rank: 1024 } }),
+      makeGame({ id: MARIO_ID, title: "Mario", placement: { tierId: "b", rank: 1024 } }),
+      makeGame({ id: ZELDA_ID, title: "Zelda", placement: { tierId: "b", rank: 2048 } }),
+    ];
+    const tierTop: Record<string, number> = { s: 20, a: 100, b: 200, c: 300, d: 400, f: 500, unranked: 600 };
+    const cardLeft = new Map([["DuckTales", 0], ["Mario", 140], ["Zelda", 280]]);
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function () {
+      const tierRow = this.closest(".tier-row");
+      const tierId = tierRow?.className.match(/tier-row--(s|a|b|c|d|f|unranked)/)?.[1] ?? "a";
+      if (this.matches(".game-card")) {
+        const title = this.getAttribute("title") ?? "";
+        return domRect(cardLeft.get(title) ?? 0, tierTop[tierId], 120, 72);
+      }
+      if (this.matches(".tier-row__games")) return domRect(0, tierTop[tierId], 560, 72);
+      return domRect(0, 0, 1024, 768);
+    });
+
+    render(<TierListPage assets={{}} games={games} onMoveGame={onMoveGame} />);
+    const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
+    const marioCover = screen.getByRole("link", { name: /Mario, статус: Играю.*пробел — перетащить/ });
+
+    expect(screen.getByRole("region", { name: "A" }).querySelector('[title="DuckTales"]')).not.toBeNull();
+    expect(screen.getByRole("region", { name: "B" }).querySelector('[title="DuckTales"]')).toBeNull();
+
+    await user.pointer([{ keys: "[MouseLeft>]", target: cover, coords: { clientX: 10, clientY: 120 } }]);
+    await user.pointer([{ target: cover, coords: { clientX: 20, clientY: 120 } }]);
+    await waitFor(() => expect(cover.closest("article")).toHaveClass("is-dragging"));
+    await user.pointer([{ target: marioCover, coords: { clientX: 160, clientY: 220 } }]);
+
+    await waitFor(() => {
+      expect(screen.getByRole("region", { name: "B" }).querySelector('article[title="DuckTales"]')).not.toBeNull();
+      expect(screen.getByRole("region", { name: "A" }).querySelector('article[title="DuckTales"]')).toBeNull();
+    });
+
+    await user.pointer([{ keys: "[/MouseLeft]", target: marioCover, coords: { clientX: 160, clientY: 220 } }]);
+    await waitFor(() => {
+      expect(onMoveGame).toHaveBeenCalledWith(DUCK_ID, { tierId: "b", index: 0 });
+    });
   });
 
   it("supports a keyboard drag between adjacent cards", async () => {
