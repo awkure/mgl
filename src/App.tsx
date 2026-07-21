@@ -24,8 +24,9 @@ import {
   type PatchEnvelope,
   type PatchOperation,
 } from "./domain";
-import { CatalogPage, GamePage, TierListPage } from "./pages";
+import { CatalogPage, GamePage, SettingsPage, TierListPage } from "./pages";
 import { formatBytes } from "./components/libraryUi";
+import { useSwipeNavigation } from "./hooks/useSwipeNavigation";
 import { LibraryProvider, useLibrary } from "./state/LibraryContext";
 import {
   PUBLISH_CLIPBOARD_COMMAND,
@@ -64,6 +65,7 @@ function routeKind(pathname: string): AppRoute {
   if (pathname === "/") return "tiers";
   if (pathname === "/games") return "catalog";
   if (pathname === "/games/new") return "new";
+  if (pathname === "/settings") return "settings";
   return "game";
 }
 
@@ -126,6 +128,8 @@ function LibraryRoutes() {
   const library = useLibrary();
   const navigate = useNavigate();
   const location = useLocation();
+  const mainRef = useRef<HTMLDivElement>(null);
+  const tierDraggingRef = useRef(false);
   const [diffOpen, setDiffOpen] = useState(false);
   const [preparedPayload, setPreparedPayload] = useState<{ patch: PatchEnvelope; payload: string } | null>(null);
   const [publishFailure, setPublishFailure] = useState<{ patch: PatchEnvelope; message: string } | null>(null);
@@ -139,6 +143,18 @@ function LibraryRoutes() {
     commitUrl?: string;
   }>({ busy: false, stage: "idle", error: null });
   const previousPendingCommitRef = useRef<string | null>(null);
+  const route = routeKind(location.pathname);
+  const swipeEnabled = route === "tiers" || route === "catalog";
+
+  useSwipeNavigation({
+    targetRef: mainRef,
+    enabled: swipeEnabled,
+    isBlocked: () => tierDraggingRef.current,
+    onSwipe: (direction) => {
+      if (direction === "left" && route === "tiers") navigate("/games");
+      else if (direction === "right" && route === "catalog") navigate("/");
+    },
+  });
 
   useEffect(() => {
     const loaded = loadGitHubPat();
@@ -365,7 +381,7 @@ function LibraryRoutes() {
       onNavigate={navigateHref}
       onOpenDiff={() => setDiffOpen(true)}
       resolveAssetUrl={library.resolveAssetUrl}
-      route={routeKind(location.pathname)}
+      route={route}
       storage={{
         bytes: library.usage.bytes,
         budgetBytes: library.usage.budget,
@@ -379,34 +395,38 @@ function LibraryRoutes() {
         error: actionError ?? library.persistenceError ?? undefined,
       }}
     >
-      <Routes>
-        <Route
-          path="/"
-          element={<TierListPage
-            assets={library.effective.assets}
-            games={games}
-            onMoveGame={(gameId, target) => {
-              try {
-                library.moveGame(gameId, target.tierId, target.index);
-              } catch (error) { showError(error); }
-            }}
-            onOpenGame={(id) => navigate(`/games/${id}`)}
-            resolveAssetUrl={library.resolveAssetUrl}
-          />}
-        />
-        <Route
-          path="/games"
-          element={<CatalogPage
-            assets={library.effective.assets}
-            games={games}
-            onOpenGame={(id) => navigate(`/games/${id}`)}
-            resolveAssetUrl={library.resolveAssetUrl}
-          />}
-        />
-        <Route path="/games/new" element={<GameRoute mode="new" />} />
-        <Route path="/games/:id" element={<GameRoute mode="game" />} />
-        <Route path="*" element={<div className="empty-state empty-state--hero"><h1>Страница не найдена</h1><p>Такого раздела в библиотеке нет.</p><a className="button button--primary" href="#/">Вернуться в тирлист</a></div>} />
-      </Routes>
+      <div className="app-main__swipe" ref={mainRef}>
+        <Routes>
+          <Route
+            path="/"
+            element={<TierListPage
+              assets={library.effective.assets}
+              draggingRef={tierDraggingRef}
+              games={games}
+              onMoveGame={(gameId, target) => {
+                try {
+                  library.moveGame(gameId, target.tierId, target.index);
+                } catch (error) { showError(error); }
+              }}
+              onOpenGame={(id) => navigate(`/games/${id}`)}
+              resolveAssetUrl={library.resolveAssetUrl}
+            />}
+          />
+          <Route
+            path="/games"
+            element={<CatalogPage
+              assets={library.effective.assets}
+              games={games}
+              onOpenGame={(id) => navigate(`/games/${id}`)}
+              resolveAssetUrl={library.resolveAssetUrl}
+            />}
+          />
+          <Route path="/games/new" element={<GameRoute mode="new" />} />
+          <Route path="/games/:id" element={<GameRoute mode="game" />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="*" element={<div className="empty-state empty-state--hero"><h1>Страница не найдена</h1><p>Такого раздела в библиотеке нет.</p><a className="button button--primary" href="#/">Вернуться в тирлист</a></div>} />
+        </Routes>
+      </div>
 
       <DiffDialog
         conflicts={conflictItems}

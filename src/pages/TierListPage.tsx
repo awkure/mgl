@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, type AnchorHTMLAttributes, type CSSProperties, type HTMLAttributes } from "react";
+import { memo, useMemo, useRef, useState, type AnchorHTMLAttributes, type CSSProperties, type HTMLAttributes, type MutableRefObject } from "react";
 import {
   closestCenter,
   DndContext,
@@ -37,6 +37,8 @@ export interface TierListPageProps {
   onMoveGame: (gameId: string, target: MoveGameTarget) => void;
   onOpenGame?: (gameId: string) => void;
   resolveAssetUrl?: (assetId: string) => string | null;
+  /** Shared with swipe navigation so page swipe yields while a card is dragged. */
+  draggingRef?: MutableRefObject<boolean>;
 }
 
 export class NonTouchPointerSensor extends PointerSensor {
@@ -194,6 +196,8 @@ function SortableGame({
   );
 }
 
+const MemoSortableGame = memo(SortableGame);
+
 function TierRow({
   tierId,
   games,
@@ -219,7 +223,7 @@ function TierRow({
       <div className="tier-row__games" ref={setNodeRef}>
         <SortableContext items={games.map((game) => `game:${game.id}`)} strategy={TIER_LIST_SORTING_STRATEGY}>
           {games.map((game) => (
-            <SortableGame
+            <MemoSortableGame
               asset={game.coverAssetId ? assets[game.coverAssetId] : undefined}
               game={game}
               key={game.id}
@@ -235,7 +239,9 @@ function TierRow({
   );
 }
 
-export function TierListPage({ games, assets, onMoveGame, onOpenGame, resolveAssetUrl }: TierListPageProps) {
+const MemoTierRow = memo(TierRow);
+
+export function TierListPage({ games, assets, onMoveGame, onOpenGame, resolveAssetUrl, draggingRef }: TierListPageProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [dragItems, setDragItems] = useState<TierGameIds | null>(null);
   const dragItemsRef = useRef<TierGameIds | null>(null);
@@ -259,6 +265,7 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, resolveAss
   const onDragStart = ({ active }: DragStartEvent) => {
     const gameId = String(active.data.current?.gameId ?? "");
     suppressOpen.current = true;
+    if (draggingRef) draggingRef.current = true;
     setActiveId(gameId);
     dragItemsRef.current = baseItems;
     setDragItems(baseItems);
@@ -267,6 +274,7 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, resolveAss
     setActiveId(null);
     dragItemsRef.current = null;
     setDragItems(null);
+    if (draggingRef) draggingRef.current = false;
     // Keep suppress through the ghost click that follows pointerup; clear after that task.
     window.setTimeout(() => {
       suppressOpen.current = false;
@@ -324,7 +332,7 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, resolveAss
           sensors={sensors}
         >
           <PullToRefresh className="tier-board" scrollSelf>
-            {TIER_IDS.map((tierId) => <TierRow assets={assets} games={byTier[tierId]} key={tierId} onOpenGame={openGame} resolveAssetUrl={resolveAssetUrl} tierId={tierId} />)}
+            {TIER_IDS.map((tierId) => <MemoTierRow assets={assets} games={byTier[tierId]} key={tierId} onOpenGame={openGame} resolveAssetUrl={resolveAssetUrl} tierId={tierId} />)}
           </PullToRefresh>
           <DragOverlay>{activeGame ? <GameCard asset={activeGame.coverAssetId ? assets[activeGame.coverAssetId] : undefined} game={activeGame} isDragging onOpen={openGame} resolveAssetUrl={resolveAssetUrl} /> : null}</DragOverlay>
         </DndContext>

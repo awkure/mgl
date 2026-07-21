@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { gameMatchesFilters } from "../domain/catalogue";
 import { CATALOG_FILTERS_EVENT, parseCatalogSearch, sameCatalogSearch, serializeCatalogSearch, type CatalogSearchFilters } from "../domain/catalogSearch";
 import { type Asset, type Game } from "../domain/types";
@@ -20,6 +20,7 @@ function initialFilters(): CatalogSearchFilters {
 
 export function CatalogPage({ games, assets, onOpenGame, resolveAssetUrl }: CatalogPageProps) {
   const [filters, setFilters] = useState<CatalogSearchFilters>(initialFilters);
+  const deferredFilters = useDeferredValue(filters);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -44,14 +45,14 @@ export function CatalogPage({ games, assets, onOpenGame, resolveAssetUrl }: Cata
   const filtered = useMemo(() => {
     return games.filter((game) => {
       return gameMatchesFilters(game, {
-        query: filters.q,
-        statuses: filters.statuses,
-        tiers: filters.tiers,
-        platforms: filters.platforms,
-        tags: filters.tags,
+        query: deferredFilters.q,
+        statuses: deferredFilters.statuses,
+        tiers: deferredFilters.tiers,
+        platforms: deferredFilters.platforms,
+        tags: deferredFilters.tags,
       });
     }).sort((left, right) => right.updatedAt.localeCompare(left.updatedAt));
-  }, [filters, games]);
+  }, [deferredFilters, games]);
   const activeFilters = [
     ...filters.statuses.map((value) => ({ key: `status:${value}`, label: STATUS_LABELS[value], remove: () => setFilters((current) => ({ ...current, statuses: current.statuses.filter((item) => item !== value) })) })),
     ...filters.tiers.map((value) => ({ key: `tier:${value}`, label: `Тир ${TIER_LABELS[value]}`, remove: () => setFilters((current) => ({ ...current, tiers: current.tiers.filter((item) => item !== value) })) })),

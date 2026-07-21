@@ -1,4 +1,4 @@
-import { forwardRef, type AnchorHTMLAttributes, type CSSProperties, type HTMLAttributes, type MouseEvent, type Ref } from "react";
+import { forwardRef, memo, type AnchorHTMLAttributes, type CSSProperties, type HTMLAttributes, type MouseEvent, type Ref } from "react";
 import type { Asset, Game } from "../domain/types";
 import { Icon } from "./Icon";
 import { getAssetUrl, joinHuman, STATUS_LABELS } from "./libraryUi";
@@ -16,7 +16,7 @@ export interface GameCardProps {
   resolveAssetUrl?: (assetId: string) => string | null;
 }
 
-export const GameCard = forwardRef<HTMLElement, GameCardProps>(function GameCard(
+export const GameCard = memo(forwardRef<HTMLElement, GameCardProps>(function GameCard(
   {
     game,
     asset,
@@ -42,7 +42,15 @@ export const GameCard = forwardRef<HTMLElement, GameCardProps>(function GameCard
   };
 
   const coverMedia = coverUrl ? (
-    <img alt={asset && "alt" in asset ? asset.alt || `Обложка ${game.title}` : `Обложка ${game.title}`} draggable="false" loading="lazy" src={coverUrl} />
+    <img
+      alt={asset && "alt" in asset ? asset.alt || `Обложка ${game.title}` : `Обложка ${game.title}`}
+      decoding="async"
+      draggable="false"
+      height={asset && "height" in asset ? asset.height : undefined}
+      loading="lazy"
+      src={coverUrl}
+      width={asset && "width" in asset ? asset.width : undefined}
+    />
   ) : (
     <span className="game-card__placeholder" aria-label="Обложки пока нет">
       <Icon name="gamepad" size={variant === "list" ? 34 : 42} />
@@ -107,4 +115,4 @@ export const GameCard = forwardRef<HTMLElement, GameCardProps>(function GameCard
       )}
     </article>
   );
-});
+}));
