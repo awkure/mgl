@@ -62,6 +62,13 @@ export function nextPagerIndex(index: PagerIndex, direction: SwipeDirection): Pa
   return null;
 }
 
+/** Track is 200% wide; each panel is 50% of the track. % transforms are relative to the track. */
+export function pagerTrackTranslate(index: PagerIndex, dragOffsetPx: number, pagerWidthPx: number): string {
+  const basePercent = -index * 50;
+  const dragPercent = pagerWidthPx > 0 ? (dragOffsetPx / pagerWidthPx) * 50 : 0;
+  return `translate3d(calc(${basePercent}% + ${dragPercent}%), 0, 0)`;
+}
+
 export interface UseSwipePagerOptions {
   targetRef: RefObject<HTMLElement | null>;
   index: PagerIndex;

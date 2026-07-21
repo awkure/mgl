@@ -41,4 +41,15 @@ describe("mobile nav css", () => {
     expect(declarationsIn(styles, ".swipe-pager__track")).toContain("width: 200%");
     expect(declarationsIn(styles, ".swipe-pager__panel")).toContain("width: 50%");
   });
+
+  it("lets main fill under the floating tab bar on tiers/catalog", () => {
+    const main = declarationsIn(
+      styles,
+      '.app-shell[data-route="tiers"] .app-main, .app-shell[data-route="catalog"] .app-main',
+    );
+    expect(main).toContain("height: calc(100dvh - var(--app-header-height))");
+    expect(main).not.toContain("var(--app-tab-bar-height)");
+    expect(styles).toContain("padding-bottom: var(--app-tab-bar-height)");
+    expect(styles).toContain(".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh)");
+  });
 });

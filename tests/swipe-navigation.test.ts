@@ -6,6 +6,7 @@ import {
   isNearScreenEdge,
   nextPagerIndex,
   pagerIndexToPath,
+  pagerTrackTranslate,
   routeToPagerIndex,
   shouldArmSwipe,
   shouldCommitPagerSwipe,
@@ -60,5 +61,12 @@ describe("swipe navigation helpers", () => {
     expect(nextPagerIndex(0, "right")).toBeNull();
     expect(nextPagerIndex(1, "right")).toBe(0);
     expect(nextPagerIndex(1, "left")).toBeNull();
+  });
+
+  it("translates track by 50% per panel (percent of 200% track)", () => {
+    expect(pagerTrackTranslate(0, 0, 390)).toBe("translate3d(calc(0% + 0%), 0, 0)");
+    expect(pagerTrackTranslate(1, 0, 390)).toBe("translate3d(calc(-50% + 0%), 0, 0)");
+    expect(pagerTrackTranslate(0, -78, 390)).toBe("translate3d(calc(0% + -10%), 0, 0)");
+    expect(pagerTrackTranslate(1, 39, 390)).toBe("translate3d(calc(-50% + 5%), 0, 0)");
   });
 });

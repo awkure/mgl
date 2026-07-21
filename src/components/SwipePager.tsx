@@ -4,6 +4,7 @@ import { CatalogPage } from "../pages/CatalogPage";
 import { TierListPage, type MoveGameTarget } from "../pages/TierListPage";
 import {
   pagerIndexToPath,
+  pagerTrackTranslate,
   routeToPagerIndex,
   useSwipePager,
   type PagerIndex,
@@ -40,10 +41,8 @@ export function SwipePager({
     onCommit: (next) => onNavigate(pagerIndexToPath(next)),
   });
 
-  const base = -index * 100;
-  const width = rootRef.current?.clientWidth || (typeof window !== "undefined" ? window.innerWidth : 1);
-  const dragPercent = width ? (dragOffset / width) * 100 : 0;
-  const translate = `translate3d(calc(${base}% + ${dragPercent}%), 0, 0)`;
+  const width = rootRef.current?.clientWidth || (typeof window !== "undefined" ? window.innerWidth : 0);
+  const translate = pagerTrackTranslate(index, dragOffset, width);
 
   return (
     <div className="swipe-pager" data-dragging={dragging ? "true" : undefined} ref={rootRef}>
