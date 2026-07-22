@@ -141,6 +141,11 @@ describe("mobile nav css", () => {
     expect(headerActions).toContain("background: color-mix(in srgb, var(--glass-fill) 80%, transparent)");
     const patchPill = declarationsIn(styles, ".app-header .patch-pill");
     expect(patchPill).toContain("backdrop-filter: blur(22px) saturate(1.35)");
+    const navLink = declarationsIn(styles, ".app-nav__link");
+    expect(navLink).toContain("backdrop-filter: blur(22px) saturate(1.35)");
+    expect(navLink).toContain("background: color-mix(in srgb, var(--glass-fill) 80%, transparent)");
+    expect(navLink).toContain("border: 1px solid var(--glass-stroke)");
+    expect(navLink).toContain("border-radius: 999px");
     expect(styles).toMatch(
       /@media \(max-width: 500px\)[\s\S]*?\.app-header \.global-game-search:not\(\.is-open\) \.global-game-search__field \{[^}]*background:\s*color-mix\(in srgb, var\(--glass-fill\) 80%, transparent\);/,
     );
