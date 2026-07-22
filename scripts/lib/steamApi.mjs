@@ -96,16 +96,16 @@ export async function getOwnedGames(key, steamid, options = {}) {
 }
 
 /**
- * Community-published screenshots for a Steam profile + app (UGC filetype=4).
- * Prefer file_url, else preview_url. Paginate until exhausted.
+ * Paginate IPublishedFileService/GetUserFiles for one profile + app + filetype.
  * @param {string} key
  * @param {string} steamid
  * @param {number|string} appid
- * @returns {Promise<Array<{ id: string; pathFull: string }>>}
+ * @param {number} filetype
+ * @returns {Promise<Array<Record<string, unknown>>>}
  */
-export async function getUserScreenshots(key, steamid, appid) {
+async function getUserPublishedFileDetails(key, steamid, appid, filetype) {
   const PAGE_SIZE = 100;
-  /** @type {Array<{ id: string; pathFull: string }>} */
+  /** @type {Array<Record<string, unknown>>} */
   const collected = [];
   let page = 1;
   let total = Infinity;
@@ -115,7 +115,7 @@ export async function getUserScreenshots(key, steamid, appid) {
       key,
       steamid,
       appid,
-      filetype: 4,
+      filetype,
       numperpage: PAGE_SIZE,
       page,
       return_previews: 1,
@@ -126,15 +126,7 @@ export async function getUserScreenshots(key, steamid, appid) {
       ? response.publishedfiledetails
       : [];
     if (total === 0 || details.length === 0) break;
-
-    for (const item of details) {
-      const pathFull = String(item?.file_url || item?.preview_url || "").trim();
-      if (!pathFull) continue;
-      const id = String(item?.publishedfileid ?? "").trim();
-      if (!id) continue;
-      collected.push({ id, pathFull });
-    }
-
+    collected.push(...details);
     if (page * PAGE_SIZE >= total || details.length < PAGE_SIZE) break;
     page += 1;
   }
@@ -143,10 +135,61 @@ export async function getUserScreenshots(key, steamid, appid) {
 }
 
 /**
- * Unofficial storefront API (no Web API key).
+ * Community-published screenshots for a Steam profile + app (UGC filetype=4).
+ * Prefer file_url, else preview_url. Paginate until exhausted.
+ * @param {string} key
+ * @param {string} steamid
+ * @param {number|string} appid
+ * @returns {Promise<Array<{ id: string; pathFull: string }>>}
+ */
+export async function getUserScreenshots(key, steamid, appid) {
+  const details = await getUserPublishedFileDetails(key, steamid, appid, 4);
+  /** @type {Array<{ id: string; pathFull: string }>} */
+  const collected = [];
+  for (const item of details) {
+    const pathFull = String(item?.file_url || item?.preview_url || "").trim();
+    if (!pathFull) continue;
+    const id = String(item?.publishedfileid ?? "").trim();
+    if (!id) continue;
+    collected.push({ id, pathFull });
+  }
+  return collected;
+}
+
+/**
+ * Community-published videos for a Steam profile + app (UGC filetype=3).
+ * Link target is the sharedfiles page; preview_url is optional thumb.
+ * @param {string} key
+ * @param {string} steamid
+ * @param {number|string} appid
+ * @returns {Promise<Array<{ id: string; name: string; url: string; previewUrl: string | null }>>}
+ */
+export async function getUserVideos(key, steamid, appid) {
+  const details = await getUserPublishedFileDetails(key, steamid, appid, 3);
+  /** @type {Array<{ id: string; name: string; url: string; previewUrl: string | null }>} */
+  const collected = [];
+  for (const item of details) {
+    const id = String(item?.publishedfileid ?? "").trim();
+    if (!id) continue;
+    const name = String(item?.title ?? "").trim() || "Video";
+    const previewUrl = typeof item?.preview_url === "string" && item.preview_url.trim()
+      ? item.preview_url.trim()
+      : null;
+    collected.push({
+      id,
+      name,
+      url: `https://steamcommunity.com/sharedfiles/filedetails/?id=${id}`,
+      previewUrl,
+    });
+  }
+  return collected;
+}
+
+/**
+ * Unofficial storefront API (no Web API key). Used for prefill (name/genres/header) only.
  * @param {number|string} appid
  * @param {{ language?: string }} [options]
- * @returns {Promise<null | { type?: string; name?: string; genres: string[]; headerImage: string | null; movies: Array<{ id: number; name: string; thumbnail: string | null }> }>}
+ * @returns {Promise<null | { type?: string; name?: string; genres: string[]; headerImage: string | null }>}
  */
 export async function getAppDetails(appid, options = {}) {
   const language = options.language ?? "russian";
@@ -167,19 +210,11 @@ export async function getAppDetails(appid, options = {}) {
   const genres = Array.isArray(data.genres)
     ? data.genres.map((item) => String(item?.description ?? "").trim()).filter(Boolean)
     : [];
-  const movies = Array.isArray(data.movies)
-    ? data.movies.map((m) => ({
-        id: Number(m.id),
-        name: String(m.name ?? "Trailer").trim() || "Trailer",
-        thumbnail: typeof m.thumbnail === "string" ? m.thumbnail : null,
-      }))
-    : [];
   return {
     type: typeof data.type === "string" ? data.type : undefined,
     name: typeof data.name === "string" ? data.name : undefined,
     genres,
     headerImage: typeof data.header_image === "string" ? data.header_image : null,
-    movies,
   };
 }
 

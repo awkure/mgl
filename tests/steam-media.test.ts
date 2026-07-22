@@ -87,7 +87,6 @@ describe("steamAppDetailsFromStoreJson", () => {
           name: "Dota 2",
           header_image: "https://cdn.example/header.jpg",
           genres: [{ description: "Action" }, { description: "Free to Play" }],
-          movies: [{ id: 2, name: "Trailer", thumbnail: "https://cdn.example/movie.jpg" }],
         },
       },
     });
@@ -96,9 +95,9 @@ describe("steamAppDetailsFromStoreJson", () => {
       name: "Dota 2",
       headerImage: "https://cdn.example/header.jpg",
       genres: ["Action", "Free to Play"],
-      movies: [{ id: 2, name: "Trailer", thumbnail: "https://cdn.example/movie.jpg" }],
     });
     expect(details).not.toHaveProperty("screenshots");
+    expect(details).not.toHaveProperty("movies");
   });
 
   it("returns null when entry missing or unsuccessful", () => {
@@ -160,19 +159,22 @@ describe("prefillGameFromSteamDetails", () => {
 });
 
 describe("buildSteamMediaAttachments", () => {
-  it("maps screenshots and movies with optional thumbs", () => {
+  it("maps screenshots and profile videos with optional thumbs", () => {
     const shot = "1".repeat(64);
     const thumb = "2".repeat(64);
     const attachments = buildSteamMediaAttachments({
-      appid: 570,
       screenshotAssetIds: [shot],
       screenshotAlts: ["Shot 1"],
-      movies: [{ name: "Launch Trailer", thumbAssetId: thumb }],
+      movies: [{
+        name: "My clip",
+        url: "https://steamcommunity.com/sharedfiles/filedetails/?id=999",
+        thumbAssetId: thumb,
+      }],
     });
     expect(attachments).toEqual([
       { type: "image", assetId: shot, alt: "Shot 1" },
-      { type: "link", url: "https://store.steampowered.com/app/570/", label: "Launch Trailer" },
-      { type: "image", assetId: thumb, alt: "Launch Trailer" },
+      { type: "link", url: "https://steamcommunity.com/sharedfiles/filedetails/?id=999", label: "My clip" },
+      { type: "image", assetId: thumb, alt: "My clip" },
     ]);
   });
 });

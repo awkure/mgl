@@ -6,35 +6,38 @@ Delta vs: `2026-07-22-steam-media-prefill-design.md`
 
 ## Goal
 
-«Медиа Steam» screenshots come from the owner's **community-published** Steam gallery for that appid, not storefront marketing `appdetails.screenshots`.
+«Медиа Steam» attachments come only from the owner's **community-published** Steam UGC for that appid — not storefront marketing screenshots or trailers.
 
 ## Decisions
 
 | Topic | Choice |
 |---|---|
-| Screenshot source | `IPublishedFileService/GetUserFiles` (`filetype=4`) for profile + appid |
+| Screenshots | `IPublishedFileService/GetUserFiles` (`filetype=4`) → WebP note images |
+| Videos | Same API (`filetype=3`) → link to `sharedfiles/filedetails/?id=…` + optional preview thumb |
 | Auth | `STEAM_WEB_API_KEY` + `--profile` / `STEAM_PROFILE_ID` (`.env` / `.env.local`) |
 | Surface | CLI `import:steam-media` only |
 | SPA media button | Removed |
-| Image URL | Prefer `file_url`, else `preview_url`; skip if neither |
-| Empty gallery | Still upsert note (trailers only / empty shots) |
-| Trailers / prefill | Unchanged — storefront `getAppDetails` |
-| Storefront screenshots | No longer parsed or used for media |
+| Screenshot URL | Prefer `file_url`, else `preview_url`; skip if neither |
+| Empty gallery | Still upsert note (may be empty attachments) |
+| Storefront | Only for optional `--prefill` (name/genres/header) — never for media |
+| Video binaries | Not hosted in `public/media` (links only; thumbs are WebP images) |
 
 ## Flow
 
 1. Load env; require Web API key + profile  
 2. Resolve steamid64  
 3. Resolve library game + appid  
-4. `getUserScreenshots(key, steamid, appid)` (paginate `numperpage=100`)  
-5. `getAppDetails` for movies (+ optional `--prefill`)  
-6. Encode WebP → upsert `<!-- steam-media:v1 -->` note (all-or-nothing)
+4. `getUserScreenshots` + `getUserVideos` (paginate `numperpage=100`)  
+5. Optional `--prefill` → `getAppDetails`  
+6. Encode screenshot/thumb WebP → upsert `<!-- steam-media:v1 -->` note (all-or-nothing)
 
 ## Out of scope
 
-- SPA browser pull of profile screenshots (key must not enter Vite client)  
-- Private / unpublished client-local screenshots (API cannot see them)  
+- SPA browser pull of profile media (key must not enter Vite client)  
+- Private / unpublished client-local screenshots  
+- Storefront trailers / marketing shots  
 - Full-library media crawl  
+- Hosting video binaries / HLS  
 
 ## Verification
 

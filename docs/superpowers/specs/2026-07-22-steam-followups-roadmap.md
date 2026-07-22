@@ -66,7 +66,7 @@ Related but **not** in the Out list from A — schedule only if requested as sep
 
 **Status:** design drafted — `2026-07-22-steam-media-prefill-design.md`; plan — `../plans/2026-07-22-steam-media-prefill.md` (awaiting execution)
 
-**Goal:** For a chosen Steam game, download **profile** screenshots as WebP note images; trailers as store links (+ thumbs); CLI media import + GamePage store link.
+**Goal:** For a chosen Steam game, download **profile** screenshots as WebP note images and profile videos as community links (+ thumbs); CLI media import + GamePage store link.
 
 ---
 

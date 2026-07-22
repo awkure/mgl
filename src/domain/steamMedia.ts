@@ -85,19 +85,11 @@ export function steamAppDetailsFromStoreJson(appid: number, body: unknown): Stea
   const genres = Array.isArray(data.genres)
     ? data.genres.map((item) => String((item as { description?: string })?.description ?? "").trim()).filter(Boolean)
     : [];
-  const movies = Array.isArray(data.movies)
-    ? data.movies.map((m) => ({
-        id: Number((m as { id?: unknown }).id),
-        name: String((m as { name?: unknown }).name ?? "Trailer").trim() || "Trailer",
-        thumbnail: typeof (m as { thumbnail?: unknown }).thumbnail === "string" ? (m as { thumbnail: string }).thumbnail : null,
-      }))
-    : [];
   return {
     type: typeof data.type === "string" ? data.type : undefined,
     name: typeof data.name === "string" ? data.name : undefined,
     genres,
     headerImage: typeof data.header_image === "string" ? data.header_image : null,
-    movies,
   };
 }
 
@@ -144,12 +136,10 @@ export function prefillGameFromSteamDetails(
 }
 
 export function buildSteamMediaAttachments(input: {
-  appid: number;
   screenshotAssetIds: readonly string[];
   screenshotAlts?: readonly string[];
-  movies: ReadonlyArray<{ name: string; thumbAssetId?: string | null }>;
+  movies?: ReadonlyArray<{ name: string; url: string; thumbAssetId?: string | null }>;
 }): NoteAttachment[] {
-  const storeUrl = steamStoreAppUrl(input.appid);
   const attachments: NoteAttachment[] = [];
 
   input.screenshotAssetIds.forEach((assetId, index) => {
@@ -160,9 +150,11 @@ export function buildSteamMediaAttachments(input: {
     });
   });
 
-  for (const movie of input.movies) {
-    const label = movie.name.trim() || "Trailer";
-    attachments.push({ type: "link", url: storeUrl, label });
+  for (const movie of input.movies ?? []) {
+    const label = movie.name.trim() || "Video";
+    const url = movie.url.trim();
+    if (!url) continue;
+    attachments.push({ type: "link", url, label });
     if (movie.thumbAssetId) {
       attachments.push({ type: "image", assetId: movie.thumbAssetId, alt: label });
     }

@@ -1,15 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * Import profile Steam screenshots + storefront trailer links into one game's «Медиа Steam» note.
+ * Import profile Steam screenshots + community videos into one game's «Медиа Steam» note.
  *
- * Screenshots come from IPublishedFileService/GetUserFiles (filetype=4) for STEAM_PROFILE_ID.
- * Trailers / optional --prefill still use storefront appdetails.
- *
- * Usage:
- *   npm run import:steam-media -- [flags]
- *   just steam-import-media-via-patch -- --appid 570 --game-id …
- *   just steam-import-media -- --appid 570 --apply
+ * Media comes from IPublishedFileService/GetUserFiles for STEAM_PROFILE_ID
+ * (screenshots filetype=4, videos filetype=3). Optional --prefill uses storefront appdetails.
  */
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -19,6 +14,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import {
   getAppDetails,
   getUserScreenshots,
+  getUserVideos,
   resolveSteamId,
   withRetry,
 } from "./lib/steamApi.mjs";
@@ -72,7 +68,7 @@ function parseArgs(argv) {
     dryRun: false,
     apply: false,
     prefill: false,
-    noTrailerThumbs: false,
+    noVideoThumbs: false,
     outExplicit: false,
     help: false,
   };
@@ -87,7 +83,7 @@ function parseArgs(argv) {
     if (arg === "--dry-run") flags.dryRun = true;
     else if (arg === "--apply") flags.apply = true;
     else if (arg === "--prefill") flags.prefill = true;
-    else if (arg === "--no-trailer-thumbs") flags.noTrailerThumbs = true;
+    else if (arg === "--no-video-thumbs" || arg === "--no-trailer-thumbs") flags.noVideoThumbs = true;
     else if (arg === "--appid") flags.appid = Number(next());
     else if (arg === "--game-id") flags.gameId = next();
     else if (arg === "--profile") flags.profile = next();
@@ -116,12 +112,13 @@ Flags:
   --profile <url|id|vanity>   default: STEAM_PROFILE_ID from env
   --out <path>                write patch JSON (default steam-media-import.patch.json unless --apply)
   --apply                     write note+assets into public/data + public/media
-  --dry-run                   profile screenshot + movie counts only; no downloads or writes
+  --dry-run                   profile screenshot + video counts only; no downloads or writes
   --prefill                   empty-only title/tags/cover/platforms/steamAppId from storefront
-  --no-trailer-thumbs         skip movie thumbnail downloads
+  --no-video-thumbs           skip profile video preview downloads
+                              (alias: --no-trailer-thumbs)
 
 Requires STEAM_WEB_API_KEY and STEAM_PROFILE_ID (or --profile) in .env / .env.local.
-Screenshots: community gallery for the profile (not storefront marketing shots).`);
+Media: published profile screenshots + videos only (not storefront marketing).`);
 }
 
 function resolveTarget(library, flags) {
@@ -257,14 +254,19 @@ try {
   console.log(`game: ${game.title} (${game.id}) appid=${appid}`);
 
   const screenshots = await withRetry(() => getUserScreenshots(apiKey, steamid, appid));
-  const details = await withRetry(() => getAppDetails(appid, { language: "russian" }));
-  if (!details) {
-    console.error(`No storefront data for appid ${appid}`);
-    process.exit(1);
+  const videos = await withRetry(() => getUserVideos(apiKey, steamid, appid));
+
+  let details = null;
+  if (flags.prefill) {
+    details = await withRetry(() => getAppDetails(appid, { language: "russian" }));
+    if (!details) {
+      console.error(`No storefront data for appid ${appid}`);
+      process.exit(1);
+    }
   }
 
   const screenshotCount = screenshots.length;
-  const movieCount = details.movies?.length ?? 0;
+  const videoCount = videos.length;
 
   if (flags.dryRun) {
     console.log(
@@ -274,9 +276,9 @@ try {
         gameId: game.id,
         steamid,
         screenshots: screenshotCount,
-        movies: movieCount,
+        videos: videoCount,
         prefill: flags.prefill,
-        noTrailerThumbs: flags.noTrailerThumbs,
+        noVideoThumbs: flags.noVideoThumbs,
       }),
     );
     process.exit(0);
@@ -298,25 +300,25 @@ try {
   if (screenshotCount) process.stdout.write("\n");
 
   const movieRows = [];
-  for (let index = 0; index < movieCount; index += 1) {
-    const movie = details.movies[index];
+  for (let index = 0; index < videoCount; index += 1) {
+    const video = videos[index];
     let thumbAssetId = null;
-    if (!flags.noTrailerThumbs && movie.thumbnail) {
-      process.stdout.write(`trailer thumb ${index + 1}/${movieCount}\r`);
-      const encoded = await fetchAndEncodeSteamImage(movie.thumbnail, {
-        alt: movie.name,
+    if (!flags.noVideoThumbs && video.previewUrl) {
+      process.stdout.write(`video thumb ${index + 1}/${videoCount}\r`);
+      const encoded = await fetchAndEncodeSteamImage(video.previewUrl, {
+        alt: video.name,
         maxEdge: 512,
-        originalName: `steam-${appid}-movie-${movie.id}.webp`,
+        originalName: `steam-${appid}-video-${video.id}.webp`,
       });
       encodedAssets.push(encoded);
       thumbAssetId = encoded.asset.id;
     }
-    movieRows.push({ name: movie.name, thumbAssetId });
+    movieRows.push({ name: video.name, url: video.url, thumbAssetId });
   }
-  if (movieCount && !flags.noTrailerThumbs) process.stdout.write("\n");
+  if (videoCount && !flags.noVideoThumbs) process.stdout.write("\n");
 
   let coverEncoded = null;
-  if (flags.prefill && game.coverAssetId == null && details.headerImage) {
+  if (flags.prefill && details && game.coverAssetId == null && details.headerImage) {
     coverEncoded = await fetchAndEncodeSteamCover(appid, {
       headerImage: details.headerImage,
       alt: details.name ?? game.title,
@@ -326,7 +328,6 @@ try {
 
   const screenshotAssetIds = encodedAssets.slice(0, screenshotCount).map((row) => row.asset.id);
   const attachments = buildSteamMediaAttachments({
-    appid,
     screenshotAssetIds,
     movies: movieRows,
   });
@@ -348,7 +349,7 @@ try {
 
   let nextGame = null;
   const previousGame = game;
-  if (flags.prefill) {
+  if (flags.prefill && details) {
     const prefillPatch = prefillGameFromSteamDetails(game, details, {
       appid,
       coverAssetId: coverEncoded?.asset.id ?? null,
@@ -413,8 +414,8 @@ try {
       mediaNoteId: upsert.mediaNoteId,
       createdNote: upsert.created,
       screenshots: screenshotCount,
-      movies: movieCount,
-      trailerThumbs: movieRows.filter((row) => row.thumbAssetId).length,
+      videos: videoCount,
+      videoThumbs: movieRows.filter((row) => row.thumbAssetId).length,
       prefillApplied: Boolean(nextGame),
       operations: Object.keys(patch.operations).length,
       blobs: Object.keys(patch.blobs).length,

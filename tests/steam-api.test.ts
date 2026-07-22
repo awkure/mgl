@@ -6,6 +6,7 @@ import {
   getPlayerSummary,
   getSchemaForGame,
   getUserScreenshots,
+  getUserVideos,
   probeOwnedGamesVisibility,
   resolveSteamId,
   resolveVanityUrl,
@@ -149,11 +150,10 @@ describe("steamApi", () => {
       name: "Dota 2",
       genres: ["Action"],
       headerImage: "https://example.com/header.jpg",
-      movies: [],
     });
   });
 
-  it("parses storefront movies without marketing screenshots", async () => {
+  it("ignores storefront movies for appdetails prefill slice", async () => {
     mockJson({
       "570": {
         success: true,
@@ -167,7 +167,6 @@ describe("steamApi", () => {
           ],
           movies: [
             { id: 10, name: "  Launch  ", thumbnail: "https://example.com/thumb.jpg" },
-            { id: 11, name: "", thumbnail: 42 },
           ],
         },
       },
@@ -177,10 +176,6 @@ describe("steamApi", () => {
       name: "Dota 2",
       genres: ["Action"],
       headerImage: "https://example.com/header.jpg",
-      movies: [
-        { id: 10, name: "Launch", thumbnail: "https://example.com/thumb.jpg" },
-        { id: 11, name: "Trailer", thumbnail: null },
-      ],
     });
   });
 
@@ -266,6 +261,29 @@ describe("steamApi", () => {
     expect(shots).toHaveLength(101);
     expect(shots[100]).toEqual({ id: "101", pathFull: "https://cdn.example/101.jpg" });
     expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("maps profile videos with sharedfiles links and optional thumbs", async () => {
+    mockJson({
+      response: {
+        total: 1,
+        publishedfiledetails: [
+          {
+            publishedfileid: "999",
+            title: "My clip",
+            preview_url: "https://cdn.example/preview.jpg",
+          },
+        ],
+      },
+    });
+    await expect(getUserVideos("key", "76561197960287930", 570)).resolves.toEqual([
+      {
+        id: "999",
+        name: "My clip",
+        url: "https://steamcommunity.com/sharedfiles/filedetails/?id=999",
+        previewUrl: "https://cdn.example/preview.jpg",
+      },
+    ]);
   });
 
   it("skips profile screenshots without image URLs", async () => {

@@ -155,7 +155,7 @@ just steam-import-via-patch --limit 5
 just steam-import --limit 5
 # or: npm run import:steam -- --apply --limit 5
 
-# Одна игра: скриншоты из профиля + ссылки на трейлеры в заметке «Медиа Steam»:
+# Одна игра: медиа из профиля (скрины + видео) в заметке «Медиа Steam»:
 just steam-import-media-via-patch -- --appid 570 --game-id <uuid>
 # or: npm run import:steam-media -- --appid 570 --game-id <uuid>
 
@@ -164,13 +164,15 @@ just steam-import-media -- --appid 570 --game-id <uuid>
 ```
 
 Нужны `STEAM_WEB_API_KEY` и `STEAM_PROFILE_ID` (или `--profile`) — те же, что у `import:steam`.
-Скриншоты — **опубликованная** галерея профиля для appid (`GetUserFiles`, filetype=4), не маркетинг
-со страницы игры в Store. Трейлеры / `--prefill` по-прежнему из storefront `appdetails`.
+Медиа — **опубликованный** UGC профиля для appid (`GetUserFiles`: скрины filetype=4, видео
+filetype=3), не маркетинг со страницы игры в Store. `--prefill` по-прежнему читает storefront
+`appdetails` только для пустых полей игры.
 
 Флаги `import:steam-media`: `--appid`, `--game-id` (хотя бы один; игра в `library.json`),
 `--profile`, `--out`, `--apply`, `--dry-run`, `--prefill` (пустые title/tags/cover/platforms/steamAppId),
-`--no-trailer-thumbs`. Без `--apply` пишет patch (по умолчанию `steam-media-import.patch.json`);
-`--apply` — сразу в `public/data` + `public/media`. Одна игра, без crawl всей библиотеки.
+`--no-video-thumbs` (alias `--no-trailer-thumbs`). Без `--apply` пишет patch (по умолчанию
+`steam-media-import.patch.json`); `--apply` — сразу в `public/data` + `public/media`. Одна игра,
+без crawl всей библиотеки.
 
 Флаги `import:steam`: `--profile`, `--out`, `--apply`, `--dry-run`, `--force`, `--played-only`,
 `--limit`, `--appids`, `--no-covers`, `--skip-details`, `--no-achievements` (по умолчанию счётчики
@@ -220,11 +222,11 @@ storefront slice). Пишется только после успешного `--
 На `/games/new` и `/games/:id`:
 
 - При заданном `steamAppId` — ссылка **Steam** в сайдбаре на storefront.
-- Медиа (скрины профиля + трейлеры) — **только CLI** `import:steam-media` (нужны
-  `STEAM_WEB_API_KEY` + профиль). Скрины → WebP в заметке «Медиа Steam»; трейлеры —
-  ссылки на страницу игры (без mp4/HLS). Повторный запуск заменяет вложения целиком
-  (all-or-nothing, маркер `<!-- steam-media:v1 -->`). Доменные хелперы префилла
-  (`prefillGameFromSteamDetails`) живут в `steamMedia.ts` для CLI `--prefill`.
+- Медиа (скрины + видео профиля) — **только CLI** `import:steam-media` (нужны
+  `STEAM_WEB_API_KEY` + профиль). Скрины → WebP в заметке «Медиа Steam»; видео —
+  ссылки на sharedfiles (+ опциональный preview thumb). Повторный запуск заменяет
+  вложения целиком (all-or-nothing, маркер `<!-- steam-media:v1 -->`). Доменные
+  хелперы префилла (`prefillGameFromSteamDetails`) живут в `steamMedia.ts` для CLI `--prefill`.
 
 ```bash
 npm run import:steam-media -- --appid … --apply
@@ -232,7 +234,7 @@ npm run import:steam-media -- --appid … --apply
 ```
 
 - [x] Ссылка на страницу в Steam в карточке игры
-- [x] Подтянуть screenshots (из профиля) / trailer URLs как вложения заметки (CLI)
+- [x] Подтянуть screenshots / videos из профиля как вложения заметки (CLI)
 
 ### Статус и playtime
 
