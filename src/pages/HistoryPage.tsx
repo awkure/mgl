@@ -70,11 +70,26 @@ export function formatHistoryDelta(event: HistoryEvent): string {
 export interface HistoryPageProps {
   events?: HistoryEvent[];
   liveGameIds?: ReadonlySet<string>;
+  /** Live library cover ids — used when event snapshot asset is gone (cover refresh). */
+  liveCoverByGameId?: ReadonlyMap<string, string | null>;
   loading?: boolean;
   error?: string | null;
   onRetry?: () => void;
   resolveAssetUrl?: (assetId: string) => string | null;
   onOpenGame?: (gameId: string) => void;
+}
+
+/** Snapshot cover if resolvable, else live game cover, else null (placeholder). */
+export function resolveHistoryCoverAssetId(
+  snapshotCoverAssetId: string | null,
+  liveCoverAssetId: string | null | undefined,
+  resolveAssetUrl?: (assetId: string) => string | null,
+): string | null {
+  if (snapshotCoverAssetId && resolveAssetUrl?.(snapshotCoverAssetId)) return snapshotCoverAssetId;
+  if (liveCoverAssetId && resolveAssetUrl?.(liveCoverAssetId)) return liveCoverAssetId;
+  if (snapshotCoverAssetId && !resolveAssetUrl) return snapshotCoverAssetId;
+  if (liveCoverAssetId) return liveCoverAssetId;
+  return null;
 }
 
 function HistoryCover({
@@ -86,11 +101,11 @@ function HistoryCover({
   coverAssetId: string | null;
   resolveAssetUrl?: (assetId: string) => string | null;
 }) {
-  const coverUrl = coverAssetId ? resolveAssetUrl?.(coverAssetId) : null;
-  if (coverUrl) {
+  const url = coverAssetId ? resolveAssetUrl?.(coverAssetId) ?? null : null;
+  if (url) {
     return (
       <span aria-hidden="true" className="history-timeline__cover">
-        <img alt="" decoding="async" draggable={false} loading="lazy" src={coverUrl} />
+        <img alt="" decoding="async" draggable={false} loading="lazy" src={url} />
       </span>
     );
   }
@@ -105,6 +120,7 @@ function HistoryCover({
 export function HistoryPage({
   events = [],
   liveGameIds = new Set(),
+  liveCoverByGameId = new Map(),
   loading = false,
   error = null,
   onRetry,
@@ -154,47 +170,52 @@ export function HistoryPage({
           <div aria-hidden="true" className="history-timeline__rail" />
           <ol className="history-timeline__list">
             {clusters.map((cluster) => {
-            const live = liveGameIds.has(cluster.gameId);
-            const nodeClass = `history-timeline__node${live ? "" : " is-missing"}`;
-            const headerInner = (
-              <>
-                <HistoryCover
-                  coverAssetId={cluster.coverAssetId}
-                  resolveAssetUrl={resolveAssetUrl}
-                  title={cluster.title}
-                />
-                <span className="history-timeline__title">{cluster.title}</span>
-                {!live ? <span className="history-timeline__missing-tag">удалена</span> : null}
-              </>
-            );
-            return (
-              <li className={nodeClass} key={`${cluster.gameId}:${cluster.changedAt}:${cluster.events[0]?.id}`}>
-                <div className="history-timeline__header">
-                  {live ? (
-                    <a
-                      className="history-timeline__link"
-                      href={`#/games/${encodeURIComponent(cluster.gameId)}`}
-                      onClick={openGame(cluster.gameId)}
-                    >
-                      {headerInner}
-                    </a>
-                  ) : (
-                    <div className="history-timeline__link history-timeline__link--static">{headerInner}</div>
-                  )}
-                  <time className="history-timeline__time" dateTime={cluster.changedAt}>
-                    {formatRelativeDate(cluster.changedAt)}
-                  </time>
-                </div>
-                <ul className="history-timeline__deltas">
-                  {cluster.events.map((ev) => (
-                    <li className="history-timeline__delta" key={ev.id}>
-                      {formatHistoryDelta(ev)}
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            );
-          })}
+              const live = liveGameIds.has(cluster.gameId);
+              const coverAssetId = resolveHistoryCoverAssetId(
+                cluster.coverAssetId,
+                liveCoverByGameId.get(cluster.gameId),
+                resolveAssetUrl,
+              );
+              const nodeClass = `history-timeline__node${live ? "" : " is-missing"}`;
+              const headerInner = (
+                <>
+                  <HistoryCover
+                    coverAssetId={coverAssetId}
+                    resolveAssetUrl={resolveAssetUrl}
+                    title={cluster.title}
+                  />
+                  <span className="history-timeline__title">{cluster.title}</span>
+                  {!live ? <span className="history-timeline__missing-tag">удалена</span> : null}
+                </>
+              );
+              return (
+                <li className={nodeClass} key={`${cluster.gameId}:${cluster.changedAt}:${cluster.events[0]?.id}`}>
+                  <div className="history-timeline__header">
+                    {live ? (
+                      <a
+                        className="history-timeline__link"
+                        href={`#/games/${encodeURIComponent(cluster.gameId)}`}
+                        onClick={openGame(cluster.gameId)}
+                      >
+                        {headerInner}
+                      </a>
+                    ) : (
+                      <div className="history-timeline__link history-timeline__link--static">{headerInner}</div>
+                    )}
+                    <time className="history-timeline__time" dateTime={cluster.changedAt}>
+                      {formatRelativeDate(cluster.changedAt)}
+                    </time>
+                  </div>
+                  <ul className="history-timeline__deltas">
+                    {cluster.events.map((ev) => (
+                      <li className="history-timeline__delta" key={ev.id}>
+                        {formatHistoryDelta(ev)}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              );
+            })}
           </ol>
         </div>
       ) : null}

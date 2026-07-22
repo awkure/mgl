@@ -130,6 +130,13 @@ function LibraryRoutes() {
     () => new Set(Object.keys(library.effective.games)),
     [library.effective.games],
   );
+  const liveCoverByGameId = useMemo(() => {
+    const map = new Map<string, string | null>();
+    for (const [id, game] of Object.entries(library.effective.games)) {
+      map.set(id, game.coverAssetId);
+    }
+    return map;
+  }, [library.effective.games]);
 
   const activeTop = stackTop(tabState) ?? TAB_ROOTS[tabState.activeTab];
   const route = routeKind(activeTop.pathname);
@@ -520,6 +527,7 @@ function LibraryRoutes() {
             error: historyError,
             onRetry: () => { void loadHistory(); },
             liveGameIds,
+            liveCoverByGameId,
             resolveAssetUrl: library.resolveAssetUrl,
             onOpenGame: (gameId) => openGameOnTab("catalog", gameId),
           }}

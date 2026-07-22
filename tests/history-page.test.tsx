@@ -101,4 +101,19 @@ describe("HistoryPage", () => {
     expect(screen.getByText("Hades")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Повторить" })).toBeInTheDocument();
   });
+
+  it("falls back to live cover when snapshot asset is gone", () => {
+    const resolveAssetUrl = (id: string) => (id === "live-cover" ? `/media/${id}.webp` : null);
+    const view = render(
+      <HistoryPage
+        events={[event({ id: "e1", gameId: "g1", title: "Hades", coverAssetId: "stale-cover" })]}
+        liveCoverByGameId={new Map([["g1", "live-cover"]])}
+        liveGameIds={new Set(["g1"])}
+        resolveAssetUrl={resolveAssetUrl}
+      />,
+    );
+    const img = view.container.querySelector(".history-timeline__cover img");
+    expect(img).toHaveAttribute("src", "/media/live-cover.webp");
+    expect(view.container.querySelector(".history-timeline__cover--placeholder")).toBeNull();
+  });
 });
