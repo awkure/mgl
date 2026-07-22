@@ -41,6 +41,24 @@ describe("mobile nav css", () => {
     expect(declarationsIn(styles, ".swipe-pager__panel")).toContain("width: calc(100% / 3)");
   });
 
+  it("defines a sliding tab blob driven by --pager-progress", () => {
+    expect(styles).toContain("@property --pager-progress");
+    expect(styles).toContain(".app-tab-bar__blob");
+    const blob = declarationsIn(styles, '.app-shell[data-mobile-chrome="true"] .app-tab-bar__blob');
+    expect(blob).toContain("position: absolute");
+    expect(blob).toContain("transform: translateX(calc(var(--pager-progress, 0) * (100% + 2px)))");
+    expect(blob).toContain("--pager-progress 280ms cubic-bezier(.22, 1, .36, 1)");
+    expect(styles).toContain('.app-shell[data-mobile-chrome="true"][data-pager-dragging="true"] .app-tab-bar__blob');
+    expect(declarationsIn(styles, '.app-shell[data-mobile-chrome="true"][data-pager-dragging="true"] .app-tab-bar__blob')).toContain("transition: none");
+  });
+
+  it("keeps active tab link color-only without fill background", () => {
+    const active = declarationsIn(styles, '.app-shell[data-mobile-chrome="true"] .app-tab-bar__link[aria-current="page"]');
+    expect(active).toContain("color: var(--text)");
+    expect(active).not.toContain("background: var(--accent-wash)");
+    expect(active).not.toContain("box-shadow:");
+  });
+
   it("lets main fill under the floating tab bar on tiers/catalog/settings", () => {
     const main = declarationsIn(
       styles,

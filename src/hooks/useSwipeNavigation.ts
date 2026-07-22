@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from "react";
 import { isHorizontalGesture, PTR_ARM_PX } from "./usePullToRefresh";
 
 export const SWIPE_ARM_PX = PTR_ARM_PX;
@@ -7,6 +7,7 @@ export const SWIPE_EDGE_GUARD_PX = 24;
 export const SWIPE_COMMIT_RATIO = 0.25;
 export const SWIPE_VELOCITY_PX_PER_MS = 0.45;
 export const PAGER_PANEL_COUNT = 3;
+export const PAGER_TRANSITION = "transform 280ms cubic-bezier(.22, 1, .36, 1)";
 
 export type SwipeDirection = "left" | "right";
 export type PagerIndex = 0 | 1 | 2;
@@ -72,57 +73,135 @@ export function nextPagerIndex(
   return null;
 }
 
+/** Fractional pager progress: 0 = first panel, 1 = second, … Drag left (negative dx) increases progress. */
+export function pagerProgress(index: PagerIndex, dragOffsetPx: number, pagerWidthPx: number): number {
+  if (pagerWidthPx <= 0) return index;
+  return index - dragOffsetPx / pagerWidthPx;
+}
+
 /** Track is N× pager width; each panel is (100/N)% of the track. % transforms are relative to the track. */
+export function pagerTrackTranslateFromProgress(progress: number, panelCount = PAGER_PANEL_COUNT): string {
+  const step = 100 / panelCount;
+  return `translate3d(${-progress * step}%, 0, 0)`;
+}
+
 export function pagerTrackTranslate(
   index: PagerIndex,
   dragOffsetPx: number,
   pagerWidthPx: number,
   panelCount = PAGER_PANEL_COUNT,
 ): string {
-  const step = 100 / panelCount;
-  const basePercent = -index * step;
-  const dragPercent = pagerWidthPx > 0 ? (dragOffsetPx / pagerWidthPx) * step : 0;
-  return `translate3d(calc(${basePercent}% + ${dragPercent}%), 0, 0)`;
+  return pagerTrackTranslateFromProgress(pagerProgress(index, dragOffsetPx, pagerWidthPx), panelCount);
 }
 
 export interface UseSwipePagerOptions {
   targetRef: RefObject<HTMLElement | null>;
+  trackRef: RefObject<HTMLElement | null>;
   index: PagerIndex;
   enabled?: boolean;
   isBlocked?: () => boolean;
   onCommit: (next: PagerIndex) => void;
+  onProgress?: (progress: number) => void;
+  onDraggingChange?: (dragging: boolean) => void;
 }
 
 export interface UseSwipePagerResult {
-  dragOffset: number;
   dragging: boolean;
 }
 
 export function useSwipePager({
   targetRef,
+  trackRef,
   index,
   enabled = true,
   isBlocked,
   onCommit,
+  onProgress,
+  onDraggingChange,
 }: UseSwipePagerOptions): UseSwipePagerResult {
-  const [dragOffset, setDragOffset] = useState(0);
   const [dragging, setDragging] = useState(false);
   const onCommitRef = useRef(onCommit);
+  const onProgressRef = useRef(onProgress);
+  const onDraggingChangeRef = useRef(onDraggingChange);
   const isBlockedRef = useRef(isBlocked);
   const indexRef = useRef(index);
+  const dragOffsetRef = useRef(0);
+  const widthRef = useRef(0);
+  const pendingCommitRef = useRef<PagerIndex | null>(null);
 
   useEffect(() => {
     onCommitRef.current = onCommit;
   }, [onCommit]);
 
   useEffect(() => {
+    onProgressRef.current = onProgress;
+  }, [onProgress]);
+
+  useEffect(() => {
+    onDraggingChangeRef.current = onDraggingChange;
+  }, [onDraggingChange]);
+
+  useEffect(() => {
     isBlockedRef.current = isBlocked;
   }, [isBlocked]);
 
+  const applyVisual = (progress: number, withTransition: boolean) => {
+    const track = trackRef.current;
+    if (track) {
+      track.style.transition = withTransition ? PAGER_TRANSITION : "none";
+      track.style.transform = pagerTrackTranslateFromProgress(progress);
+    }
+    onProgressRef.current?.(progress);
+  };
+
+  const setDraggingState = (next: boolean) => {
+    setDragging(next);
+    onDraggingChangeRef.current?.(next);
+  };
+
   useEffect(() => {
+    const target = targetRef.current;
+    if (!target) return;
+
+    const measure = () => {
+      widthRef.current = target.clientWidth || (typeof window !== "undefined" ? window.innerWidth : 0);
+    };
+    measure();
+
+    if (typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(() => {
+      measure();
+      if (pendingCommitRef.current === null && dragOffsetRef.current === 0) {
+        applyVisual(indexRef.current, false);
+      }
+    });
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [targetRef, trackRef]);
+
+  useLayoutEffect(() => {
+    const previous = indexRef.current;
     indexRef.current = index;
-    setDragOffset(0);
-    setDragging(false);
+
+    if (pendingCommitRef.current === index) {
+      pendingCommitRef.current = null;
+      dragOffsetRef.current = 0;
+      applyVisual(index, true);
+      return;
+    }
+
+    if (pendingCommitRef.current !== null) {
+      return;
+    }
+
+    if (previous !== index) {
+      dragOffsetRef.current = 0;
+      applyVisual(index, true);
+      return;
+    }
+
+    dragOffsetRef.current = 0;
+    applyVisual(index, false);
   }, [index]);
 
   useEffect(() => {
@@ -141,7 +220,10 @@ export function useSwipePager({
 
     const flush = () => {
       raf = 0;
-      setDragOffset(pendingDx);
+      const width = widthRef.current || target.clientWidth || window.innerWidth;
+      const clamped = clampPagerDrag(pendingDx, indexRef.current, width);
+      dragOffsetRef.current = clamped;
+      applyVisual(pagerProgress(indexRef.current, clamped, width), false);
     };
 
     const schedule = (dx: number) => {
@@ -149,7 +231,7 @@ export function useSwipePager({
       if (!raf) raf = requestAnimationFrame(flush);
     };
 
-    const reset = () => {
+    const resetTracking = () => {
       phase = "idle";
       lastDx = 0;
       velocity = 0;
@@ -158,15 +240,20 @@ export function useSwipePager({
         cancelAnimationFrame(raf);
         raf = 0;
       }
-      setDragging(false);
-      setDragOffset(0);
+    };
+
+    const settleToIndex = (targetIndex: PagerIndex, withTransition: boolean) => {
+      dragOffsetRef.current = 0;
+      applyVisual(targetIndex, withTransition);
     };
 
     const onTouchStart = (event: TouchEvent) => {
       if (event.touches.length !== 1) return;
       if (isBlockedRef.current?.()) return;
+      if (pendingCommitRef.current !== null) return;
       const touch = event.touches[0];
       if (isNearScreenEdge(touch.clientX, window.innerWidth)) return;
+      widthRef.current = target.clientWidth || window.innerWidth;
       startX = touch.clientX;
       startY = touch.clientY;
       lastX = touch.clientX;
@@ -179,11 +266,15 @@ export function useSwipePager({
     const onTouchMove = (event: TouchEvent) => {
       if (phase !== "tracking" && phase !== "swiping") return;
       if (event.touches.length !== 1) {
-        reset();
+        resetTracking();
+        setDraggingState(false);
+        settleToIndex(indexRef.current, true);
         return;
       }
       if (isBlockedRef.current?.()) {
-        reset();
+        resetTracking();
+        setDraggingState(false);
+        settleToIndex(indexRef.current, true);
         return;
       }
 
@@ -199,24 +290,23 @@ export function useSwipePager({
 
       if (phase === "tracking") {
         if (Math.abs(dy) > SWIPE_ARM_PX && Math.abs(dy) > Math.abs(dx)) {
-          reset();
+          resetTracking();
           return;
         }
         if (!shouldArmSwipe(dx, dy)) return;
         phase = "swiping";
-        setDragging(true);
+        setDraggingState(true);
       }
 
       if (phase === "swiping") {
         if (event.cancelable) event.preventDefault();
-        const width = target.clientWidth || window.innerWidth;
-        schedule(clampPagerDrag(dx, indexRef.current, width));
+        schedule(dx);
       }
     };
 
     const onTouchEnd = () => {
       if (phase === "swiping") {
-        const width = target.clientWidth || window.innerWidth;
+        const width = widthRef.current || target.clientWidth || window.innerWidth;
         const direction = shouldCommitPagerSwipe(lastDx, width, velocity);
         const next = direction ? nextPagerIndex(indexRef.current, direction) : null;
         if (raf) {
@@ -224,18 +314,19 @@ export function useSwipePager({
           raf = 0;
         }
         phase = "idle";
-        setDragging(false);
+        setDraggingState(false);
         if (next !== null) {
-          setDragOffset(0);
+          pendingCommitRef.current = next;
+          applyVisual(pagerProgress(indexRef.current, dragOffsetRef.current, width), true);
           onCommitRef.current(next);
         } else {
-          setDragOffset(0);
+          settleToIndex(indexRef.current, true);
         }
         lastDx = 0;
         velocity = 0;
         return;
       }
-      reset();
+      resetTracking();
     };
 
     target.addEventListener("touchstart", onTouchStart, { passive: true });
@@ -250,7 +341,7 @@ export function useSwipePager({
       target.removeEventListener("touchend", onTouchEnd);
       target.removeEventListener("touchcancel", onTouchEnd);
     };
-  }, [enabled, targetRef]);
+  }, [enabled, targetRef, trackRef]);
 
-  return { dragOffset, dragging };
+  return { dragging };
 }

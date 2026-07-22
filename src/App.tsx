@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   HashRouter,
   Route,
@@ -10,6 +10,7 @@ import {
 import {
   AppShell,
   DiffDialog,
+  tabProgressFromRoute,
   type AppRoute,
   type DiffSyncController,
   type DiffGroupId,
@@ -42,7 +43,6 @@ import {
   saveGitHubPat,
   type GitHubPatPersistence,
 } from "./state/githubPat";
-
 const fieldLabels: Record<string, string> = {
   title: "Название",
   coverAssetId: "Обложка",
@@ -129,6 +129,7 @@ function LibraryRoutes() {
   const navigate = useNavigate();
   const location = useLocation();
   const mainRef = useRef<HTMLDivElement>(null);
+  const shellRef = useRef<HTMLDivElement>(null);
   const tierDraggingRef = useRef(false);
   const [diffOpen, setDiffOpen] = useState(false);
   const [preparedPayload, setPreparedPayload] = useState<{ patch: PatchEnvelope; payload: string } | null>(null);
@@ -145,6 +146,23 @@ function LibraryRoutes() {
   const previousPendingCommitRef = useRef<string | null>(null);
   const route = routeKind(location.pathname);
   const showPager = route === "tiers" || route === "catalog" || route === "settings";
+
+  const setPagerProgress = useCallback((progress: number) => {
+    shellRef.current?.style.setProperty("--pager-progress", String(progress));
+  }, []);
+
+  const setPagerDragging = useCallback((dragging: boolean) => {
+    const shell = shellRef.current;
+    if (!shell) return;
+    if (dragging) shell.setAttribute("data-pager-dragging", "true");
+    else shell.removeAttribute("data-pager-dragging");
+  }, []);
+
+  useEffect(() => {
+    if (showPager) return;
+    setPagerProgress(tabProgressFromRoute(route));
+    setPagerDragging(false);
+  }, [showPager, route, setPagerProgress, setPagerDragging]);
 
   useEffect(() => {
     const loaded = loadGitHubPat();
@@ -370,6 +388,7 @@ function LibraryRoutes() {
       games={games}
       onNavigate={navigateHref}
       onOpenDiff={() => setDiffOpen(true)}
+      ref={shellRef}
       resolveAssetUrl={library.resolveAssetUrl}
       route={route}
       storage={{
@@ -391,6 +410,7 @@ function LibraryRoutes() {
             assets={library.effective.assets}
             draggingRef={tierDraggingRef}
             games={games}
+            onDraggingChange={setPagerDragging}
             onMoveGame={(gameId, target) => {
               try {
                 library.moveGame(gameId, target.tierId, target.index);
@@ -398,6 +418,7 @@ function LibraryRoutes() {
             }}
             onNavigate={(path) => navigate(path)}
             onOpenGame={(id) => navigate(`/games/${id}`)}
+            onProgress={setPagerProgress}
             pathname={location.pathname}
             resolveAssetUrl={library.resolveAssetUrl}
           />

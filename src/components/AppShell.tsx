@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode, type MouseEvent } from "react";
+import { forwardRef, useEffect, useState, type ReactNode, type MouseEvent } from "react";
 import type { Game } from "../domain/types";
 import { Icon, type IconName } from "./Icon";
 import { GlobalGameSearch } from "./GlobalGameSearch";
@@ -6,6 +6,13 @@ import { formatBytes } from "./libraryUi";
 import { RandomGameButton } from "./RandomGameButton";
 
 export type AppRoute = "tiers" | "catalog" | "game" | "new" | "settings";
+
+/** Tab-bar blob progress for mobile chrome (0=тирлист, 1=каталог, 2=настройки). */
+export function tabProgressFromRoute(route: AppRoute): number {
+  if (route === "settings") return 2;
+  if (route === "catalog" || route === "game" || route === "new") return 1;
+  return 0;
+}
 
 export interface StorageSummary {
   bytes: number;
@@ -78,7 +85,7 @@ function NavLink({
   );
 }
 
-export function AppShell({
+export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppShell({
   children,
   games = [],
   route,
@@ -86,7 +93,7 @@ export function AppShell({
   onOpenDiff,
   onNavigate,
   resolveAssetUrl,
-}: AppShellProps) {
+}, ref) {
   const mobileChrome = useMobileChrome();
   const budget = storage.budgetBytes ?? 4 * 1024 * 1024;
   const ratio = budget ? storage.bytes / budget : 0;
@@ -112,6 +119,7 @@ export function AppShell({
       className="app-shell"
       data-mobile-chrome={mobileChrome ? "true" : undefined}
       data-route={route}
+      ref={ref}
     >
       <a className="skip-link" href="#main-content">К основному содержимому</a>
       <header className="app-header">
@@ -161,6 +169,7 @@ export function AppShell({
       {mobileChrome ? (
         <>
           <nav aria-label="Мобильная навигация" className="app-tab-bar">
+            <span aria-hidden="true" className="app-tab-bar__blob" />
             <NavLink active={route === "tiers"} className="app-tab-bar__link" href="#/" icon="book" label="Тирлист" onNavigate={onNavigate} />
             <NavLink active={route === "catalog" || route === "game"} className="app-tab-bar__link" href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} />
             <NavLink active={route === "settings"} className="app-tab-bar__link" href="#/settings" icon="settings" label="Настройки" onNavigate={onNavigate} />
@@ -178,4 +187,4 @@ export function AppShell({
       ) : null}
     </div>
   );
-}
+});

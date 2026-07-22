@@ -1,11 +1,11 @@
-import { type MutableRefObject, type ReactNode, useRef } from "react";
+import { type MutableRefObject, type ReactNode, useEffect, useRef } from "react";
 import type { Asset, Game } from "../domain/types";
 import { CatalogPage } from "../pages/CatalogPage";
 import { SettingsPage } from "../pages/SettingsPage";
 import { TierListPage, type MoveGameTarget } from "../pages/TierListPage";
 import {
   pagerIndexToPath,
-  pagerTrackTranslate,
+  pagerTrackTranslateFromProgress,
   routeToPagerIndex,
   useSwipePager,
   type PagerIndex,
@@ -20,6 +20,8 @@ export interface SwipePagerProps {
   onMoveGame: (gameId: string, target: MoveGameTarget) => void;
   onOpenGame: (gameId: string) => void;
   onNavigate: (path: PagerPath) => void;
+  onProgress?: (progress: number) => void;
+  onDraggingChange?: (dragging: boolean) => void;
   resolveAssetUrl?: (assetId: string) => string | null;
 }
 
@@ -31,30 +33,36 @@ export function SwipePager({
   onMoveGame,
   onOpenGame,
   onNavigate,
+  onProgress,
+  onDraggingChange,
   resolveAssetUrl,
 }: SwipePagerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const index = routeToPagerIndex(pathname);
-  const { dragOffset, dragging } = useSwipePager({
+  const { dragging } = useSwipePager({
     targetRef: rootRef,
+    trackRef,
     index,
     enabled: true,
     isBlocked: () => draggingRef.current,
     onCommit: (next) => onNavigate(pagerIndexToPath(next)),
+    onProgress,
+    onDraggingChange,
   });
 
-  const width = rootRef.current?.clientWidth || (typeof window !== "undefined" ? window.innerWidth : 0);
-  const translate = pagerTrackTranslate(index, dragOffset, width);
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track || dragging) return;
+    if (!track.style.transform) {
+      track.style.transition = "none";
+      track.style.transform = pagerTrackTranslateFromProgress(index);
+    }
+  }, [index, dragging]);
 
   return (
     <div className="swipe-pager" data-dragging={dragging ? "true" : undefined} ref={rootRef}>
-      <div
-        className="swipe-pager__track"
-        style={{
-          transform: translate,
-          transition: dragging ? "none" : "transform 280ms cubic-bezier(.22, 1, .36, 1)",
-        }}
-      >
+      <div className="swipe-pager__track" ref={trackRef}>
         <SwipePanel active={index === 0} labelledBy="tier-panel-label">
           <span className="visually-hidden" id="tier-panel-label">Тирлист</span>
           <TierListPage

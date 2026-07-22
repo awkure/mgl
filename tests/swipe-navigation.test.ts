@@ -6,12 +6,15 @@ import {
   isNearScreenEdge,
   nextPagerIndex,
   pagerIndexToPath,
+  pagerProgress,
   pagerTrackTranslate,
+  pagerTrackTranslateFromProgress,
   routeToPagerIndex,
   shouldArmSwipe,
   shouldCommitPagerSwipe,
   swipeDirection,
 } from "../src/hooks/useSwipeNavigation";
+import { tabProgressFromRoute } from "../src/components/AppShell";
 
 describe("swipe navigation helpers", () => {
   it("guards screen edges for Safari back/forward swipe", () => {
@@ -44,6 +47,14 @@ describe("swipe navigation helpers", () => {
     expect(pagerIndexToPath(2)).toBe("/settings");
   });
 
+  it("maps app routes to tab blob progress", () => {
+    expect(tabProgressFromRoute("tiers")).toBe(0);
+    expect(tabProgressFromRoute("catalog")).toBe(1);
+    expect(tabProgressFromRoute("game")).toBe(1);
+    expect(tabProgressFromRoute("new")).toBe(1);
+    expect(tabProgressFromRoute("settings")).toBe(2);
+  });
+
   it("commits swipe by distance ratio or velocity", () => {
     expect(shouldCommitPagerSwipe(-100, 400, 0)).toBe("left");
     expect(shouldCommitPagerSwipe(100, 400, 0)).toBe("right");
@@ -68,10 +79,28 @@ describe("swipe navigation helpers", () => {
     expect(nextPagerIndex(2, "left")).toBeNull();
   });
 
+  it("computes fractional pager progress from drag", () => {
+    expect(pagerProgress(0, 0, 390)).toBe(0);
+    expect(pagerProgress(1, 0, 390)).toBe(1);
+    expect(pagerProgress(0, -78, 390)).toBe(78 / 390);
+    expect(pagerProgress(1, 78, 390)).toBe(1 - 78 / 390);
+  });
+
+  it("translates track from progress without snapping through old base", () => {
+    const mid = pagerProgress(0, -156, 390);
+    expect(mid).toBeCloseTo(0.4);
+    const midTranslate = pagerTrackTranslateFromProgress(mid);
+    const settled = pagerTrackTranslateFromProgress(1);
+    expect(midTranslate).toBe(`translate3d(${-mid * (100 / 3)}%, 0, 0)`);
+    expect(settled).toBe(`translate3d(${-100 / 3}%, 0, 0)`);
+    // Commit path: progress moves mid → next integer; never jumps to 0% first.
+    expect(midTranslate).not.toBe(pagerTrackTranslateFromProgress(0));
+  });
+
   it("translates track by one panel step of a 300% track", () => {
-    expect(pagerTrackTranslate(0, 0, 390)).toBe("translate3d(calc(0% + 0%), 0, 0)");
-    expect(pagerTrackTranslate(1, 0, 390)).toBe(`translate3d(calc(${-100 / 3}% + 0%), 0, 0)`);
-    expect(pagerTrackTranslate(2, 0, 390)).toBe(`translate3d(calc(${-200 / 3}% + 0%), 0, 0)`);
-    expect(pagerTrackTranslate(0, -78, 390)).toBe(`translate3d(calc(0% + ${(-78 / 390) * (100 / 3)}%), 0, 0)`);
+    expect(pagerTrackTranslate(0, 0, 390)).toBe("translate3d(0%, 0, 0)");
+    expect(pagerTrackTranslate(1, 0, 390)).toBe(`translate3d(${-100 / 3}%, 0, 0)`);
+    expect(pagerTrackTranslate(2, 0, 390)).toBe(`translate3d(${-200 / 3}%, 0, 0)`);
+    expect(pagerTrackTranslate(0, -78, 390)).toBe(`translate3d(${-(78 / 390) * (100 / 3)}%, 0, 0)`);
   });
 });
