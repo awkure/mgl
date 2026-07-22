@@ -23,6 +23,7 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { fetchAndEncodeSteamCover } from "./lib/steamCover.mjs";
+import { pruneUnreferencedMediaFiles } from "./lib/pruneUnreferencedMedia.mjs";
 import { applyPatch } from "./publish-patch.mjs";
 import { computeRevision, externalAssetPath } from "./validate-data.mjs";
 
@@ -226,8 +227,9 @@ try {
         writeFileSync(filePath, bytes, { mode: 0o644, flag: "wx" });
       }
     }
+    const pruned = pruneUnreferencedMediaFiles(mediaRoot, next.assets);
     writeFileSync(libraryPath, `${JSON.stringify(next, null, 2)}\n`);
-    console.log(`applied to ${libraryPath} (+ ${Object.keys(patch.blobs).length} media)`);
+    console.log(`applied to ${libraryPath} (+ ${Object.keys(patch.blobs).length} media, pruned ${pruned})`);
   }
 
   console.log(JSON.stringify({

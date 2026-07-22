@@ -39,6 +39,7 @@ import {
   withRetry,
 } from "./lib/steamApi.mjs";
 import { fetchAndEncodeSteamCover } from "./lib/steamCover.mjs";
+import { pruneUnreferencedMediaFiles } from "./lib/pruneUnreferencedMedia.mjs";
 import {
   applyCachedAchievements,
   assertContinueRequiresProgress,
@@ -685,7 +686,8 @@ try {
       }
     }
     writeFileSync(libraryPath, `${JSON.stringify(next, null, 2)}\n`);
-    console.log(`applied to ${libraryPath} (+ ${Object.keys(patch.blobs).length} media)`);
+    const pruned = pruneUnreferencedMediaFiles(mediaRoot, next.assets);
+    console.log(`applied to ${libraryPath} (+ ${Object.keys(patch.blobs).length} media, pruned ${pruned})`);
 
     const snapshotOut = {
       version: 1,
