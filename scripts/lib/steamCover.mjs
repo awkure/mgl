@@ -2,6 +2,8 @@
 
 import { createHash } from "node:crypto";
 import sharp from "sharp";
+import { textFitSquare } from "./steamCoverTextFit.mjs";
+import { detectTextBoxes as defaultDetectTextBoxes } from "./steamCoverDetect.mjs";
 
 const CDN_LIBRARY = (appid) =>
   `https://cdn.cloudflare.steamstatic.com/steam/apps/${appid}/library_600x900.jpg`;
@@ -16,7 +18,11 @@ function bytesToBase64(bytes) {
 
 /**
  * @param {Buffer} imageBytes
- * @param {{ encodeResize?: (bytes: Buffer, position: string|number) => Promise<Buffer> }} [options]
+ * @param {{
+ *   encodeResize?: (bytes: Buffer, position: string | number) => Promise<Buffer>
+ *   detectTextBoxes?: (bytes: Buffer) => Promise<Array<{ x: number, y: number, width: number, height: number }>>
+ *   encodeExtract?: (bytes: Buffer, rect: { left: number, top: number, width: number, height: number }) => Promise<Buffer>
+ * }} [options]
  * @returns {Promise<Buffer>}
  */
 export async function encodeSteamCoverWebp(imageBytes, options = {}) {
@@ -28,6 +34,31 @@ export async function encodeSteamCoverWebp(imageBytes, options = {}) {
         .resize(512, 512, { fit: "cover", position })
         .webp({ quality: 82 })
         .toBuffer());
+
+  const encodeExtract =
+    options.encodeExtract ??
+    ((bytes, rect) =>
+      sharp(bytes)
+        .rotate()
+        .extract(rect)
+        .resize(512, 512)
+        .webp({ quality: 82 })
+        .toBuffer());
+
+  const detectTextBoxes = options.detectTextBoxes ?? defaultDetectTextBoxes;
+
+  try {
+    const boxes = await detectTextBoxes(imageBytes);
+    const meta = await sharp(imageBytes).rotate().metadata();
+    const width = meta.width ?? 0;
+    const height = meta.height ?? 0;
+    const rect = textFitSquare(boxes ?? [], { width, height });
+    if (rect) {
+      return await encodeExtract(imageBytes, rect);
+    }
+  } catch {
+    // fall through to attention
+  }
 
   try {
     return await encodeResize(imageBytes, sharp.strategy.attention);
