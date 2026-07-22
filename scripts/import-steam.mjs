@@ -658,13 +658,7 @@ try {
         libraryAssets: working.assets ?? {},
       });
       patch = mergePatchFragments(patch, fragment);
-      working = applyPatch(working, {
-        patchVersion: 2,
-        schemaVersion: 2,
-        baseRevision: working.revision || "",
-        operations: fragment.operations,
-        blobs: {},
-      });
+      working = applyPatch(library, patch);
     }
   }
 

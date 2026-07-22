@@ -289,7 +289,7 @@ try {
           schemaVersion: 2,
           baseRevision: working.revision || "",
           operations: fragment.operations,
-          blobs: {},
+          blobs: fragment.blobs,
         });
       }
       summaries.push({

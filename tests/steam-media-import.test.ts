@@ -1,4 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
+import { createHash } from "node:crypto";
+import { MISSING_VALUE_HASH, validatePatchEnvelope } from "../scripts/publish-patch.mjs";
+import { computeRevision } from "../scripts/validate-data.mjs";
 import {
   listLibraryGamesWithSteamAppId,
   importSteamMediaForGame,
@@ -180,5 +183,71 @@ describe("mergePatchFragments", () => {
     const merged = mergePatchFragments(base, fragment);
     expect(Object.keys(merged.operations)).toHaveLength(3);
     expect(merged.blobs[assetId]).toBe("QQ==");
+  });
+});
+
+describe("media fragment applyPatch", () => {
+  it("rejects incremental apply without asset blobs; accepts fragment or full merged patch", () => {
+    const webp = Buffer.from("RIFFxxxxWEBPv1");
+    const assetId = createHash("sha256").update(webp).digest("hex");
+    const gameId = "00000000-0000-4000-8000-000000000001";
+    const library = {
+      schemaVersion: 2,
+      revision: "",
+      publicationId: null,
+      games: { [gameId]: game(gameId, 570) },
+      notes: {},
+      assets: {},
+    };
+    library.revision = computeRevision(library);
+
+    const fragment = {
+      operations: {
+        [`/assets/${assetId}`]: {
+          operation: "set",
+          value: {
+            id: assetId,
+            kind: "image",
+            mime: "image/webp",
+            width: 1,
+            height: 1,
+            byteLength: webp.byteLength,
+            alt: "shot",
+            originalName: "shot.webp",
+          },
+          baseExists: false,
+          baseHash: MISSING_VALUE_HASH,
+          changedAt: NOW,
+          transactionId: "tx",
+        },
+      },
+      blobs: { [assetId]: webp.toString("base64") },
+    };
+
+    const envelope = {
+      patchVersion: 2,
+      schemaVersion: 2,
+      baseRevision: library.revision,
+      operations: fragment.operations,
+      blobs: {} as Record<string, string>,
+    };
+
+    expect(() => validatePatchEnvelope(envelope, library)).toThrow(/missing blob payload/);
+
+    const withBlobs = { ...envelope, blobs: fragment.blobs };
+    expect(() => validatePatchEnvelope(withBlobs, library)).not.toThrow();
+
+    const merged = mergePatchFragments(
+      {
+        patchVersion: 2,
+        schemaVersion: 2,
+        baseRevision: library.revision,
+        operations: {},
+        blobs: {},
+      },
+      fragment,
+    );
+    expect(() => validatePatchEnvelope(merged, library)).not.toThrow();
+    expect(Object.keys(merged.blobs)).toContain(assetId);
   });
 });
