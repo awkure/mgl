@@ -194,6 +194,8 @@ function validateGame(key, game, assets, at, error) {
     "importedVia",
     "hoursPlayed",
     "lastPlayedAt",
+    "achievementsUnlocked",
+    "achievementsTotal",
     "steamOverrides",
     "platforms",
     "tags",
@@ -224,6 +226,15 @@ function validateGame(key, game, assets, at, error) {
     error(`${at}.hoursPlayed`, "must be null or a non-negative number of hours");
   }
   if (game.lastPlayedAt !== null) isoDate(game.lastPlayedAt, `${at}.lastPlayedAt`, error);
+  const unlocked = game.achievementsUnlocked;
+  const total = game.achievementsTotal;
+  const unlockedOk = unlocked === null || (typeof unlocked === "number" && Number.isSafeInteger(unlocked) && unlocked >= 0);
+  const totalOk = total === null || (typeof total === "number" && Number.isSafeInteger(total) && total >= 0);
+  if (!unlockedOk) error(`${at}.achievementsUnlocked`, "must be null or a non-negative safe integer");
+  if (!totalOk) error(`${at}.achievementsTotal`, "must be null or a non-negative safe integer");
+  if (unlockedOk && totalOk && unlocked !== null && total !== null && unlocked > total) {
+    error(`${at}.achievementsTotal`, "unlocked count cannot exceed total");
+  }
   validateSteamOverrides(game.steamOverrides, `${at}.steamOverrides`, error);
   stringSet(game.platforms, `${at}.platforms`, error);
   stringSet(game.tags, `${at}.tags`, error);

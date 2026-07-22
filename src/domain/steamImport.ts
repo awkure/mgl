@@ -262,6 +262,8 @@ export function mapSteamCandidateToGame(input: MapSteamGameInput): Game {
     importedVia: "steam",
     hoursPlayed: hoursFromSteamMinutes(playtimeForever),
     lastPlayedAt: lastPlayedAtFromSteam(input.rtimeLastPlayed),
+    achievementsUnlocked: null,
+    achievementsTotal: null,
     steamOverrides: {},
     platforms: ["Steam"],
     tags: uniqueTagList(input.genres ?? []),

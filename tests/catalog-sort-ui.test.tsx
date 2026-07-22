@@ -12,7 +12,7 @@ function game(partial: Partial<Game> & Pick<Game, "id" | "title">): Game {
     steamAppId: null,
     importedVia: "manually",
     hoursPlayed: null,
-    lastPlayedAt: null, steamOverrides: {},
+    lastPlayedAt: null, achievementsUnlocked: null, achievementsTotal: null, steamOverrides: {},
     platforms: ["PC"],
     tags: [],
     status: "played",

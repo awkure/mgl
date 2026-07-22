@@ -28,7 +28,7 @@ function empty(): LibraryDatabase {
 }
 
 function game(title = "DuckTales"): Game {
-  return { id: GAME_ID, title, coverAssetId: null, steamAppId: null, importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, steamOverrides: {}, platforms: ["NES"], tags: ["platformer"], status: "playing", placement: { tierId: "a", rank: 1024 }, reviewMarkdown: "Хорошая игра", createdAt: NOW, updatedAt: NOW };
+  return { id: GAME_ID, title, coverAssetId: null, steamAppId: null, importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, achievementsUnlocked: null, achievementsTotal: null, steamOverrides: {}, platforms: ["NES"], tags: ["platformer"], status: "playing", placement: { tierId: "a", rank: 1024 }, reviewMarkdown: "Хорошая игра", createdAt: NOW, updatedAt: NOW };
 }
 
 function note(groupRank?: number): Note {
@@ -79,6 +79,25 @@ describe("library validation", () => {
     expect(validateLibrary(database).issues).toContainEqual(
       expect.objectContaining({ path: `/games/${GAME_ID}/steamOverrides/hoursPlayed` }),
     );
+  });
+
+  it("requires achievement count fields and validates unlocked vs total", () => {
+    const database = empty();
+    const base = game();
+    database.games[GAME_ID] = { ...base };
+    delete (database.games[GAME_ID] as { achievementsUnlocked?: unknown }).achievementsUnlocked;
+    expect(validateLibrary(database).ok).toBe(false);
+
+    database.games[GAME_ID] = { ...base, achievementsUnlocked: 12, achievementsTotal: 10 };
+    expect(validateLibrary(database).issues).toContainEqual(
+      expect.objectContaining({ path: `/games/${GAME_ID}/achievementsTotal` }),
+    );
+
+    database.games[GAME_ID] = { ...base, achievementsUnlocked: 5, achievementsTotal: 40 };
+    expect(validateLibrary(database).ok).toBe(true);
+
+    database.games[GAME_ID] = { ...base, achievementsUnlocked: null, achievementsTotal: null };
+    expect(validateLibrary(database).ok).toBe(true);
   });
 
   it("accepts null or positive steamAppId and rejects invalid values", () => {

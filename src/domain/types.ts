@@ -26,6 +26,8 @@ export interface Game {
   importedVia: ImportedViaId;
   hoursPlayed: number | null;
   lastPlayedAt: string | null;
+  achievementsUnlocked: number | null;
+  achievementsTotal: number | null;
   steamOverrides: Partial<Record<SteamOverrideKey, true>>;
   platforms: string[];
   tags: string[];

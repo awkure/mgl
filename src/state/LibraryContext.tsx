@@ -612,6 +612,8 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
         importedVia,
         hoursPlayed: input.hoursPlayed === undefined ? previous?.hoursPlayed ?? null : input.hoursPlayed,
         lastPlayedAt: input.lastPlayedAt === undefined ? previous?.lastPlayedAt ?? null : input.lastPlayedAt,
+        achievementsUnlocked: previous?.achievementsUnlocked ?? null,
+        achievementsTotal: previous?.achievementsTotal ?? null,
         steamOverrides: input.steamOverrides !== undefined
           ? input.steamOverrides
           : nextSteamOverrides(previous, overrideFields),

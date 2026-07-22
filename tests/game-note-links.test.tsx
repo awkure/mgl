@@ -33,7 +33,7 @@ function game(overrides: Partial<Game> = {}): Game {
     id: CURRENT_GAME_ID,
     title: "DuckTales",
     coverAssetId: null,
-    steamAppId: null, importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, steamOverrides: {}, platforms: ["NES"],
+    steamAppId: null, importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, achievementsUnlocked: null, achievementsTotal: null, steamOverrides: {}, platforms: ["NES"],
     tags: [],
     status: "playing",
     placement: { tierId: "a", rank: 1024 },

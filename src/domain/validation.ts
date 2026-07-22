@@ -17,13 +17,13 @@ const ENTITY_MAPS = ["games", "notes", "assets"] as const;
 export type EntityMapName = (typeof ENTITY_MAPS)[number];
 
 export const ENTITY_FIELDS: Record<EntityMapName, readonly string[]> = {
-  games: ["id", "title", "coverAssetId", "steamAppId", "importedVia", "hoursPlayed", "lastPlayedAt", "steamOverrides", "platforms", "tags", "status", "placement", "reviewMarkdown", "createdAt", "updatedAt"],
+  games: ["id", "title", "coverAssetId", "steamAppId", "importedVia", "hoursPlayed", "lastPlayedAt", "achievementsUnlocked", "achievementsTotal", "steamOverrides", "platforms", "tags", "status", "placement", "reviewMarkdown", "createdAt", "updatedAt"],
   notes: ["id", "gameId", "bodyMarkdown", "attachments", "groupRank", "rank", "createdAt", "updatedAt"],
   assets: ["id", "kind", "mime", "width", "height", "byteLength", "alt", "originalName"],
 };
 
 export const LOCALLY_PATCHABLE_FIELDS: Record<EntityMapName, readonly string[]> = {
-  games: ["title", "coverAssetId", "steamAppId", "importedVia", "hoursPlayed", "lastPlayedAt", "steamOverrides", "platforms", "tags", "status", "placement", "reviewMarkdown"],
+  games: ["title", "coverAssetId", "steamAppId", "importedVia", "hoursPlayed", "lastPlayedAt", "achievementsUnlocked", "achievementsTotal", "steamOverrides", "platforms", "tags", "status", "placement", "reviewMarkdown"],
   notes: ["bodyMarkdown", "attachments", "groupRank", "rank"],
   assets: [],
 };
@@ -134,6 +134,22 @@ function validateSteamOverrides(value: unknown, path: string, issues: Validation
   }
 }
 
+function validateAchievementCounts(
+  unlocked: unknown,
+  total: unknown,
+  pathUnlocked: string,
+  pathTotal: string,
+  issues: ValidationIssue[],
+): void {
+  const unlockedOk = unlocked === null || (typeof unlocked === "number" && Number.isSafeInteger(unlocked) && unlocked >= 0);
+  const totalOk = total === null || (typeof total === "number" && Number.isSafeInteger(total) && total >= 0);
+  if (!unlockedOk) issue(issues, pathUnlocked, "Ожидалось неотрицательное безопасное целое или null");
+  if (!totalOk) issue(issues, pathTotal, "Ожидалось неотрицательное безопасное целое или null");
+  if (unlockedOk && totalOk && unlocked !== null && total !== null && unlocked > total) {
+    issue(issues, pathTotal, "Открытых достижений не может быть больше, чем всего");
+  }
+}
+
 function validateGame(value: unknown, path: string, issues: ValidationIssue[]): void {
   if (!isObject(value)) { issue(issues, path, "Ожидался объект игры"); return; }
   exactKeys(value, ENTITY_FIELDS.games, path, issues);
@@ -150,6 +166,7 @@ function validateGame(value: unknown, path: string, issues: ValidationIssue[]): 
     issue(issues, `${path}/hoursPlayed`, "Ожидалось неотрицательное число часов или null");
   }
   if (value.lastPlayedAt !== null) isoDate(value.lastPlayedAt, `${path}/lastPlayedAt`, issues);
+  validateAchievementCounts(value.achievementsUnlocked, value.achievementsTotal, `${path}/achievementsUnlocked`, `${path}/achievementsTotal`, issues);
   validateSteamOverrides(value.steamOverrides, `${path}/steamOverrides`, issues);
   stringList(value.platforms, `${path}/platforms`, issues);
   stringList(value.tags, `${path}/tags`, issues);

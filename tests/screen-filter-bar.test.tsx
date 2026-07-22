@@ -10,7 +10,7 @@ const game: Game = {
   title: "DuckTales",
   coverAssetId: null,
   steamAppId: null, importedVia: "manually", hoursPlayed: null,
-  lastPlayedAt: null, steamOverrides: {},
+  lastPlayedAt: null, achievementsUnlocked: null, achievementsTotal: null, steamOverrides: {},
   platforms: ["NES"], tags: ["platformer"], status: "playing",
   placement: { tierId: "a", rank: 1024 },
   reviewMarkdown: "",

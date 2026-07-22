@@ -63,7 +63,7 @@ function game(title: string, coverAssetId: string | null = null): Game {
     steamAppId: null,
     importedVia: "manually",
     hoursPlayed: null,
-    lastPlayedAt: null, steamOverrides: {},
+    lastPlayedAt: null, achievementsUnlocked: null, achievementsTotal: null, steamOverrides: {},
     platforms: ["NES"],
     tags: [],
     status: "playing",

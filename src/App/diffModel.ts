@@ -9,6 +9,8 @@ export const fieldLabels: Record<string, string> = {
   importedVia: "Импорт через",
   hoursPlayed: "Часов в игре",
   lastPlayedAt: "Последняя игра",
+  achievementsUnlocked: "Достижения (открыто)",
+  achievementsTotal: "Достижения (всего)",
   steamOverrides: "Защита от Steam",
   platforms: "Платформы",
   tags: "Теги",

@@ -29,7 +29,7 @@ describe("inline asset migration", () => {
           id: "22222222-2222-4222-8222-222222222222",
           title: "Synthetic game",
           coverAssetId: id,
-          steamAppId: null, importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, steamOverrides: {}, platforms: [],
+          steamAppId: null, importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, achievementsUnlocked: null, achievementsTotal: null, steamOverrides: {}, platforms: [],
           tags: [],
           status: "wishlist",
           placement: { tierId: "unranked", rank: 1024 },

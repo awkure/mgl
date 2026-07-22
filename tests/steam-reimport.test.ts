@@ -20,6 +20,8 @@ function baseGame(overrides: Partial<Game> = {}): Game {
     importedVia: "steam",
     hoursPlayed: 10,
     lastPlayedAt: "2026-01-01T00:00:00.000Z",
+    achievementsUnlocked: null,
+    achievementsTotal: null,
     steamOverrides: {},
     platforms: ["Steam"],
     tags: ["Action"],

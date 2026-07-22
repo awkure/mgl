@@ -11,7 +11,7 @@ function game(id: string, title: string): Game {
     id,
     title,
     coverAssetId: null,
-    steamAppId: null, importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, steamOverrides: {}, platforms: ["SNES"],
+    steamAppId: null, importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, achievementsUnlocked: null, achievementsTotal: null, steamOverrides: {}, platforms: ["SNES"],
     tags: ["platformer"],
     status: "played",
     placement: { tierId: "a", rank: 1024 },
