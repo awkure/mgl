@@ -59,6 +59,7 @@ import {
   type StorageUsage,
   type TierId,
 } from "../domain";
+import { nextSteamOverrides } from "../domain/steamReimport";
 import {
   PENDING_PUBLICATION_STORAGE_KEY,
   clearPendingPublication,
@@ -599,17 +600,23 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
       const placementRank = previous && !tierChanged
         ? previous.placement.rank
         : maxRank(Object.values(database.games).filter((game) => game.id !== id && game.placement.tierId === input.tierId).map((game) => game.placement)) + 1024;
+      const importedVia = input.importedVia === undefined ? previous?.importedVia ?? "manually" : input.importedVia;
+      const title = input.title.trim();
+      const tags = uniqueStrings(input.tags);
+      const overrideFields = { title, tags, status: input.status, coverAssetId, importedVia };
       database.games[id] = {
         id,
-        title: input.title.trim(),
+        title,
         coverAssetId,
         steamAppId: input.steamAppId === undefined ? previous?.steamAppId ?? null : input.steamAppId,
-        importedVia: input.importedVia === undefined ? previous?.importedVia ?? "manually" : input.importedVia,
+        importedVia,
         hoursPlayed: input.hoursPlayed === undefined ? previous?.hoursPlayed ?? null : input.hoursPlayed,
         lastPlayedAt: input.lastPlayedAt === undefined ? previous?.lastPlayedAt ?? null : input.lastPlayedAt,
-        steamOverrides: previous?.steamOverrides ?? {},
+        steamOverrides: input.steamOverrides !== undefined
+          ? input.steamOverrides
+          : nextSteamOverrides(previous, overrideFields),
         platforms: uniqueStrings(input.platforms),
-        tags: uniqueStrings(input.tags),
+        tags,
         status: input.status,
         placement: { tierId: input.tierId, rank: placementRank },
         reviewMarkdown: input.reviewMarkdown,

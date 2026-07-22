@@ -4,6 +4,7 @@ import {
   buildSnapshotGameFromCandidate,
   canWriteAchievementProgress,
   mergeSteamGameUpdate,
+  nextSteamOverrides,
   snapshotGamesEqual,
   type SteamSnapshotGame,
 } from "../src/domain/steamReimport";
@@ -307,5 +308,34 @@ describe("buildSnapshotGameFromCandidate", () => {
       genres: ["Action", "Free to Play"],
       headerImage: "https://cdn/h.jpg",
     });
+  });
+});
+
+describe("nextSteamOverrides", () => {
+  const fields = (game: Game) => ({
+    title: game.title,
+    tags: game.tags,
+    status: game.status,
+    coverAssetId: game.coverAssetId,
+    importedVia: game.importedVia,
+  });
+
+  it("marks title when a Steam game title changes", () => {
+    const previous = baseGame();
+    const next = baseGame({ title: "Renamed" });
+    expect(nextSteamOverrides(previous, fields(next))).toEqual({ title: true });
+  });
+
+  it("does not mark fields for manual games", () => {
+    const previous = baseGame({ importedVia: "manually", steamAppId: null });
+    const next = baseGame({ importedVia: "manually", steamAppId: null, title: "Renamed", status: "completed" });
+    expect(nextSteamOverrides(previous, fields(next))).toEqual({});
+  });
+
+  it("marks coverAssetId when cover changes", () => {
+    const coverAssetId = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+    const previous = baseGame();
+    const next = baseGame({ coverAssetId });
+    expect(nextSteamOverrides(previous, fields(next))).toEqual({ coverAssetId: true });
   });
 });

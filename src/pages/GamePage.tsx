@@ -1017,6 +1017,9 @@ function InlineGamePage({ game, notes, assets, platformSuggestions = [], tagSugg
             <div><dt>Импорт через</dt><dd>{game.importedVia === "steam" && game.steamAppId != null ? (
               <a className="game-sidebar__import-link" href={`https://store.steampowered.com/app/${game.steamAppId}/`} rel="noreferrer" target="_blank">{IMPORTED_VIA_LABELS.steam}</a>
             ) : IMPORTED_VIA_LABELS[game.importedVia]}</dd></div>
+            {Object.keys(game.steamOverrides).length > 0 ? (
+              <div><dt>Steam</dt><dd>поля защищены от Steam</dd></div>
+            ) : null}
             <div><dt>Часов в игре</dt><dd><InlineTextField active={editingField === "hoursPlayed"} ariaLabel="Часов в игре" onBegin={() => !saving && setEditingField("hoursPlayed")} onCommit={async (raw) => {
               const trimmed = raw.trim().replace(",", ".");
               if (!trimmed) return persist({ hoursPlayed: null });

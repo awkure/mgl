@@ -1,5 +1,5 @@
 import { canonicalHash, MISSING_VALUE_HASH } from "./canonical";
-import type { Game, StatusId } from "./types";
+import type { Game, StatusId, SteamOverrideKey } from "./types";
 import {
   hoursFromSteamMinutes,
   lastPlayedAtFromSteam,
@@ -285,4 +285,20 @@ export function mergeSteamGameUpdate(input: {
   }
   next.updatedAt = now;
   return { game: next, changedKeys };
+}
+
+export function nextSteamOverrides(
+  previous: Game | undefined,
+  nextFields: Pick<Game, "title" | "tags" | "status" | "coverAssetId" | "importedVia">,
+): Partial<Record<SteamOverrideKey, true>> {
+  const base = { ...(previous?.steamOverrides ?? {}) };
+  if ((previous?.importedVia ?? nextFields.importedVia) !== "steam" && nextFields.importedVia !== "steam") {
+    return base;
+  }
+  if (!previous) return base;
+  if (previous.title !== nextFields.title) base.title = true;
+  if (JSON.stringify(previous.tags) !== JSON.stringify(nextFields.tags)) base.tags = true;
+  if (previous.status !== nextFields.status) base.status = true;
+  if (previous.coverAssetId !== nextFields.coverAssetId) base.coverAssetId = true;
+  return base;
 }
