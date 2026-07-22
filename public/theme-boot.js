@@ -7,3 +7,12 @@ try {
     if (m && t === "light") m.setAttribute("content", "#f2f3f5");
   }
 } catch (e) { }
+
+/* Block browser pinch-zoom on iOS/iPad Safari (viewport user-scalable often ignored). */
+(function () {
+  function blockGesture(event) {
+    event.preventDefault();
+  }
+  document.addEventListener("gesturestart", blockGesture, { passive: false });
+  document.addEventListener("gesturechange", blockGesture, { passive: false });
+})();
