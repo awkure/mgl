@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": "150b0d51629630eb7745e4cbd6cdb1d984c7d5341288cdbe5514f878ffbd20f0",
-  "publicationId": "a8fd2898-4bc5-4d64-9993-308430ebade4",
+  "revision": "dd7e8a2027b10e9a21fb6db32b3a54f4531e3eece76edb0bf45af0ce54a46f09",
+  "publicationId": "d24298c1-ed81-4221-ac0a-6d68cdc8ecca",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
       "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
@@ -6952,7 +6952,7 @@
     "804b3185-d3b4-406f-809f-26717a7ecacd": {
       "id": "804b3185-d3b4-406f-809f-26717a7ecacd",
       "title": "Lost in Vivo",
-      "coverAssetId": "2f008665abf1f128e46f444fb17205bc13bdf7df32416dd06e0d3c8688d46216",
+      "coverAssetId": "7477bbb0681d0c4bb25af9833e715c11ca1791c84af23e8e338bc17382a24d20",
       "steamAppId": 963710,
       "importedVia": "steam",
       "hoursPlayed": 4.3,
@@ -6973,7 +6973,7 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T17:01:30.086Z"
+      "updatedAt": "2026-07-22T17:38:58.836Z"
     },
     "81a63820-14bb-48ce-afa5-42cc55685cc7": {
       "id": "81a63820-14bb-48ce-afa5-42cc55685cc7",
@@ -9570,7 +9570,7 @@
     "b4e91569-3b4b-4111-aa6f-c5ffcd2286b3": {
       "id": "b4e91569-3b4b-4111-aa6f-c5ffcd2286b3",
       "title": "Shovel Knight: Treasure Trove",
-      "coverAssetId": "0980e8d3eeb3ee5404c2331ed3a02e6c9bca959c77de56eff13f5f8f96adb363",
+      "coverAssetId": "e37ff060bdb761c2194bbac1cc97cd9951a26a0bfee1e9e83ac96fc0250110fb",
       "steamAppId": 250760,
       "importedVia": "steam",
       "hoursPlayed": 19.1,
@@ -9593,7 +9593,7 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T17:01:30.086Z"
+      "updatedAt": "2026-07-22T17:38:58.836Z"
     },
     "b580deb7-0b77-4a76-a9b4-8b39772ed97f": {
       "id": "b580deb7-0b77-4a76-a9b4-8b39772ed97f",
@@ -10961,7 +10961,7 @@
     "d2db4350-872b-4300-bfdb-f8dfbca187e4": {
       "id": "d2db4350-872b-4300-bfdb-f8dfbca187e4",
       "title": "DUSK",
-      "coverAssetId": "7fcb0782f02f9b61e725fdb5709362750eb4be03aedd181f55493c01f77826ad",
+      "coverAssetId": "0d2eb43091ffa20c9aff2175cbb8fe9a262ce55b97721dec8ce6efc9b9bc865d",
       "steamAppId": 519860,
       "importedVia": "steam",
       "hoursPlayed": 0.7,
@@ -10983,7 +10983,7 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T16:29:53.247Z"
+      "updatedAt": "2026-07-22T17:38:58.836Z"
     },
     "d3611aae-4678-4706-a3ce-2dc058fa0fcc": {
       "id": "d3611aae-4678-4706-a3ce-2dc058fa0fcc",
@@ -19724,16 +19724,6 @@
       "alt": "Travellin Cats in China",
       "originalName": "steam-2608040.webp"
     },
-    "7fcb0782f02f9b61e725fdb5709362750eb4be03aedd181f55493c01f77826ad": {
-      "id": "7fcb0782f02f9b61e725fdb5709362750eb4be03aedd181f55493c01f77826ad",
-      "kind": "image",
-      "mime": "image/webp",
-      "width": 512,
-      "height": 512,
-      "byteLength": 25798,
-      "alt": "DUSK",
-      "originalName": "steam-519860.webp"
-    },
     "8265e5e37c441ec4f77908fb23ec1aed885e2bab9a4e945187172183cf2a5bf3": {
       "id": "8265e5e37c441ec4f77908fb23ec1aed885e2bab9a4e945187172183cf2a5bf3",
       "kind": "image",
@@ -20133,16 +20123,6 @@
       "byteLength": 20942,
       "alt": "WHAT THE CAR?",
       "originalName": "steam-2727650.webp"
-    },
-    "0980e8d3eeb3ee5404c2331ed3a02e6c9bca959c77de56eff13f5f8f96adb363": {
-      "id": "0980e8d3eeb3ee5404c2331ed3a02e6c9bca959c77de56eff13f5f8f96adb363",
-      "kind": "image",
-      "mime": "image/webp",
-      "width": 512,
-      "height": 512,
-      "byteLength": 61682,
-      "alt": "Shovel Knight: Treasure Trove",
-      "originalName": "steam-250760.webp"
     },
     "09bc40828992d8f24f4f71238b992828411c7d6bdedefd48580b9c76bf81d5f5": {
       "id": "09bc40828992d8f24f4f71238b992828411c7d6bdedefd48580b9c76bf81d5f5",
@@ -20683,16 +20663,6 @@
       "byteLength": 26168,
       "alt": "Path of Exile 2",
       "originalName": "steam-2694490.webp"
-    },
-    "2f008665abf1f128e46f444fb17205bc13bdf7df32416dd06e0d3c8688d46216": {
-      "id": "2f008665abf1f128e46f444fb17205bc13bdf7df32416dd06e0d3c8688d46216",
-      "kind": "image",
-      "mime": "image/webp",
-      "width": 512,
-      "height": 512,
-      "byteLength": 58562,
-      "alt": "Lost in Vivo",
-      "originalName": "steam-963710.webp"
     },
     "2fc110b5cc99eb8ae2b3bf7b98d4b58d1512283e73de16b7c7ed3bc41584e61a": {
       "id": "2fc110b5cc99eb8ae2b3bf7b98d4b58d1512283e73de16b7c7ed3bc41584e61a",
@@ -23553,6 +23523,36 @@
       "byteLength": 34766,
       "alt": "ULTRAKILL",
       "originalName": "steam-1229490.webp"
+    },
+    "0d2eb43091ffa20c9aff2175cbb8fe9a262ce55b97721dec8ce6efc9b9bc865d": {
+      "id": "0d2eb43091ffa20c9aff2175cbb8fe9a262ce55b97721dec8ce6efc9b9bc865d",
+      "kind": "image",
+      "mime": "image/webp",
+      "width": 512,
+      "height": 512,
+      "byteLength": 23166,
+      "alt": "DUSK",
+      "originalName": "steam-519860.webp"
+    },
+    "7477bbb0681d0c4bb25af9833e715c11ca1791c84af23e8e338bc17382a24d20": {
+      "id": "7477bbb0681d0c4bb25af9833e715c11ca1791c84af23e8e338bc17382a24d20",
+      "kind": "image",
+      "mime": "image/webp",
+      "width": 512,
+      "height": 512,
+      "byteLength": 57972,
+      "alt": "Lost in Vivo",
+      "originalName": "steam-963710.webp"
+    },
+    "e37ff060bdb761c2194bbac1cc97cd9951a26a0bfee1e9e83ac96fc0250110fb": {
+      "id": "e37ff060bdb761c2194bbac1cc97cd9951a26a0bfee1e9e83ac96fc0250110fb",
+      "kind": "image",
+      "mime": "image/webp",
+      "width": 512,
+      "height": 512,
+      "byteLength": 63908,
+      "alt": "Shovel Knight: Treasure Trove",
+      "originalName": "steam-250760.webp"
     }
   }
 }
