@@ -12729,6 +12729,51 @@
       },
       "title": "Amanda the Adventurer 3",
       "coverAssetId": "bcd4f4114e37c0752ed7e670d9e8af11167bb55df45573ff69e827e4f32e9bae"
+    },
+    {
+      "id": "caf98c3d802753d9e8e3bcea51c210bc3cfbdce0e3dc6de15a40fa18677352fe",
+      "changedAt": "2026-07-22T18:36:05.123Z",
+      "entity": "game",
+      "entityId": "1e08f5ab-1373-411b-a291-2aa240536a29",
+      "gameId": "1e08f5ab-1373-411b-a291-2aa240536a29",
+      "field": "placement",
+      "op": "set",
+      "before": {
+        "tierId": "unranked",
+        "rank": 444416
+      },
+      "after": {
+        "tierId": "b",
+        "rank": 75776
+      },
+      "title": "Chronoquartz",
+      "coverAssetId": "8e50a4994e0719d40740d587ba47e36c802be3fec025fab250ffb6c8ce9dde9a"
+    },
+    {
+      "id": "3f7f1967434f0627d86543955df4c8e8ced82ba71e7dc97de5c2ed8fcb0fa630",
+      "changedAt": "2026-07-22T18:36:28.743Z",
+      "entity": "note",
+      "entityId": "c5a92e28-fa09-4958-98ca-e020fe3553c8",
+      "gameId": "09b5cc74-63bf-456f-99ab-97097703f8d6",
+      "field": null,
+      "op": "delete",
+      "before": null,
+      "after": null,
+      "title": "The Binding of Isaac: Rebirth",
+      "coverAssetId": "82258390140ccf7c880d5ca991c730918757b656d86390248a70133b59ec8189"
+    },
+    {
+      "id": "0b1f128af09f3e62f6f0fbc19bbb782e7505cc870421833db87a8a044adbc834",
+      "changedAt": "2026-07-22T18:36:30.858Z",
+      "entity": "note",
+      "entityId": "960b0e73-7171-4344-99ad-952965bf3811",
+      "gameId": "09b5cc74-63bf-456f-99ab-97097703f8d6",
+      "field": null,
+      "op": "delete",
+      "before": null,
+      "after": null,
+      "title": "The Binding of Isaac: Rebirth",
+      "coverAssetId": "82258390140ccf7c880d5ca991c730918757b656d86390248a70133b59ec8189"
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": "8c75b315413c4d57f6306bf651debbbb74ebbf0b7d27b04099c3dd2960f159b3",
-  "publicationId": "5a3fbd1b-ca56-4e26-a499-5365462b8024",
+  "revision": "f5d44837e289c8aa6d9b5037a2e6e193b4513d3946a378c06299ad6850d47e77",
+  "publicationId": "90025598-2fc7-425f-8719-c55040ff1b2d",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
       "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
@@ -553,7 +553,7 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T17:33:08.692Z"
+      "updatedAt": "2026-07-22T18:36:30.858Z"
     },
     "0a6d00b8-58cd-41a2-a316-55cf2fc04dc3": {
       "id": "0a6d00b8-58cd-41a2-a316-55cf2fc04dc3",
@@ -1830,12 +1830,12 @@
       ],
       "status": "platinum",
       "placement": {
-        "tierId": "unranked",
-        "rank": 444416
+        "tierId": "b",
+        "rank": 75776
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T17:01:30.086Z"
+      "updatedAt": "2026-07-22T18:36:05.123Z"
     },
     "1efec24c-0365-4864-8ccc-bf186ad70558": {
       "id": "1efec24c-0365-4864-8ccc-bf186ad70558",
@@ -18041,26 +18041,6 @@
       "rank": 1024,
       "createdAt": "2026-07-22T15:50:57.240Z",
       "updatedAt": "2026-07-22T15:50:57.272Z"
-    },
-    "960b0e73-7171-4344-99ad-952965bf3811": {
-      "id": "960b0e73-7171-4344-99ad-952965bf3811",
-      "gameId": "09b5cc74-63bf-456f-99ab-97097703f8d6",
-      "bodyMarkdown": "another test",
-      "attachments": [],
-      "groupRank": 4096,
-      "rank": 1024,
-      "createdAt": "2026-07-22T17:33:08.668Z",
-      "updatedAt": "2026-07-22T17:33:08.692Z"
-    },
-    "c5a92e28-fa09-4958-98ca-e020fe3553c8": {
-      "id": "c5a92e28-fa09-4958-98ca-e020fe3553c8",
-      "gameId": "09b5cc74-63bf-456f-99ab-97097703f8d6",
-      "bodyMarkdown": "test",
-      "attachments": [],
-      "groupRank": 3072,
-      "rank": 1024,
-      "createdAt": "2026-07-22T17:32:56.771Z",
-      "updatedAt": "2026-07-22T17:32:56.800Z"
     }
   },
   "assets": {
