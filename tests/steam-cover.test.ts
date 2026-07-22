@@ -172,7 +172,9 @@ describe("steamCover", () => {
       create: { width: 600, height: 900, channels: 3, background: { r: 10, g: 20, b: 30 } },
     }).jpeg().toBuffer();
 
-    const webp = await encodeSteamCoverWebp(jpeg);
+    const webp = await encodeSteamCoverWebp(jpeg, {
+      detectTextBoxes: async () => [],
+    });
     const meta = await sharp(webp).metadata();
     expect(meta.format).toBe("webp");
     expect(meta.width).toBe(512);
