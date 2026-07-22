@@ -57,6 +57,7 @@ function routeKind(pathname: string): AppRoute {
   if (pathname === "/") return "tiers";
   if (pathname === "/games") return "catalog";
   if (pathname === "/games/new") return "new";
+  if (pathname === "/history") return "history";
   if (pathname === "/settings") return "settings";
   if (pathname.startsWith("/games/")) return "game";
   return "catalog";
@@ -169,7 +170,7 @@ function LibraryRoutes() {
       return;
     }
 
-    if (path === "/" || path === "/settings") {
+    if (path === "/" || path === "/history" || path === "/settings") {
       const tab = tabIdFromPath(path);
       setTabState((current) => ({
         activeTab: tab,

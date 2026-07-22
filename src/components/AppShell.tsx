@@ -9,29 +9,33 @@ import { formatBytes } from "./libraryUi";
 import { useMobileChrome } from "./mobileChrome";
 import { RandomGameButton } from "./RandomGameButton";
 
-export type AppRoute = "tiers" | "catalog" | "game" | "new" | "settings";
+export type AppRoute = "tiers" | "catalog" | "game" | "new" | "history" | "settings";
 
-/** Tab-bar blob progress for mobile chrome (0=тирлист, 1=каталог, 2=настройки). */
+/** Tab-bar blob progress for mobile chrome (0=тирлист, 1=каталог, 2=история, 3=настройки). */
 export function tabProgressFromRoute(route: AppRoute): number {
-  if (route === "settings") return 2;
+  if (route === "settings") return 3;
+  if (route === "history") return 2;
   if (route === "catalog" || route === "game" || route === "new") return 1;
   return 0;
 }
 
 export function tabProgressFromTabId(tab: TabId): number {
-  if (tab === "settings") return 2;
+  if (tab === "settings") return 3;
+  if (tab === "history") return 2;
   if (tab === "catalog") return 1;
   return 0;
 }
 
 export function shellRouteFromTab(tab: TabId): AppRoute {
   if (tab === "settings") return "settings";
+  if (tab === "history") return "history";
   if (tab === "catalog") return "catalog";
   return "tiers";
 }
 
 export function tabIdFromAppRoute(route: AppRoute): TabId {
   if (route === "settings") return "settings";
+  if (route === "history") return "history";
   if (route === "tiers") return "tiers";
   return "catalog";
 }
@@ -173,7 +177,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
 
   const activeTab = activeTabProp ?? tabIdFromAppRoute(route);
   const shellRoute = activeTabProp ? shellRouteFromTab(activeTab) : route;
-  const atTabRoot = route === "tiers" || route === "catalog" || route === "settings";
+  const atTabRoot = route === "tiers" || route === "catalog" || route === "history" || route === "settings";
   const showFilterBar = (activeTab === "tiers" || activeTab === "catalog") && atTabRoot;
   const filterMode = activeTab === "catalog" ? "catalog" : "tier";
   const budget = storage.budgetBytes ?? 4 * 1024 * 1024;
@@ -211,6 +215,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
           <nav aria-label="Основная навигация" className="app-nav app-nav--desktop">
             <NavLink active={activeTab === "tiers"} href="#/" icon="book" label="Тирлист" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="tiers" />
             <NavLink active={activeTab === "catalog"} href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="catalog" />
+            <NavLink active={activeTab === "history"} href="#/history" icon="history" label="История" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="history" />
           </nav>
         ) : null}
         {showFilterBar ? <ScreenFilterBar games={games} mode={filterMode} /> : null}
@@ -258,6 +263,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
             <span aria-hidden="true" className="app-tab-bar__blob" />
             <NavLink active={activeTab === "tiers"} className="app-tab-bar__link" href="#/" icon="book" label="Тирлист" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "tiers"} tab="tiers" />
             <NavLink active={activeTab === "catalog"} className="app-tab-bar__link" href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "catalog"} tab="catalog" />
+            <NavLink active={activeTab === "history"} className="app-tab-bar__link" href="#/history" icon="history" label="История" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "history"} tab="history" />
             <NavLink active={activeTab === "settings"} className="app-tab-bar__link" href="#/settings" icon="settings" label="Настройки" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "settings"} tab="settings" />
           </nav>
           <a

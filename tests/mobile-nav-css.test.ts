@@ -43,8 +43,8 @@ describe("mobile nav css", () => {
     expect(styles).not.toContain("data-glass-effect");
   });
 
-  it("defines swipe pager track layout for three panels", () => {
-    expect(declarationsIn(styles, ".swipe-pager__track")).toContain("width: 300%");
+  it("defines swipe pager track layout for four panels", () => {
+    expect(declarationsIn(styles, ".swipe-pager__track")).toContain("width: 400%");
     expect(declarationsIn(styles, ".swipe-pager__panel")).toContain("position: relative");
     expect(styles).toContain(".swipe-pager__overlay");
     expect(declarationsIn(styles, ".swipe-pager__overlay")).toContain("position: absolute");

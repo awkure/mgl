@@ -1,4 +1,4 @@
-export type TabId = "tiers" | "catalog" | "settings";
+export type TabId = "tiers" | "catalog" | "history" | "settings";
 
 export interface StackEntry {
   pathname: string;
@@ -13,6 +13,7 @@ export interface TabStacksState {
 export const TAB_ROOTS: Record<TabId, StackEntry> = {
   tiers: { pathname: "/" },
   catalog: { pathname: "/games" },
+  history: { pathname: "/history" },
   settings: { pathname: "/settings" },
 };
 
@@ -33,6 +34,7 @@ export function entriesEqual(a: StackEntry, b: StackEntry): boolean {
 /** Default owning tab for a URL. Game/new deep links belong to catalog until pushed onto another tab. */
 export function tabIdFromPath(pathname: string): TabId {
   if (pathname === "/settings") return "settings";
+  if (pathname === "/history") return "history";
   if (pathname === "/") return "tiers";
   if (pathname === "/games" || pathname.startsWith("/games/")) return "catalog";
   return "catalog";
@@ -51,6 +53,7 @@ function cloneStacks(stacks: Record<TabId, StackEntry[]>): Record<TabId, StackEn
   return {
     tiers: [...stacks.tiers],
     catalog: [...stacks.catalog],
+    history: [...stacks.history],
     settings: [...stacks.settings],
   };
 }
@@ -66,6 +69,7 @@ export function createInitialTabStacksState(location: StackEntry): TabStacksStat
   const stacks: Record<TabId, StackEntry[]> = {
     tiers: rootStack("tiers"),
     catalog: rootStack("catalog"),
+    history: rootStack("history"),
     settings: rootStack("settings"),
   };
 
@@ -126,7 +130,7 @@ export function replaceActiveTop(state: TabStacksState, entry: StackEntry): TabS
   return { ...state, stacks };
 }
 
-const TAB_ORDER: TabId[] = ["tiers", "catalog", "settings"];
+const TAB_ORDER: TabId[] = ["tiers", "catalog", "history", "settings"];
 
 function isGameLikePath(pathname: string): boolean {
   return pathname === "/games/new" || /^\/games\/[^/]+$/.test(pathname);
@@ -167,15 +171,17 @@ export function syncFromLocation(state: TabStacksState, location: StackEntry): T
   stacks[tab] = [root, location];
   return { activeTab: tab, stacks };
 }
-export function tabFromPagerIndex(index: 0 | 1 | 2): TabId {
+export function tabFromPagerIndex(index: 0 | 1 | 2 | 3): TabId {
   if (index === 1) return "catalog";
-  if (index === 2) return "settings";
+  if (index === 2) return "history";
+  if (index === 3) return "settings";
   return "tiers";
 }
 
-export function pagerIndexFromTab(tab: TabId): 0 | 1 | 2 {
+export function pagerIndexFromTab(tab: TabId): 0 | 1 | 2 | 3 {
   if (tab === "catalog") return 1;
-  if (tab === "settings") return 2;
+  if (tab === "history") return 2;
+  if (tab === "settings") return 3;
   return 0;
 }
 

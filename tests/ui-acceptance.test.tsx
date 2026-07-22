@@ -118,12 +118,12 @@ describe("AppShell", () => {
     expect(within(catalogHeader!).getByRole("link", { name: "Тирлист" })).not.toHaveAttribute("aria-current");
   });
 
-  it("keeps only the two navigation tabs on the left side of the header", () => {
+  it("keeps tier, catalog, and history nav on the left side of the header", () => {
     render(<AppShell onOpenDiff={vi.fn()} route="tiers" storage={{ bytes: 0, operationCount: 0 }}><div>Тирлист</div></AppShell>);
 
     const header = document.querySelector(".app-header");
     expect(header?.firstElementChild).toHaveClass("app-nav");
-    expect(within(header as HTMLElement).getAllByRole("link").slice(0, 2).map((link) => link.textContent)).toEqual(["Тирлист", "Каталог"]);
+    expect(within(header as HTMLElement).getAllByRole("link").slice(0, 3).map((link) => link.textContent)).toEqual(["Тирлист", "Каталог", "История"]);
     expect(header?.querySelector(".brand")).not.toBeInTheDocument();
     expect(within(header as HTMLElement).queryByText("Моя игровая библиотека")).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Локальные правки: 0, 0 Б" })).toBeInTheDocument();

@@ -106,7 +106,7 @@ describe("tab bar press glass — press state", () => {
 
     fireEvent.pointerDown(settings, { pointerId: 1, button: 0 });
     expect(shell).toHaveAttribute("data-tab-press", "true");
-    expect(shell.style.getPropertyValue("--press-tab").trim()).toBe("2");
+    expect(shell.style.getPropertyValue("--press-tab").trim()).toBe("3");
 
     shell.setAttribute("data-pager-dragging", "true");
     await waitFor(() => {

@@ -13,6 +13,7 @@ import {
   syncFromLocation,
   tabFromPagerIndex,
   tabIdFromPath,
+  pagerIndexFromTab,
   tabProgressFromTabId,
   type TabStacksState,
 } from "../src/state/tabStacks";
@@ -24,8 +25,10 @@ describe("tabStacks", () => {
     expect(tabIdFromPath("/games/new")).toBe("catalog");
     expect(tabIdFromPath("/games/abc")).toBe("catalog");
     expect(tabIdFromPath("/settings")).toBe("settings");
+    expect(tabIdFromPath("/history")).toBe("history");
     expect(TAB_ROOTS.tiers.pathname).toBe("/");
     expect(TAB_ROOTS.catalog.pathname).toBe("/games");
+    expect(TAB_ROOTS.history.pathname).toBe("/history");
     expect(TAB_ROOTS.settings.pathname).toBe("/settings");
   });
 
@@ -111,10 +114,14 @@ describe("tabStacks", () => {
   it("maps pager index ↔ tab and progress", () => {
     expect(tabFromPagerIndex(0)).toBe("tiers");
     expect(tabFromPagerIndex(1)).toBe("catalog");
-    expect(tabFromPagerIndex(2)).toBe("settings");
+    expect(tabFromPagerIndex(2)).toBe("history");
+    expect(tabFromPagerIndex(3)).toBe("settings");
+    expect(pagerIndexFromTab("history")).toBe(2);
+    expect(pagerIndexFromTab("settings")).toBe(3);
     expect(tabProgressFromTabId("tiers")).toBe(0);
     expect(tabProgressFromTabId("catalog")).toBe(1);
-    expect(tabProgressFromTabId("settings")).toBe(2);
+    expect(tabProgressFromTabId("history")).toBe(2);
+    expect(tabProgressFromTabId("settings")).toBe(3);
   });
 
   it("preserves catalog search on root entry", () => {
