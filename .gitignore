@@ -5,6 +5,7 @@ coverage/
 *.log
 .vscode/
 .cursor/*
+.superpowers/
 .env.local
 .env.*.local
 .env
