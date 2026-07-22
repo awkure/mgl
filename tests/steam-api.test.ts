@@ -148,6 +148,43 @@ describe("steamApi", () => {
       name: "Dota 2",
       genres: ["Action"],
       headerImage: "https://example.com/header.jpg",
+      screenshots: [],
+      movies: [],
+    });
+  });
+
+  it("parses storefront screenshots and movies", async () => {
+    mockJson({
+      "570": {
+        success: true,
+        data: {
+          type: "game",
+          name: "Dota 2",
+          genres: [{ description: "Action" }],
+          header_image: "https://example.com/header.jpg",
+          screenshots: [
+            { id: 1, path_full: "https://example.com/shot1.jpg", path_thumbnail: "https://example.com/t1.jpg" },
+            { id: 2, path_full: "", path_thumbnail: "https://example.com/t2.jpg" },
+          ],
+          movies: [
+            { id: 10, name: "  Launch  ", thumbnail: "https://example.com/thumb.jpg" },
+            { id: 11, name: "", thumbnail: 42 },
+          ],
+        },
+      },
+    });
+    await expect(getAppDetails(570)).resolves.toEqual({
+      type: "game",
+      name: "Dota 2",
+      genres: ["Action"],
+      headerImage: "https://example.com/header.jpg",
+      screenshots: [
+        { id: 1, pathFull: "https://example.com/shot1.jpg", pathThumbnail: "https://example.com/t1.jpg" },
+      ],
+      movies: [
+        { id: 10, name: "Launch", thumbnail: "https://example.com/thumb.jpg" },
+        { id: 11, name: "Trailer", thumbnail: null },
+      ],
     });
   });
 });

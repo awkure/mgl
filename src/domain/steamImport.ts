@@ -13,6 +13,8 @@ export interface SteamAppDetailsSlice {
   name?: string;
   genres?: string[];
   headerImage?: string | null;
+  screenshots?: Array<{ id: number; pathFull: string; pathThumbnail: string }>;
+  movies?: Array<{ id: number; name: string; thumbnail: string | null }>;
 }
 
 export interface SteamImportCandidate {

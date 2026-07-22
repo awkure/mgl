@@ -120,11 +120,29 @@ export async function getAppDetails(appid, options = {}) {
   const genres = Array.isArray(data.genres)
     ? data.genres.map((item) => String(item?.description ?? "").trim()).filter(Boolean)
     : [];
+  const screenshots = Array.isArray(data.screenshots)
+    ? data.screenshots
+        .map((s) => ({
+          id: Number(s.id),
+          pathFull: String(s.path_full ?? ""),
+          pathThumbnail: String(s.path_thumbnail ?? ""),
+        }))
+        .filter((s) => s.pathFull)
+    : [];
+  const movies = Array.isArray(data.movies)
+    ? data.movies.map((m) => ({
+        id: Number(m.id),
+        name: String(m.name ?? "Trailer").trim() || "Trailer",
+        thumbnail: typeof m.thumbnail === "string" ? m.thumbnail : null,
+      }))
+    : [];
   return {
     type: typeof data.type === "string" ? data.type : undefined,
     name: typeof data.name === "string" ? data.name : undefined,
     genres,
     headerImage: typeof data.header_image === "string" ? data.header_image : null,
+    screenshots,
+    movies,
   };
 }
 
