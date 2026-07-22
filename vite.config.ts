@@ -12,5 +12,18 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: ["./src/test/setup.ts"],
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "html", "json-summary"],
+      reportsDirectory: "./coverage",
+      include: ["src/**/*.{ts,tsx}"],
+      exclude: [
+        "src/test/**",
+        "src/vite-env.d.ts",
+        "src/main.tsx",
+      ],
+      // Report-only until Task 14 fills gaps:
+      thresholds: undefined,
+    },
   },
 });
