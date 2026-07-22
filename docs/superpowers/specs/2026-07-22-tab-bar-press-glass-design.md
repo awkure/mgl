@@ -83,4 +83,3 @@ On tab links and the add (`app-tab-add`) anchor:
 - Release + navigation restores pager-driven blob position
 - Swipe-drag still owns blob (no press fight)
 - `prefers-reduced-motion` disables grow/fringe flourish
-`}
