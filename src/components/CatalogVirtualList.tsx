@@ -1,7 +1,51 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { useRef, type JSX } from "react";
+import { useEffect, useRef, useState, type JSX } from "react";
 import type { Asset, Game } from "../domain/types";
 import { GameCard } from "./GameCard";
+
+/** Matches `.catalog-list { grid-template-columns: 1fr }` in styles.css. */
+export const CATALOG_SINGLE_COLUMN_QUERY = "(max-width: 720px)";
+
+function useCatalogSingleColumn(): boolean {
+  const [singleColumn, setSingleColumn] = useState(() => {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") return false;
+    return window.matchMedia(CATALOG_SINGLE_COLUMN_QUERY).matches;
+  });
+
+  useEffect(() => {
+    if (typeof window.matchMedia !== "function") return;
+    const media = window.matchMedia(CATALOG_SINGLE_COLUMN_QUERY);
+    const sync = () => setSingleColumn(media.matches);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+
+  return singleColumn;
+}
+
+function CatalogListGrid(props: {
+  games: Game[];
+  assets: Record<string, Asset>;
+  resolveAssetUrl?: (assetId: string) => string | null;
+  onOpenGame?: (gameId: string) => void;
+}): JSX.Element {
+  const { games, assets, resolveAssetUrl, onOpenGame } = props;
+  return (
+    <div className="catalog-list">
+      {games.map((game) => (
+        <GameCard
+          asset={game.coverAssetId ? assets[game.coverAssetId] : undefined}
+          game={game}
+          key={game.id}
+          onOpen={onOpenGame}
+          resolveAssetUrl={resolveAssetUrl}
+          variant="list"
+        />
+      ))}
+    </div>
+  );
+}
 
 export function CatalogVirtualList(props: {
   games: Game[];
@@ -12,7 +56,9 @@ export function CatalogVirtualList(props: {
 }): JSX.Element {
   const { games, assets, resolveAssetUrl, onOpenGame, scrollElement } = props;
   const warnedRef = useRef(false);
-  const canVirtualize = scrollElement !== null && scrollElement.offsetHeight > 0;
+  const singleColumn = useCatalogSingleColumn();
+  const canVirtualize =
+    singleColumn && scrollElement !== null && scrollElement.offsetHeight > 0;
 
   if (!canVirtualize) {
     if (import.meta.env.DEV && scrollElement === null && !warnedRef.current) {
@@ -20,18 +66,12 @@ export function CatalogVirtualList(props: {
       warnedRef.current = true;
     }
     return (
-      <div className="catalog-list">
-        {games.map((game) => (
-          <GameCard
-            asset={game.coverAssetId ? assets[game.coverAssetId] : undefined}
-            game={game}
-            key={game.id}
-            onOpen={onOpenGame}
-            resolveAssetUrl={resolveAssetUrl}
-            variant="list"
-          />
-        ))}
-      </div>
+      <CatalogListGrid
+        assets={assets}
+        games={games}
+        onOpenGame={onOpenGame}
+        resolveAssetUrl={resolveAssetUrl}
+      />
     );
   }
 

@@ -1,6 +1,9 @@
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { CatalogVirtualList } from "../src/components/CatalogVirtualList";
+import {
+  CATALOG_SINGLE_COLUMN_QUERY,
+  CatalogVirtualList,
+} from "../src/components/CatalogVirtualList";
 import { CatalogPage } from "../src/pages/CatalogPage";
 import type { Game } from "../src/domain/types";
 
@@ -71,8 +74,57 @@ class ResizeObserverMock {
   disconnect() {}
 }
 
+type MatchMediaMock = {
+  setMatches: (matches: boolean) => void;
+  listeners: Set<(event: MediaQueryListEvent) => void>;
+};
+
+function mockCatalogMatchMedia(initialNarrow: boolean): MatchMediaMock {
+  let matches = initialNarrow;
+  const listeners = new Set<(event: MediaQueryListEvent) => void>();
+
+  vi.stubGlobal(
+    "matchMedia",
+    vi.fn((query: string) => {
+      const isCatalogQuery = query === CATALOG_SINGLE_COLUMN_QUERY;
+      return {
+        get matches() {
+          return isCatalogQuery ? matches : false;
+        },
+        media: query,
+        onchange: null,
+        addEventListener: (_type: string, listener: EventListenerOrEventListenerObject) => {
+          if (typeof listener === "function") {
+            listeners.add(listener as (event: MediaQueryListEvent) => void);
+          }
+        },
+        removeEventListener: (_type: string, listener: EventListenerOrEventListenerObject) => {
+          if (typeof listener === "function") {
+            listeners.delete(listener as (event: MediaQueryListEvent) => void);
+          }
+        },
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      } as MediaQueryList;
+    }),
+  );
+
+  return {
+    listeners,
+    setMatches(next: boolean) {
+      matches = next;
+      const event = { matches } as MediaQueryListEvent;
+      for (const listener of listeners) {
+        listener(event);
+      }
+    },
+  };
+}
+
 beforeEach(() => {
   vi.stubGlobal("ResizeObserver", ResizeObserverMock);
+  mockCatalogMatchMedia(false);
 });
 
 afterEach(() => {
@@ -82,7 +134,8 @@ afterEach(() => {
 });
 
 describe("CatalogVirtualList", () => {
-  it("mounts only a visible subset when a scroll root is provided", async () => {
+  it("mounts only a visible subset at the single-column breakpoint", async () => {
+    mockCatalogMatchMedia(true);
     const games = Array.from({ length: 40 }, (_, index) => makeGame(index));
     const scrollElement = mockScrollElement(180);
 
@@ -99,7 +152,43 @@ describe("CatalogVirtualList", () => {
     expect(document.querySelector(".catalog-list--virtual")).toBeTruthy();
   });
 
+  it("renders the full grid without virtual classes on wide viewports", () => {
+    mockCatalogMatchMedia(false);
+    const games = Array.from({ length: 40 }, (_, index) => makeGame(index));
+    const scrollElement = mockScrollElement(180);
+
+    render(
+      <CatalogVirtualList assets={{}} games={games} scrollElement={scrollElement} />,
+    );
+
+    expect(screen.getAllByRole("link")).toHaveLength(games.length);
+    expect(document.querySelector(".catalog-list--virtual")).toBeNull();
+    expect(document.querySelector(".catalog-list")).toBeTruthy();
+  });
+
+  it("switches between virtual and full grid when matchMedia changes", async () => {
+    const media = mockCatalogMatchMedia(false);
+    const games = Array.from({ length: 40 }, (_, index) => makeGame(index));
+    const scrollElement = mockScrollElement(180);
+
+    render(
+      <CatalogVirtualList assets={{}} games={games} scrollElement={scrollElement} />,
+    );
+
+    expect(screen.getAllByRole("link")).toHaveLength(games.length);
+
+    await act(async () => {
+      media.setMatches(true);
+    });
+
+    await waitFor(() => {
+      expect(document.querySelector(".catalog-list--virtual")).toBeTruthy();
+      expect(screen.getAllByRole("link").length).toBeLessThan(games.length);
+    });
+  });
+
   it("renders the full list and warns once when scroll root is missing", () => {
+    mockCatalogMatchMedia(true);
     const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const games = [makeGame(1), makeGame(2), makeGame(3)];
 
@@ -112,6 +201,7 @@ describe("CatalogVirtualList", () => {
   });
 
   it("forwards open-game clicks", () => {
+    mockCatalogMatchMedia(true);
     const onOpenGame = vi.fn();
     const games = [makeGame(0)];
     render(
