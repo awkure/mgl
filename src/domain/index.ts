@@ -10,3 +10,5 @@ export * from "./assetReferences";
 export * from "./localAssets";
 export * from "./storageQuota";
 export * from "./youtube";
+export * from "./historyTypes";
+export * from "./historyValidate";
