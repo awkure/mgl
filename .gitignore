@@ -12,3 +12,5 @@ coverage/
 
 # Local Steam import artifacts
 steam-import.patch.json
+
+benchmarks/results/
