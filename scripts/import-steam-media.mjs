@@ -19,12 +19,21 @@ import {
   withRetry,
 } from "./lib/steamApi.mjs";
 import { fetchAndEncodeSteamCover } from "./lib/steamCover.mjs";
-import { fetchAndEncodeSteamImage } from "./lib/steamImage.mjs";
+import {
+  buildMediaNotePatchFragment,
+  importSteamMediaForGame,
+  listLibraryGamesWithSteamAppId,
+  mergePatchFragments,
+  shouldSkipMediaEncodeForBulk,
+  summarizeBulkMediaDryRun,
+  validateMediaTargetFlags,
+} from "./lib/steamMediaImport.mjs";
 import { applyPatch } from "./publish-patch.mjs";
 import { computeRevision, externalAssetPath } from "./validate-data.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const MISSING_VALUE_HASH = "0".repeat(64);
+const libraryPath = path.join(root, "public", "data", "library.json");
 
 function loadEnvFile(filePath) {
   if (!existsSync(filePath)) return;
@@ -48,12 +57,9 @@ function loadEnvFile(filePath) {
 loadEnvFile(path.join(root, ".env"));
 loadEnvFile(path.join(root, ".env.local"));
 
-const {
-  buildSteamMediaAttachments,
-  isSteamMediaNote,
-  prefillGameFromSteamDetails,
-  upsertSteamMediaNote,
-} = await import(pathToFileURL(path.join(root, "src/domain/steamMedia.ts")).href);
+const { prefillGameFromSteamDetails } = await import(
+  pathToFileURL(path.join(root, "src/domain/steamMedia.ts")).href,
+);
 const { findGameBySteamAppId, parseSteamProfileInput } = await import(
   pathToFileURL(path.join(root, "src/domain/steamIdentity.ts")).href,
 );
@@ -70,6 +76,7 @@ function parseArgs(argv) {
     prefill: false,
     noVideoThumbs: false,
     outExplicit: false,
+    all: false,
     help: false,
   };
   for (let i = 0; i < argv.length; i += 1) {
@@ -83,6 +90,7 @@ function parseArgs(argv) {
     if (arg === "--dry-run") flags.dryRun = true;
     else if (arg === "--apply") flags.apply = true;
     else if (arg === "--prefill") flags.prefill = true;
+    else if (arg === "--all") flags.all = true;
     else if (arg === "--no-video-thumbs" || arg === "--no-trailer-thumbs") flags.noVideoThumbs = true;
     else if (arg === "--appid") flags.appid = Number(next());
     else if (arg === "--game-id") flags.gameId = next();
@@ -98,7 +106,13 @@ function parseArgs(argv) {
   }
   if (flags.apply && flags.dryRun) throw new Error("Use either --apply or --dry-run, not both");
   if (!flags.outExplicit) {
-    flags.out = flags.apply ? null : "steam-media-import.patch.json";
+    if (flags.apply) {
+      flags.out = null;
+    } else if (flags.all) {
+      flags.out = "steam-media-import-all.patch.json";
+    } else {
+      flags.out = "steam-media-import.patch.json";
+    }
   }
   return flags;
 }
@@ -107,25 +121,23 @@ function usage() {
   console.log(`Usage: npm run import:steam-media -- [flags]
 
 Flags:
+  --all                       every library game with steamAppId (mutually exclusive with --appid/--game-id)
   --appid <n>                 Steam app id (required with --game-id if game has no appid)
   --game-id <uuid>            Target library game
   --profile <url|id|vanity>   default: STEAM_PROFILE_ID from env
-  --out <path>                write patch JSON (default steam-media-import.patch.json unless --apply)
+  --out <path>                write patch JSON (default steam-media-import.patch.json, or steam-media-import-all.patch.json with --all, unless --apply)
   --apply                     write note+assets into public/data + public/media
   --dry-run                   profile screenshot + video counts only; no downloads or writes
-  --prefill                   empty-only title/tags/cover/platforms/steamAppId from storefront
+  --prefill                   empty-only title/tags/cover/platforms/steamAppId from storefront (one game only)
   --no-video-thumbs           skip profile video preview downloads
                               (alias: --no-trailer-thumbs)
 
 Requires STEAM_WEB_API_KEY and STEAM_PROFILE_ID (or --profile) in .env / .env.local.
-Media: published profile screenshots + videos only (not storefront marketing).`);
+Media: published profile screenshots + videos only (not storefront marketing).
+Per-item encode failures are skipped (best-effort); API failures for a game abort one-game mode or skip in --all.`);
 }
 
 function resolveTarget(library, flags) {
-  if (!flags.appid && !flags.gameId) {
-    throw new Error("Pass --appid and/or --game-id");
-  }
-
   let game = null;
   if (flags.gameId) {
     game = library.games?.[flags.gameId] ?? null;
@@ -151,64 +163,25 @@ function resolveTarget(library, flags) {
   return { game, appid };
 }
 
-function buildMediaImportPatch(input) {
-  const {
-    now,
-    transactionId,
-    encodedAssets,
-    mediaNote,
-    mediaNoteExisted,
-    previousNote,
-    nextGame,
-    previousGame,
-    existingAssetIds,
-    libraryAssets,
-    baseRevision,
-  } = input;
-
-  const operations = {};
-  const blobs = {};
-
-  for (const row of encodedAssets) {
-    const existed = existingAssetIds.has(row.asset.id);
-    operations[`/assets/${row.asset.id}`] = {
-      operation: "set",
-      value: row.asset,
-      baseExists: existed,
-      baseHash: existed ? canonicalHash(libraryAssets[row.asset.id]) : MISSING_VALUE_HASH,
-      changedAt: now,
-      transactionId,
-    };
-    blobs[row.asset.id] = row.base64;
+function applyAndWrite(library, patch) {
+  const mediaRoot = path.join(root, "public", "media");
+  mkdirSync(mediaRoot, { recursive: true });
+  const next = applyPatch(library, patch);
+  for (const [id, base64] of Object.entries(patch.blobs)) {
+    const asset = next.assets[id];
+    if (!asset) throw new Error(`Applied library missing asset ${id}`);
+    const filePath = externalAssetPath(mediaRoot, id, asset);
+    const bytes = Buffer.from(base64, "base64");
+    if (existsSync(filePath)) {
+      const existing = readFileSync(filePath);
+      if (!existing.equals(bytes)) throw new Error(`Media collision for ${id}`);
+    } else {
+      writeFileSync(filePath, bytes, { mode: 0o644, flag: "wx" });
+    }
   }
-
-  operations[`/notes/${mediaNote.id}`] = {
-    operation: "set",
-    value: mediaNote,
-    baseExists: mediaNoteExisted,
-    baseHash: mediaNoteExisted && previousNote ? canonicalHash(previousNote) : MISSING_VALUE_HASH,
-    changedAt: now,
-    transactionId,
-  };
-
-  if (nextGame && previousGame) {
-    operations[`/games/${nextGame.id}`] = {
-      operation: "set",
-      value: nextGame,
-      baseExists: true,
-      baseHash: canonicalHash(previousGame),
-      changedAt: now,
-      transactionId,
-    };
-  }
-
-  return {
-    patchVersion: 2,
-    schemaVersion: 2,
-    baseRevision,
-    operations,
-    blobs,
-  };
+  writeFileSync(libraryPath, `${JSON.stringify(next, null, 2)}\n`);
+  console.log(`applied to ${libraryPath} (+ ${Object.keys(patch.blobs).length} media)`);
+  return next;
 }
 
 let flags;
@@ -225,6 +198,14 @@ if (flags.help) {
   process.exit(0);
 }
 
+try {
+  validateMediaTargetFlags(flags);
+} catch (reason) {
+  console.error(reason instanceof Error ? reason.message : String(reason));
+  usage();
+  process.exit(2);
+}
+
 const apiKey = process.env.STEAM_WEB_API_KEY?.trim();
 if (!apiKey) {
   console.error("STEAM_WEB_API_KEY is missing. Add it to .env.local (Node-only).");
@@ -237,7 +218,6 @@ if (!profileInput) {
   process.exit(1);
 }
 
-const libraryPath = path.join(root, "public", "data", "library.json");
 if (!existsSync(libraryPath)) {
   console.error(`Missing ${libraryPath}`);
   process.exit(1);
@@ -250,11 +230,126 @@ try {
   const steamid = await resolveSteamId(apiKey, ref);
   console.log(`steamid64: ${steamid}`);
 
+  const now = new Date().toISOString();
+
+  if (flags.all) {
+    const targets = listLibraryGamesWithSteamAppId(library);
+    if (!targets.length) {
+      console.log(JSON.stringify({ all: true, games: 0, message: "no games with steamAppId" }));
+      process.exit(0);
+    }
+
+    if (shouldSkipMediaEncodeForBulk(flags)) {
+      const summary = await summarizeBulkMediaDryRun({
+        apiKey,
+        steamid,
+        targets,
+        noVideoThumbs: flags.noVideoThumbs,
+      });
+      console.log(JSON.stringify(summary));
+      process.exit(0);
+    }
+
+    let working = library;
+    const failedGames = [];
+    const summaries = [];
+    const transactionId = `steam-media-all-${now}`;
+    let combinedPatch = {
+      patchVersion: 2,
+      schemaVersion: 2,
+      baseRevision: library.revision || computeRevision(library),
+      operations: {},
+      blobs: {},
+    };
+
+    for (const { game, appid } of targets) {
+      console.log(`media ${game.title} (${game.id}) appid=${appid}`);
+      const result = await importSteamMediaForGame({
+        apiKey,
+        steamid,
+        library: working,
+        game,
+        appid,
+        now,
+        noVideoThumbs: flags.noVideoThumbs,
+      });
+      if (!result.ok) {
+        failedGames.push({ gameId: game.id, appid, error: result.error });
+        console.warn(`skip game ${game.id}: ${result.error}`);
+        continue;
+      }
+      const fragment = buildMediaNotePatchFragment({
+        result,
+        now,
+        transactionId,
+        existingAssetIds: new Set(Object.keys(working.assets ?? {})),
+        libraryAssets: working.assets ?? {},
+      });
+
+      if (flags.apply) {
+        const mini = {
+          patchVersion: 2,
+          schemaVersion: 2,
+          baseRevision: working.revision || computeRevision(working),
+          operations: fragment.operations,
+          blobs: fragment.blobs,
+        };
+        working = applyAndWrite(working, mini);
+      } else {
+        combinedPatch = mergePatchFragments(combinedPatch, fragment);
+        working = applyPatch(working, {
+          patchVersion: 2,
+          schemaVersion: 2,
+          baseRevision: working.revision || "",
+          operations: fragment.operations,
+          blobs: fragment.blobs,
+        });
+      }
+      summaries.push({
+        gameId: game.id,
+        appid,
+        screenshotsEncoded: result.screenshotsEncoded,
+        skipped: result.skipped.length,
+        videos: result.videos,
+      });
+    }
+
+    if (flags.out && !flags.apply) {
+      writeFileSync(path.resolve(root, flags.out), `${JSON.stringify(combinedPatch, null, 2)}\n`);
+    }
+
+    console.log(
+      JSON.stringify({
+        all: true,
+        games: summaries.length,
+        failedGames,
+        summaries,
+        applied: flags.apply,
+      }),
+    );
+    process.exit(0);
+  }
+
   const { game, appid } = resolveTarget(library, flags);
   console.log(`game: ${game.title} (${game.id}) appid=${appid}`);
 
-  const screenshots = await withRetry(() => getUserScreenshots(apiKey, steamid, appid));
-  const videos = await withRetry(() => getUserVideos(apiKey, steamid, appid));
+  if (flags.dryRun) {
+    const screenshots = await withRetry(() => getUserScreenshots(apiKey, steamid, appid));
+    const videos = await withRetry(() => getUserVideos(apiKey, steamid, appid));
+    console.log(
+      JSON.stringify({
+        dryRun: true,
+        appid,
+        gameId: game.id,
+        steamid,
+        screenshots: screenshots.length,
+        videos: videos.length,
+        prefill: flags.prefill,
+        noVideoThumbs: flags.noVideoThumbs,
+      }),
+    );
+    process.exit(0);
+  }
 
   let details = null;
   if (flags.prefill) {
@@ -265,91 +360,31 @@ try {
     }
   }
 
-  const screenshotCount = screenshots.length;
-  const videoCount = videos.length;
+  const result = await importSteamMediaForGame({
+    apiKey,
+    steamid,
+    library,
+    game,
+    appid,
+    now,
+    noVideoThumbs: flags.noVideoThumbs,
+  });
 
-  if (flags.dryRun) {
-    console.log(
-      JSON.stringify({
-        dryRun: true,
-        appid,
-        gameId: game.id,
-        steamid,
-        screenshots: screenshotCount,
-        videos: videoCount,
-        prefill: flags.prefill,
-        noVideoThumbs: flags.noVideoThumbs,
-      }),
-    );
-    process.exit(0);
+  if (!result.ok) {
+    console.error(result.error);
+    process.exit(1);
   }
-
-  /** @type {{ asset: object; base64: string }[]} */
-  const encodedAssets = [];
-
-  for (let index = 0; index < screenshotCount; index += 1) {
-    const shot = screenshots[index];
-    process.stdout.write(`screenshot ${index + 1}/${screenshotCount}\r`);
-    const encoded = await fetchAndEncodeSteamImage(shot.pathFull, {
-      alt: `Screenshot ${index + 1}`,
-      maxEdge: 1280,
-      originalName: `steam-${appid}-shot-${shot.id}.webp`,
-    });
-    encodedAssets.push(encoded);
-  }
-  if (screenshotCount) process.stdout.write("\n");
-
-  const movieRows = [];
-  for (let index = 0; index < videoCount; index += 1) {
-    const video = videos[index];
-    let thumbAssetId = null;
-    if (!flags.noVideoThumbs && video.previewUrl) {
-      process.stdout.write(`video thumb ${index + 1}/${videoCount}\r`);
-      const encoded = await fetchAndEncodeSteamImage(video.previewUrl, {
-        alt: video.name,
-        maxEdge: 512,
-        originalName: `steam-${appid}-video-${video.id}.webp`,
-      });
-      encodedAssets.push(encoded);
-      thumbAssetId = encoded.asset.id;
-    }
-    movieRows.push({ name: video.name, url: video.url, thumbAssetId });
-  }
-  if (videoCount && !flags.noVideoThumbs) process.stdout.write("\n");
 
   let coverEncoded = null;
-  if (flags.prefill && details && game.coverAssetId == null && details.headerImage) {
-    coverEncoded = await fetchAndEncodeSteamCover(appid, {
-      headerImage: details.headerImage,
-      alt: details.name ?? game.title,
-    });
-    if (coverEncoded) encodedAssets.push(coverEncoded);
-  }
-
-  const screenshotAssetIds = encodedAssets.slice(0, screenshotCount).map((row) => row.asset.id);
-  const attachments = buildSteamMediaAttachments({
-    screenshotAssetIds,
-    movies: movieRows,
-  });
-
-  const now = new Date().toISOString();
-  const transactionId = `steam-media-${now}`;
-  const existingNotes = Object.values(library.notes ?? {});
-  const previousNote = existingNotes.find(
-    (note) => note.gameId === game.id && isSteamMediaNote(note),
-  );
-  const upsert = upsertSteamMediaNote({
-    gameId: game.id,
-    existingNotes,
-    attachments,
-    now,
-  });
-  const mediaNote = upsert.notes.find((note) => note.id === upsert.mediaNoteId);
-  if (!mediaNote) throw new Error("Media note missing after upsert");
-
   let nextGame = null;
   const previousGame = game;
   if (flags.prefill && details) {
+    if (game.coverAssetId == null && details.headerImage) {
+      coverEncoded = await fetchAndEncodeSteamCover(appid, {
+        headerImage: details.headerImage,
+        alt: details.name ?? game.title,
+      });
+    }
     const prefillPatch = prefillGameFromSteamDetails(game, details, {
       appid,
       coverAssetId: coverEncoded?.asset.id ?? null,
@@ -359,21 +394,52 @@ try {
     }
   }
 
+  const transactionId = `steam-media-${now}`;
   const existingAssetIds = new Set(Object.keys(library.assets ?? {}));
   const baseRevision = library.revision || computeRevision(library);
-  const patch = buildMediaImportPatch({
-    baseRevision,
+  const fragment = buildMediaNotePatchFragment({
+    result,
     now,
     transactionId,
-    encodedAssets,
-    mediaNote,
-    mediaNoteExisted: Boolean(previousNote),
-    previousNote,
-    nextGame,
-    previousGame,
     existingAssetIds,
     libraryAssets: library.assets ?? {},
   });
+
+  const operations = { ...fragment.operations };
+  const blobs = { ...fragment.blobs };
+
+  if (coverEncoded) {
+    const row = coverEncoded;
+    const existed = existingAssetIds.has(row.asset.id);
+    operations[`/assets/${row.asset.id}`] = {
+      operation: "set",
+      value: row.asset,
+      baseExists: existed,
+      baseHash: existed ? canonicalHash(library.assets[row.asset.id]) : MISSING_VALUE_HASH,
+      changedAt: now,
+      transactionId,
+    };
+    blobs[row.asset.id] = row.base64;
+  }
+
+  if (nextGame && previousGame) {
+    operations[`/games/${nextGame.id}`] = {
+      operation: "set",
+      value: nextGame,
+      baseExists: true,
+      baseHash: canonicalHash(previousGame),
+      changedAt: now,
+      transactionId,
+    };
+  }
+
+  const patch = {
+    patchVersion: 2,
+    schemaVersion: 2,
+    baseRevision,
+    operations,
+    blobs,
+  };
 
   for (const [id, base64] of Object.entries(patch.blobs)) {
     if (!patch.operations[`/assets/${id}`]) throw new Error(`Orphan blob ${id}`);
@@ -387,35 +453,20 @@ try {
   }
 
   if (flags.apply) {
-    const mediaRoot = path.join(root, "public", "media");
-    mkdirSync(mediaRoot, { recursive: true });
-    const next = applyPatch(library, patch);
-    for (const [id, base64] of Object.entries(patch.blobs)) {
-      const asset = next.assets[id];
-      if (!asset) throw new Error(`Applied library missing asset ${id}`);
-      const filePath = externalAssetPath(mediaRoot, id, asset);
-      const bytes = Buffer.from(base64, "base64");
-      if (existsSync(filePath)) {
-        const existing = readFileSync(filePath);
-        if (!existing.equals(bytes)) throw new Error(`Media collision for ${id}`);
-      } else {
-        writeFileSync(filePath, bytes, { mode: 0o644, flag: "wx" });
-      }
-    }
-    writeFileSync(libraryPath, `${JSON.stringify(next, null, 2)}\n`);
-    console.log(`applied to ${libraryPath} (+ ${Object.keys(patch.blobs).length} media)`);
+    applyAndWrite(library, patch);
   }
 
+  const videoThumbCount = result.encodedAssets.length - result.screenshotsEncoded;
   console.log(
     JSON.stringify({
       appid,
       gameId: game.id,
       steamid,
-      mediaNoteId: upsert.mediaNoteId,
-      createdNote: upsert.created,
-      screenshots: screenshotCount,
-      videos: videoCount,
-      videoThumbs: movieRows.filter((row) => row.thumbAssetId).length,
+      mediaNoteId: result.mediaNote.id,
+      createdNote: !result.mediaNoteExisted,
+      screenshots: result.screenshotsRequested,
+      videos: result.videos,
+      videoThumbs: videoThumbCount,
       prefillApplied: Boolean(nextGame),
       operations: Object.keys(patch.operations).length,
       blobs: Object.keys(patch.blobs).length,

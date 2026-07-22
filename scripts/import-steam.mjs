@@ -20,6 +20,7 @@
  *   --no-covers                 skip cover download/encode
  *   --skip-details              skip storefront appdetails (no genres/type filter)
  *   --no-achievements           skip Steam stats API for achievement counts
+ *   --no-media                  skip profile screenshots/videos for touched games (default: on)
  */
 
 import { randomUUID } from "node:crypto";
@@ -50,6 +51,12 @@ import {
   upsertDetail,
   writeAtomic,
 } from "./lib/steamImportProgress.mjs";
+import {
+  buildMediaNotePatchFragment,
+  importSteamMediaForGame,
+  mediaTargetsFromPatchItems,
+  mergePatchFragments,
+} from "./lib/steamMediaImport.mjs";
 import { applyPatch } from "./publish-patch.mjs";
 import { computeRevision, externalAssetPath } from "./validate-data.mjs";
 
@@ -91,6 +98,7 @@ function parseArgs(argv) {
     noCovers: false,
     skipDetails: false,
     noAchievements: false,
+    noMedia: false,
     continue: false,
     outExplicit: false,
   };
@@ -109,6 +117,7 @@ function parseArgs(argv) {
     else if (arg === "--no-covers") flags.noCovers = true;
     else if (arg === "--skip-details") flags.skipDetails = true;
     else if (arg === "--no-achievements") flags.noAchievements = true;
+    else if (arg === "--no-media") flags.noMedia = true;
     else if (arg === "--continue") flags.continue = true;
     else if (arg === "--profile") flags.profile = next();
     else if (arg === "--out") {
@@ -146,6 +155,7 @@ Flags:
   --no-covers
   --skip-details
   --no-achievements           skip achievement count fetch (default: on)
+  --no-media                  skip profile media for touched games (default: import media)
   --continue                  resume from steam-import-progress.json (skip cached appids)`);
 }
 
@@ -601,7 +611,7 @@ try {
   }
 
   const baseRevision = library.revision || computeRevision(library);
-  const patch = buildSteamUpsertPatch(baseRevision, patchItems, { now });
+  let patch = buildSteamUpsertPatch(baseRevision, patchItems, { now });
   if (
     patch.patchVersion !== 2
     || typeof patch.baseRevision !== "string"
@@ -614,6 +624,42 @@ try {
   for (const [id, base64] of Object.entries(patch.blobs)) {
     if (!patch.operations[`/assets/${id}`]) throw new Error(`Orphan blob ${id}`);
     if (typeof base64 !== "string" || !base64) throw new Error(`Empty blob ${id}`);
+  }
+
+  const mediaFailedGames = [];
+  let mediaSkippedFiles = 0;
+  let mediaGames = 0;
+
+  if (!flags.noMedia) {
+    let working = applyPatch(library, patch);
+    const transactionId = `steam-import-media-${now}`;
+    for (const { game, appid } of mediaTargetsFromPatchItems(patchItems)) {
+      process.stdout.write(`media appid=${appid} ${game.title}\n`);
+      const result = await importSteamMediaForGame({
+        apiKey,
+        steamid,
+        library: working,
+        game,
+        appid,
+        now,
+      });
+      if (!result.ok) {
+        mediaFailedGames.push({ gameId: game.id, appid, error: result.error });
+        console.warn(`media skip ${appid}: ${result.error}`);
+        continue;
+      }
+      mediaGames += 1;
+      mediaSkippedFiles += result.skipped.length;
+      const fragment = buildMediaNotePatchFragment({
+        result,
+        now,
+        transactionId,
+        existingAssetIds: new Set(Object.keys(working.assets ?? {})),
+        libraryAssets: working.assets ?? {},
+      });
+      patch = mergePatchFragments(patch, fragment);
+      working = applyPatch(library, patch);
+    }
   }
 
   if (flags.out) {
@@ -667,6 +713,9 @@ try {
       achievementsSkipped,
       achievementsFailed,
       coversFailed,
+      mediaGames,
+      mediaFailedGames,
+      mediaSkippedFiles,
       operations: Object.keys(patch.operations).length,
       blobs: Object.keys(patch.blobs).length,
       applied: flags.apply,

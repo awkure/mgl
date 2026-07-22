@@ -75,6 +75,14 @@ steam-import-media-via-patch *ARGS:
 steam-import-media *ARGS:
     npm run import:steam-media -- --apply {{ARGS}}
 
+# Steam media for every library game with steamAppId → patch
+steam-import-media-all-via-patch *ARGS:
+    npm run import:steam-media -- --all {{ARGS}}
+
+# Steam media for every library game with steamAppId → public/data + public/media
+steam-import-media-all *ARGS:
+    npm run import:steam-media -- --all --apply {{ARGS}}
+
 # Steam covers only → patch file
 steam-import-covers-via-patch *ARGS:
     npm run import:steam-covers -- {{ARGS}}
