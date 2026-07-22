@@ -30,6 +30,16 @@ describe("mobile nav css", () => {
     expect(main).toContain("padding-bottom: var(--app-tab-bar-height)");
   });
 
+  it("pads overlay game pages so end content clears the floating tab bar", () => {
+    const page = declarationsIn(styles, ".swipe-pager__panel .swipe-pager__overlay .page");
+    expect(page).toContain("height: auto");
+    const mobilePage = declarationsIn(
+      styles,
+      '.app-shell[data-mobile-chrome="true"] .swipe-pager__overlay .page',
+    );
+    expect(mobilePage).toContain("padding-bottom: var(--app-tab-bar-height)");
+  });
+
   it("defines a circular detached add button", () => {
     const add = declarationsIn(styles, '.app-shell[data-mobile-chrome="true"] .app-tab-add');
     expect(add).toContain("position: fixed");

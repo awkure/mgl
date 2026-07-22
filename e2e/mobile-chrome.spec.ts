@@ -100,4 +100,37 @@ test.describe("mobile chrome", () => {
     await expect(page.getByRole("form", { name: "Новая игра" })).toBeVisible();
     await expect(page.locator(".game-form")).toBeVisible();
   });
+
+  test("game page end content clears floating tab bar", async ({ page }) => {
+    // Binding of Isaac has enough notes to scroll past the viewport on mobile.
+    await page.goto("/#/games/09b5cc74-63bf-456f-99ab-97097703f8d6", { waitUntil: "domcontentloaded" });
+    await waitForAppReady(page);
+
+    const overlay = page.locator(".swipe-pager__overlay");
+    await expect(overlay).toBeVisible();
+    await expect(page.locator(".game-view-page")).toBeVisible();
+
+    await overlay.evaluate((node) => {
+      node.scrollTop = node.scrollHeight;
+      node.dispatchEvent(new Event("scroll"));
+    });
+
+    const clearance = await page.evaluate(() => {
+      const overlayNode = document.querySelector(".swipe-pager__overlay");
+      const tabBar = document.querySelector(".app-tab-bar");
+      const pageNode = document.querySelector(".game-view-page");
+      if (!overlayNode || !tabBar || !pageNode) return null;
+      overlayNode.scrollTop = overlayNode.scrollHeight;
+      const buttons = [...pageNode.querySelectorAll("button")].filter((button) => {
+        const rect = button.getBoundingClientRect();
+        return rect.height > 0 && rect.width > 0;
+      });
+      if (!buttons.length) return null;
+      const bottom = Math.max(...buttons.map((button) => button.getBoundingClientRect().bottom));
+      return tabBar.getBoundingClientRect().top - bottom;
+    });
+
+    expect(clearance).not.toBeNull();
+    expect(clearance!).toBeGreaterThanOrEqual(8);
+  });
 });

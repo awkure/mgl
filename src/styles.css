@@ -1334,6 +1334,17 @@ h4 {
   height: 100%;
 }
 
+/* Must follow the panel height:100% rule — overlay game pages need natural height
+   so padding-bottom clears the floating tab bar at scroll end. */
+.swipe-pager__panel .swipe-pager__overlay .page {
+  height: auto;
+}
+
+/* Overlay scrollport padding-bottom is unreliable for end clearance; pad the page itself. */
+.app-shell[data-mobile-chrome="true"] .swipe-pager__overlay .page {
+  padding-bottom: var(--app-tab-bar-height);
+}
+
 .swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page, .history-page) {
   overflow-x: hidden;
   overflow-y: auto;
