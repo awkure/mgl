@@ -170,7 +170,8 @@ just steam-import-media -- --appid 570 --game-id <uuid>
 
 Флаги `import:steam`: `--profile`, `--out`, `--apply`, `--dry-run`, `--force`, `--played-only`,
 `--limit`, `--appids`, `--no-covers`, `--skip-details`, `--no-achievements` (по умолчанию счётчики
-достижений подтягиваются). `--apply` не делает git commit.
+достижений подтягиваются), `--continue` (продолжить с `steam-import-progress.json` в корне репо;
+без флага файл перезаписывается; после успешного `--apply` удаляется). `--apply` не делает git commit.
 
 Повторный импорт обновляет уже импортированные игры (`steamAppId`): часы, last played,
 статус (мягкие), теги/обложку/название — если не помечены `steamOverrides` в UI.

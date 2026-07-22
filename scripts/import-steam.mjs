@@ -38,6 +38,15 @@ import {
   withRetry,
 } from "./lib/steamApi.mjs";
 import { fetchAndEncodeSteamCover } from "./lib/steamCover.mjs";
+import {
+  createEmptyProgress,
+  DEFAULT_PROGRESS_FILENAME,
+  loadForContinue,
+  removeProgress,
+  upsertAchievement,
+  upsertDetail,
+  writeAtomic,
+} from "./lib/steamImportProgress.mjs";
 import { applyPatch } from "./publish-patch.mjs";
 import { computeRevision, externalAssetPath } from "./validate-data.mjs";
 
@@ -79,6 +88,7 @@ function parseArgs(argv) {
     noCovers: false,
     skipDetails: false,
     noAchievements: false,
+    continue: false,
     outExplicit: false,
   };
   for (let i = 0; i < argv.length; i += 1) {
@@ -96,6 +106,7 @@ function parseArgs(argv) {
     else if (arg === "--no-covers") flags.noCovers = true;
     else if (arg === "--skip-details") flags.skipDetails = true;
     else if (arg === "--no-achievements") flags.noAchievements = true;
+    else if (arg === "--continue") flags.continue = true;
     else if (arg === "--profile") flags.profile = next();
     else if (arg === "--out") {
       flags.out = next();
@@ -110,6 +121,7 @@ function parseArgs(argv) {
     throw new Error("--limit must be a non-negative integer");
   }
   if (flags.apply && flags.dryRun) throw new Error("Use either --apply or --dry-run, not both");
+  if (flags.continue && flags.dryRun) throw new Error("Do not combine --continue with --dry-run");
   if (!flags.outExplicit) {
     flags.out = flags.apply ? null : "steam-import.patch.json";
   }
@@ -130,7 +142,8 @@ Flags:
   --appids <a,b,c>
   --no-covers
   --skip-details
-  --no-achievements           skip achievement count fetch (default: on)`);
+  --no-achievements           skip achievement count fetch (default: on)
+  --continue                  resume from steam-import-progress.json (skip cached appids)`);
 }
 
 function loadSteamSnapshot(profileKey) {
@@ -224,6 +237,38 @@ try {
   }
   console.log(`owned: ${owned.gameCount}`);
 
+  const now = new Date().toISOString();
+  const progressPath = path.join(root, DEFAULT_PROGRESS_FILENAME);
+  const progressFlags = {
+    noCovers: flags.noCovers,
+    noAchievements: flags.noAchievements,
+    skipDetails: flags.skipDetails,
+    force: flags.force,
+    playedOnly: flags.playedOnly,
+  };
+  const willFetchDetails = !flags.skipDetails && !flags.dryRun;
+  const willFetchAchievements = !flags.noAchievements && !flags.dryRun;
+  const progressEnabled = willFetchDetails || willFetchAchievements;
+
+  /** @type {ReturnType<typeof createEmptyProgress> | null} */
+  let progress = null;
+  if (progressEnabled) {
+    if (flags.continue) {
+      progress = loadForContinue(progressPath, steamid, progressFlags);
+      console.log(
+        `continue: loaded ${progressPath} (details ${Object.keys(progress.details).length}, achievements ${Object.keys(progress.achievements).length})`,
+      );
+    } else {
+      progress = createEmptyProgress(steamid, progressFlags, now);
+      writeAtomic(progressPath, progress);
+      console.log(`progress: wrote fresh ${progressPath}`);
+    }
+  }
+
+  function flushProgress() {
+    if (progress) writeAtomic(progressPath, progress);
+  }
+
   const classified = classifySteamOwnedGames(owned.games, {
     existingGames: library.games ?? {},
     playedOnly: flags.playedOnly,
@@ -254,15 +299,51 @@ try {
 
   const fetchDetailsFor = async (candidate, existing, label, index, total) => {
     if (!needsDetails(candidate, existing)) return;
+    const cached = progress?.details?.[String(candidate.appid)];
+    if (cached) {
+      if (cached.ok) {
+        candidate.details = cached.value;
+        if (cached.name) candidate.name = cached.name;
+        else if (cached.value?.name) candidate.name = cached.value.name;
+      } else {
+        candidate.details = null;
+      }
+      return;
+    }
     process.stdout.write(`details ${label} ${index + 1}/${total} appid=${candidate.appid}\r`);
     await throttle();
     try {
       const details = await withRetry(() => getAppDetails(candidate.appid, { language: "russian" }));
       candidate.details = details;
       if (details?.name) candidate.name = details.name;
+      if (progress) {
+        upsertDetail(
+          progress,
+          candidate.appid,
+          {
+            ok: true,
+            value: details,
+            ...(details?.name ? { name: details.name } : {}),
+          },
+          new Date().toISOString(),
+        );
+        flushProgress();
+      }
     } catch (reason) {
-      console.warn(`\ndetails failed for ${candidate.appid}: ${reason instanceof Error ? reason.message : reason}`);
       candidate.details = null;
+      if (progress) {
+        upsertDetail(
+          progress,
+          candidate.appid,
+          {
+            ok: false,
+            error: reason instanceof Error ? reason.message : String(reason),
+          },
+          new Date().toISOString(),
+        );
+        flushProgress();
+      }
+      console.warn(`\ndetails failed for ${candidate.appid}: ${reason instanceof Error ? reason.message : reason}`);
     }
   };
 
@@ -307,6 +388,25 @@ try {
     ];
     for (let index = 0; index < achievementTargets.length; index += 1) {
       const { candidate, existing } = achievementTargets[index];
+      const key = String(candidate.appid);
+      const cached = progress?.achievements?.[key];
+      if (cached) {
+        if (cached.ok) {
+          achievementByAppid.set(candidate.appid, {
+            unlocked: cached.unlocked,
+            total: cached.total,
+          });
+          if (cached.unlocked != null && cached.total != null) achievementsUpdated += 1;
+          else achievementsSkipped += 1;
+        } else {
+          achievementByAppid.set(candidate.appid, {
+            unlocked: existing?.achievementsUnlocked ?? null,
+            total: existing?.achievementsTotal ?? null,
+          });
+          achievementsSkipped += 1;
+        }
+        continue;
+      }
       process.stdout.write(
         `achievements ${index + 1}/${achievementTargets.length} appid=${candidate.appid}\r`,
       );
@@ -324,21 +424,47 @@ try {
         if (parsed) {
           achievementByAppid.set(candidate.appid, parsed);
           achievementsUpdated += 1;
+          if (progress) {
+            upsertAchievement(
+              progress,
+              candidate.appid,
+              { ok: true, unlocked: parsed.unlocked, total: parsed.total },
+              new Date().toISOString(),
+            );
+            flushProgress();
+          }
         } else {
           achievementByAppid.set(candidate.appid, {
             unlocked: existing?.achievementsUnlocked ?? null,
             total: existing?.achievementsTotal ?? null,
           });
+          if (progress) {
+            upsertAchievement(
+              progress,
+              candidate.appid,
+              { ok: true, unlocked: null, total: null },
+              new Date().toISOString(),
+            );
+            flushProgress();
+          }
         }
       } catch (reason) {
         achievementsFailed += 1;
-        console.warn(
-          `\nachievements failed for ${candidate.appid}: ${reason instanceof Error ? reason.message : reason}`,
-        );
+        const message = reason instanceof Error ? reason.message : String(reason);
+        console.warn(`\nachievements failed for ${candidate.appid}: ${message}`);
         achievementByAppid.set(candidate.appid, {
           unlocked: existing?.achievementsUnlocked ?? null,
           total: existing?.achievementsTotal ?? null,
         });
+        if (progress) {
+          upsertAchievement(
+            progress,
+            candidate.appid,
+            { ok: false, error: message },
+            new Date().toISOString(),
+          );
+          flushProgress();
+        }
       }
     }
     if (achievementTargets.length) process.stdout.write("\n");
@@ -358,7 +484,6 @@ try {
   };
 
   const patchItems = [];
-  const now = new Date().toISOString();
 
   for (const { candidate, existing } of updates) {
     const snapEntry = snapshotGames[String(candidate.appid)];
@@ -530,6 +655,9 @@ try {
     mkdirSync(path.dirname(SNAPSHOT_PATH), { recursive: true });
     writeFileSync(SNAPSHOT_PATH, `${JSON.stringify(snapshotOut, null, 2)}\n`);
     console.log(`wrote snapshot ${SNAPSHOT_PATH}`);
+
+    removeProgress(progressPath);
+    console.log(`removed ${progressPath}`);
   }
 
   console.log(
