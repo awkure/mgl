@@ -115,10 +115,13 @@ describe("mobile nav css", () => {
     expect(glass).toContain("pointer-events: none");
   });
 
-  it("scrolls the filter sheet on short viewports while menus stay above the sheet", () => {
+  it("scrolls the filter sheet on short viewports while portaled menus use fixed stacking", () => {
     const sheet = declarationsIn(styles, ".screen-filter-bar__sheet");
     expect(sheet).toContain("overflow-y: auto");
-    expect(styles).toMatch(/\.filter-menu__panel\s*\{[^}]*z-index:\s*90;/);
+    const panel = declarationsIn(styles, ".filter-menu__panel");
+    expect(panel).toContain("position: fixed");
+    expect(panel).toContain("z-index: 90");
+    expect(panel).toContain("background: var(--surface-2)");
   });
 
   it("defines a mobile-only glass drag-mode toggle on the tier page", () => {
@@ -128,5 +131,11 @@ describe("mobile nav css", () => {
     expect(toggle).toContain("border-radius: 50%");
     expect(toggle).toContain("background: var(--glass-fill)");
     expect(styles).toMatch(/@media \(pointer: coarse\),\s*\(max-width: 720px\)[\s\S]*?\.tier-drag-mode-toggle \{[^}]*display:\s*grid;/);
+  });
+
+  it("blocks Safari pinch zoom via pan-only touch-action (viewport meta ignored)", () => {
+    const universal = declarationsIn(styles, "*");
+    expect(universal).toContain("touch-action: pan-x pan-y");
+    expect(styles).not.toContain("touch-action: manipulation");
   });
 });

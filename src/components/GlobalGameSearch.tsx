@@ -64,7 +64,11 @@ export function GlobalGameSearch({ games, onNavigate }: GlobalGameSearchProps) {
 
   useEffect(() => {
     const outside = (event: PointerEvent) => {
-      if (event.target instanceof Node && !rootRef.current?.contains(event.target)) setOpen(false);
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (target instanceof Element && target.closest("[data-filter-menu-portal]")) return;
+      if (rootRef.current?.contains(target)) return;
+      setOpen(false);
     };
     document.addEventListener("pointerdown", outside);
     return () => document.removeEventListener("pointerdown", outside);

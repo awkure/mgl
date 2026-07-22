@@ -37,7 +37,7 @@ function ScreenFilterBarView({ games, filters, onUpdate }: {
     const outside = (event: PointerEvent) => {
       const target = event.target;
       if (!(target instanceof Node)) return;
-      if (target instanceof Element && target.closest("details.filter-menu[open]")) return;
+      if (target instanceof Element && (target.closest("details.filter-menu[open]") || target.closest("[data-filter-menu-portal]"))) return;
       if (rootRef.current?.contains(target)) return;
       setExpanded(false);
     };

@@ -33,12 +33,13 @@ function CatalogListGrid(props: {
   const { games, assets, resolveAssetUrl, onOpenGame } = props;
   return (
     <div className="catalog-list">
-      {games.map((game) => (
+      {games.map((game, index) => (
         <GameCard
           asset={game.coverAssetId ? assets[game.coverAssetId] : undefined}
           game={game}
           key={game.id}
           onOpen={onOpenGame}
+          priority={index === 0}
           resolveAssetUrl={resolveAssetUrl}
           variant="list"
         />
@@ -123,6 +124,7 @@ function CatalogVirtualListWindow(props: {
               asset={game.coverAssetId ? assets[game.coverAssetId] : undefined}
               game={game}
               onOpen={onOpenGame}
+              priority={item.index === 0}
               resolveAssetUrl={resolveAssetUrl}
               variant="list"
             />

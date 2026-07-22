@@ -263,17 +263,20 @@ describe("CatalogPage", () => {
 
     await user.click(search);
     expect(screen.getByRole("dialog", { name: "Параметры фильтра" })).toBeInTheDocument();
-    await user.click(screen.getByLabelText("Играю"));
+    await user.click(screen.getByText("Статус").closest("summary")!);
+    await user.click(await screen.findByLabelText("Играю"));
     expect(screen.getByText("Super Mario Odyssey")).toBeInTheDocument();
 
-    await user.click(screen.getByLabelText("NES"));
+    await user.click(screen.getByText("Платформа").closest("summary")!);
+    await user.click(await screen.findByLabelText("NES"));
     expect(screen.getByText("DuckTales")).toBeInTheDocument();
     expect(screen.queryByText("Super Mario Odyssey")).not.toBeInTheDocument();
 
-    await user.click(screen.getByLabelText("Switch"));
+    await user.click(await screen.findByLabelText("Switch"));
     expect(screen.getByText("Super Mario Odyssey")).toBeInTheDocument();
 
-    await user.click(screen.getByLabelText("mario"));
+    await user.click(screen.getByText("Тег").closest("summary")!);
+    await user.click(await screen.findByLabelText("mario"));
     expect(screen.queryByText("DuckTales")).not.toBeInTheDocument();
     expect(screen.getByText("Super Mario Odyssey")).toBeInTheDocument();
 

@@ -8,6 +8,8 @@ export interface GameCardProps {
   asset?: Asset;
   variant?: "tier" | "list" | "compact";
   isDragging?: boolean;
+  /** Eager-load cover for LCP (first visible catalog card / hero). */
+  priority?: boolean;
   style?: CSSProperties;
   dragLinkProps?: AnchorHTMLAttributes<HTMLAnchorElement>;
   dragLinkRef?: Ref<HTMLAnchorElement>;
@@ -22,6 +24,7 @@ export const GameCard = memo(forwardRef<HTMLElement, GameCardProps>(function Gam
     asset,
     variant = "tier",
     isDragging = false,
+    priority = false,
     style,
     dragLinkProps,
     dragLinkRef,
@@ -46,8 +49,9 @@ export const GameCard = memo(forwardRef<HTMLElement, GameCardProps>(function Gam
       alt={asset && "alt" in asset ? asset.alt || `Обложка ${game.title}` : `Обложка ${game.title}`}
       decoding="async"
       draggable="false"
+      fetchPriority={priority ? "high" : undefined}
       height={asset && "height" in asset ? asset.height : undefined}
-      loading="lazy"
+      loading={priority ? "eager" : "lazy"}
       src={coverUrl}
       width={asset && "width" in asset ? asset.width : undefined}
     />

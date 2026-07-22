@@ -23,7 +23,8 @@
     "bench": "vitest bench --run benchmarks/vitest",
     "bench:bundle": "node benchmarks/bundle/recordBundleSize.mjs",
     "bench:fps": "node benchmarks/fps/runFps.mjs",
-    "bench:lighthouse": "node benchmarks/lighthouse/runLighthouse.mjs"
+    "bench:lighthouse": "node benchmarks/lighthouse/runLighthouse.mjs",
+    "test:e2e": "npm run build && playwright test -c e2e/playwright.config.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

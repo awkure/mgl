@@ -12,10 +12,16 @@ just bench
 
 Builds once (`npm run build`), then runs Vitest bench, bundle size, FPS, and Lighthouse in order. Requires `.env` like other `just` recipes (`just setup` or `just env-reset`).
 
-**Browser setup (FPS + Lighthouse):** install Chromium once:
+**Browser setup (FPS + Lighthouse + e2e):** install Chromium once:
 
 ```bash
 npx playwright install chromium
+```
+
+**UI e2e (Playwright):** builds `dist/`, starts `vite preview`, runs visibility/smoke specs under `e2e/`:
+
+```bash
+npm run test:e2e
 ```
 
 **Seeded library:** FPS and Lighthouse reflect whatever library was baked into `dist/` at build time. For representative catalog/game-page numbers, seed before building:

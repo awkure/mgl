@@ -26,17 +26,19 @@ describe("catalog filter dropdowns", () => {
     await user.click(screen.getByRole("searchbox", { name: "Фильтр игр на экране" }));
     const summary = screen.getByText("Статус").closest("summary")!;
     const dropdown = summary.closest("details")!;
-    const checkbox = screen.getByRole("checkbox", { name: "Играю" });
-    const option = checkbox.closest("label")!;
 
     await user.click(summary);
     expect(dropdown).toHaveAttribute("open");
+
+    const checkbox = await screen.findByRole("checkbox", { name: "Играю" });
+    const option = checkbox.closest("label")!;
 
     fireEvent.blur(summary, { relatedTarget: null });
     await user.click(option);
 
     expect(checkbox).toBeChecked();
     expect(dropdown).toHaveAttribute("open");
+    expect(document.querySelector("[data-filter-menu-portal]")).toBeTruthy();
   });
 
   it("closes an open filter when the pointer or keyboard focus leaves it", async () => {
@@ -50,10 +52,12 @@ describe("catalog filter dropdowns", () => {
     const tierSummary = screen.getByText("Тир").closest("summary")!;
 
     await user.click(summary);
+    await screen.findByRole("checkbox", { name: "Играю" });
     await user.click(tierSummary);
     expect(dropdown).not.toHaveAttribute("open");
 
     await user.click(summary);
+    await screen.findByRole("checkbox", { name: "Играю" });
     tierSummary.focus();
     expect(dropdown).not.toHaveAttribute("open");
   });
