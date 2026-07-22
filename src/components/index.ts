@@ -1,6 +1,7 @@
 export * from "./AppShell";
 export * from "./DiffDialog";
 export * from "./DiffSyncPanel";
+export * from "./FilterMenu";
 export * from "./GameCard";
 export * from "./GameLinkMarkdownTextarea";
 export * from "./GlobalGameSearch";

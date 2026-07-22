@@ -3,6 +3,7 @@ import { gameMatchesFilters, gameSearchScore } from "../domain/catalogue";
 import { CATALOG_FILTERS_EVENT, emptyCatalogSearchFilters, parseCatalogSearch, sameCatalogSearch, serializeCatalogSearch, type CatalogSearchFilters } from "../domain/catalogSearch";
 import { STATUS_IDS, TIER_IDS, type Game, type StatusId, type TierId } from "../domain/types";
 import { STATUS_LABELS, TIER_LABELS } from "./libraryUi";
+import { FilterMenu } from "./FilterMenu";
 import { Icon } from "./Icon";
 
 export interface GlobalGameSearchProps {
@@ -30,32 +31,6 @@ function resultOrder(query: string): (left: Game, right: Game) => number {
   return (left, right) => gameSearchScore(left, query) - gameSearchScore(right, query)
     || left.title.localeCompare(right.title, "ru", { sensitivity: "base", numeric: true })
     || left.id.localeCompare(right.id);
-}
-
-function FilterMenu({ label, values, selected, renderLabel = (value) => value, onChange }: {
-  label: string;
-  values: string[];
-  selected: string[];
-  renderLabel?: (value: string) => string;
-  onChange: (values: string[]) => void;
-}) {
-  const detailsRef = useRef<HTMLDetailsElement>(null);
-  const toggle = (value: string) => onChange(selected.includes(value) ? selected.filter((item) => item !== value) : [...selected, value]);
-
-  useEffect(() => {
-    const closeWhenOutside = (event: Event) => {
-      const details = detailsRef.current;
-      if (details?.open && event.target instanceof Node && !details.contains(event.target)) details.open = false;
-    };
-    document.addEventListener("pointerdown", closeWhenOutside);
-    document.addEventListener("focusin", closeWhenOutside);
-    return () => {
-      document.removeEventListener("pointerdown", closeWhenOutside);
-      document.removeEventListener("focusin", closeWhenOutside);
-    };
-  }, []);
-
-  return <details className="filter-menu global-game-search__filter" ref={detailsRef}><summary>{label}{selected.length ? <b>{selected.length}</b> : null}<Icon name="chevron-down" size={16} /></summary><div className="filter-menu__panel">{values.length ? values.map((value) => <label key={value}><input checked={selected.includes(value)} onChange={() => toggle(value)} type="checkbox" /><span><Icon name="check" size={14} /></span>{renderLabel(value)}</label>) : <p>Пока нет вариантов</p>}</div></details>;
 }
 
 export function resolveGlobalSearchEnter(matches: Game[], selectedIndex: number | null): { kind: "game"; gameId: string } | { kind: "catalog" } {
