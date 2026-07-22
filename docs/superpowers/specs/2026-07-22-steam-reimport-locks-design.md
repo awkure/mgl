@@ -16,13 +16,14 @@ Turn one-shot Steam import into safe **incremental reimport**: skip unchanged ow
 - Partial updates for existing `steamAppId` games; create path unchanged for new appids
 - Domain pure merge + CLI orchestration
 
-**Out:**
+**Out (deferred to separate specs — see `2026-07-22-steam-followups-roadmap.md`):**
 
-- Achievements fetch/UI/catalog bar (subsystem B) — only platinum skip hook
+- Achievements fetch/UI/catalog bar (subsystem B) — only platinum skip hook here
 - Per-game screenshots/videos (C)
-- GHA Import Steam, Steam key in localStorage, 429/pagination (D)
-- SPA-triggered reimport
-- `--force` rewriting `placement` or `reviewMarkdown`
+- GHA Import Steam, rate-limit/pagination, optional key/Action UX (D)
+- SPA-triggered reimport (E) — blocked on proxy/dispatch story
+
+**Permanently forbidden (not backlog):** `--force` rewriting `placement` or `reviewMarkdown`.
 
 Related README checklist: «Статус и playtime» + overlapping «снимок» under sync (low-pri bullets that duplicate snapshot stay covered here).
 
