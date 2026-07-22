@@ -33,6 +33,18 @@ describe("tier list wrapping layout", () => {
     expect(page).not.toContain("84px");
   });
 
+  it("grows mobile tier covers to fill leftover row width", () => {
+    expect(styles).toMatch(
+      /@media \(max-width: 500px\)[\s\S]*?\.tier-page \{[^}]*--tier-size-from-height:\s*max\(44px,\s*calc\(\(100dvh - var\(--app-header-height\) - 6px\) \/ 7\)\);/,
+    );
+    expect(styles).toMatch(
+      /@media \(max-width: 500px\)[\s\S]*?\.tier-page \{[^}]*--tier-games-width:\s*calc\(100vw - 30px - env\(safe-area-inset-left\) - env\(safe-area-inset-right\)\);/,
+    );
+    expect(styles).toMatch(
+      /@media \(max-width: 500px\)[\s\S]*?\.tier-page \{[^}]*--tier-card-size:\s*calc\(\s*var\(--tier-games-width\)\s*\/\s*max\(1,\s*round\(down,\s*var\(--tier-games-width\)\s*\/\s*var\(--tier-size-from-height\)\)\)\s*\);/,
+    );
+  });
+
   it("soft-lifts tier covers on hover and focus without fighting drag transforms", () => {
     const cover = declarations(".tier-page .game-card--tier .game-card__cover");
     const hoverCover = declarations(".tier-page .game-card--tier:hover:not(.is-dragging) .game-card__cover");

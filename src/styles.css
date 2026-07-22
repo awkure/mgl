@@ -1813,6 +1813,16 @@ h4 {
 
 .tier-page--drag-mode .game-card--tier .game-card__cover {
   cursor: grab;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.tier-page--drag-mode .game-card--tier .game-card__cover img {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .tier-page--empty {
@@ -4996,6 +5006,12 @@ h4 {
 
   .app-header .global-game-search.is-open .global-game-search__filter-button {
     display: inline-flex;
+  }
+
+  .tier-page {
+    --tier-size-from-height: max(44px, calc((100dvh - var(--app-header-height) - 6px) / 7));
+    --tier-games-width: calc(100vw - 30px - env(safe-area-inset-left) - env(safe-area-inset-right));
+    --tier-card-size: calc(var(--tier-games-width) / max(1, round(down, var(--tier-games-width) / var(--tier-size-from-height))));
   }
 
   .tier-row {

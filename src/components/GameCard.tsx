@@ -36,12 +36,19 @@ export const GameCard = memo(forwardRef<HTMLElement, GameCardProps>(function Gam
 ) {
   const coverUrl = game.coverAssetId ? resolveAssetUrl?.(game.coverAssetId) ?? getAssetUrl(asset) : null;
   const isTierCard = variant === "tier";
-  const tierAccessibleLabel = `${game.title}, статус: ${STATUS_LABELS[game.status]}. Открыть; пробел — перетащить`;
+  // No href while navigation is off (mobile drag mode) — Safari Link Preview needs a real link.
+  const tierNavigable = Boolean(onOpen);
+  const tierAccessibleLabel = tierNavigable
+    ? `${game.title}, статус: ${STATUS_LABELS[game.status]}. Открыть; пробел — перетащить`
+    : `${game.title}, статус: ${STATUS_LABELS[game.status]}. пробел — перетащить`;
   const coverClassName = `game-card__cover${game.status === "platinum" ? " cover--platinum" : ""}${isTierCard && dragLinkProps?.className ? ` ${dragLinkProps.className}` : ""}`;
   const openGame = (event: MouseEvent<HTMLAnchorElement>) => {
     // Tier tiles (incl. drag overlay) always own navigation — never follow href on release.
     if (isTierCard || onOpen) event.preventDefault();
     onOpen?.(game.id);
+  };
+  const blockSafariCallout = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
   };
 
   const coverMedia = coverUrl ? (
@@ -95,9 +102,11 @@ export const GameCard = memo(forwardRef<HTMLElement, GameCardProps>(function Gam
           aria-label={tierAccessibleLabel}
           className={coverClassName}
           draggable={false}
-          href={`#/games/${encodeURIComponent(game.id)}`}
+          href={tierNavigable ? `#/games/${encodeURIComponent(game.id)}` : undefined}
           onClick={openGame}
+          onContextMenu={tierNavigable ? undefined : blockSafariCallout}
           ref={dragLinkRef}
+          role={tierNavigable ? undefined : "button"}
           title={game.title}
         >
           {coverMedia}

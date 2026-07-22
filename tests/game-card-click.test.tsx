@@ -20,11 +20,18 @@ const game: Game = {
 afterEach(() => cleanup());
 
 describe("GameCard click", () => {
-  it("prevents default on tier cover without onOpen (drag overlay case)", () => {
+  it("prevents default on tier cover without onOpen (drag overlay / drag-mode case)", () => {
     render(<GameCard game={game} isDragging />);
-    const link = screen.getByRole("link", { name: /DuckTales/ });
-    const result = fireEvent.click(link);
+    const cover = screen.getByRole("button", { name: /DuckTales/ });
+    expect(cover).not.toHaveAttribute("href");
+    const result = fireEvent.click(cover);
     expect(result).toBe(false);
+  });
+
+  it("blocks Safari context-menu callout when tier cover has no href", () => {
+    render(<GameCard game={game} />);
+    const cover = screen.getByRole("button", { name: /DuckTales/ });
+    expect(fireEvent.contextMenu(cover)).toBe(false);
   });
 
   it("prevents default and calls onOpen when provided", () => {

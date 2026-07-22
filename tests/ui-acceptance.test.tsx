@@ -1668,7 +1668,9 @@ describe("TierListPage", () => {
     await user.click(toggle);
     expect(toggle).toHaveAttribute("aria-pressed", "true");
 
-    await user.click(screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ }));
+    const cover = screen.getByRole("button", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
+    expect(cover).not.toHaveAttribute("href");
+    await user.click(cover);
     expect(onOpenGame).not.toHaveBeenCalled();
   });
 
@@ -1692,7 +1694,7 @@ describe("TierListPage", () => {
     });
     expect(NonTouchPointerSensor.prototype).toBeInstanceOf(PointerSensor);
     expect(TIER_LIST_SENSOR_OPTIONS.pointer).toEqual({ activationConstraint: { distance: 8 } });
-    expect(TIER_LIST_SENSOR_OPTIONS.touch).toEqual({ activationConstraint: { delay: 180, tolerance: 8 } });
+    expect(TIER_LIST_SENSOR_OPTIONS.touch).toEqual({ activationConstraint: { delay: 80, tolerance: 8 } });
     expect(TIER_LIST_SENSOR_OPTIONS.keyboard.coordinateGetter).toBe(sortableKeyboardCoordinates);
     expect(TIER_LIST_SORTING_STRATEGY).toBe(rectSortingStrategy);
     expect(TIER_LIST_SENSOR_OPTIONS.keyboard.keyboardCodes).toEqual({

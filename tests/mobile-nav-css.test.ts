@@ -168,6 +168,15 @@ describe("mobile nav css", () => {
     expect(styles).toMatch(/@media \(pointer: coarse\),\s*\(max-width: 720px\)[\s\S]*?\.tier-drag-mode-toggle \{[^}]*display:\s*grid;/);
   });
 
+  it("disables Safari touch callout on tier covers while drag mode is on", () => {
+    const cover = declarationsIn(styles, ".tier-page--drag-mode .game-card--tier .game-card__cover");
+    const coverImg = declarationsIn(styles, ".tier-page--drag-mode .game-card--tier .game-card__cover img");
+    expect(cover).toContain("-webkit-touch-callout: none");
+    expect(cover).toContain("user-select: none");
+    expect(coverImg).toContain("-webkit-touch-callout: none");
+    expect(coverImg).toContain("-webkit-user-drag: none");
+  });
+
   it("blocks Safari pinch zoom via pan-only touch-action (viewport meta ignored)", () => {
     const universal = declarationsIn(styles, "*");
     expect(universal).toContain("touch-action: pan-x pan-y");

@@ -66,7 +66,7 @@ export const TIER_LIST_SORTING_STRATEGY = rectSortingStrategy;
 
 export const TIER_LIST_SENSOR_OPTIONS = {
   pointer: { activationConstraint: { distance: 8 } },
-  touch: { activationConstraint: { delay: 180, tolerance: 8 } },
+  touch: { activationConstraint: { delay: 80, tolerance: 8 } },
   keyboard: {
     coordinateGetter: sortableKeyboardCoordinates,
     keyboardCodes: {
