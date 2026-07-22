@@ -191,4 +191,42 @@ describe("mobile nav css", () => {
     expect(add).toContain("-webkit-touch-callout: none");
     expect(add).toContain("user-select: none");
   });
+
+  it("defines press-glass blob override driven by data-tab-press and --press-tab", () => {
+    expect(styles).toContain("@property --press-tab");
+    const pressBlob = declarationsIn(
+      styles,
+      '.app-shell[data-mobile-chrome="true"][data-tab-press="true"] .app-tab-bar__blob',
+    );
+    expect(pressBlob).toContain("translateX(calc(var(--press-tab, 0) * (100% + 2px)))");
+    expect(pressBlob).toMatch(/scale\(/);
+    expect(pressBlob).toContain("backdrop-filter:");
+    expect(pressBlob).toMatch(/box-shadow:/);
+  });
+
+  it("defines mild lens on pressed tab link", () => {
+    const pressed = declarationsIn(
+      styles,
+      '.app-shell[data-mobile-chrome="true"][data-tab-press="true"] .app-tab-bar__link[data-pressed="true"]',
+    );
+    expect(pressed).toMatch(/scale\(/);
+    expect(pressed).toContain("filter:");
+  });
+
+  it("disables press-glass flourish under reduced motion", () => {
+    expect(styles).toMatch(
+      /@media \(prefers-reduced-motion:\s*reduce\)[\s\S]*?\[data-tab-press="true"\][\s\S]*?\.app-tab-bar__blob/,
+    );
+  });
+
+  it("keeps pager-dragging blob free of press transform ownership", () => {
+    const dragging = declarationsIn(
+      styles,
+      '.app-shell[data-mobile-chrome="true"][data-pager-dragging="true"] .app-tab-bar__blob',
+    );
+    expect(dragging).toContain("transition: none");
+    expect(styles).toContain(
+      '.app-shell[data-mobile-chrome="true"][data-pager-dragging="true"] .app-tab-bar__blob',
+    );
+  });
 });
