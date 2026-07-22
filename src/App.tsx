@@ -333,6 +333,30 @@ function LibraryRoutes() {
     setGitHubSyncState({ busy: false, stage: "idle", error: null });
   };
 
+  const savePatFromSettings = async (token: string, remember: boolean) => {
+    const saved = saveGitHubPat(token, remember);
+    if (!saved.ok) {
+      throw new Error(saved.error === "invalid-token"
+        ? "Нужен fine-grained PAT в формате github_pat_…"
+        : "Safari не разрешил сохранить PAT");
+    }
+    const loaded = loadGitHubPat();
+    if (!loaded.ok || !loaded.token || !loaded.persistence) {
+      clearGitHubPat();
+      throw new Error("Не удалось прочитать сохранённый PAT");
+    }
+    try {
+      await connectGitHubWithoutSync(loaded.token);
+    } catch (reason) {
+      clearGitHubPat();
+      githubPatRef.current = null;
+      setGitHubPatPersistence(null);
+      throw reason;
+    }
+    githubPatRef.current = loaded.token;
+    setGitHubPatPersistence(loaded.persistence);
+  };
+
   const githubSyncController: DiffSyncController = {
     connected: githubPatRef.current !== null,
     persistence: githubPatPersistence ?? "none",
@@ -421,6 +445,15 @@ function LibraryRoutes() {
             onProgress={setPagerProgress}
             pathname={location.pathname}
             resolveAssetUrl={library.resolveAssetUrl}
+            settingsPat={{
+              busy: githubSyncState.busy,
+              connected: githubPatRef.current !== null,
+              onDisconnect: disconnectGitHub,
+              onSave: savePatFromSettings,
+              patCreationHref: getGitHubPatCreationUrl(),
+              persistence: githubPatPersistence,
+              repository: `${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_NAME} · main`,
+            }}
           />
         ) : (
           <Routes>

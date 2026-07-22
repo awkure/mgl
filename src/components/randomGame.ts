@@ -1,6 +1,5 @@
 import type { Game, StatusId } from "../domain/types";
-
-const RANDOM_GAME_STATUSES = new Set<StatusId>(["wishlist", "playing", "played"]);
+import { DEFAULT_RANDOM_GAME_STATUSES } from "../state/randomGamePrefs";
 
 export const RANDOM_GAME_STEP_DELAYS_MS = [
   70, 70, 70, 70, 75, 75, 80, 80, 85, 90, 95, 105, 115, 130, 145, 165, 190, 220, 260, 310, 370,
@@ -18,12 +17,19 @@ function randomItem<T>(items: T[], random: () => number): T {
   return items[Math.floor(bounded * items.length)];
 }
 
-export function getRandomGameCandidates(games: Game[]): Game[] {
-  return games.filter((game) => RANDOM_GAME_STATUSES.has(game.status));
+export function getRandomGameCandidates(
+  games: Game[],
+  statuses: ReadonlySet<StatusId> = new Set(DEFAULT_RANDOM_GAME_STATUSES),
+): Game[] {
+  return games.filter((game) => statuses.has(game.status));
 }
 
-export function createRandomGameRoll(games: Game[], random: () => number = Math.random): Game[] {
-  const candidates = getRandomGameCandidates(games);
+export function createRandomGameRoll(
+  games: Game[],
+  random: () => number = Math.random,
+  statuses: ReadonlySet<StatusId> = new Set(DEFAULT_RANDOM_GAME_STATUSES),
+): Game[] {
+  const candidates = getRandomGameCandidates(games, statuses);
   if (!candidates.length) return [];
   const winner = randomItem(candidates, random);
   const reel: Game[] = [];

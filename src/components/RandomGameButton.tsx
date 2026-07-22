@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent } from "react";
-import type { Game } from "../domain/types";
+import type { Game, StatusId } from "../domain/types";
+import {
+  loadRandomGameStatuses,
+  RANDOM_GAME_STATUSES_CHANGED_EVENT,
+} from "../state/randomGamePrefs";
 import { Icon } from "./Icon";
 import { STATUS_LABELS } from "./libraryUi";
 import {
@@ -88,7 +92,9 @@ function prefersReducedMotion(): boolean {
 }
 
 export function RandomGameButton({ games, onNavigate, resolveAssetUrl }: RandomGameButtonProps) {
-  const candidates = useMemo(() => getRandomGameCandidates(games), [games]);
+  const [includedStatuses, setIncludedStatuses] = useState<StatusId[]>(() => loadRandomGameStatuses());
+  const statusSet = useMemo(() => new Set(includedStatuses), [includedStatuses]);
+  const candidates = useMemo(() => getRandomGameCandidates(games, statusSet), [games, statusSet]);
   const candidateFingerprint = useMemo(() => candidates.map((game) => `${game.id}:${game.status}:${game.updatedAt}`).join("|"), [candidates]);
   const [displayed, setDisplayed] = useState<DisplayedGame | null>(null);
   const [preparing, setPreparing] = useState(false);
@@ -100,6 +106,12 @@ export function RandomGameButton({ games, onNavigate, resolveAssetUrl }: RandomG
   const preparationRef = useRef(0);
   const timersRef = useRef<number[]>([]);
   const active = preparing || displayed !== null;
+
+  useEffect(() => {
+    const sync = () => setIncludedStatuses(loadRandomGameStatuses());
+    window.addEventListener(RANDOM_GAME_STATUSES_CHANGED_EVENT, sync);
+    return () => window.removeEventListener(RANDOM_GAME_STATUSES_CHANGED_EVENT, sync);
+  }, []);
 
   const clearTimers = useCallback(() => {
     timersRef.current.forEach((timer) => window.clearTimeout(timer));
@@ -156,7 +168,7 @@ export function RandomGameButton({ games, onNavigate, resolveAssetUrl }: RandomG
 
   const startRoll = () => {
     if (active || !candidates.length) return;
-    const reel = createRandomGameRoll(candidates);
+    const reel = createRandomGameRoll(games, Math.random, statusSet);
     const winner = reel.at(-1);
     if (!winner) return;
     clearTimers();

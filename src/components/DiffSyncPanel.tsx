@@ -64,17 +64,19 @@ function errorMessage(reason: unknown): string {
 }
 
 export const DiffSyncButton = forwardRef<HTMLButtonElement, DiffSyncButtonProps>(function DiffSyncButton({ busy, expanded, onClick }, ref) {
+  const label = busy ? "Синхронизация…" : "Синхронизировать";
   return (
     <button
       aria-controls="diff-sync-panel"
       aria-expanded={expanded}
+      aria-label={label}
       className="button button--primary diff-sync-button"
       onClick={onClick}
       ref={ref}
       type="button"
     >
-      <Icon name="upload" size={16} />
-      {busy ? "Синхронизация…" : "Синхронизировать"}
+      <Icon name="refresh" size={16} />
+      <span className="diff-sync-button__label">{label}</span>
     </button>
   );
 });

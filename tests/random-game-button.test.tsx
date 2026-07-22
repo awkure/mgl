@@ -69,6 +69,13 @@ describe("random game candidates", () => {
       .toEqual([wishlist, playing, played]);
   });
 
+  it("filters by the provided status set", () => {
+    expect(getRandomGameCandidates(
+      [wishlist, completed, playing, dropped, played, platinum],
+      new Set(["completed", "platinum"]),
+    )).toEqual([completed, platinum]);
+  });
+
   it("builds the entire reel from eligible real games and settles on the preselected winner", () => {
     const reel = createRandomGameRoll([wishlist, completed, playing, dropped, played, platinum], () => 0.4);
 

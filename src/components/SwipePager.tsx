@@ -1,7 +1,7 @@
 import { type MutableRefObject, type ReactNode, useEffect, useRef } from "react";
 import type { Asset, Game } from "../domain/types";
 import { CatalogPage } from "../pages/CatalogPage";
-import { SettingsPage } from "../pages/SettingsPage";
+import { SettingsPage, type SettingsPatProps } from "../pages/SettingsPage";
 import { TierListPage, type MoveGameTarget } from "../pages/TierListPage";
 import {
   pagerIndexToPath,
@@ -23,6 +23,7 @@ export interface SwipePagerProps {
   onProgress?: (progress: number) => void;
   onDraggingChange?: (dragging: boolean) => void;
   resolveAssetUrl?: (assetId: string) => string | null;
+  settingsPat?: SettingsPatProps;
 }
 
 export function SwipePager({
@@ -36,6 +37,7 @@ export function SwipePager({
   onProgress,
   onDraggingChange,
   resolveAssetUrl,
+  settingsPat,
 }: SwipePagerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -87,7 +89,7 @@ export function SwipePager({
         </SwipePanel>
         <SwipePanel active={index === 2} labelledBy="settings-panel-label">
           <span className="visually-hidden" id="settings-panel-label">Настройки</span>
-          <SettingsPage />
+          <SettingsPage pat={settingsPat} />
         </SwipePanel>
       </div>
     </div>
