@@ -611,4 +611,3 @@ EOF
 - Attr names locked: `data-tab-press`, `--press-tab`, `data-pressed`
 - Index source: `tabProgressFromTabId` only
 - No SVG / no domain changes
-`}
