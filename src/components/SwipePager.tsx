@@ -1,10 +1,9 @@
 import { type MutableRefObject, type ReactNode, useEffect, useRef } from "react";
-import type { Asset, Game } from "../domain/types";
 import type { TabId } from "../state/tabStacks";
 import { pagerIndexFromTab } from "../state/tabStacks";
-import { CatalogPage } from "../pages/CatalogPage";
+import { CatalogRouteIsland, TierRouteIsland } from "../App/routeIslands";
 import { SettingsPage, type SettingsPatProps } from "../pages/SettingsPage";
-import { TierListPage, type MoveGameTarget } from "../pages/TierListPage";
+import { type MoveGameTarget } from "../pages/TierListPage";
 import {
   pagerTrackTranslateFromProgress,
   useSwipePager,
@@ -14,16 +13,12 @@ import {
 
 export interface SwipePagerProps {
   activeTab: TabId;
-  games: Game[];
-  assets: Record<string, Asset>;
   draggingRef: MutableRefObject<boolean>;
   onMoveGame: (gameId: string, target: MoveGameTarget) => void;
   onOpenGame: (tab: TabId, gameId: string) => void;
   onActivateTab: (tab: TabId) => void;
   onProgress?: (progress: number) => void;
   onDraggingChange?: (dragging: boolean) => void;
-  resolveAssetUrl?: (assetId: string) => string | null;
-  onRefresh?: () => void | Promise<void>;
   settingsPat?: SettingsPatProps;
   /** When false, catalog must not rewrite the hash (game/new overlay on top). */
   catalogHashSync?: boolean;
@@ -34,16 +29,12 @@ export interface SwipePagerProps {
 
 export function SwipePager({
   activeTab,
-  games,
-  assets,
   draggingRef,
   onMoveGame,
   onOpenGame,
   onActivateTab,
   onProgress,
   onDraggingChange,
-  resolveAssetUrl,
-  onRefresh,
   settingsPat,
   catalogHashSync = true,
   tiersOverlay,
@@ -82,14 +73,10 @@ export function SwipePager({
         <SwipePanel active={index === 0} labelledBy="tier-panel-label">
           <span className="visually-hidden" id="tier-panel-label">Тирлист</span>
           <div className="swipe-pager__stack">
-            <TierListPage
-              assets={assets}
+            <TierRouteIsland
               draggingRef={draggingRef}
-              games={games}
               onMoveGame={onMoveGame}
               onOpenGame={(id) => onOpenGame("tiers", id)}
-              onRefresh={onRefresh}
-              resolveAssetUrl={resolveAssetUrl}
             />
             {tiersOverlay ? <div className="swipe-pager__overlay">{tiersOverlay}</div> : null}
           </div>
@@ -97,13 +84,9 @@ export function SwipePager({
         <SwipePanel active={index === 1} labelledBy="catalog-panel-label">
           <span className="visually-hidden" id="catalog-panel-label">Каталог</span>
           <div className="swipe-pager__stack">
-            <CatalogPage
+            <CatalogRouteIsland
               active={index === 1 && catalogHashSync}
-              assets={assets}
-              games={games}
               onOpenGame={(id) => onOpenGame("catalog", id)}
-              onRefresh={onRefresh}
-              resolveAssetUrl={resolveAssetUrl}
               scrollSelf
             />
             {catalogOverlay ? <div className="swipe-pager__overlay">{catalogOverlay}</div> : null}

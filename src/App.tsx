@@ -19,7 +19,7 @@ import {
   type PatchEnvelope,
 } from "./domain";
 import { assetMeta, assetSummary, classifyDiff, entityName, fieldLabels } from "./App/diffModel";
-import { GamePage } from "./pages";
+import { GameRouteIsland, gameIdFromPath } from "./App/routeIslands";
 import { SwipePager } from "./components/SwipePager";
 import { LibraryProvider, useLibrary } from "./state/LibraryContext";
 import {
@@ -60,16 +60,6 @@ function routeKind(pathname: string): AppRoute {
   if (pathname === "/settings") return "settings";
   if (pathname.startsWith("/games/")) return "game";
   return "catalog";
-}
-
-function gameIdFromPath(pathname: string): string | null {
-  const match = /^\/games\/([^/]+)$/.exec(pathname);
-  if (!match || match[1] === "new") return null;
-  try {
-    return decodeURIComponent(match[1]);
-  } catch {
-    return match[1];
-  }
 }
 
 function parseHref(href: string): StackEntry {
@@ -460,10 +450,9 @@ function LibraryRoutes() {
       <div className="app-main__swipe" ref={mainRef}>
         <SwipePager
           activeTab={tabState.activeTab}
-          assets={library.effective.assets}
           catalogHashSync={catalogAtRoot && tabState.activeTab === "catalog"}
           catalogOverlay={overlayEntry(tabState, "catalog") ? (
-            <StackGameScreen
+            <GameRouteIsland
               entry={overlayEntry(tabState, "catalog")!}
               onPop={() => popStack("catalog")}
               onReplaceGame={(gameId) => {
@@ -483,7 +472,6 @@ function LibraryRoutes() {
             />
           ) : null}
           draggingRef={tierDraggingRef}
-          games={games}
           onActivateTab={activateTabAndSync}
           onDraggingChange={setPagerDragging}
           onMoveGame={(gameId, target) => {
@@ -493,8 +481,6 @@ function LibraryRoutes() {
           }}
           onOpenGame={openGameOnTab}
           onProgress={setPagerProgress}
-          onRefresh={() => library.refreshFromPublished()}
-          resolveAssetUrl={library.resolveAssetUrl}
           settingsPat={{
             busy: githubSyncState.busy,
             connected: githubPatRef.current !== null,
@@ -505,7 +491,7 @@ function LibraryRoutes() {
             repository: `${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_NAME} · main`,
           }}
           tiersOverlay={overlayEntry(tabState, "tiers") ? (
-            <StackGameScreen
+            <GameRouteIsland
               entry={overlayEntry(tabState, "tiers")!}
               onPop={() => popStack("tiers")}
               onReplaceGame={(gameId) => {
@@ -568,58 +554,6 @@ function LibraryRoutes() {
       />
     </AppShell>
   );
-}
-
-function StackGameScreen({
-  entry,
-  onPop,
-  onReplaceGame,
-  showError,
-}: {
-  entry: StackEntry;
-  onPop: () => void;
-  onReplaceGame: (gameId: string) => void;
-  showError: (error: unknown) => void;
-}) {
-  const library = useLibrary();
-  const mode = entry.pathname === "/games/new" ? "new" as const : "game" as const;
-  const id = mode === "game" ? gameIdFromPath(entry.pathname) : null;
-  const gameSuggestions = useMemo(() => Object.values(library.effective.games), [library.effective.games]);
-  const game = id ? library.effective.games[id] : undefined;
-  const notes = useMemo(
-    () => id ? Object.values(library.effective.notes).filter((note) => note.gameId === id) : [],
-    [id, library.effective.notes],
-  );
-  const platformSuggestions = [...new Set(gameSuggestions.flatMap((item) => item.platforms))];
-  const tagSuggestions = [...new Set(gameSuggestions.flatMap((item) => item.tags))];
-
-  if (mode === "game" && !game) {
-    return <div className="empty-state empty-state--hero"><h1>Игра не найдена</h1><p>Возможно, она была удалена локально.</p><button className="button button--primary" onClick={onPop} type="button">Назад</button></div>;
-  }
-
-  return <GamePage
-    assets={library.effective.assets}
-    canAddBlob={library.canAddBlob}
-    game={game}
-    gameSuggestions={gameSuggestions}
-    key={game?.id ?? "new"}
-    mode={mode}
-    notes={notes}
-    onCancel={onPop}
-    onDelete={game ? async (gameId) => { library.deleteGame(gameId); onPop(); } : undefined}
-    onSave={async (input) => {
-      try {
-        const gameId = await library.saveGame(input);
-        if (mode === "new") onReplaceGame(gameId);
-      } catch (error) {
-        showError(error);
-      }
-    }}
-    platformSuggestions={platformSuggestions}
-    resolveAssetUrl={library.resolveAssetUrl}
-    storageLocked={library.attachmentsBlocked}
-    tagSuggestions={tagSuggestions}
-  />;
 }
 
 export default function App() {
