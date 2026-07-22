@@ -13,9 +13,8 @@ export function selectSteamCoverTargets(
   games: Record<string, Game>,
   options: SelectSteamCoverTargetsOptions = {},
 ): Game[] {
-  const appidSet = options.appids?.length
-    ? new Set(options.appids)
-    : null;
+  const appidSet =
+    options.appids != null ? new Set(options.appids) : null;
   let list = Object.values(games).filter((game) => {
     if (typeof game.steamAppId !== "number" || !Number.isSafeInteger(game.steamAppId) || game.steamAppId <= 0) {
       return false;

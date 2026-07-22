@@ -103,7 +103,16 @@ Flags:
 }
 
 loadEnvLocal();
-const flags = parseArgs(process.argv.slice(2));
+
+let flags;
+try {
+  flags = parseArgs(process.argv.slice(2));
+} catch (reason) {
+  console.error(reason instanceof Error ? reason.message : String(reason));
+  printHelp();
+  process.exit(2);
+}
+
 if (flags.help) {
   printHelp();
   process.exit(0);
@@ -168,10 +177,6 @@ try {
     }
 
     const action = steamCoverRefreshAction(game, cover.asset.id, { force: flags.force });
-    if (action === "locked") {
-      skippedLocked += 1;
-      continue;
-    }
     if (action === "unchanged") {
       unchanged += 1;
       continue;

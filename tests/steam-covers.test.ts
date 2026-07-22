@@ -49,6 +49,10 @@ describe("selectSteamCoverTargets", () => {
     expect(selectSteamCoverTargets(games, { appids: [20] }).map((g) => g.id)).toEqual(["g2"]);
   });
 
+  it("empty appids selects no targets", () => {
+    expect(selectSteamCoverTargets(games, { appids: [] })).toEqual([]);
+  });
+
   it("filters by gameId", () => {
     expect(selectSteamCoverTargets(games, { gameId: "g1" }).map((g) => g.id)).toEqual(["g1"]);
   });
@@ -84,6 +88,11 @@ describe("steamCoverRefreshAction", () => {
   it("unchanged when same id", () => {
     const g = game({ id: "g1", title: "A", steamAppId: 10, coverAssetId: COVER_A });
     expect(steamCoverRefreshAction(g, COVER_A, { force: false })).toBe("unchanged");
+  });
+
+  it("unchanged when proposed cover is null", () => {
+    const g = game({ id: "g1", title: "A", steamAppId: 10, coverAssetId: COVER_A });
+    expect(steamCoverRefreshAction(g, null, { force: false })).toBe("unchanged");
   });
 
   it("update when different id", () => {
