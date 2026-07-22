@@ -113,7 +113,7 @@ describe("steamCoverRefreshAction", () => {
 });
 
 describe("withSteamCover + patch shape", () => {
-  it("emits only coverAssetId and updatedAt field ops", () => {
+  it("emits only coverAssetId field op (updatedAt comes from op changedAt on apply)", () => {
     const previous = game({
       id: "g1",
       title: "A",
@@ -122,6 +122,7 @@ describe("withSteamCover + patch shape", () => {
       updatedAt: "2026-07-21T12:00:00.000Z",
     });
     const next = withSteamCover(previous, COVER_B, NOW);
+    expect(next.updatedAt).toBe(NOW);
     expect(next.steamOverrides).toEqual({});
     const cover = {
       asset: {
@@ -143,7 +144,7 @@ describe("withSteamCover + patch shape", () => {
     expect(paths).toEqual([
       `/assets/${COVER_B}`,
       `/games/g1/coverAssetId`,
-      `/games/g1/updatedAt`,
     ]);
+    expect(patch.operations[`/games/g1/coverAssetId`]?.changedAt).toBe(NOW);
   });
 });

@@ -26,7 +26,6 @@ const STEAM_UPSERT_GAME_FIELDS = [
   "status",
   "placement",
   "reviewMarkdown",
-  "updatedAt",
 ] as const;
 
 export interface SteamSnapshotGame {

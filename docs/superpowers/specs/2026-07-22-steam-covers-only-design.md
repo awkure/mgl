@@ -71,7 +71,7 @@ No domain merge through `mergeSteamGameUpdate` — cover field only. Reuse exist
 4. `fetchAndEncodeSteamCover(appid)` (CDN only).
 5. Null / throw → log; `coversFailed++`; continue.
 6. If `asset.id === game.coverAssetId` → `unchanged++`; continue.
-7. Else emit asset create + game update (`coverAssetId`, `updatedAt`); orphan previous cover left for existing GC / validate (same as steam-import).
+7. Else emit asset create + game update (`coverAssetId` only as field op); apply derives `updatedAt` from op `changedAt`. Orphan previous cover left for existing GC / validate (same as steam-import).
 
 ## Error handling
 
@@ -95,7 +95,7 @@ No domain merge through `mergeSteamGameUpdate` — cover field only. Reuse exist
 ## Tests
 
 - Locked skip vs `--force` replace
-- Patch ops: only asset create + `coverAssetId` (and `updatedAt`) on game
+- Patch ops: only asset create + `coverAssetId` on game (`updatedAt` via apply `changedAt`, not a field op)
 - Filter / `--limit` / `--game-id`
 - Same-id → no update op
 - Mock fetch like `tests/steam-cover.test.ts`
