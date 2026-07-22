@@ -51,6 +51,17 @@ export const GameCard = memo(forwardRef<HTMLElement, GameCardProps>(function Gam
     event.preventDefault();
   };
 
+  const achievementsUnlocked = game.achievementsUnlocked;
+  const achievementsTotal = game.achievementsTotal;
+  const showAchievements =
+    variant === "list"
+    && achievementsUnlocked != null
+    && achievementsTotal != null
+    && achievementsTotal > 0;
+  const achievementsProgress = showAchievements
+    ? Math.min(100, Math.max(0, (achievementsUnlocked / achievementsTotal) * 100))
+    : 0;
+
   const coverMedia = coverUrl ? (
     <img
       alt={asset && "alt" in asset ? asset.alt || `Обложка ${game.title}` : `Обложка ${game.title}`}
@@ -83,6 +94,22 @@ export const GameCard = memo(forwardRef<HTMLElement, GameCardProps>(function Gam
             {game.tags.slice(0, 4).map((tag) => <span key={tag}>{tag}</span>)}
             {game.tags.length > 4 ? <span>+{game.tags.length - 4}</span> : null}
           </div>
+          {showAchievements ? (
+            <div
+              aria-label={`Достижения: ${achievementsUnlocked} из ${achievementsTotal}`}
+              className="game-card__achievements"
+            >
+              <div className="game-card__achievements-track" aria-hidden="true">
+                <div
+                  className="game-card__achievements-fill"
+                  style={{ width: `${achievementsProgress}%` }}
+                />
+              </div>
+              <span className="game-card__achievements-text" aria-hidden="true">
+                {achievementsUnlocked}/{achievementsTotal}
+              </span>
+            </div>
+          ) : null}
         </>
       ) : null}
     </div>

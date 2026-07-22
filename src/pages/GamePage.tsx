@@ -1028,6 +1028,7 @@ function InlineGamePage({ game, notes, assets, platformSuggestions = [], tagSugg
               return persist({ hoursPlayed });
             }} onEnd={() => setEditingField((field) => field === "hoursPlayed" ? null : field)} value={game.hoursPlayed == null ? "" : String(game.hoursPlayed)}>{game.hoursPlayed == null ? "—" : formatHoursPlayed(game.hoursPlayed)}</InlineTextField></dd></div>
             <div><dt>Последняя игра</dt><dd>{game.lastPlayedAt ? formatRelativeDate(game.lastPlayedAt) : "—"}</dd></div>
+            <div><dt>Достижения</dt><dd>{game.achievementsUnlocked != null && game.achievementsTotal != null ? `${game.achievementsUnlocked}/${game.achievementsTotal}` : "—"}</dd></div>
             <div><dt>Изменено</dt><dd>{formatRelativeDate(game.updatedAt)}</dd></div>
           </dl>
           {onDelete ? <div className="game-sidebar__tools"><button aria-label="Удалить игру" disabled={saving} onClick={() => void deleteGame()} title="Удалить игру" type="button"><Icon name="trash" size={15} /></button></div> : null}
