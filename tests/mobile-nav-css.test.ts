@@ -45,7 +45,10 @@ describe("mobile nav css", () => {
 
   it("defines swipe pager track layout for four panels", () => {
     expect(declarationsIn(styles, ".swipe-pager__track")).toContain("width: 400%");
-    expect(declarationsIn(styles, ".swipe-pager__panel")).toContain("position: relative");
+    const panel = declarationsIn(styles, ".swipe-pager__panel");
+    expect(panel).toContain("position: relative");
+    expect(panel).toContain("width: calc(100% / 4)");
+    expect(panel).toContain("flex: 0 0 calc(100% / 4)");
     expect(styles).toContain(".swipe-pager__overlay");
     expect(declarationsIn(styles, ".swipe-pager__overlay")).toContain("position: absolute");
   });
