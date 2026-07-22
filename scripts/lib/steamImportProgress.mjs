@@ -107,3 +107,28 @@ export function upsertAchievement(progress, appid, entry, nowIso) {
 export function removeProgress(filePath) {
   if (existsSync(filePath)) unlinkSync(filePath);
 }
+
+/** @returns {boolean} true when `cached` was provided (skip network fetch) */
+export function applyCachedDetails(candidate, cached) {
+  if (cached == null) return false;
+  if (cached.ok) {
+    candidate.details = cached.value;
+    if (cached.name) candidate.name = cached.name;
+    else if (cached.value?.name) candidate.name = cached.value.name;
+  } else {
+    candidate.details = null;
+  }
+  return true;
+}
+
+/** @returns {{ hit: boolean; counts: { unlocked: number | null; total: number | null } | null }} */
+export function applyCachedAchievements(cached) {
+  if (cached == null) return { hit: false, counts: null };
+  if (cached.ok) {
+    return {
+      hit: true,
+      counts: { unlocked: cached.unlocked, total: cached.total },
+    };
+  }
+  return { hit: true, counts: null };
+}

@@ -3,6 +3,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
+  applyCachedAchievements,
+  applyCachedDetails,
   assertProgressCompatible,
   createEmptyProgress,
   loadForContinue,
@@ -72,6 +74,43 @@ describe("steamImportProgress", () => {
     expect(loaded.achievements["220"]).toEqual({ ok: true, unlocked: 1, total: 10 });
     removeProgress(file);
     expect(existsSync(file)).toBe(false);
+  });
+
+  it("applyCachedDetails fills candidate from ok cache (no fetch needed)", () => {
+    const candidate = { appid: 220, name: "old", details: undefined };
+    const hit = applyCachedDetails(candidate, {
+      ok: true,
+      value: { name: "HL2", type: "game" },
+      name: "Half-Life 2",
+    });
+    expect(hit).toBe(true);
+    expect(candidate.details).toEqual({ name: "HL2", type: "game" });
+    expect(candidate.name).toBe("Half-Life 2");
+  });
+
+  it("applyCachedDetails sets details null on cached failure", () => {
+    const candidate = { appid: 570, details: { stale: true } };
+    expect(applyCachedDetails(candidate, { ok: false, error: "timeout" })).toBe(true);
+    expect(candidate.details).toBeNull();
+  });
+
+  it("applyCachedDetails returns false when no cache entry", () => {
+    const candidate = { appid: 1 };
+    expect(applyCachedDetails(candidate, undefined)).toBe(false);
+  });
+
+  it("applyCachedAchievements ok:false yields null counts (skip retry)", () => {
+    expect(applyCachedAchievements({ ok: false, error: "private" })).toEqual({
+      hit: true,
+      counts: null,
+    });
+  });
+
+  it("applyCachedAchievements ok:true returns counts", () => {
+    expect(applyCachedAchievements({ ok: true, unlocked: 3, total: 10 })).toEqual({
+      hit: true,
+      counts: { unlocked: 3, total: 10 },
+    });
   });
 
   it("upsert failure entries round-trip via writeAtomic and loadForContinue", () => {

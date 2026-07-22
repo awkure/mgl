@@ -39,6 +39,8 @@ import {
 } from "./lib/steamApi.mjs";
 import { fetchAndEncodeSteamCover } from "./lib/steamCover.mjs";
 import {
+  applyCachedAchievements,
+  applyCachedDetails,
   createEmptyProgress,
   DEFAULT_PROGRESS_FILENAME,
   loadForContinue,
@@ -300,16 +302,7 @@ try {
   const fetchDetailsFor = async (candidate, existing, label, index, total) => {
     if (!needsDetails(candidate, existing)) return;
     const cached = progress?.details?.[String(candidate.appid)];
-    if (cached) {
-      if (cached.ok) {
-        candidate.details = cached.value;
-        if (cached.name) candidate.name = cached.name;
-        else if (cached.value?.name) candidate.name = cached.value.name;
-      } else {
-        candidate.details = null;
-      }
-      return;
-    }
+    if (applyCachedDetails(candidate, cached)) return;
     process.stdout.write(`details ${label} ${index + 1}/${total} appid=${candidate.appid}\r`);
     await throttle();
     try {
@@ -390,13 +383,11 @@ try {
       const { candidate, existing } = achievementTargets[index];
       const key = String(candidate.appid);
       const cached = progress?.achievements?.[key];
-      if (cached) {
-        if (cached.ok) {
-          achievementByAppid.set(candidate.appid, {
-            unlocked: cached.unlocked,
-            total: cached.total,
-          });
-          if (cached.unlocked != null && cached.total != null) achievementsUpdated += 1;
+      const { hit: achCacheHit, counts: achCacheCounts } = applyCachedAchievements(cached);
+      if (achCacheHit) {
+        if (achCacheCounts) {
+          achievementByAppid.set(candidate.appid, achCacheCounts);
+          if (achCacheCounts.unlocked != null && achCacheCounts.total != null) achievementsUpdated += 1;
           else achievementsSkipped += 1;
         } else {
           achievementByAppid.set(candidate.appid, {
