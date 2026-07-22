@@ -13,6 +13,7 @@ docs/agent/
 
 # Local Steam import artifacts
 steam-import.patch.json
+steam-import-progress.json
 
 benchmarks/results/
 
