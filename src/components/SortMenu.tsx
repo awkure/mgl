@@ -98,7 +98,11 @@ export function SortMenu({ value, onChange }: {
         onToggle={(event) => setOpen(event.currentTarget.open)}
         ref={detailsRef}
       >
-        <summary ref={summaryRef}>Сортировка<b>{CATALOG_SORT_LABELS[value]}</b><Icon name="chevron-down" size={16} /></summary>
+        <summary aria-label={`Сортировка: ${CATALOG_SORT_LABELS[value]}`} ref={summaryRef}>
+          <span className="filter-menu__caption">Сортировка</span>
+          <b>{CATALOG_SORT_LABELS[value]}</b>
+          <Icon name="chevron-down" size={16} />
+        </summary>
       </details>
       {panel}
     </>

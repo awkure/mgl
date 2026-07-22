@@ -454,10 +454,10 @@ h4 {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 5px;
-  padding: 7px;
+  gap: 4px;
+  padding: 0;
   max-height: min(70dvh, calc(100dvh - var(--app-header-height, 52px) - 24px));
-  overflow-x: visible;
+  overflow-x: hidden;
   overflow-y: auto;
   border: 1px solid var(--line);
   border-radius: 6px;
@@ -478,14 +478,35 @@ h4 {
 }
 
 .screen-filter-bar__sort {
-  display: inline-flex;
+  display: flex;
+  flex: 1 1 100%;
   align-items: center;
   gap: 4px;
   min-width: 0;
+  width: 100%;
+}
+
+.screen-filter-bar__sort .filter-menu {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.screen-filter-bar__sort .filter-menu summary {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.screen-filter-bar__sort .filter-menu summary b {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .screen-filter-bar__sort-dir {
   display: inline-flex;
+  flex: 0 0 auto;
   align-items: stretch;
   border: 1px solid var(--line);
   border-radius: 5px;
@@ -5707,6 +5728,23 @@ h4 {
   }
 
   .screen-filter-bar__field {
+    min-height: var(--touch-target);
+  }
+
+  .screen-filter-bar__sort .filter-menu__caption {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  .screen-filter-bar__sort-dir-btn {
+    min-width: var(--touch-target);
     min-height: var(--touch-target);
   }
 

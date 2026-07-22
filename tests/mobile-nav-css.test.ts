@@ -194,6 +194,23 @@ describe("mobile nav css", () => {
     expect(panel).toContain("background: var(--surface-2)");
   });
 
+  it("keeps catalog sort direction buttons visible without sheet padding waste", () => {
+    const sheet = declarationsIn(styles, ".screen-filter-bar__sheet");
+    expect(sheet).toContain("padding: 0");
+    expect(sheet).not.toContain("padding: 7px");
+    const sort = declarationsIn(styles, ".screen-filter-bar__sort");
+    expect(sort).toContain("flex: 1 1 100%");
+    expect(sort).toContain("min-width: 0");
+    const sortMenu = declarationsIn(styles, ".screen-filter-bar__sort .filter-menu");
+    expect(sortMenu).toContain("flex: 1 1 auto");
+    expect(sortMenu).toContain("min-width: 0");
+    const sortDir = declarationsIn(styles, ".screen-filter-bar__sort-dir");
+    expect(sortDir).toContain("flex: 0 0 auto");
+    expect(styles).toMatch(
+      /@media \(pointer: coarse\),\s*\(max-width: 720px\)[\s\S]*?\.screen-filter-bar__sort-dir-btn \{[^}]*min-width:\s*var\(--touch-target\);/,
+    );
+  });
+
   it("defines a mobile-only glass drag-mode toggle on the tier page", () => {
     expect(styles).toContain(".tier-drag-mode-toggle");
     const toggle = declarationsIn(styles, ".tier-drag-mode-toggle");

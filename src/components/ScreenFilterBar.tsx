@@ -106,17 +106,7 @@ function CatalogSortControls() {
   const [sort, setSort] = useCatalogSort();
   return (
     <div className="screen-filter-bar__sort">
-      <SortMenu onChange={(key) => setSort({ ...sort, key })} value={sort.key} />
       <div className="screen-filter-bar__sort-dir" role="group" aria-label="Направление сортировки">
-        <button
-          aria-label="По возрастанию"
-          aria-pressed={sort.dir === "asc"}
-          className={`screen-filter-bar__sort-dir-btn${sort.dir === "asc" ? " is-active" : ""}`}
-          onClick={() => setSort({ ...sort, dir: "asc" })}
-          type="button"
-        >
-          ↑
-        </button>
         <button
           aria-label="По убыванию"
           aria-pressed={sort.dir === "desc"}
@@ -126,7 +116,17 @@ function CatalogSortControls() {
         >
           ↓
         </button>
+        <button
+          aria-label="По возрастанию"
+          aria-pressed={sort.dir === "asc"}
+          className={`screen-filter-bar__sort-dir-btn${sort.dir === "asc" ? " is-active" : ""}`}
+          onClick={() => setSort({ ...sort, dir: "asc" })}
+          type="button"
+        >
+          ↑
+        </button>
       </div>
+      <SortMenu onChange={(key) => setSort({ key, dir: "desc" })} value={sort.key} />
     </div>
   );
 }

@@ -46,6 +46,23 @@ describe("ScreenFilterBar", () => {
     });
   });
 
+  it("resets direction to desc when the sort key changes", async () => {
+    const user = userEvent.setup();
+    window.localStorage.clear();
+    window.location.hash = "#/games";
+    render(<ScreenFilterBar games={[game]} mode="catalog" />);
+    await user.click(screen.getByRole("searchbox", { name: "Фильтр игр на экране" }));
+    await user.click(screen.getByRole("button", { name: "По возрастанию" }));
+    expect(screen.getByRole("button", { name: "По возрастанию" })).toHaveAttribute("aria-pressed", "true");
+    await user.click(screen.getByText("Сортировка"));
+    await user.click(screen.getByRole("radio", { name: /Последняя игра/ }));
+    expect(screen.getByRole("button", { name: "По убыванию" })).toHaveAttribute("aria-pressed", "true");
+    expect(JSON.parse(window.localStorage.getItem("my-game-library.catalog-sort.v1")!)).toEqual({
+      key: "lastPlayed",
+      dir: "desc",
+    });
+  });
+
   it("writes catalog hash on text change", async () => {
     const user = userEvent.setup();
     window.location.hash = "#/games";
