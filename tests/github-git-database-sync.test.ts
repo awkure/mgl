@@ -8,6 +8,7 @@ import {
 } from "../src/domain";
 import {
   GITHUB_API_VERSION,
+  GITHUB_HISTORY_PATH,
   GITHUB_LIBRARY_PATH,
   GitHubGitDatabaseSyncClient,
   GitHubPatchConflictError,
@@ -24,10 +25,12 @@ const CHANGED_AT = "2026-07-17T08:00:00.000Z";
 const HEAD_SHA = "1".repeat(40);
 const TREE_SHA = "2".repeat(40);
 const LIBRARY_BLOB_SHA = "3".repeat(40);
+const HISTORY_BLOB_SHA = "a".repeat(40);
 const CREATED_LIBRARY_BLOB_SHA = "4".repeat(40);
 const CREATED_TREE_SHA = "5".repeat(40);
 const CREATED_COMMIT_SHA = "6".repeat(40);
 const CREATED_MEDIA_BLOB_SHA = "7".repeat(40);
+const CREATED_HISTORY_BLOB_SHA = "8".repeat(40);
 const API_ROOT = "https://api.github.com/repos/kana/mylib";
 
 function empty(): LibraryDatabase {
@@ -100,15 +103,25 @@ function apiMock(database: LibraryDatabase, options: ApiMockOptions = {}): {
       return response(options.tree ?? {
         sha: TREE_SHA,
         truncated: false,
-        tree: [{ path: GITHUB_LIBRARY_PATH, mode: "100644", type: "blob", sha: LIBRARY_BLOB_SHA }],
+        tree: [
+          { path: GITHUB_LIBRARY_PATH, mode: "100644", type: "blob", sha: LIBRARY_BLOB_SHA },
+          { path: GITHUB_HISTORY_PATH, mode: "100644", type: "blob", sha: HISTORY_BLOB_SHA },
+        ],
       });
     }
     if (method === "GET" && url.pathname === `/repos/kana/mylib/git/blobs/${LIBRARY_BLOB_SHA}`) {
       const base64 = bytesToBase64(new TextEncoder().encode(JSON.stringify(database)));
       return response({ sha: LIBRARY_BLOB_SHA, encoding: "base64", content: `${base64.slice(0, 16)}\n${base64.slice(16)}` });
     }
+    if (method === "GET" && url.pathname === `/repos/kana/mylib/git/blobs/${HISTORY_BLOB_SHA}`) {
+      const base64 = bytesToBase64(new TextEncoder().encode(JSON.stringify({ schemaVersion: 1, events: [] })));
+      return response({ sha: HISTORY_BLOB_SHA, encoding: "base64", content: base64 });
+    }
     if (method === "POST" && url.pathname === "/repos/kana/mylib/git/blobs") {
-      return response({ sha: rawBody?.encoding === "utf-8" ? CREATED_LIBRARY_BLOB_SHA : CREATED_MEDIA_BLOB_SHA }, 201);
+      if (rawBody?.encoding === "base64") return response({ sha: CREATED_MEDIA_BLOB_SHA }, 201);
+      const content = typeof rawBody?.content === "string" ? rawBody.content : "";
+      const sha = content.includes('"events"') ? CREATED_HISTORY_BLOB_SHA : CREATED_LIBRARY_BLOB_SHA;
+      return response({ sha }, 201);
     }
     if (method === "POST" && url.pathname === "/repos/kana/mylib/git/trees") {
       return response({ sha: CREATED_TREE_SHA }, 201);
@@ -243,6 +256,8 @@ describe("GitHub Git Database publication", () => {
       `GET /repos/kana/mylib/git/commits/${HEAD_SHA}`,
       `GET /repos/kana/mylib/git/trees/${TREE_SHA}?recursive=1`,
       `GET /repos/kana/mylib/git/blobs/${LIBRARY_BLOB_SHA}`,
+      `GET /repos/kana/mylib/git/blobs/${HISTORY_BLOB_SHA}`,
+      "POST /repos/kana/mylib/git/blobs",
       "POST /repos/kana/mylib/git/blobs",
       "POST /repos/kana/mylib/git/trees",
       "POST /repos/kana/mylib/git/commits",
@@ -261,16 +276,36 @@ describe("GitHub Git Database publication", () => {
       }
     }
 
-    const libraryWrite = api.requests.find((request) => request.method === "POST" && request.url.pathname.endsWith("/git/blobs"));
+    const libraryWrite = api.requests.find((request) => (
+      request.method === "POST"
+      && request.url.pathname.endsWith("/git/blobs")
+      && typeof request.body?.content === "string"
+      && request.body.content.includes('"games"')
+    ));
     expect(libraryWrite?.body?.encoding).toBe("utf-8");
     const publishedSource = libraryWrite?.body?.content;
     expect(typeof publishedSource).toBe("string");
     expect(JSON.parse(publishedSource as string)).toEqual(result.database);
 
+    const historyWrite = api.requests.find((request) => (
+      request.method === "POST"
+      && request.url.pathname.endsWith("/git/blobs")
+      && typeof request.body?.content === "string"
+      && request.body.content.includes('"events"')
+    ));
+    expect(historyWrite?.body?.encoding).toBe("utf-8");
+    const historyPayload = JSON.parse(historyWrite?.body?.content as string);
+    expect(historyPayload.schemaVersion).toBe(1);
+    expect(historyPayload.events.length).toBeGreaterThan(0);
+    expect(historyPayload.events.some((event: { field?: string | null; after?: unknown }) => event.field === "title" && event.after === "DuckTales Remastered")).toBe(true);
+
     const treeWrite = api.requests.find((request) => request.url.pathname.endsWith("/git/trees") && request.method === "POST");
     expect(treeWrite?.body).toEqual({
       base_tree: TREE_SHA,
-      tree: [{ path: GITHUB_LIBRARY_PATH, mode: "100644", type: "blob", sha: CREATED_LIBRARY_BLOB_SHA }],
+      tree: [
+        { path: GITHUB_HISTORY_PATH, mode: "100644", type: "blob", sha: CREATED_HISTORY_BLOB_SHA },
+        { path: GITHUB_LIBRARY_PATH, mode: "100644", type: "blob", sha: CREATED_LIBRARY_BLOB_SHA },
+      ],
     });
     const commitWrite = api.requests.find((request) => request.url.pathname.endsWith("/git/commits") && request.method === "POST");
     expect(commitWrite?.body).toEqual({
@@ -352,7 +387,7 @@ describe("GitHub Git Database publication", () => {
       conflicts: [{ path: `/games/${GAME_ID}/title` }],
       latestSnapshot: { headSha: HEAD_SHA, treeSha: TREE_SHA, libraryBlobSha: LIBRARY_BLOB_SHA },
     });
-    expect(api.requests).toHaveLength(4);
+    expect(api.requests).toHaveLength(5);
     expect(api.requests.every((request) => request.method === "GET")).toBe(true);
   });
 
@@ -367,7 +402,7 @@ describe("GitHub Git Database publication", () => {
     const result = await client(api.fetch).publishPatch(patch);
 
     expect(result).toMatchObject({ status: "up-to-date", commitSha: HEAD_SHA, prunedOperationCount: 1 });
-    expect(api.requests).toHaveLength(4);
+    expect(api.requests).toHaveLength(5);
     expect(api.requests.every((request) => request.method === "GET")).toBe(true);
   });
 
@@ -397,10 +432,11 @@ describe("GitHub Git Database publication", () => {
     const expectedPath = `public/media/${prepared.asset.id}.mp4`;
     expect(result.mediaPaths).toEqual([expectedPath]);
     const blobWrites = api.requests.filter((request) => request.method === "POST" && request.url.pathname.endsWith("/git/blobs"));
-    expect(blobWrites).toHaveLength(2);
+    expect(blobWrites).toHaveLength(3);
     expect(blobWrites[0].body).toEqual({ content: prepared.base64, encoding: "base64" });
     const treeWrite = api.requests.find((request) => request.method === "POST" && request.url.pathname.endsWith("/git/trees"));
     expect(treeWrite?.body?.tree).toEqual([
+      { path: GITHUB_HISTORY_PATH, mode: "100644", type: "blob", sha: CREATED_HISTORY_BLOB_SHA },
       { path: GITHUB_LIBRARY_PATH, mode: "100644", type: "blob", sha: CREATED_LIBRARY_BLOB_SHA },
       { path: expectedPath, mode: "100644", type: "blob", sha: CREATED_MEDIA_BLOB_SHA },
     ]);
@@ -479,6 +515,7 @@ describe("GitHub Git Database publication", () => {
     expect(result.reconciledPatch.operations).toHaveProperty(`/assets/${prepared.asset.id}`);
     const treeWrite = api.requests.find((request) => request.method === "POST" && request.url.pathname.endsWith("/git/trees"));
     expect(treeWrite?.body?.tree).toEqual([
+      { path: GITHUB_HISTORY_PATH, mode: "100644", type: "blob", sha: CREATED_HISTORY_BLOB_SHA },
       { path: GITHUB_LIBRARY_PATH, mode: "100644", type: "blob", sha: CREATED_LIBRARY_BLOB_SHA },
       { path: mediaPath, mode: "100644", type: "blob", sha: null },
     ]);
@@ -566,6 +603,6 @@ describe("GitHub Git Database publication", () => {
 
     expect(error).toMatchObject({ code: "api_error", status: 422, responseMessage: "Validation Failed" });
     expect(api.requests.filter((request) => request.method === "PATCH")).toHaveLength(1);
-    expect(api.requests.filter((request) => request.method === "GET")).toHaveLength(4);
+    expect(api.requests.filter((request) => request.method === "GET")).toHaveLength(5);
   });
 });

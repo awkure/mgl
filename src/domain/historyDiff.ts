@@ -1,5 +1,5 @@
 import { canonicalHash, canonicalStringify } from "./canonical.ts";
-import type { HistoryEntity, HistoryEvent } from "./historyTypes.ts";
+import { HISTORY_SCHEMA_VERSION, type HistoryEntity, type HistoryEvent, type HistoryFile } from "./historyTypes.ts";
 import type { Game, LibraryDatabase, Note, PatchEnvelope } from "./types.ts";
 
 function pointerToken(value: string): string {
@@ -272,4 +272,24 @@ export function seedHistoryEventsFromLibrary(library: LibraryDatabase): HistoryE
     assets: library.assets,
   };
   return diffLibraryToHistoryEvents({ before: empty, after: library });
+}
+
+export function emptyHistoryFile(): HistoryFile {
+  return { schemaVersion: HISTORY_SCHEMA_VERSION, events: [] };
+}
+
+/** Append incoming events, dedupe by id, sort by changedAt then id. */
+export function appendHistoryEvents(existing: HistoryFile, incoming: HistoryEvent[]): HistoryFile {
+  const seen = new Set(existing.events.map((event) => event.id));
+  const events = [...existing.events];
+  for (const event of incoming) {
+    if (seen.has(event.id)) continue;
+    seen.add(event.id);
+    events.push(event);
+  }
+  events.sort((left, right) => {
+    const byTime = left.changedAt.localeCompare(right.changedAt);
+    return byTime !== 0 ? byTime : left.id.localeCompare(right.id);
+  });
+  return { schemaVersion: HISTORY_SCHEMA_VERSION, events };
 }

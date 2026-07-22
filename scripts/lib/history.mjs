@@ -3,9 +3,12 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const { diffLibraryToHistoryEvents, seedHistoryEventsFromLibrary } = await import(
-  pathToFileURL(path.join(root, "src/domain/historyDiff.ts")).href,
-);
+const {
+  appendHistoryEvents,
+  diffLibraryToHistoryEvents,
+  emptyHistoryFile,
+  seedHistoryEventsFromLibrary,
+} = await import(pathToFileURL(path.join(root, "src/domain/historyDiff.ts")).href);
 
 export const relativeHistoryPath = "public/data/history.json";
 export const HISTORY_SCHEMA_VERSION = 1;
@@ -29,7 +32,7 @@ const SHA256 = /^[0-9a-f]{64}$/;
 const HISTORY_ENTITIES = new Set(["game", "note"]);
 const HISTORY_OPS = new Set(["create", "set", "delete"]);
 
-export { diffLibraryToHistoryEvents, seedHistoryEventsFromLibrary };
+export { appendHistoryEvents, diffLibraryToHistoryEvents, emptyHistoryFile, seedHistoryEventsFromLibrary };
 
 export class HistoryValidationError extends Error {
   constructor(errors) {
@@ -91,10 +94,6 @@ export function validateHistoryFile(value) {
   return value;
 }
 
-export function emptyHistoryFile() {
-  return { schemaVersion: HISTORY_SCHEMA_VERSION, events: [] };
-}
-
 export function parseHistoryJson(text) {
   let parsed;
   try {
@@ -107,21 +106,6 @@ export function parseHistoryJson(text) {
 
 export function readHistoryFileFromDisk(historyPath) {
   return parseHistoryJson(readFileSync(historyPath, "utf8"));
-}
-
-export function appendHistoryEvents(existing, incoming) {
-  const seen = new Set(existing.events.map((event) => event.id));
-  const events = [...existing.events];
-  for (const event of incoming) {
-    if (seen.has(event.id)) continue;
-    seen.add(event.id);
-    events.push(event);
-  }
-  events.sort((left, right) => {
-    const byTime = left.changedAt.localeCompare(right.changedAt);
-    return byTime !== 0 ? byTime : left.id.localeCompare(right.id);
-  });
-  return { schemaVersion: HISTORY_SCHEMA_VERSION, events };
 }
 
 export function formatHistoryFile(history) {

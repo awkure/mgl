@@ -6255,6 +6255,25 @@
       "coverAssetId": "9ae36d136029261edfa65c4ee892fcfe0a6df02585642bd1f6c2bb4ae5bc1013"
     },
     {
+      "id": "cc0670f95c408587aa4a38dc14a3f5515ff10d0805ecad7d98d7691bfd2b4413",
+      "changedAt": "2026-07-22T15:01:28.766Z",
+      "entity": "game",
+      "entityId": "c807e4a1-0efd-4523-ad64-fb6bc4779c7c",
+      "gameId": "c807e4a1-0efd-4523-ad64-fb6bc4779c7c",
+      "field": "placement",
+      "op": "set",
+      "before": {
+        "tierId": "unranked",
+        "rank": 474112
+      },
+      "after": {
+        "tierId": "unranked",
+        "rank": 458240
+      },
+      "title": "Adorable Adventures",
+      "coverAssetId": "7ddc9e47ca6609efbb6f0903b13b1fff1b7b112447c1076dd97f4502f9390e92"
+    },
+    {
       "id": "0046147bc0aac57618db83db8735e8029e2d8c7150adeed6b69fd120a157e99c",
       "changedAt": "2026-07-22T15:31:54.445Z",
       "entity": "note",
@@ -12480,6 +12499,103 @@
       "after": null,
       "title": "The Void Rains Upon Her Heart",
       "coverAssetId": "c01c69b0517b764ff9ac66494b25550725e65f6d1357a6cd12634f33c4d32aab"
+    },
+    {
+      "id": "6c7136e41b4a7e24ef9e932ac2e949c1ad2bfaaaf6fe56f9f2e79433f2ad5dda",
+      "changedAt": "2026-07-22T15:49:47.335Z",
+      "entity": "game",
+      "entityId": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
+      "gameId": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
+      "field": "status",
+      "op": "set",
+      "before": "platinum",
+      "after": "completed",
+      "title": "Portal 2",
+      "coverAssetId": "d8a55a71fea91b0a49f5a5fd07ee2e39bf73f62152e718842dc7f5e4a0a5d99e"
+    },
+    {
+      "id": "a56e609f2ea148cb528f3dd30b8990e530770aeb5cc9e4f0b943cc6753837998",
+      "changedAt": "2026-07-22T15:50:57.240Z",
+      "entity": "note",
+      "entityId": "357c50df-c6bc-4afe-a6b9-ea52a9145cd5",
+      "gameId": "09b5cc74-63bf-456f-99ab-97097703f8d6",
+      "field": null,
+      "op": "create",
+      "before": null,
+      "after": null,
+      "title": "The Binding of Isaac: Rebirth",
+      "coverAssetId": "82258390140ccf7c880d5ca991c730918757b656d86390248a70133b59ec8189"
+    },
+    {
+      "id": "80f913d0c236745f969f8fde8166d3a696aaf6804d9ebcd9f9ba223f7e5ecbcb",
+      "changedAt": "2026-07-22T15:51:04.902Z",
+      "entity": "note",
+      "entityId": "7650a14a-2416-4110-8915-45f0ccf39039",
+      "gameId": "09b5cc74-63bf-456f-99ab-97097703f8d6",
+      "field": "groupRank",
+      "op": "set",
+      "before": null,
+      "after": 2048,
+      "title": "The Binding of Isaac: Rebirth",
+      "coverAssetId": "82258390140ccf7c880d5ca991c730918757b656d86390248a70133b59ec8189"
+    },
+    {
+      "id": "fe7a9efcbea1d24b4a16f04b0bcca4472ba8b93e0eb7778ef1308060ebc00118",
+      "changedAt": "2026-07-22T15:51:04.902Z",
+      "entity": "note",
+      "entityId": "7650a14a-2416-4110-8915-45f0ccf39039",
+      "gameId": "09b5cc74-63bf-456f-99ab-97097703f8d6",
+      "field": "rank",
+      "op": "set",
+      "before": 1024,
+      "after": 2048,
+      "title": "The Binding of Isaac: Rebirth",
+      "coverAssetId": "82258390140ccf7c880d5ca991c730918757b656d86390248a70133b59ec8189"
+    },
+    {
+      "id": "c363574ed142623e2e63cfee0cb23e997a71bd6f09fd8955f2e0cfc2ede047c0",
+      "changedAt": "2026-07-22T17:32:56.771Z",
+      "entity": "note",
+      "entityId": "c5a92e28-fa09-4958-98ca-e020fe3553c8",
+      "gameId": "09b5cc74-63bf-456f-99ab-97097703f8d6",
+      "field": null,
+      "op": "create",
+      "before": null,
+      "after": null,
+      "title": "The Binding of Isaac: Rebirth",
+      "coverAssetId": "82258390140ccf7c880d5ca991c730918757b656d86390248a70133b59ec8189"
+    },
+    {
+      "id": "7e0eb25d614d4294bf906ecabf5ba19fbe88b60ed131bf687966e41f812c52c8",
+      "changedAt": "2026-07-22T17:33:08.668Z",
+      "entity": "note",
+      "entityId": "960b0e73-7171-4344-99ad-952965bf3811",
+      "gameId": "09b5cc74-63bf-456f-99ab-97097703f8d6",
+      "field": null,
+      "op": "create",
+      "before": null,
+      "after": null,
+      "title": "The Binding of Isaac: Rebirth",
+      "coverAssetId": "82258390140ccf7c880d5ca991c730918757b656d86390248a70133b59ec8189"
+    },
+    {
+      "id": "7dd8fcec34e38faa76c28a4d95407717d5fefc8b231bf25c9c37017310b29edd",
+      "changedAt": "2026-07-22T17:33:35.985Z",
+      "entity": "game",
+      "entityId": "a9a6da2b-571c-41b4-a0f6-c848b90f1476",
+      "gameId": "a9a6da2b-571c-41b4-a0f6-c848b90f1476",
+      "field": "placement",
+      "op": "set",
+      "before": {
+        "tierId": "unranked",
+        "rank": 93184
+      },
+      "after": {
+        "tierId": "d",
+        "rank": 31744
+      },
+      "title": "Bugsnax",
+      "coverAssetId": "21284602c94911e85f3f66b3c121d0f5a5fc3e77fd2d9ff41e2ec289b5103a93"
     }
   ]
 }

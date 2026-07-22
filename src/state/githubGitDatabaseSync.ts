@@ -2,15 +2,20 @@ import {
   applyPatch,
   assertValidPatch,
   assertValidPublishedLibrary,
+  appendHistoryEvents,
   base64ToBytes,
   describeAssetForRecovery,
   diffLibrary,
+  diffLibraryToHistoryEvents,
+  emptyHistoryFile,
   finalizePublishedDatabase,
   garbageCollectUnreferencedAssets,
   isCanonicalBase64,
   reconcilePatch,
   sha256Bytes,
+  validateHistoryFile,
   type Asset,
+  type HistoryFile,
   type LibraryDatabase,
   type PatchConflict,
   type PatchEnvelope,
@@ -20,6 +25,7 @@ import { buildCommitMessage } from "../shared/commitMessage.js";
 
 export const GITHUB_API_VERSION = "2026-03-10";
 export const GITHUB_LIBRARY_PATH = "public/data/library.json";
+export const GITHUB_HISTORY_PATH = "public/data/history.json";
 export const GITHUB_MEDIA_PATH = /^public\/media\/[0-9a-f]{64}\.(?:webp|mp4|bin)$/;
 
 const GITHUB_API_ORIGIN = "https://api.github.com";
@@ -50,6 +56,7 @@ export interface GitHubGitDatabaseSyncOptions {
 
 export interface GitHubLibrarySnapshot {
   database: LibraryDatabase;
+  history: HistoryFile;
   headSha: string;
   treeSha: string;
   libraryBlobSha: string;
@@ -182,7 +189,7 @@ function mediaPath(id: string, asset: Asset): string {
 }
 
 function assertWritablePath(value: string): void {
-  if (value !== GITHUB_LIBRARY_PATH && !GITHUB_MEDIA_PATH.test(value)) {
+  if (value !== GITHUB_LIBRARY_PATH && value !== GITHUB_HISTORY_PATH && !GITHUB_MEDIA_PATH.test(value)) {
     throw new GitHubSyncError("invalid_response", "GitHub tree contains a path outside the publication allowlist");
   }
 }
@@ -385,6 +392,11 @@ export class GitHubGitDatabaseSyncClient {
     const libraryEntry = libraryEntries[0];
     if (libraryEntry.type !== "blob") throw new GitHubSyncError("invalid_response", "GitHub library path is not a blob");
     const libraryBlobSha = expectGitSha(libraryEntry.sha, "library blob SHA");
+    const historyEntries = tree.tree.filter((entry) => isObject(entry) && entry.path === GITHUB_HISTORY_PATH);
+    if (historyEntries.length > 1) throw new GitHubSyncError("invalid_response", "GitHub tree contains duplicate history files");
+    const historyEntry = historyEntries[0];
+    if (historyEntry && historyEntry.type !== "blob") throw new GitHubSyncError("invalid_response", "GitHub history path is not a blob");
+    const historyBlobSha = historyEntry ? expectGitSha(historyEntry.sha, "history blob SHA") : null;
     const mediaPaths = tree.tree.flatMap((entry) => {
       if (!isObject(entry) || typeof entry.path !== "string" || !entry.path.startsWith("public/media/")) return [];
       if (entry.path === "public/media/.gitkeep") return [];
@@ -413,7 +425,25 @@ export class GitHubGitDatabaseSyncClient {
       throw new GitHubSyncError("invalid_response", "GitHub library references a missing media file");
     }
 
-    return { database: structuredClone(database), headSha, treeSha, libraryBlobSha, mediaPaths: mediaPaths.sort() };
+    let history: HistoryFile = emptyHistoryFile();
+    if (historyBlobSha) {
+      const historyBlob = expectObject(await this.request(`${this.repositoryPath}/git/blobs/${historyBlobSha}`), "history blob");
+      if (historyBlob.encoding !== "base64") throw new GitHubSyncError("invalid_response", "GitHub history blob is not base64 encoded");
+      let historySource: string;
+      try {
+        historySource = new TextDecoder("utf-8", { fatal: true }).decode(decodeGitHubBase64(expectString(historyBlob.content, "history blob content")));
+      } catch (reason) {
+        if (reason instanceof GitHubSyncError) throw reason;
+        throw new GitHubSyncError("invalid_response", "GitHub history blob is not valid UTF-8");
+      }
+      let parsedHistory: unknown;
+      try { parsedHistory = JSON.parse(historySource); }
+      catch { throw new GitHubSyncError("invalid_response", "GitHub history blob is not valid JSON"); }
+      try { history = validateHistoryFile(parsedHistory); }
+      catch { throw new GitHubSyncError("invalid_response", "GitHub history data failed validation"); }
+    }
+
+    return { database: structuredClone(database), history: structuredClone(history), headSha, treeSha, libraryBlobSha, mediaPaths: mediaPaths.sort() };
   }
 
   async publishPatch(patch: PatchEnvelope, localMedia: Record<string, Blob> = {}): Promise<GitHubSyncResult> {
@@ -481,6 +511,20 @@ export class GitHubGitDatabaseSyncClient {
       body: JSON.stringify({ content: librarySource, encoding: "utf-8" }),
     }), "created library blob");
     treeEntries.push({ path: GITHUB_LIBRARY_PATH, mode: "100644", type: "blob", sha: expectGitSha(libraryBlob.sha, "created library blob SHA") });
+
+    const incomingHistory = diffLibraryToHistoryEvents({
+      before: latest.database,
+      after: published,
+      patch: normalizedPatch,
+    });
+    const nextHistory = appendHistoryEvents(latest.history, incomingHistory);
+    const historySource = `${JSON.stringify(nextHistory, null, 2)}\n`;
+    const historyBlob = expectObject(await this.request(`${this.repositoryPath}/git/blobs`, {
+      method: "POST",
+      body: JSON.stringify({ content: historySource, encoding: "utf-8" }),
+    }), "created history blob");
+    treeEntries.push({ path: GITHUB_HISTORY_PATH, mode: "100644", type: "blob", sha: expectGitSha(historyBlob.sha, "created history blob SHA") });
+
     treeEntries.sort((left, right) => left.path.localeCompare(right.path));
     treeEntries.forEach((entry) => assertWritablePath(entry.path));
 
