@@ -1,6 +1,6 @@
-import { RANK_STEP } from "./ranks";
+import { RANK_STEP } from "./ranks.ts";
 import { uniqueTagList, type SteamAppDetailsSlice } from "./steamImport.ts";
-import type { Game, Note, NoteAttachment } from "./types";
+import type { Game, Note, NoteAttachment } from "./types.ts";
 
 export const STEAM_MEDIA_NOTE_MARKER = "<!-- steam-media:v1 -->";
 

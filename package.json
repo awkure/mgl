@@ -18,6 +18,7 @@
     "data:validate": "node scripts/validate-data.mjs",
     "steam:probe": "node --experimental-strip-types scripts/steam-probe.mjs",
     "import:steam": "node --experimental-strip-types scripts/import-steam.mjs",
+    "import:steam-media": "node --experimental-strip-types scripts/import-steam-media.mjs",
     "test:steam": "vitest run tests/steam-live.test.ts",
     "test:coverage": "vitest run --coverage",
     "bench": "vitest bench --run benchmarks/vitest",
