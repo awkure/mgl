@@ -6,15 +6,18 @@ const styles = readFileSync(resolve(process.cwd(), "src/styles.css"), "utf8");
 
 function declarations(selector: string): string {
   const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return new RegExp(`${escaped}\\s*\\{([^}]*)\\}`).exec(styles)?.[1] ?? "";
+  // Line-start only — avoid compound selectors like `.foo .page {`.
+  return new RegExp(`^[ \\t]*${escaped}\\s*\\{([^}]*)\\}`, "m").exec(styles)?.[1] ?? "";
 }
 
 describe("wide desktop layout", () => {
   it("lets page content and the shared header use the full viewport width", () => {
     const page = declarations(".page");
     const header = declarations(".app-header");
-    const pageRules = [...styles.matchAll(/\.page\s*\{([^}]*)\}/g)].map((match) => match[1]);
-    const headerRules = [...styles.matchAll(/\.app-header\s*\{([^}]*)\}/g)].map((match) => match[1]);
+    const pageRules = [...styles.matchAll(/^[ \t]*\.page\s*\{([^}]*)\}/gm)].map((match) => match[1]);
+    const headerRules = [...styles.matchAll(/^[ \t]*\.app-header\s*\{([^}]*)\}/gm)].map(
+      (match) => match[1],
+    );
 
     expect(page).toContain("width: 100%");
     expect(page).toContain("margin: 0");
