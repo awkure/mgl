@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": "af25f398db0192e8b200eb112c8cd5cb210b670525aa10b778cd0e2e63d59088",
-  "publicationId": "a1ca778e-8fe0-46be-baaa-5a6c0c020d1e",
+  "revision": "73e7bec194ff43e897b175c78dc51da0f08979f6de20c0ec25e96290aa8194dd",
+  "publicationId": "5f06c5a8-92d3-406a-bd8d-24e53524d010",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
       "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
@@ -13373,6 +13373,58 @@
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
       "updatedAt": "2026-07-22T17:01:30.086Z"
+    },
+    "050c22b0-98d7-4d37-b723-f407b1cb4b5f": {
+      "id": "050c22b0-98d7-4d37-b723-f407b1cb4b5f",
+      "title": "Super Mario Odyssey",
+      "coverAssetId": "13a4614b519a8c08c1bf8a382fb1f5861939bdcc99a04930df19ef4959c3828c",
+      "steamAppId": null,
+      "importedVia": "manually",
+      "hoursPlayed": 50,
+      "lastPlayedAt": null,
+      "achievementsUnlocked": null,
+      "achievementsTotal": null,
+      "steamOverrides": {},
+      "platforms": [
+        "Nintendo Switch"
+      ],
+      "tags": [
+        "Платформер"
+      ],
+      "status": "completed",
+      "placement": {
+        "tierId": "s",
+        "rank": 30720
+      },
+      "reviewMarkdown": "",
+      "createdAt": "2026-07-22T20:36:33.426Z",
+      "updatedAt": "2026-07-22T20:36:44.928Z"
+    },
+    "259355b0-6212-4e15-ab2c-493bbc8674d2": {
+      "id": "259355b0-6212-4e15-ab2c-493bbc8674d2",
+      "title": "Super Mario Bros. Wonder",
+      "coverAssetId": "4a5a17a4e8c688d94e7945094f9b633051c1112a7b3bd548e0c5cdebf0ebb505",
+      "steamAppId": null,
+      "importedVia": "manually",
+      "hoursPlayed": 20,
+      "lastPlayedAt": null,
+      "achievementsUnlocked": null,
+      "achievementsTotal": null,
+      "steamOverrides": {},
+      "platforms": [
+        "Nintendo Switch"
+      ],
+      "tags": [
+        "Платформер"
+      ],
+      "status": "completed",
+      "placement": {
+        "tierId": "a",
+        "rank": 36864
+      },
+      "reviewMarkdown": "",
+      "createdAt": "2026-07-22T20:35:26.044Z",
+      "updatedAt": "2026-07-22T20:35:37.302Z"
     }
   },
   "notes": {
@@ -18121,6 +18173,24 @@
       "rank": 2048,
       "createdAt": "2026-07-22T20:01:23.417Z",
       "updatedAt": "2026-07-22T20:01:23.427Z"
+    },
+    "44c0c186-1d2b-4995-9468-78e55cf02ac2": {
+      "id": "44c0c186-1d2b-4995-9468-78e55cf02ac2",
+      "gameId": "050c22b0-98d7-4d37-b723-f407b1cb4b5f",
+      "bodyMarkdown": "Лучший 3D марио",
+      "attachments": [],
+      "rank": 1024,
+      "createdAt": "2026-07-22T20:36:33.426Z",
+      "updatedAt": "2026-07-22T20:36:33.436Z"
+    },
+    "58e97184-7bf4-4095-8cfc-e45e9f04d6ad": {
+      "id": "58e97184-7bf4-4095-8cfc-e45e9f04d6ad",
+      "gameId": "259355b0-6212-4e15-ab2c-493bbc8674d2",
+      "bodyMarkdown": "Лучший 2D марио",
+      "attachments": [],
+      "rank": 1024,
+      "createdAt": "2026-07-22T20:35:26.044Z",
+      "updatedAt": "2026-07-22T20:35:26.055Z"
     }
   },
   "assets": {
@@ -23613,6 +23683,26 @@
       "byteLength": 63908,
       "alt": "Shovel Knight: Treasure Trove",
       "originalName": "steam-250760.webp"
+    },
+    "13a4614b519a8c08c1bf8a382fb1f5861939bdcc99a04930df19ef4959c3828c": {
+      "id": "13a4614b519a8c08c1bf8a382fb1f5861939bdcc99a04930df19ef4959c3828c",
+      "kind": "image",
+      "mime": "image/webp",
+      "width": 512,
+      "height": 512,
+      "byteLength": 70038,
+      "alt": "Обложка игры",
+      "originalName": "clipboard-image.png"
+    },
+    "4a5a17a4e8c688d94e7945094f9b633051c1112a7b3bd548e0c5cdebf0ebb505": {
+      "id": "4a5a17a4e8c688d94e7945094f9b633051c1112a7b3bd548e0c5cdebf0ebb505",
+      "kind": "image",
+      "mime": "image/webp",
+      "width": 512,
+      "height": 512,
+      "byteLength": 55196,
+      "alt": "Обложка игры",
+      "originalName": "clipboard-image.png"
     }
   }
 }

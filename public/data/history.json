@@ -13208,6 +13208,58 @@
       "after": "platinum",
       "title": "A Game About Chopping Trees",
       "coverAssetId": "356cf52fdd662c914c43d6b54301acef6d15ed7f777cbe14c2f78ad61693b9e8"
+    },
+    {
+      "id": "06e5216d927428d0ea53db07587ea41dcea259d0876747f97e53d8b2c329daf3",
+      "changedAt": "2026-07-22T20:35:26.055Z",
+      "entity": "note",
+      "entityId": "58e97184-7bf4-4095-8cfc-e45e9f04d6ad",
+      "gameId": "259355b0-6212-4e15-ab2c-493bbc8674d2",
+      "field": null,
+      "op": "create",
+      "before": null,
+      "after": null,
+      "title": "Super Mario Bros. Wonder",
+      "coverAssetId": "4a5a17a4e8c688d94e7945094f9b633051c1112a7b3bd548e0c5cdebf0ebb505"
+    },
+    {
+      "id": "ac993db4ef2448a83d77dfa9746d9d4ab1507b838f87589ca754a23f28891d1b",
+      "changedAt": "2026-07-22T20:35:37.302Z",
+      "entity": "game",
+      "entityId": "259355b0-6212-4e15-ab2c-493bbc8674d2",
+      "gameId": "259355b0-6212-4e15-ab2c-493bbc8674d2",
+      "field": null,
+      "op": "create",
+      "before": null,
+      "after": null,
+      "title": "Super Mario Bros. Wonder",
+      "coverAssetId": "4a5a17a4e8c688d94e7945094f9b633051c1112a7b3bd548e0c5cdebf0ebb505"
+    },
+    {
+      "id": "d1a3f006bcd59f7e4a33ba2e680e32c1e7cb56b38e250233db8f0d69a814ad02",
+      "changedAt": "2026-07-22T20:36:33.436Z",
+      "entity": "note",
+      "entityId": "44c0c186-1d2b-4995-9468-78e55cf02ac2",
+      "gameId": "050c22b0-98d7-4d37-b723-f407b1cb4b5f",
+      "field": null,
+      "op": "create",
+      "before": null,
+      "after": null,
+      "title": "Super Mario Odyssey",
+      "coverAssetId": "13a4614b519a8c08c1bf8a382fb1f5861939bdcc99a04930df19ef4959c3828c"
+    },
+    {
+      "id": "9be0a8640e288f2fe3de081f5eb7434166409cd097c23e5118767a11a00ea3a8",
+      "changedAt": "2026-07-22T20:36:44.928Z",
+      "entity": "game",
+      "entityId": "050c22b0-98d7-4d37-b723-f407b1cb4b5f",
+      "gameId": "050c22b0-98d7-4d37-b723-f407b1cb4b5f",
+      "field": null,
+      "op": "create",
+      "before": null,
+      "after": null,
+      "title": "Super Mario Odyssey",
+      "coverAssetId": "13a4614b519a8c08c1bf8a382fb1f5861939bdcc99a04930df19ef4959c3828c"
     }
   ]
 }
