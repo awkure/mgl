@@ -7,6 +7,9 @@ export type TierId = (typeof TIER_IDS)[number];
 export const IMPORTED_VIA_IDS = ["steam", "manually"] as const;
 export type ImportedViaId = (typeof IMPORTED_VIA_IDS)[number];
 
+export const STEAM_OVERRIDE_KEYS = ["title", "tags", "status", "coverAssetId"] as const;
+export type SteamOverrideKey = (typeof STEAM_OVERRIDE_KEYS)[number];
+
 export const LIBRARY_SCHEMA_VERSION = 2 as const;
 export const DEFAULT_NOTE_GROUP_RANK = 1024;
 
@@ -23,6 +26,7 @@ export interface Game {
   importedVia: ImportedViaId;
   hoursPlayed: number | null;
   lastPlayedAt: string | null;
+  steamOverrides: Partial<Record<SteamOverrideKey, true>>;
   platforms: string[];
   tags: string[];
   status: StatusId;

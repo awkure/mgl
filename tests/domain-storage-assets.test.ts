@@ -31,7 +31,7 @@ import {
 const GAME_ID = "11111111-1111-4111-8111-111111111111";
 const NOTE_ID = "22222222-2222-4222-8222-222222222222";
 const DATE = "2026-07-16T10:00:00.000Z";
-const game = (): Game => ({ id: GAME_ID, title: "Mario", coverAssetId: null, steamAppId: null, importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, platforms: ["NES"], tags: [], status: "wishlist", placement: { tierId: "unranked", rank: 1024 }, reviewMarkdown: "", createdAt: DATE, updatedAt: DATE });
+const game = (): Game => ({ id: GAME_ID, title: "Mario", coverAssetId: null, steamAppId: null, importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, steamOverrides: {}, platforms: ["NES"], tags: [], status: "wishlist", placement: { tierId: "unranked", rank: 1024 }, reviewMarkdown: "", createdAt: DATE, updatedAt: DATE });
 const empty = (): LibraryDatabase => ({ schemaVersion: 2, revision: "", publicationId: null, games: {}, notes: {}, assets: {} });
 
 function referenceImage(database: LibraryDatabase, assetId: string): void {

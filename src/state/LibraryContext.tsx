@@ -607,6 +607,7 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
         importedVia: input.importedVia === undefined ? previous?.importedVia ?? "manually" : input.importedVia,
         hoursPlayed: input.hoursPlayed === undefined ? previous?.hoursPlayed ?? null : input.hoursPlayed,
         lastPlayedAt: input.lastPlayedAt === undefined ? previous?.lastPlayedAt ?? null : input.lastPlayedAt,
+        steamOverrides: previous?.steamOverrides ?? {},
         platforms: uniqueStrings(input.platforms),
         tags: uniqueStrings(input.tags),
         status: input.status,

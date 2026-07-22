@@ -25,6 +25,7 @@ const ROOT_KEYS = [
 const STATUS_IDS = new Set(["wishlist", "playing", "played", "completed", "platinum", "dropped"]);
 const TIER_IDS = new Set(["s", "a", "b", "c", "d", "f", "unranked"]);
 const IMPORTED_VIA_IDS = new Set(["steam", "manually"]);
+const STEAM_OVERRIDE_KEYS = ["title", "tags", "status", "coverAssetId"];
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const SHA256_RE = /^[0-9a-f]{64}$/;
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/;
@@ -173,6 +174,17 @@ export function validateLibrary(database, options = {}) {
   return database;
 }
 
+function validateSteamOverrides(value, at, error) {
+  if (!isPlainObject(value)) return error(at, "must be an object");
+  for (const key of Object.keys(value)) {
+    if (!STEAM_OVERRIDE_KEYS.includes(key)) {
+      error(`${at}.${key}`, "unknown Steam override key");
+      continue;
+    }
+    if (value[key] !== true) error(`${at}.${key}`, "must be true");
+  }
+}
+
 function validateGame(key, game, assets, at, error) {
   const keys = [
     "id",
@@ -182,6 +194,7 @@ function validateGame(key, game, assets, at, error) {
     "importedVia",
     "hoursPlayed",
     "lastPlayedAt",
+    "steamOverrides",
     "platforms",
     "tags",
     "status",
@@ -211,6 +224,7 @@ function validateGame(key, game, assets, at, error) {
     error(`${at}.hoursPlayed`, "must be null or a non-negative number of hours");
   }
   if (game.lastPlayedAt !== null) isoDate(game.lastPlayedAt, `${at}.lastPlayedAt`, error);
+  validateSteamOverrides(game.steamOverrides, `${at}.steamOverrides`, error);
   stringSet(game.platforms, `${at}.platforms`, error);
   stringSet(game.tags, `${at}.tags`, error);
   if (!STATUS_IDS.has(game.status)) error(`${at}.status`, "is not a supported status");

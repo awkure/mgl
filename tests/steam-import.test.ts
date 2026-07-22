@@ -14,7 +14,7 @@ function game(overrides: Partial<Game> & Pick<Game, "id" | "title">): Game {
   return {
     coverAssetId: null,
     steamAppId: null,
-    importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, platforms: ["Steam"],
+    importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, steamOverrides: {}, platforms: ["Steam"],
     tags: [],
     status: "wishlist",
     placement: { tierId: "unranked", rank: 1024 },
@@ -90,7 +90,7 @@ describe("rejectExcludedTypes + mapSteamCandidateToGame", () => {
       steamAppId: 570,
       importedVia: "steam",
       hoursPlayed: 0,
-      lastPlayedAt: null,
+      lastPlayedAt: null, steamOverrides: {},
       platforms: ["Steam"],
       tags: ["Action", "Free to Play"],
       status: "playing",

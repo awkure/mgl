@@ -60,7 +60,7 @@ function game(overrides = {}) {
     title: "DuckTales",
     coverAssetId: null,
     steamAppId: null,
-    importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, platforms: ["NES"],
+    importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, steamOverrides: {}, platforms: ["NES"],
     tags: ["platformer"],
     status: "playing",
     placement: { tierId: "unranked", rank: 1024 },

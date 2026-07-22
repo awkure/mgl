@@ -14,7 +14,7 @@ function game(title: string): Game {
     steamAppId: null,
     importedVia: "manually",
     hoursPlayed: null,
-    lastPlayedAt: null,
+    lastPlayedAt: null, steamOverrides: {},
     platforms: ["NES"],
     tags: [],
     status: "playing",

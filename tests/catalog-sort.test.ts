@@ -16,7 +16,7 @@ function game(partial: Partial<Game> & Pick<Game, "id" | "title">): Game {
     steamAppId: null,
     importedVia: "manually",
     hoursPlayed: null,
-    lastPlayedAt: null,
+    lastPlayedAt: null, steamOverrides: {},
     platforms: [],
     tags: [],
     status: "played",

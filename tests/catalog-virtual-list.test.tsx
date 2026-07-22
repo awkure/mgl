@@ -18,7 +18,7 @@ function makeGame(index: number): Game {
     steamAppId: null,
     importedVia: "manually",
     hoursPlayed: null,
-    lastPlayedAt: null,
+    lastPlayedAt: null, steamOverrides: {},
     platforms: ["NES"],
     tags: [],
     status: "playing",

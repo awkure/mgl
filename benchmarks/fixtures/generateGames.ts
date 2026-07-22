@@ -34,7 +34,7 @@ export function generateGames(count: number, seed = 1): Game[] {
       steamAppId: null,
       importedVia,
       hoursPlayed: null,
-      lastPlayedAt: null,
+      lastPlayedAt: null, steamOverrides: {},
       platforms: rnd() > 0.5 ? ["PC"] : ["PC", "PS5"],
       tags: rnd() > 0.5 ? ["action"] : ["rpg", "indie"],
       status,

@@ -1102,7 +1102,7 @@ function NewGamePage({ assets, platformSuggestions = [], tagSuggestions = [], st
     if (processingNoteIds.size || coverDraftDirty) return;
     if (!title.trim()) { setError("Укажите название игры."); return; }
     setSaving(true); setError(null);
-    try { await onSave({ title: title.trim(), coverAssetId: null, steamAppId: null, importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, pendingCover, platforms, tags, status, tierId, reviewMarkdown: "", notes: draftNotes }); setDirty(false); }
+    try { await onSave({ title: title.trim(), coverAssetId: null, steamAppId: null, importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, steamOverrides: {}, pendingCover, platforms, tags, status, tierId, reviewMarkdown: "", notes: draftNotes }); setDirty(false); }
     catch (reason) { setError(reason instanceof Error ? reason.message : "Не удалось сохранить игру"); }
     finally { setSaving(false); }
   };

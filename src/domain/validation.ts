@@ -1,5 +1,5 @@
 import { MAX_WEBP_DIMENSION, base64ToBytes, isCanonicalBase64 } from "./assets";
-import { LIBRARY_SCHEMA_VERSION, STATUS_IDS, TIER_IDS, IMPORTED_VIA_IDS, type Asset, type LibraryDatabase, type PatchEnvelope } from "./types";
+import { LIBRARY_SCHEMA_VERSION, STATUS_IDS, TIER_IDS, IMPORTED_VIA_IDS, STEAM_OVERRIDE_KEYS, type Asset, type LibraryDatabase, type PatchEnvelope } from "./types";
 import { computeLibraryRevision, MISSING_VALUE_HASH, sha256Bytes } from "./canonical";
 
 export interface ValidationIssue {
@@ -17,13 +17,13 @@ const ENTITY_MAPS = ["games", "notes", "assets"] as const;
 export type EntityMapName = (typeof ENTITY_MAPS)[number];
 
 export const ENTITY_FIELDS: Record<EntityMapName, readonly string[]> = {
-  games: ["id", "title", "coverAssetId", "steamAppId", "importedVia", "hoursPlayed", "lastPlayedAt", "platforms", "tags", "status", "placement", "reviewMarkdown", "createdAt", "updatedAt"],
+  games: ["id", "title", "coverAssetId", "steamAppId", "importedVia", "hoursPlayed", "lastPlayedAt", "steamOverrides", "platforms", "tags", "status", "placement", "reviewMarkdown", "createdAt", "updatedAt"],
   notes: ["id", "gameId", "bodyMarkdown", "attachments", "groupRank", "rank", "createdAt", "updatedAt"],
   assets: ["id", "kind", "mime", "width", "height", "byteLength", "alt", "originalName"],
 };
 
 export const LOCALLY_PATCHABLE_FIELDS: Record<EntityMapName, readonly string[]> = {
-  games: ["title", "coverAssetId", "steamAppId", "importedVia", "hoursPlayed", "lastPlayedAt", "platforms", "tags", "status", "placement", "reviewMarkdown"],
+  games: ["title", "coverAssetId", "steamAppId", "importedVia", "hoursPlayed", "lastPlayedAt", "steamOverrides", "platforms", "tags", "status", "placement", "reviewMarkdown"],
   notes: ["bodyMarkdown", "attachments", "groupRank", "rank"],
   assets: [],
 };
@@ -123,6 +123,17 @@ function record(value: unknown, path: string, issues: ValidationIssue[]): value 
   return true;
 }
 
+function validateSteamOverrides(value: unknown, path: string, issues: ValidationIssue[]): void {
+  if (!isObject(value)) { issue(issues, path, "Ожидался объект"); return; }
+  for (const key of Object.keys(value)) {
+    if (!(STEAM_OVERRIDE_KEYS as readonly string[]).includes(key)) {
+      issue(issues, `${path}/${key}`, "Неизвестный ключ защиты Steam");
+      continue;
+    }
+    if (value[key] !== true) issue(issues, `${path}/${key}`, "Ожидалось true");
+  }
+}
+
 function validateGame(value: unknown, path: string, issues: ValidationIssue[]): void {
   if (!isObject(value)) { issue(issues, path, "Ожидался объект игры"); return; }
   exactKeys(value, ENTITY_FIELDS.games, path, issues);
@@ -139,6 +150,7 @@ function validateGame(value: unknown, path: string, issues: ValidationIssue[]): 
     issue(issues, `${path}/hoursPlayed`, "Ожидалось неотрицательное число часов или null");
   }
   if (value.lastPlayedAt !== null) isoDate(value.lastPlayedAt, `${path}/lastPlayedAt`, issues);
+  validateSteamOverrides(value.steamOverrides, `${path}/steamOverrides`, issues);
   stringList(value.platforms, `${path}/platforms`, issues);
   stringList(value.tags, `${path}/tags`, issues);
   if (!STATUS_IDS.includes(value.status as never)) issue(issues, `${path}/status`, "Неизвестный статус");

@@ -28,7 +28,7 @@ function empty(): LibraryDatabase {
 }
 
 function game(title = "DuckTales"): Game {
-  return { id: GAME_ID, title, coverAssetId: null, steamAppId: null, importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, platforms: ["NES"], tags: ["platformer"], status: "playing", placement: { tierId: "a", rank: 1024 }, reviewMarkdown: "Хорошая игра", createdAt: NOW, updatedAt: NOW };
+  return { id: GAME_ID, title, coverAssetId: null, steamAppId: null, importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, steamOverrides: {}, platforms: ["NES"], tags: ["platformer"], status: "playing", placement: { tierId: "a", rank: 1024 }, reviewMarkdown: "Хорошая игра", createdAt: NOW, updatedAt: NOW };
 }
 
 function note(groupRank?: number): Note {
@@ -63,6 +63,22 @@ describe("library validation", () => {
     database.games[GAME_ID] = { ...game(), status: "platinum" };
 
     expect(validateLibrary(database).ok).toBe(true);
+  });
+
+  it("requires steamOverrides with allowed lock keys only", () => {
+    const database = empty();
+    const base = game();
+    database.games[GAME_ID] = { ...base };
+    delete (database.games[GAME_ID] as { steamOverrides?: unknown }).steamOverrides;
+    expect(validateLibrary(database).ok).toBe(false);
+
+    database.games[GAME_ID] = { ...base, steamOverrides: { title: true } };
+    expect(validateLibrary(database).ok).toBe(true);
+
+    database.games[GAME_ID] = { ...base, steamOverrides: { hoursPlayed: true } as Game["steamOverrides"] };
+    expect(validateLibrary(database).issues).toContainEqual(
+      expect.objectContaining({ path: `/games/${GAME_ID}/steamOverrides/hoursPlayed` }),
+    );
   });
 
   it("accepts null or positive steamAppId and rejects invalid values", () => {
