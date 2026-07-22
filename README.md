@@ -163,7 +163,7 @@ just steam-import --limit 5
 Повторный импорт обновляет уже импортированные игры (`steamAppId`): часы, last played,
 статус (мягкие), теги/обложку/название — если не помечены `steamOverrides` в UI.
 `--force` игнорирует overrides и переписывает терминальные статусы; tier и review не трогает.
-Platinum без `--force` не перезаписывает achievement progress (когда появится подсистема B).
+Platinum без `--force` не перезаписывает счётчики достижений (achievement progress lock).
 
 Снимок для skip-if-unchanged: `public/data/steam-import-snapshot.json` (steamID64, playtime /
 storefront slice). Пишется только после успешного `--apply`; patch-only (`--out`) snapshot не меняет.
@@ -215,9 +215,12 @@ storefront slice). Пишется только после успешного `--
 
 ### Достижения
 
-- [ ] `GetPlayerAchievements` + `GetSchemaForGame` для игр уже в каталоге
-- [ ] Подсказка статуса platinum / completed при 100% unlock
-- [ ] Бейдж прогресса достижений на карточке (опционально)
+- [x] `GetPlayerAchievements` + `GetSchemaForGame` при `import:steam` / reimport
+      (поля `achievementsUnlocked` / `achievementsTotal`; `--no-achievements` отключает)
+- [x] Авто `status: platinum` при 100% unlock, если статус «мягкий» и writable
+      (lock A: уже `platinum` без `--force` — счётчики не трогаем)
+- [x] Прогресс на карточке каталога (`list`) и read-only «Достижения» на GamePage
+      (не tier / compact; списка per-achievement нет)
 
 ### Синхронизация и эксплуатация (позже / низкий приоритет)
 
@@ -238,4 +241,5 @@ storefront slice). Пишется только после успешного `--
 
 - [x] Раздел в README: ключ, privacy Steam, `steam:probe`, ограничения CORS
 - [x] Фикстуры / unit-тесты маппинга и Steam API (импорт)
-- [ ] Acceptance: импорт не ломает schema v2 и orphan-asset инварианты
+- [x] Acceptance: импорт не ломает schema v2 и orphan-asset инварианты
+      (`npm test`, `npm run data:validate`, `npm run build`)
