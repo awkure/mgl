@@ -170,6 +170,33 @@ describe("steamCover", () => {
     expect(positions[0]).toBe(sharp.strategy.attention);
   });
 
+  it("encodeSteamCoverWebp passes EXIF-upright buffer to detect", async () => {
+    const jpeg = await sharp({
+      create: { width: 600, height: 900, channels: 3, background: { r: 10, g: 20, b: 30 } },
+    })
+      .withMetadata({ orientation: 6 })
+      .jpeg()
+      .toBuffer();
+
+    let detectBytes: Buffer | null = null;
+    await encodeSteamCoverWebp(jpeg, {
+      detectTextBoxes: async (bytes) => {
+        detectBytes = bytes;
+        return [];
+      },
+      encodeResize: async (bytes, position) =>
+        sharp(bytes)
+          .rotate()
+          .resize(512, 512, { fit: "cover", position })
+          .webp({ quality: 82 })
+          .toBuffer(),
+    });
+
+    const upright = await sharp(jpeg).rotate().toBuffer();
+    expect(detectBytes).not.toBeNull();
+    expect(Buffer.compare(detectBytes!, upright)).toBe(0);
+  });
+
   it("encodeSteamCoverWebp succeeds with real attention crop on portrait JPEG", async () => {
     const jpeg = await sharp({
       create: { width: 600, height: 900, channels: 3, background: { r: 10, g: 20, b: 30 } },

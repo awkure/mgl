@@ -39,7 +39,6 @@ export async function encodeSteamCoverWebp(imageBytes, options = {}) {
     options.encodeExtract ??
     ((bytes, rect) =>
       sharp(bytes)
-        .rotate()
         .extract(rect)
         .resize(512, 512)
         .webp({ quality: 82 })
@@ -48,13 +47,14 @@ export async function encodeSteamCoverWebp(imageBytes, options = {}) {
   const detectTextBoxes = options.detectTextBoxes ?? defaultDetectTextBoxes;
 
   try {
-    const boxes = await detectTextBoxes(imageBytes);
-    const meta = await sharp(imageBytes).rotate().metadata();
+    const upright = await sharp(imageBytes).rotate().toBuffer();
+    const boxes = await detectTextBoxes(upright);
+    const meta = await sharp(upright).metadata();
     const width = meta.width ?? 0;
     const height = meta.height ?? 0;
     const rect = textFitSquare(boxes ?? [], { width, height });
     if (rect) {
-      return await encodeExtract(imageBytes, rect);
+      return await encodeExtract(upright, rect);
     }
   } catch {
     // fall through to attention

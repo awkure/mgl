@@ -7,7 +7,10 @@ async function getService() {
       const service = new PaddleOcrService();
       await service.initialize();
       return service;
-    })();
+    })().catch((err) => {
+      servicePromise = null;
+      throw err;
+    });
   }
   return servicePromise;
 }
