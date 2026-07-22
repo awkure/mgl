@@ -5,6 +5,9 @@ import { declarationsIn } from "./cssTestUtils";
 
 const styles = readFileSync(resolve(process.cwd(), "src/styles.css"), "utf8");
 
+/** Matches coarse/mobile media query whether kept on one line or wrapped. */
+const COARSE_MEDIA = String.raw`@media \(pointer: coarse\),\s*\(max-width: 720px\)`;
+
 describe("button system css", () => {
   it("defines shared control and touch-target tokens", () => {
     expect(styles).toContain("--control-height: 30px");
@@ -36,27 +39,27 @@ describe("button system css", () => {
   });
 
   it("keeps primary/secondary press colors on coarse pointers", () => {
-    expect(styles).toContain("@media (pointer: coarse), (max-width: 720px)");
+    expect(styles).toMatch(new RegExp(COARSE_MEDIA));
     expect(styles).toMatch(
-      /@media \(pointer: coarse\), \(max-width: 720px\)[\s\S]*?\.button--primary:active:not\(:disabled\):not\(\[aria-disabled="true"\]\) \{[^}]*background:\s*var\(--btn-primary-bg-active\);/,
+      new RegExp(`${COARSE_MEDIA}[\\s\\S]*?\\.button--primary:active:not\\(:disabled\\):not\\(\\[aria-disabled="true"\\]\\) \\{[^}]*background:\\s*var\\(--btn-primary-bg-active\\);`),
     );
     expect(styles).toMatch(
-      /@media \(pointer: coarse\), \(max-width: 720px\)[\s\S]*?\.button--secondary:active:not\(:disabled\):not\(\[aria-disabled="true"\]\) \{[^}]*background:\s*var\(--btn-secondary-bg-active\);/,
+      new RegExp(`${COARSE_MEDIA}[\\s\\S]*?\\.button--secondary:active:not\\(:disabled\\):not\\(\\[aria-disabled="true"\\]\\) \\{[^}]*background:\\s*var\\(--btn-secondary-bg-active\\);`),
     );
     expect(styles).not.toMatch(
-      /@media \(pointer: coarse\), \(max-width: 720px\)[\s\S]*?\.button:active:not\(:disabled\) \{[^}]*background:\s*var\(--press-wash\);/,
+      new RegExp(`${COARSE_MEDIA}[\\s\\S]*?\\.button:active:not\\(:disabled\\) \\{[^}]*background:\\s*var\\(--press-wash\\);`),
     );
   });
 
   it("raises icon chrome to the touch target on coarse pointers", () => {
     expect(styles).toMatch(
-      /@media \(pointer: coarse\), \(max-width: 720px\)[\s\S]*?\.button--icon,\s*\.icon-button[\s\S]*?\{[^}]*width:\s*var\(--touch-target\);/,
+      new RegExp(`${COARSE_MEDIA}[\\s\\S]*?\\.button--icon,\\s*\\.icon-button[\\s\\S]*?\\{[^}]*width:\\s*var\\(--touch-target\\);`),
     );
     expect(styles).toMatch(
-      /@media \(pointer: coarse\), \(max-width: 720px\)[\s\S]*?\.global-game-search__filter-button/,
+      new RegExp(`${COARSE_MEDIA}[\\s\\S]*?\\.global-game-search__filter-button`),
     );
     expect(styles).toMatch(
-      /@media \(pointer: coarse\), \(max-width: 720px\)[\s\S]*?\.catalog-active-filters__chips button,\s*\.catalog-active-filters__reset \{[^}]*min-width:\s*0;[^}]*min-height:\s*var\(--touch-target\);/,
+      new RegExp(`${COARSE_MEDIA}[\\s\\S]*?\\.catalog-active-filters__chips button,\\s*\\.catalog-active-filters__reset \\{[^}]*min-width:\\s*0;[^}]*min-height:\\s*var\\(--touch-target\\);`),
     );
   });
 });

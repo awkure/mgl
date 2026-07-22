@@ -5027,8 +5027,7 @@ h4 {
   }
 }
 
-@media (pointer: coarse),
-(max-width: 720px) {
+@media (pointer: coarse), (max-width: 720px) {
 
   html {
     scroll-behavior: auto;

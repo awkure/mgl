@@ -128,6 +128,6 @@ describe("mobile nav css", () => {
     expect(toggle).toContain("position: absolute");
     expect(toggle).toContain("border-radius: 50%");
     expect(toggle).toContain("background: var(--glass-fill)");
-    expect(styles).toMatch(/@media \(pointer: coarse\), \(max-width: 720px\)[\s\S]*?\.tier-drag-mode-toggle \{[^}]*display:\s*grid;/);
+    expect(styles).toMatch(/@media \(pointer: coarse\),\s*\(max-width: 720px\)[\s\S]*?\.tier-drag-mode-toggle \{[^}]*display:\s*grid;/);
   });
 });
