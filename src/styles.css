@@ -1343,7 +1343,7 @@ h4 {
 }
 
 .app-shell[data-mobile-chrome="true"] {
-  --app-tab-bar-height: calc(64px + env(safe-area-inset-bottom) + 12px);
+  --app-tab-bar-height: calc(80px + env(safe-area-inset-bottom) + 12px);
 }
 
 .app-shell[data-mobile-chrome="true"] .app-tab-bar {
@@ -5104,7 +5104,7 @@ h4 {
   }
 
   .app-shell {
-    --app-tab-bar-height: calc(64px + env(safe-area-inset-bottom) + 12px);
+    --app-tab-bar-height: calc(80px + env(safe-area-inset-bottom) + 12px);
   }
 
   .patch-pill>span:nth-of-type(2),

@@ -14,7 +14,20 @@ describe("mobile nav css", () => {
     expect(bar).toContain("backdrop-filter: blur(22px) saturate(1.35)");
     expect(bar).toContain("bottom: calc(12px + env(safe-area-inset-bottom))");
     expect(bar).toContain("grid-template-columns: repeat(4, minmax(0, 1fr))");
-    expect(styles).toContain("--app-tab-bar-height: calc(64px + env(safe-area-inset-bottom) + 12px)");
+    expect(styles).toContain("--app-tab-bar-height: calc(80px + env(safe-area-inset-bottom) + 12px)");
+  });
+
+  it("keeps scroll surfaces clear of the floating tab bar with breathing room", () => {
+    expect(styles).toContain("--app-tab-bar-height: calc(80px + env(safe-area-inset-bottom) + 12px)");
+    const scrollSurfaces = declarationsIn(
+      styles,
+      ".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page, .history-page)",
+    );
+    expect(scrollSurfaces).toContain("padding-bottom: var(--app-tab-bar-height)");
+    const overlay = declarationsIn(styles, ".swipe-pager__overlay");
+    expect(overlay).toContain("padding-bottom: var(--app-tab-bar-height)");
+    const main = declarationsIn(styles, '.app-shell[data-mobile-chrome="true"] .app-main');
+    expect(main).toContain("padding-bottom: var(--app-tab-bar-height)");
   });
 
   it("defines a circular detached add button", () => {
