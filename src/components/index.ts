@@ -8,6 +8,7 @@ export * from "./GlobalGameSearch";
 export * from "./Icon";
 export * from "./ImagePicker";
 export * from "./Markdown";
+export * from "./screenFilters";
 export * from "./ShelfGrid";
 export * from "./SwipePager";
 export * from "./TagInput";
