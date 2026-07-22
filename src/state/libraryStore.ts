@@ -7,20 +7,30 @@ const OUTSIDE_PROVIDER = "useLibrary must be used inside LibraryProvider";
 
 let snapshot: LibrarySnapshot | null = null;
 let providerActive = false;
+let clearGeneration = 0;
 const listeners = new Set<() => void>();
 
 export function activateLibraryStore(): void {
   providerActive = true;
+  // Cancel a pending StrictMode teardown clear — remount republishes next.
+  clearGeneration += 1;
 }
 
 export function deactivateLibraryStore(): void {
+  // Do not notify subscribers after teardown: getSnapshot would throw and
+  // blank the Vite StrictMode tree. Clear listeners; defer nulling snapshot
+  // so a synchronous remount can activate + publish first.
   providerActive = false;
-  snapshot = null;
-  listeners.forEach((listener) => listener());
+  listeners.clear();
+  const generation = (clearGeneration += 1);
+  queueMicrotask(() => {
+    if (generation !== clearGeneration) return;
+    if (!providerActive) snapshot = null;
+  });
 }
 
 function assertProviderSnapshot(): LibrarySnapshot {
-  if (!providerActive || snapshot === null) {
+  if (snapshot === null) {
     throw new Error(OUTSIDE_PROVIDER);
   }
   return snapshot;

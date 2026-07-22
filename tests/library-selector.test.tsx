@@ -1,5 +1,5 @@
-import { act, renderHook } from "@testing-library/react";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { act, render, renderHook, screen } from "@testing-library/react";
+import { StrictMode, useEffect, useMemo, useState, type ReactNode } from "react";
 import { describe, expect, it } from "vitest";
 import {
   LIBRARY_SCHEMA_VERSION,
@@ -119,7 +119,7 @@ describe("useLibrarySelector", () => {
 });
 
 describe("LibraryProvider store publish", () => {
-  it("publishes snapshots while mounted", () => {
+  it("publishes snapshots while mounted", async () => {
     const { unmount } = renderHook(() => useLibrarySelector((s) => s.loading), {
       wrapper: ({ children }) => (
         <LibraryProvider>
@@ -128,6 +128,27 @@ describe("LibraryProvider store publish", () => {
       ),
     });
     unmount();
+    await act(async () => {
+      await Promise.resolve();
+    });
     expect(() => getLibrarySnapshot()).toThrow("useLibrary must be used inside LibraryProvider");
+  });
+
+  it("survives React StrictMode remount without blanking subscribers", () => {
+    function Probe() {
+      const loading = useLibrarySelector((s) => s.loading);
+      return <div>probe:{String(loading)}</div>;
+    }
+
+    expect(() => {
+      render(
+        <StrictMode>
+          <LibraryProvider>
+            <Probe />
+          </LibraryProvider>
+        </StrictMode>,
+      );
+    }).not.toThrow();
+    expect(screen.getByText(/^probe:/)).toBeInTheDocument();
   });
 });
