@@ -23,7 +23,6 @@ import { GameCard } from "../components/GameCard";
 import { Icon } from "../components/Icon";
 import { PullToRefresh } from "../components/PullToRefresh";
 import { sortGamesByPlacement, TIER_DESCRIPTIONS, TIER_LABELS } from "../components/libraryUi";
-import { useLibrary } from "../state/LibraryContext";
 
 export type TierGameIds = Record<TierId, string[]>;
 
@@ -37,6 +36,7 @@ export interface TierListPageProps {
   assets: Record<string, Asset>;
   onMoveGame: (gameId: string, target: MoveGameTarget) => void;
   onOpenGame?: (gameId: string) => void;
+  onRefresh?: () => void | Promise<void>;
   resolveAssetUrl?: (assetId: string) => string | null;
   /** Shared with swipe navigation so page swipe yields while a card is dragged. */
   draggingRef?: MutableRefObject<boolean>;
@@ -242,8 +242,7 @@ function TierRow({
 
 const MemoTierRow = memo(TierRow);
 
-export function TierListPage({ games, assets, onMoveGame, onOpenGame, resolveAssetUrl, draggingRef }: TierListPageProps) {
-  const { refreshFromPublished } = useLibrary();
+export function TierListPage({ games, assets, onMoveGame, onOpenGame, onRefresh, resolveAssetUrl, draggingRef }: TierListPageProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [dragItems, setDragItems] = useState<TierGameIds | null>(null);
   const dragItemsRef = useRef<TierGameIds | null>(null);
@@ -333,7 +332,7 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, resolveAss
           onDragStart={onDragStart}
           sensors={sensors}
         >
-          <PullToRefresh className="tier-board" onRefresh={refreshFromPublished} scrollSelf>
+          <PullToRefresh className="tier-board" onRefresh={onRefresh} scrollSelf>
             {TIER_IDS.map((tierId) => <MemoTierRow assets={assets} games={byTier[tierId]} key={tierId} onOpenGame={openGame} resolveAssetUrl={resolveAssetUrl} tierId={tierId} />)}
           </PullToRefresh>
           <DragOverlay>{activeGame ? <GameCard asset={activeGame.coverAssetId ? assets[activeGame.coverAssetId] : undefined} game={activeGame} isDragging onOpen={openGame} resolveAssetUrl={resolveAssetUrl} /> : null}</DragOverlay>

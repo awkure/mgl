@@ -23,6 +23,7 @@ export interface SwipePagerProps {
   onProgress?: (progress: number) => void;
   onDraggingChange?: (dragging: boolean) => void;
   resolveAssetUrl?: (assetId: string) => string | null;
+  onRefresh?: () => void | Promise<void>;
   settingsPat?: SettingsPatProps;
 }
 
@@ -37,6 +38,7 @@ export function SwipePager({
   onProgress,
   onDraggingChange,
   resolveAssetUrl,
+  onRefresh,
   settingsPat,
 }: SwipePagerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -73,6 +75,7 @@ export function SwipePager({
             games={games}
             onMoveGame={onMoveGame}
             onOpenGame={onOpenGame}
+            onRefresh={onRefresh}
             resolveAssetUrl={resolveAssetUrl}
           />
         </SwipePanel>
@@ -83,6 +86,7 @@ export function SwipePager({
             assets={assets}
             games={games}
             onOpenGame={onOpenGame}
+            onRefresh={onRefresh}
             resolveAssetUrl={resolveAssetUrl}
             scrollSelf
           />

@@ -443,6 +443,7 @@ function LibraryRoutes() {
             onNavigate={(path) => navigate(path)}
             onOpenGame={(id) => navigate(`/games/${id}`)}
             onProgress={setPagerProgress}
+            onRefresh={() => library.refreshFromPublished()}
             pathname={location.pathname}
             resolveAssetUrl={library.resolveAssetUrl}
             settingsPat={{

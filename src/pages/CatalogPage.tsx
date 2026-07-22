@@ -6,7 +6,6 @@ import { GameCard } from "../components/GameCard";
 import { Icon } from "../components/Icon";
 import { PullToRefresh } from "../components/PullToRefresh";
 import { STATUS_LABELS, TIER_LABELS } from "../components/libraryUi";
-import { useLibrary } from "../state/LibraryContext";
 
 export interface CatalogPageProps {
   games: Game[];
@@ -16,6 +15,7 @@ export interface CatalogPageProps {
   /** Use the page element as the scroll root (pager panels). */
   scrollSelf?: boolean;
   onOpenGame?: (gameId: string) => void;
+  onRefresh?: () => void | Promise<void>;
   resolveAssetUrl?: (assetId: string) => string | null;
 }
 
@@ -29,6 +29,7 @@ export function CatalogPage({
   active = true,
   scrollSelf = false,
   onOpenGame,
+  onRefresh,
   resolveAssetUrl,
 }: CatalogPageProps) {
   const [filters, setFilters] = useState<CatalogSearchFilters>(initialFilters);
@@ -74,10 +75,9 @@ export function CatalogPage({
   ];
   const clearFilters = () => setFilters({ q: "", statuses: [], tiers: [], platforms: [], tags: [] });
   const clearActiveFilters = () => setFilters((current) => ({ ...current, statuses: [], tiers: [], platforms: [], tags: [] }));
-  const { refreshFromPublished } = useLibrary();
 
   return (
-    <PullToRefresh className="page catalog-page" onRefresh={refreshFromPublished} scrollSelf={scrollSelf}>
+    <PullToRefresh className="page catalog-page" onRefresh={onRefresh} scrollSelf={scrollSelf}>
       {activeFilters.length ? <section aria-label="Активные фильтры" className="catalog-active-filters"><div className="catalog-active-filters__chips">{activeFilters.map((filter) => <button aria-label={`Убрать фильтр: ${filter.label}`} key={filter.key} onClick={filter.remove} type="button"><span>{filter.label}</span><Icon name="close" size={13} /></button>)}</div><button className="catalog-active-filters__reset" onClick={clearActiveFilters} type="button">Сбросить</button></section> : null}
       {filtered.length ? <div className="catalog-list">{filtered.map((game) => <GameCard asset={game.coverAssetId ? assets[game.coverAssetId] : undefined} game={game} key={game.id} onOpen={onOpenGame} resolveAssetUrl={resolveAssetUrl} variant="list" />)}</div> : <div className="empty-state"><span className="empty-state__icon"><Icon name={games.length ? "search" : "gamepad"} /></span><h2>{games.length ? "Ничего не найдено" : "Добавьте первую игру"}</h2><p>{games.length ? "Попробуйте изменить запрос или убрать часть фильтров." : "Используйте постоянную кнопку в хедере — игра сразу появится здесь и в тирлисте."}</p>{games.length ? <button className="button button--secondary" onClick={clearFilters} type="button">Сбросить фильтры</button> : null}</div>}
     </PullToRefresh>
