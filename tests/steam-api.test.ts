@@ -5,6 +5,7 @@ import {
   getPlayerAchievements,
   getPlayerSummary,
   getSchemaForGame,
+  getUserScreenshots,
   probeOwnedGamesVisibility,
   resolveSteamId,
   resolveVanityUrl,
@@ -148,12 +149,11 @@ describe("steamApi", () => {
       name: "Dota 2",
       genres: ["Action"],
       headerImage: "https://example.com/header.jpg",
-      screenshots: [],
       movies: [],
     });
   });
 
-  it("parses storefront screenshots and movies", async () => {
+  it("parses storefront movies without marketing screenshots", async () => {
     mockJson({
       "570": {
         success: true,
@@ -164,7 +164,6 @@ describe("steamApi", () => {
           header_image: "https://example.com/header.jpg",
           screenshots: [
             { id: 1, path_full: "https://example.com/shot1.jpg", path_thumbnail: "https://example.com/t1.jpg" },
-            { id: 2, path_full: "", path_thumbnail: "https://example.com/t2.jpg" },
           ],
           movies: [
             { id: 10, name: "  Launch  ", thumbnail: "https://example.com/thumb.jpg" },
@@ -178,13 +177,109 @@ describe("steamApi", () => {
       name: "Dota 2",
       genres: ["Action"],
       headerImage: "https://example.com/header.jpg",
-      screenshots: [
-        { id: 1, pathFull: "https://example.com/shot1.jpg", pathThumbnail: "https://example.com/t1.jpg" },
-      ],
       movies: [
         { id: 10, name: "Launch", thumbnail: "https://example.com/thumb.jpg" },
         { id: 11, name: "Trailer", thumbnail: null },
       ],
     });
+  });
+
+  it("paginates profile screenshots and prefers file_url", async () => {
+    const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
+      const url = new URL(String(input));
+      expect(url.pathname).toContain("/IPublishedFileService/GetUserFiles/v1/");
+      expect(url.searchParams.get("filetype")).toBe("4");
+      expect(url.searchParams.get("appid")).toBe("570");
+      expect(url.searchParams.get("numperpage")).toBe("100");
+      const page = Number(url.searchParams.get("page"));
+      if (page === 1) {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            response: {
+              total: 2,
+              publishedfiledetails: [
+                {
+                  publishedfileid: "111",
+                  file_url: "https://cdn.example/full1.jpg",
+                  preview_url: "https://cdn.example/preview1.jpg",
+                },
+                {
+                  publishedfileid: "222",
+                  preview_url: "https://cdn.example/preview2.jpg",
+                },
+              ],
+            },
+          }),
+        };
+      }
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({ response: { total: 2, publishedfiledetails: [] } }),
+      };
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    await expect(getUserScreenshots("key", "76561197960287930", 570)).resolves.toEqual([
+      { id: "111", pathFull: "https://cdn.example/full1.jpg" },
+      { id: "222", pathFull: "https://cdn.example/preview2.jpg" },
+    ]);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("walks multiple GetUserFiles pages", async () => {
+    const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
+      const page = Number(new URL(String(input)).searchParams.get("page"));
+      if (page === 1) {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            response: {
+              total: 101,
+              publishedfiledetails: Array.from({ length: 100 }, (_, index) => ({
+                publishedfileid: String(index + 1),
+                file_url: `https://cdn.example/${index + 1}.jpg`,
+              })),
+            },
+          }),
+        };
+      }
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          response: {
+            total: 101,
+            publishedfiledetails: [
+              { publishedfileid: "101", file_url: "https://cdn.example/101.jpg" },
+            ],
+          },
+        }),
+      };
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const shots = await getUserScreenshots("key", "76561197960287930", 570);
+    expect(shots).toHaveLength(101);
+    expect(shots[100]).toEqual({ id: "101", pathFull: "https://cdn.example/101.jpg" });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("skips profile screenshots without image URLs", async () => {
+    mockJson({
+      response: {
+        total: 2,
+        publishedfiledetails: [
+          { publishedfileid: "1", file_url: "", preview_url: "" },
+          { publishedfileid: "2", file_url: "https://cdn.example/ok.jpg" },
+        ],
+      },
+    });
+    await expect(getUserScreenshots("key", "76561197960287930", 570)).resolves.toEqual([
+      { id: "2", pathFull: "https://cdn.example/ok.jpg" },
+    ]);
   });
 });

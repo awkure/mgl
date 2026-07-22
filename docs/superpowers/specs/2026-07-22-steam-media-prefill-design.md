@@ -2,6 +2,10 @@
 
 Date: 2026-07-22
 
+**Screenshot source amended:** see `2026-07-22-steam-profile-screenshots-design.md` —
+profile `GetUserFiles` (CLI + API key), not storefront `appdetails.screenshots`. SPA media
+button removed.
+
 Roadmap: `2026-07-22-steam-followups-roadmap.md` (Spec C, includes C2)  
 Depends on: A (Steam identity / covers / assets), existing note attachments
 

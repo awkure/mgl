@@ -96,10 +96,57 @@ export async function getOwnedGames(key, steamid, options = {}) {
 }
 
 /**
+ * Community-published screenshots for a Steam profile + app (UGC filetype=4).
+ * Prefer file_url, else preview_url. Paginate until exhausted.
+ * @param {string} key
+ * @param {string} steamid
+ * @param {number|string} appid
+ * @returns {Promise<Array<{ id: string; pathFull: string }>>}
+ */
+export async function getUserScreenshots(key, steamid, appid) {
+  const PAGE_SIZE = 100;
+  /** @type {Array<{ id: string; pathFull: string }>} */
+  const collected = [];
+  let page = 1;
+  let total = Infinity;
+
+  while (page <= 1000) {
+    const body = await steamGet("/IPublishedFileService/GetUserFiles/v1/", {
+      key,
+      steamid,
+      appid,
+      filetype: 4,
+      numperpage: PAGE_SIZE,
+      page,
+      return_previews: 1,
+    });
+    const response = body?.response ?? {};
+    total = typeof response.total === "number" ? response.total : 0;
+    const details = Array.isArray(response.publishedfiledetails)
+      ? response.publishedfiledetails
+      : [];
+    if (total === 0 || details.length === 0) break;
+
+    for (const item of details) {
+      const pathFull = String(item?.file_url || item?.preview_url || "").trim();
+      if (!pathFull) continue;
+      const id = String(item?.publishedfileid ?? "").trim();
+      if (!id) continue;
+      collected.push({ id, pathFull });
+    }
+
+    if (page * PAGE_SIZE >= total || details.length < PAGE_SIZE) break;
+    page += 1;
+  }
+
+  return collected;
+}
+
+/**
  * Unofficial storefront API (no Web API key).
  * @param {number|string} appid
  * @param {{ language?: string }} [options]
- * @returns {Promise<null | { type?: string; name?: string; genres: string[]; headerImage: string | null }>}
+ * @returns {Promise<null | { type?: string; name?: string; genres: string[]; headerImage: string | null; movies: Array<{ id: number; name: string; thumbnail: string | null }> }>}
  */
 export async function getAppDetails(appid, options = {}) {
   const language = options.language ?? "russian";
@@ -120,15 +167,6 @@ export async function getAppDetails(appid, options = {}) {
   const genres = Array.isArray(data.genres)
     ? data.genres.map((item) => String(item?.description ?? "").trim()).filter(Boolean)
     : [];
-  const screenshots = Array.isArray(data.screenshots)
-    ? data.screenshots
-        .map((s) => ({
-          id: Number(s.id),
-          pathFull: String(s.path_full ?? ""),
-          pathThumbnail: String(s.path_thumbnail ?? ""),
-        }))
-        .filter((s) => s.pathFull)
-    : [];
   const movies = Array.isArray(data.movies)
     ? data.movies.map((m) => ({
         id: Number(m.id),
@@ -141,7 +179,6 @@ export async function getAppDetails(appid, options = {}) {
     name: typeof data.name === "string" ? data.name : undefined,
     genres,
     headerImage: typeof data.header_image === "string" ? data.header_image : null,
-    screenshots,
     movies,
   };
 }

@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * Import Steam storefront screenshots + trailer links into one game's «Медиа Steam» note.
+ * Import profile Steam screenshots + storefront trailer links into one game's «Медиа Steam» note.
+ *
+ * Screenshots come from IPublishedFileService/GetUserFiles (filetype=4) for STEAM_PROFILE_ID.
+ * Trailers / optional --prefill still use storefront appdetails.
  *
  * Usage:
  *   npm run import:steam-media -- [flags]
@@ -13,7 +16,12 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { getAppDetails, withRetry } from "./lib/steamApi.mjs";
+import {
+  getAppDetails,
+  getUserScreenshots,
+  resolveSteamId,
+  withRetry,
+} from "./lib/steamApi.mjs";
 import { fetchAndEncodeSteamCover } from "./lib/steamCover.mjs";
 import { fetchAndEncodeSteamImage } from "./lib/steamImage.mjs";
 import { applyPatch } from "./publish-patch.mjs";
@@ -22,13 +30,35 @@ import { computeRevision, externalAssetPath } from "./validate-data.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const MISSING_VALUE_HASH = "0".repeat(64);
 
+function loadEnvFile(filePath) {
+  if (!existsSync(filePath)) return;
+  for (const line of readFileSync(filePath, "utf8").split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eq = trimmed.indexOf("=");
+    if (eq <= 0) continue;
+    const key = trimmed.slice(0, eq).trim();
+    let value = trimmed.slice(eq + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"'))
+      || (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    if (process.env[key] === undefined) process.env[key] = value;
+  }
+}
+
+loadEnvFile(path.join(root, ".env"));
+loadEnvFile(path.join(root, ".env.local"));
+
 const {
   buildSteamMediaAttachments,
   isSteamMediaNote,
   prefillGameFromSteamDetails,
   upsertSteamMediaNote,
 } = await import(pathToFileURL(path.join(root, "src/domain/steamMedia.ts")).href);
-const { findGameBySteamAppId } = await import(
+const { findGameBySteamAppId, parseSteamProfileInput } = await import(
   pathToFileURL(path.join(root, "src/domain/steamIdentity.ts")).href,
 );
 const { canonicalHash } = await import(pathToFileURL(path.join(root, "src/domain/canonical.ts")).href);
@@ -37,6 +67,7 @@ function parseArgs(argv) {
   const flags = {
     appid: null,
     gameId: null,
+    profile: null,
     out: null,
     dryRun: false,
     apply: false,
@@ -59,6 +90,7 @@ function parseArgs(argv) {
     else if (arg === "--no-trailer-thumbs") flags.noTrailerThumbs = true;
     else if (arg === "--appid") flags.appid = Number(next());
     else if (arg === "--game-id") flags.gameId = next();
+    else if (arg === "--profile") flags.profile = next();
     else if (arg === "--out") {
       flags.out = next();
       flags.outExplicit = true;
@@ -81,11 +113,15 @@ function usage() {
 Flags:
   --appid <n>                 Steam app id (required with --game-id if game has no appid)
   --game-id <uuid>            Target library game
+  --profile <url|id|vanity>   default: STEAM_PROFILE_ID from env
   --out <path>                write patch JSON (default steam-media-import.patch.json unless --apply)
   --apply                     write note+assets into public/data + public/media
-  --dry-run                   appdetails counts only; no downloads or writes
+  --dry-run                   profile screenshot + movie counts only; no downloads or writes
   --prefill                   empty-only title/tags/cover/platforms/steamAppId from storefront
-  --no-trailer-thumbs         skip movie thumbnail downloads`);
+  --no-trailer-thumbs         skip movie thumbnail downloads
+
+Requires STEAM_WEB_API_KEY and STEAM_PROFILE_ID (or --profile) in .env / .env.local.
+Screenshots: community gallery for the profile (not storefront marketing shots).`);
 }
 
 function resolveTarget(library, flags) {
@@ -192,6 +228,18 @@ if (flags.help) {
   process.exit(0);
 }
 
+const apiKey = process.env.STEAM_WEB_API_KEY?.trim();
+if (!apiKey) {
+  console.error("STEAM_WEB_API_KEY is missing. Add it to .env.local (Node-only).");
+  process.exit(1);
+}
+
+const profileInput = (flags.profile ?? process.env.STEAM_PROFILE_ID ?? "").trim();
+if (!profileInput) {
+  console.error("Pass --profile or set STEAM_PROFILE_ID.");
+  process.exit(1);
+}
+
 const libraryPath = path.join(root, "public", "data", "library.json");
 if (!existsSync(libraryPath)) {
   console.error(`Missing ${libraryPath}`);
@@ -201,16 +249,21 @@ if (!existsSync(libraryPath)) {
 const library = JSON.parse(readFileSync(libraryPath, "utf8"));
 
 try {
+  const ref = parseSteamProfileInput(profileInput);
+  const steamid = await resolveSteamId(apiKey, ref);
+  console.log(`steamid64: ${steamid}`);
+
   const { game, appid } = resolveTarget(library, flags);
   console.log(`game: ${game.title} (${game.id}) appid=${appid}`);
 
+  const screenshots = await withRetry(() => getUserScreenshots(apiKey, steamid, appid));
   const details = await withRetry(() => getAppDetails(appid, { language: "russian" }));
   if (!details) {
     console.error(`No storefront data for appid ${appid}`);
     process.exit(1);
   }
 
-  const screenshotCount = details.screenshots?.length ?? 0;
+  const screenshotCount = screenshots.length;
   const movieCount = details.movies?.length ?? 0;
 
   if (flags.dryRun) {
@@ -219,6 +272,7 @@ try {
         dryRun: true,
         appid,
         gameId: game.id,
+        steamid,
         screenshots: screenshotCount,
         movies: movieCount,
         prefill: flags.prefill,
@@ -232,7 +286,7 @@ try {
   const encodedAssets = [];
 
   for (let index = 0; index < screenshotCount; index += 1) {
-    const shot = details.screenshots[index];
+    const shot = screenshots[index];
     process.stdout.write(`screenshot ${index + 1}/${screenshotCount}\r`);
     const encoded = await fetchAndEncodeSteamImage(shot.pathFull, {
       alt: `Screenshot ${index + 1}`,
@@ -355,6 +409,7 @@ try {
     JSON.stringify({
       appid,
       gameId: game.id,
+      steamid,
       mediaNoteId: upsert.mediaNoteId,
       createdNote: upsert.created,
       screenshots: screenshotCount,

@@ -2932,12 +2932,6 @@ h4 {
   text-underline-offset: 2px;
 }
 
-.game-sidebar .steam-media-pull {
-  width: 100%;
-  margin-top: 16px;
-  min-height: var(--touch-target, 44px);
-}
-
 .game-sidebar__meta-short dd {
   min-width: 0;
   margin: 0;

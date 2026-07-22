@@ -85,15 +85,6 @@ export function steamAppDetailsFromStoreJson(appid: number, body: unknown): Stea
   const genres = Array.isArray(data.genres)
     ? data.genres.map((item) => String((item as { description?: string })?.description ?? "").trim()).filter(Boolean)
     : [];
-  const screenshots = Array.isArray(data.screenshots)
-    ? data.screenshots
-        .map((s) => ({
-          id: Number((s as { id?: unknown }).id),
-          pathFull: String((s as { path_full?: unknown }).path_full ?? ""),
-          pathThumbnail: String((s as { path_thumbnail?: unknown }).path_thumbnail ?? ""),
-        }))
-        .filter((s) => s.pathFull)
-    : [];
   const movies = Array.isArray(data.movies)
     ? data.movies.map((m) => ({
         id: Number((m as { id?: unknown }).id),
@@ -106,7 +97,6 @@ export function steamAppDetailsFromStoreJson(appid: number, body: unknown): Stea
     name: typeof data.name === "string" ? data.name : undefined,
     genres,
     headerImage: typeof data.header_image === "string" ? data.header_image : null,
-    screenshots,
     movies,
   };
 }
