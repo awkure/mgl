@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": "9801f438f901a10824723e236fb3acb6ba99e5de4d68baaca12dee9e9d019bb8",
-  "publicationId": "ae56680a-a14e-4d37-9050-ce8dec2e8f2c",
+  "revision": "b6dcefe4ead89323c49429361a52300fbe86c6ac9aa6cf472f55f5f65298c8f5",
+  "publicationId": "acf8ad77-1cfc-4589-bbac-7b33a56e83a0",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
       "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
@@ -63,12 +63,12 @@
       ],
       "status": "wishlist",
       "placement": {
-        "tierId": "f",
-        "rank": 512
+        "tierId": "d",
+        "rank": 1024
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T18:39:52.049Z",
-      "updatedAt": "2026-07-21T19:17:37.870Z"
+      "updatedAt": "2026-07-22T08:29:04.141Z"
     },
     "c28a15ca-4506-4048-b3dc-f3e44e81be28": {
       "id": "c28a15ca-4506-4048-b3dc-f3e44e81be28",
@@ -127,14 +127,14 @@
       "tags": [
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 436224
+        "tierId": "a",
+        "rank": 12288
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:34:30.477Z"
     },
     "00bf72c4-1342-4548-9c46-849df61f7118": {
       "id": "00bf72c4-1342-4548-9c46-849df61f7118",
@@ -200,14 +200,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 398336
+        "tierId": "f",
+        "rank": 5120
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:57:09.279Z"
     },
     "0331ef25-a8b8-45ea-8623-ce95d858c25e": {
       "id": "0331ef25-a8b8-45ea-8623-ce95d858c25e",
@@ -224,14 +224,14 @@
         "Инди",
         "Бесплатные"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 483328
+        "tierId": "c",
+        "rank": 47104
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:59:45.569Z"
     },
     "057d9e54-e3fd-4e81-84ca-043647f19ff8": {
       "id": "057d9e54-e3fd-4e81-84ca-043647f19ff8",
@@ -271,14 +271,14 @@
         "Экшены",
         "Приключенческие игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 48128
+        "tierId": "c",
+        "rank": 16384
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:47:30.814Z"
     },
     "06e0fc0a-70dd-4cfc-a0d6-562e5a2b7c5e": {
       "id": "06e0fc0a-70dd-4cfc-a0d6-562e5a2b7c5e",
@@ -366,14 +366,14 @@
         "Инди",
         "Ранний доступ"
       ],
-      "status": "playing",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 171008
+        "tierId": "s",
+        "rank": 27648
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:52:23.757Z"
     },
     "088b8118-eb06-402e-b92c-8a67bed32edd": {
       "id": "088b8118-eb06-402e-b92c-8a67bed32edd",
@@ -412,14 +412,14 @@
       "tags": [
         "Приключенческие игры"
       ],
-      "status": "wishlist",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 16384
+        "tierId": "a",
+        "rank": 22528
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:46:54.216Z"
     },
     "08deb9fb-9008-4919-9d9a-18f200fa99cf": {
       "id": "08deb9fb-9008-4919-9d9a-18f200fa99cf",
@@ -651,14 +651,14 @@
         "Экшены",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 306176
+        "tierId": "b",
+        "rank": 16384
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:38:18.117Z"
     },
     "0da29901-61d7-4b75-86cc-2b51f5a97fc7": {
       "id": "0da29901-61d7-4b75-86cc-2b51f5a97fc7",
@@ -702,12 +702,12 @@
       ],
       "status": "playing",
       "placement": {
-        "tierId": "unranked",
-        "rank": 97280
+        "tierId": "a",
+        "rank": 35840
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:23:29.520Z"
     },
     "0e352848-4256-425d-a612-aa964b0a4484": {
       "id": "0e352848-4256-425d-a612-aa964b0a4484",
@@ -723,14 +723,14 @@
         "Приключенческие игры",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 370688
+        "tierId": "c",
+        "rank": 35840
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:56:22.111Z"
     },
     "0ecc46a8-306e-47de-bc78-594f57d0261a": {
       "id": "0ecc46a8-306e-47de-bc78-594f57d0261a",
@@ -770,14 +770,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 414720
+        "tierId": "d",
+        "rank": 8192
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:57:48.092Z"
     },
     "0f83636f-bf96-4607-90e2-d00c6620e83d": {
       "id": "0f83636f-bf96-4607-90e2-d00c6620e83d",
@@ -795,14 +795,14 @@
         "Инди",
         "Стратегии"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 192512
+        "tierId": "c",
+        "rank": 13312
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:41:13.647Z"
     },
     "0fe4b2e4-0ebd-45a1-b59b-5a88067160cb": {
       "id": "0fe4b2e4-0ebd-45a1-b59b-5a88067160cb",
@@ -819,14 +819,14 @@
         "Приключенческие игры",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 74752
+        "tierId": "s",
+        "rank": 24576
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:48:08.896Z"
     },
     "10350e66-164b-44d1-a1ea-0e432fa132e1": {
       "id": "10350e66-164b-44d1-a1ea-0e432fa132e1",
@@ -869,12 +869,12 @@
       ],
       "status": "wishlist",
       "placement": {
-        "tierId": "unranked",
-        "rank": 53248
+        "tierId": "c",
+        "rank": 58368
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:04:03.250Z"
     },
     "1229d8d3-7c02-4524-9ad9-4d19bcb40066": {
       "id": "1229d8d3-7c02-4524-9ad9-4d19bcb40066",
@@ -913,14 +913,14 @@
         "Экшены",
         "Приключенческие игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 126976
+        "tierId": "b",
+        "rank": 53248
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:03:38.416Z"
     },
     "12a5eec3-71e6-40bb-b398-71d56551ea85": {
       "id": "12a5eec3-71e6-40bb-b398-71d56551ea85",
@@ -985,14 +985,14 @@
       "tags": [
         "Бесплатные"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 60416
+        "tierId": "c",
+        "rank": 17408
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:47:50.778Z"
     },
     "13c82f18-9233-49cd-a0ab-6e41ec88ae2e": {
       "id": "13c82f18-9233-49cd-a0ab-6e41ec88ae2e",
@@ -1007,14 +1007,14 @@
       "tags": [
         "Экшены"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 303104
+        "tierId": "b",
+        "rank": 38912
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:54:53.340Z"
     },
     "14bf8d8e-126e-4eb7-82c3-453da15467e1": {
       "id": "14bf8d8e-126e-4eb7-82c3-453da15467e1",
@@ -1053,14 +1053,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 242688
+        "tierId": "c",
+        "rank": 10240
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:37:38.184Z"
     },
     "15650d6c-abbd-4642-8a9a-9dc1ce6f0b2e": {
       "id": "15650d6c-abbd-4642-8a9a-9dc1ce6f0b2e",
@@ -1122,14 +1122,14 @@
       "tags": [
         "Экшены"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 280576
+        "tierId": "s",
+        "rank": 29696
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:54:22.902Z"
     },
     "16e43e94-1237-46fb-bea3-49a9270dae40": {
       "id": "16e43e94-1237-46fb-bea3-49a9270dae40",
@@ -1145,14 +1145,14 @@
         "Экшены",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 76800
+        "tierId": "c",
+        "rank": 19456
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:48:15.070Z"
     },
     "1752f8ba-177b-4ee8-ac9e-5390d07a1021": {
       "id": "1752f8ba-177b-4ee8-ac9e-5390d07a1021",
@@ -1191,14 +1191,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 172032
+        "tierId": "a",
+        "rank": 32768
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:18:58.127Z"
     },
     "1818fe30-492d-46ed-ac37-768ff67e5195": {
       "id": "1818fe30-492d-46ed-ac37-768ff67e5195",
@@ -1264,14 +1264,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 466944
+        "tierId": "c",
+        "rank": 44032
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:59:19.441Z"
     },
     "1aa166c8-3b90-4999-ba4e-b66907988564": {
       "id": "1aa166c8-3b90-4999-ba4e-b66907988564",
@@ -1338,14 +1338,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 317440
+        "tierId": "a",
+        "rank": 8192
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:32:26.347Z"
     },
     "1bb3164e-1520-47c6-a434-7ae95254b750": {
       "id": "1bb3164e-1520-47c6-a434-7ae95254b750",
@@ -1361,14 +1361,14 @@
         "Казуальные игры",
         "Симуляторы"
       ],
-      "status": "playing",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 484352
+        "tierId": "c",
+        "rank": 49152
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:00:17.076Z"
     },
     "1bd14668-1af3-4110-ac89-4542936f7f73": {
       "id": "1bd14668-1af3-4110-ac89-4542936f7f73",
@@ -1384,14 +1384,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 433152
+        "tierId": "d",
+        "rank": 13312
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:00:59.703Z"
     },
     "1bffb3de-edaa-4ead-9f1a-ffe7d2651021": {
       "id": "1bffb3de-edaa-4ead-9f1a-ffe7d2651021",
@@ -1409,14 +1409,14 @@
         "Инди",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 125952
+        "tierId": "c",
+        "rank": 57344
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:03:45.009Z"
     },
     "1c34af99-bcbf-46de-92d2-acad0b13344f": {
       "id": "1c34af99-bcbf-46de-92d2-acad0b13344f",
@@ -1625,12 +1625,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 460800
+        "tierId": "b",
+        "rank": 46080
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:58:47.563Z"
     },
     "20f7de31-f0aa-422f-8369-d23502af521b": {
       "id": "20f7de31-f0aa-422f-8369-d23502af521b",
@@ -1672,14 +1672,14 @@
         "Ролевые игры",
         "Ранний доступ"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 396288
+        "tierId": "a",
+        "rank": 9216
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:33:32.109Z"
     },
     "22cc3bf5-650c-4f9a-936d-fa61816df5ed": {
       "id": "22cc3bf5-650c-4f9a-936d-fa61816df5ed",
@@ -1694,14 +1694,14 @@
       "tags": [
         "Экшены"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 133120
+        "tierId": "b",
+        "rank": 4608
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:15:53.991Z"
     },
     "2329cae4-de21-48cc-b6b3-2a9adb6e7c66": {
       "id": "2329cae4-de21-48cc-b6b3-2a9adb6e7c66",
@@ -1720,14 +1720,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 169984
+        "tierId": "c",
+        "rank": 56320
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:03:17.310Z"
     },
     "23b042e9-0084-42d5-90ff-c6d099f0f457": {
       "id": "23b042e9-0084-42d5-90ff-c6d099f0f457",
@@ -1742,14 +1742,14 @@
       "tags": [
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 149504
+        "tierId": "a",
+        "rank": 25600
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:51:57.325Z"
     },
     "24505bf9-45f5-4af2-920d-d28baaab7f82": {
       "id": "24505bf9-45f5-4af2-920d-d28baaab7f82",
@@ -1790,14 +1790,14 @@
         "Инди",
         "Ролевые игры"
       ],
-      "status": "wishlist",
+      "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 154624
+        "tierId": "b",
+        "rank": 7168
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:30:36.339Z"
     },
     "251f7904-cc06-4f6f-b3ec-5bcbffb15501": {
       "id": "251f7904-cc06-4f6f-b3ec-5bcbffb15501",
@@ -1838,14 +1838,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 63488
+        "tierId": "b",
+        "rank": 26624
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:49:39.599Z"
     },
     "255823bd-7af1-40cf-b23e-489a292ddd4b": {
       "id": "255823bd-7af1-40cf-b23e-489a292ddd4b",
@@ -1905,14 +1905,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 194560
+        "tierId": "c",
+        "rank": 29696
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:52:54.542Z"
     },
     "2808fc56-3047-4de7-9046-6cc9d406470f": {
       "id": "2808fc56-3047-4de7-9046-6cc9d406470f",
@@ -1999,14 +1999,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 84992
+        "tierId": "c",
+        "rank": 15360
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:41:48.549Z"
     },
     "2ab7d01f-6821-423b-b1ea-95106ff9f7e0": {
       "id": "2ab7d01f-6821-423b-b1ea-95106ff9f7e0",
@@ -2070,14 +2070,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "platinum",
       "placement": {
-        "tierId": "unranked",
-        "rank": 246784
+        "tierId": "s",
+        "rank": 21504
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:40:28.991Z"
     },
     "2b26ce31-00ca-422e-a57a-dbb0f5391653": {
       "id": "2b26ce31-00ca-422e-a57a-dbb0f5391653",
@@ -2094,14 +2094,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 302080
+        "tierId": "a",
+        "rank": 7168
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:32:10.693Z"
     },
     "2b4950b1-f852-4406-9fdf-e68cdd687320": {
       "id": "2b4950b1-f852-4406-9fdf-e68cdd687320",
@@ -2320,14 +2320,14 @@
         "Инди",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 231424
+        "tierId": "c",
+        "rank": 70656
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:22:11.097Z"
     },
     "31a4e9b4-b0ed-4a57-b8f2-761ca124d12f": {
       "id": "31a4e9b4-b0ed-4a57-b8f2-761ca124d12f",
@@ -2366,14 +2366,14 @@
         "Приключенческие игры",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 201728
+        "tierId": "c",
+        "rank": 61440
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:17:54.383Z"
     },
     "32865dcb-8625-4342-bfee-7dead7303867": {
       "id": "32865dcb-8625-4342-bfee-7dead7303867",
@@ -2389,14 +2389,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 358400
+        "tierId": "d",
+        "rank": 17408
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:01:56.044Z"
     },
     "32993d52-c484-4a60-b67b-a1fd45e9a5eb": {
       "id": "32993d52-c484-4a60-b67b-a1fd45e9a5eb",
@@ -2561,14 +2561,14 @@
         "Инди",
         "Ролевые игры"
       ],
-      "status": "playing",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 153600
+        "tierId": "b",
+        "rank": 29696
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:52:05.739Z"
     },
     "378813e5-9173-4138-8753-af190a2e75d4": {
       "id": "378813e5-9173-4138-8753-af190a2e75d4",
@@ -2610,14 +2610,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 164864
+        "tierId": "c",
+        "rank": 28672
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:52:16.258Z"
     },
     "3856e4be-7750-406c-ae17-a99c993041d4": {
       "id": "3856e4be-7750-406c-ae17-a99c993041d4",
@@ -2633,14 +2633,14 @@
         "Экшены",
         "Приключенческие игры"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 123904
+        "tierId": "c",
+        "rank": 27648
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:51:13.283Z"
     },
     "387eec08-16b4-46b7-982e-f1a39beb6999": {
       "id": "387eec08-16b4-46b7-982e-f1a39beb6999",
@@ -2660,14 +2660,14 @@
         "Ролевые игры",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 221184
+        "tierId": "b",
+        "rank": 57344
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:17:34.567Z"
     },
     "396573a0-21c2-40cd-942a-d18b24950330": {
       "id": "396573a0-21c2-40cd-942a-d18b24950330",
@@ -2940,14 +2940,14 @@
         "Казуальные игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 77824
+        "tierId": "c",
+        "rank": 21504
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:48:40.429Z"
     },
     "400c5a22-c3fb-4627-bb36-022956e175e7": {
       "id": "400c5a22-c3fb-4627-bb36-022956e175e7",
@@ -2963,14 +2963,14 @@
         "Экшены",
         "Приключенческие игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 30720
+        "tierId": "b",
+        "rank": 25600
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:49:26.193Z"
     },
     "404871e8-4ef8-482c-bbab-a717653de8d5": {
       "id": "404871e8-4ef8-482c-bbab-a717653de8d5",
@@ -2988,14 +2988,14 @@
         "Ролевые игры",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 367616
+        "tierId": "b",
+        "rank": 17408
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:39:16.566Z"
     },
     "40da6a11-a9e0-46a1-a81d-aef5a373e65e": {
       "id": "40da6a11-a9e0-46a1-a81d-aef5a373e65e",
@@ -3263,14 +3263,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 359424
+        "tierId": "c",
+        "rank": 52224
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:01:38.187Z"
     },
     "4716d192-8607-43f9-a725-9611e87b081e": {
       "id": "4716d192-8607-43f9-a725-9611e87b081e",
@@ -3287,14 +3287,14 @@
         "Приключенческие игры",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 92160
+        "tierId": "c",
+        "rank": 24576
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:50:00.199Z"
     },
     "4728a7fa-49a5-485f-aaca-679690a8502d": {
       "id": "4728a7fa-49a5-485f-aaca-679690a8502d",
@@ -3310,14 +3310,14 @@
         "Казуальные игры",
         "Бесплатные"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 458752
+        "tierId": "a",
+        "rank": 13312
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:35:18.593Z"
     },
     "47751f16-5416-42f3-9f14-77cc3d4094b3": {
       "id": "47751f16-5416-42f3-9f14-77cc3d4094b3",
@@ -3360,12 +3360,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 61440
+        "tierId": "b",
+        "rank": 54272
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:03:55.137Z"
     },
     "47b0295e-775c-49c0-a7b0-d78695a6b0f1": {
       "id": "47b0295e-775c-49c0-a7b0-d78695a6b0f1",
@@ -3406,14 +3406,14 @@
         "Инди",
         "Стратегии"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 181248
+        "tierId": "s",
+        "rank": 28672
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:52:38.147Z"
     },
     "48a292a9-aa37-48ef-942d-9c366c0c9ec2": {
       "id": "48a292a9-aa37-48ef-942d-9c366c0c9ec2",
@@ -3429,14 +3429,14 @@
         "Экшены",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 296960
+        "tierId": "b",
+        "rank": 37888
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:54:46.186Z"
     },
     "48b57f2b-652c-41b6-a705-9b996f56855f": {
       "id": "48b57f2b-652c-41b6-a705-9b996f56855f",
@@ -3499,14 +3499,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 292864
+        "tierId": "c",
+        "rank": 12288
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:40:10.757Z"
     },
     "49759534-89a2-428b-9c95-0f4bcb4e1d84": {
       "id": "49759534-89a2-428b-9c95-0f4bcb4e1d84",
@@ -3597,14 +3597,14 @@
         "Казуальные игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 227328
+        "tierId": "c",
+        "rank": 60416
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:17:26.603Z"
     },
     "4a352803-88a6-44d2-b546-09cc259540db": {
       "id": "4a352803-88a6-44d2-b546-09cc259540db",
@@ -3644,14 +3644,14 @@
       "tags": [
         "Экшены"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 378880
+        "tierId": "d",
+        "rank": 7168
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:56:29.007Z"
     },
     "4ad5412a-2e5d-49ff-8272-ee75fea1a1f4": {
       "id": "4ad5412a-2e5d-49ff-8272-ee75fea1a1f4",
@@ -3669,14 +3669,14 @@
         "Казуальные игры",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 271360
+        "tierId": "s",
+        "rank": 14336
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:31:38.777Z"
     },
     "4af11ac0-7d1a-45f0-b3bf-dbe777797926": {
       "id": "4af11ac0-7d1a-45f0-b3bf-dbe777797926",
@@ -3692,14 +3692,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 299008
+        "tierId": "b",
+        "rank": 36864
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:54:39.139Z"
     },
     "4b07a2f8-1459-48d6-86f2-c43c729bc706": {
       "id": "4b07a2f8-1459-48d6-86f2-c43c729bc706",
@@ -3738,14 +3738,14 @@
         "Экшены",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 389120
+        "tierId": "b",
+        "rank": 18432
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:39:24.319Z"
     },
     "4c0d381c-8acc-4f03-8bfb-c7de539d9098": {
       "id": "4c0d381c-8acc-4f03-8bfb-c7de539d9098",
@@ -3761,14 +3761,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 68608
+        "tierId": "c",
+        "rank": 20480
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:48:26.220Z"
     },
     "4ca5c838-c342-4d19-9ef0-9efe1bb97c9a": {
       "id": "4ca5c838-c342-4d19-9ef0-9efe1bb97c9a",
@@ -3785,14 +3785,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 225280
+        "tierId": "b",
+        "rank": 32768
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:53:42.071Z"
     },
     "4cb3e955-4756-4683-8d03-2546171eb364": {
       "id": "4cb3e955-4756-4683-8d03-2546171eb364",
@@ -3900,14 +3900,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 475136
+        "tierId": "b",
+        "rank": 47104
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:59:39.880Z"
     },
     "4ef686b6-8826-4b08-81f6-fe2ca420b0dc": {
       "id": "4ef686b6-8826-4b08-81f6-fe2ca420b0dc",
@@ -3924,12 +3924,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 232448
+        "tierId": "b",
+        "rank": 63488
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:22:33.591Z"
     },
     "4f229059-51c7-48c8-8625-8af8ce825256": {
       "id": "4f229059-51c7-48c8-8625-8af8ce825256",
@@ -3944,14 +3944,14 @@
       "tags": [
         "Утилиты"
       ],
-      "status": "wishlist",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 138240
+        "tierId": "d",
+        "rank": 6144
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:51:40.099Z"
     },
     "4f8c2301-5372-4241-bb4d-d96bbec24f1f": {
       "id": "4f8c2301-5372-4241-bb4d-d96bbec24f1f",
@@ -3968,14 +3968,14 @@
         "Казуальные игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 351232
+        "tierId": "b",
+        "rank": 62464
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:20:54.031Z"
     },
     "4fbe9498-8bad-400d-b243-fd54a6011e24": {
       "id": "4fbe9498-8bad-400d-b243-fd54a6011e24",
@@ -3995,12 +3995,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 124928
+        "tierId": "b",
+        "rank": 6144
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:30:15.935Z"
     },
     "4fd90b10-d26c-4c76-827f-bb39dfe01731": {
       "id": "4fd90b10-d26c-4c76-827f-bb39dfe01731",
@@ -4016,14 +4016,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 415744
+        "tierId": "c",
+        "rank": 39936
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:57:38.874Z"
     },
     "5039b092-58d2-40a7-b40a-0e241921fb58": {
       "id": "5039b092-58d2-40a7-b40a-0e241921fb58",
@@ -4039,14 +4039,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 465920
+        "tierId": "d",
+        "rank": 3072
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:35:39.944Z"
     },
     "50cf7b57-dfa0-42a8-bcb8-96aaaedf5775": {
       "id": "50cf7b57-dfa0-42a8-bcb8-96aaaedf5775",
@@ -4062,14 +4062,14 @@
         "Симуляторы",
         "Стратегии"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 226304
+        "tierId": "b",
+        "rank": 31744
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:53:36.627Z"
     },
     "5185d5a0-1343-47df-9a3d-5fb60a3c7492": {
       "id": "5185d5a0-1343-47df-9a3d-5fb60a3c7492",
@@ -4086,14 +4086,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 456704
+        "tierId": "c",
+        "rank": 8192
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:35:25.013Z"
     },
     "528df8f0-d475-420c-86ca-552b75ec1ac1": {
       "id": "528df8f0-d475-420c-86ca-552b75ec1ac1",
@@ -4108,14 +4108,14 @@
       "tags": [
         "Экшены"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 291840
+        "tierId": "b",
+        "rank": 35840
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:54:32.793Z"
     },
     "5388d9d1-d990-49a8-8799-7ceebae5957a": {
       "id": "5388d9d1-d990-49a8-8799-7ceebae5957a",
@@ -4183,14 +4183,14 @@
         "Казуальные игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 228352
+        "tierId": "c",
+        "rank": 72704
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:22:23.978Z"
     },
     "54ee1bb3-8d0d-4dec-a4db-a29949cdff84": {
       "id": "54ee1bb3-8d0d-4dec-a4db-a29949cdff84",
@@ -4231,14 +4231,14 @@
         "Казуальные игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 185344
+        "tierId": "b",
+        "rank": 51200
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:03:10.452Z"
     },
     "54f9bf06-21c9-46f2-815f-aea54788696e": {
       "id": "54f9bf06-21c9-46f2-815f-aea54788696e",
@@ -4279,14 +4279,14 @@
         "Приключенческие игры",
         "Казуальные игры"
       ],
-      "status": "wishlist",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 24576
+        "tierId": "a",
+        "rank": 21504
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:46:46.993Z"
     },
     "55a41bcd-5dac-4420-8c78-860d54450a71": {
       "id": "55a41bcd-5dac-4420-8c78-860d54450a71",
@@ -4304,14 +4304,14 @@
         "Ролевые игры",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 416768
+        "tierId": "d",
+        "rank": 2048
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:34:10.241Z"
     },
     "560671f9-e8c1-45f0-bdb4-b511ac1feb74": {
       "id": "560671f9-e8c1-45f0-bdb4-b511ac1feb74",
@@ -4351,14 +4351,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 386048
+        "tierId": "b",
+        "rank": 41984
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:55:56.846Z"
     },
     "5727f204-f1fc-4603-827f-d188c3badbc1": {
       "id": "5727f204-f1fc-4603-827f-d188c3badbc1",
@@ -4401,12 +4401,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 459776
+        "tierId": "b",
+        "rank": 60416
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:20:05.196Z"
     },
     "594fde12-2c83-4a0a-90c2-c3702f199b10": {
       "id": "594fde12-2c83-4a0a-90c2-c3702f199b10",
@@ -4423,12 +4423,12 @@
       ],
       "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 214016
+        "tierId": "c",
+        "rank": 73728
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:33:37.492Z"
+      "updatedAt": "2026-07-22T09:22:44.185Z"
     },
     "596060b4-29e2-4378-b176-debebe79d24c": {
       "id": "596060b4-29e2-4378-b176-debebe79d24c",
@@ -4446,12 +4446,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 40960
+        "tierId": "a",
+        "rank": 4096
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T06:10:34.775Z"
     },
     "596a17c4-81a8-438c-8108-7d36179b5a70": {
       "id": "596a17c4-81a8-438c-8108-7d36179b5a70",
@@ -4468,12 +4468,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 82944
+        "tierId": "c",
+        "rank": 76800
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:23:48.138Z"
     },
     "59a7edc0-479a-4400-b480-0f1f915cde09": {
       "id": "59a7edc0-479a-4400-b480-0f1f915cde09",
@@ -4513,14 +4513,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 62464
+        "tierId": "c",
+        "rank": 22528
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:48:50.437Z"
     },
     "5baad840-b72f-4c8e-ac46-d3c2b98b963d": {
       "id": "5baad840-b72f-4c8e-ac46-d3c2b98b963d",
@@ -4560,14 +4560,14 @@
         "Казуальные игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 463872
+        "tierId": "b",
+        "rank": 14336
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:35:30.546Z"
     },
     "5d2c98a2-5249-4833-af8d-ac64bfe82d2a": {
       "id": "5d2c98a2-5249-4833-af8d-ac64bfe82d2a",
@@ -4724,14 +4724,14 @@
         "Инди",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 122880
+        "tierId": "d",
+        "rank": 5120
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:51:21.649Z"
     },
     "6013cc32-6037-4a29-be57-64b81c9cfe15": {
       "id": "6013cc32-6037-4a29-be57-64b81c9cfe15",
@@ -4772,14 +4772,14 @@
         "Инди",
         "Многопользовательские игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 373760
+        "tierId": "c",
+        "rank": 34816
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:56:05.708Z"
     },
     "61970936-2fd0-4cc8-ae5c-4d9c07dd328a": {
       "id": "61970936-2fd0-4cc8-ae5c-4d9c07dd328a",
@@ -4821,14 +4821,14 @@
       "tags": [
         "Экшены"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 52224
+        "tierId": "s",
+        "rank": 23552
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:47:35.980Z"
     },
     "626a6a7d-5e18-4978-acb0-bd7805ae87a0": {
       "id": "626a6a7d-5e18-4978-acb0-bd7805ae87a0",
@@ -4869,14 +4869,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 377856
+        "tierId": "c",
+        "rank": 64512
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:20:41.904Z"
     },
     "63039d0b-dc9a-446c-9d98-0fd1c6a4b2bc": {
       "id": "63039d0b-dc9a-446c-9d98-0fd1c6a4b2bc",
@@ -4893,12 +4893,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 411648
+        "tierId": "b",
+        "rank": 43008
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:57:24.434Z"
     },
     "640873ae-e79e-40d2-a656-21637a6b02b9": {
       "id": "640873ae-e79e-40d2-a656-21637a6b02b9",
@@ -4937,12 +4937,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 295936
+        "tierId": "c",
+        "rank": 68608
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:21:24.468Z"
     },
     "643d2039-1056-4f26-81ec-d25c1efc7bda": {
       "id": "643d2039-1056-4f26-81ec-d25c1efc7bda",
@@ -4984,11 +4984,11 @@
       "status": "played",
       "placement": {
         "tierId": "unranked",
-        "rank": 34816
+        "rank": 28160
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T05:10:28.463Z"
     },
     "652525c7-f5cd-4640-884f-908952d91a9d": {
       "id": "652525c7-f5cd-4640-884f-908952d91a9d",
@@ -5028,14 +5028,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 467968
+        "tierId": "c",
+        "rank": 48128
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:00:05.944Z"
     },
     "66ca8e74-fe2c-4c39-b3d3-56dda04bd203": {
       "id": "66ca8e74-fe2c-4c39-b3d3-56dda04bd203",
@@ -5052,14 +5052,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 477184
+        "tierId": "b",
+        "rank": 49152
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:00:00.751Z"
     },
     "675ea9db-a7c8-4b69-96e9-b50b3fb7878a": {
       "id": "675ea9db-a7c8-4b69-96e9-b50b3fb7878a",
@@ -5150,14 +5150,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 449536
+        "tierId": "d",
+        "rank": 11264
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:00:29.071Z"
     },
     "6956f8d4-9317-4a13-b60c-d5f1a605ebd4": {
       "id": "6956f8d4-9317-4a13-b60c-d5f1a605ebd4",
@@ -5175,12 +5175,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 212992
+        "tierId": "c",
+        "rank": 30720
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:53:27.846Z"
     },
     "6a8e9682-959d-4cdd-a050-a5dadab1b87f": {
       "id": "6a8e9682-959d-4cdd-a050-a5dadab1b87f",
@@ -5247,12 +5247,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 321536
+        "tierId": "c",
+        "rank": 55296
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:02:41.925Z"
     },
     "6d154cd0-cc4c-4d02-b1d9-725d1fb304fc": {
       "id": "6d154cd0-cc4c-4d02-b1d9-725d1fb304fc",
@@ -5439,14 +5439,14 @@
         "Экшены",
         "Приключенческие игры"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 65536
+        "tierId": "c",
+        "rank": 18432
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:48:01.094Z"
     },
     "7382cbc3-0832-4323-901f-6abef058f62a": {
       "id": "7382cbc3-0832-4323-901f-6abef058f62a",
@@ -5463,14 +5463,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 450560
+        "tierId": "b",
+        "rank": 50176
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:00:42.222Z"
     },
     "75151e08-56d6-40ba-a59a-d0247dfad83d": {
       "id": "75151e08-56d6-40ba-a59a-d0247dfad83d",
@@ -5487,14 +5487,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 44032
+        "tierId": "b",
+        "rank": 21504
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:46:25.866Z"
     },
     "76611235-ace4-4c3a-9f45-8e957346a2e8": {
       "id": "76611235-ace4-4c3a-9f45-8e957346a2e8",
@@ -5629,14 +5629,14 @@
         "Ролевые игры",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 432128
+        "tierId": "c",
+        "rank": 63488
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:19:35.465Z"
     },
     "798782cd-1ed2-4589-b366-26359aa93d33": {
       "id": "798782cd-1ed2-4589-b366-26359aa93d33",
@@ -5652,14 +5652,14 @@
         "Экшены",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 106496
+        "tierId": "c",
+        "rank": 26624
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:50:53.794Z"
     },
     "7a4c242b-0790-449f-9c94-3154900251b1": {
       "id": "7a4c242b-0790-449f-9c94-3154900251b1",
@@ -5746,14 +5746,14 @@
         "Экшены",
         "Приключенческие игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 250880
+        "tierId": "b",
+        "rank": 56320
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:17:12.242Z"
     },
     "7b6894fe-1e6d-4d14-92aa-bfcc23de8375": {
       "id": "7b6894fe-1e6d-4d14-92aa-bfcc23de8375",
@@ -5793,14 +5793,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 254976
+        "tierId": "c",
+        "rank": 4096
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:31:25.039Z"
     },
     "7de4206d-fea8-46b1-ade6-92bc652236ee": {
       "id": "7de4206d-fea8-46b1-ade6-92bc652236ee",
@@ -5815,14 +5815,14 @@
       "tags": [
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 323584
+        "tierId": "f",
+        "rank": 2048
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:38:31.809Z"
     },
     "7e17dc3b-a3ab-46b5-ae01-d33573d3d076": {
       "id": "7e17dc3b-a3ab-46b5-ae01-d33573d3d076",
@@ -5886,14 +5886,14 @@
         "Инди",
         "Бесплатные"
       ],
-      "status": "played",
+      "status": "platinum",
       "placement": {
-        "tierId": "unranked",
-        "rank": 352256
+        "tierId": "c",
+        "rank": 66560
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:21:01.741Z"
     },
     "80362245-ad14-4a95-9c39-505d4d430c22": {
       "id": "80362245-ad14-4a95-9c39-505d4d430c22",
@@ -5908,14 +5908,14 @@
       "tags": [
         "Приключенческие игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 440320
+        "tierId": "b",
+        "rank": 61440
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:20:14.528Z"
     },
     "804b3185-d3b4-406f-809f-26717a7ecacd": {
       "id": "804b3185-d3b4-406f-809f-26717a7ecacd",
@@ -5930,14 +5930,14 @@
       "tags": [
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 131072
+        "tierId": "a",
+        "rank": 23552
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:51:29.570Z"
     },
     "81a63820-14bb-48ce-afa5-42cc55685cc7": {
       "id": "81a63820-14bb-48ce-afa5-42cc55685cc7",
@@ -5978,14 +5978,14 @@
         "Казуальные игры",
         "Стратегии"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 322560
+        "tierId": "s",
+        "rank": 17408
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:38:49.853Z"
     },
     "81f2d5ce-b9bd-403a-bf12-0ebdab59fbd4": {
       "id": "81f2d5ce-b9bd-403a-bf12-0ebdab59fbd4",
@@ -6001,14 +6001,14 @@
         "Экшены",
         "Инди"
       ],
-      "status": "wishlist",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 332800
+        "tierId": "a",
+        "rank": 17408
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:38:41.018Z"
     },
     "82ce38e8-7cf9-4729-8788-10f2ce027f02": {
       "id": "82ce38e8-7cf9-4729-8788-10f2ce027f02",
@@ -6164,12 +6164,12 @@
       ],
       "status": "playing",
       "placement": {
-        "tierId": "unranked",
-        "rank": 238592
+        "tierId": "b",
+        "rank": 33792
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:53:54.789Z"
     },
     "87647226-dea6-4167-8c1a-b60183673ccb": {
       "id": "87647226-dea6-4167-8c1a-b60183673ccb",
@@ -6258,14 +6258,14 @@
         "Приключенческие игры",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 348160
+        "tierId": "a",
+        "rank": 18432
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:39:05.418Z"
     },
     "8b1ef9ad-8dcb-4740-9f5c-1479824389be": {
       "id": "8b1ef9ad-8dcb-4740-9f5c-1479824389be",
@@ -6286,12 +6286,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 22528
+        "tierId": "b",
+        "rank": 55296
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:04:12.573Z"
     },
     "8bb4c7e4-508d-4cb3-9ddb-8ffe7425dd6a": {
       "id": "8bb4c7e4-508d-4cb3-9ddb-8ffe7425dd6a",
@@ -6309,12 +6309,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 206848
+        "tierId": "c",
+        "rank": 74752
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:22:58.096Z"
     },
     "8c0082ca-e91e-46a4-9a2c-6b9942ae5098": {
       "id": "8c0082ca-e91e-46a4-9a2c-6b9942ae5098",
@@ -6352,14 +6352,14 @@
       "tags": [
         "Приключенческие игры"
       ],
-      "status": "played",
+      "status": "platinum",
       "placement": {
-        "tierId": "unranked",
-        "rank": 412672
+        "tierId": "s",
+        "rank": 20480
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:39:42.021Z"
     },
     "8c529e45-fe30-4d22-b1c0-712c80dc41d2": {
       "id": "8c529e45-fe30-4d22-b1c0-712c80dc41d2",
@@ -6377,14 +6377,14 @@
         "Инди",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 333824
+        "tierId": "c",
+        "rank": 54272
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:02:29.906Z"
     },
     "8ec31bd4-106f-4844-a149-a0d7ffc7e43c": {
       "id": "8ec31bd4-106f-4844-a149-a0d7ffc7e43c",
@@ -6401,14 +6401,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 441344
+        "tierId": "c",
+        "rank": 7168
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:34:57.431Z"
     },
     "8f434317-aa7a-48ab-86da-d68d3d6bf525": {
       "id": "8f434317-aa7a-48ab-86da-d68d3d6bf525",
@@ -6496,14 +6496,14 @@
         "Экшены",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 282624
+        "tierId": "s",
+        "rank": 15360
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:32:01.455Z"
     },
     "90e4d3dd-60b3-4932-afa0-e452172c7d6a": {
       "id": "90e4d3dd-60b3-4932-afa0-e452172c7d6a",
@@ -6544,14 +6544,14 @@
         "Инди",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 267264
+        "tierId": "a",
+        "rank": 26624
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:54:15.386Z"
     },
     "9119b6f2-e194-410a-92a5-8547625e917b": {
       "id": "9119b6f2-e194-410a-92a5-8547625e917b",
@@ -6681,14 +6681,14 @@
       "tags": [
         "Приключенческие игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 393216
+        "tierId": "f",
+        "rank": 4096
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:57:00.289Z"
     },
     "94b2e6be-4808-4d31-a276-1b4dbe24c517": {
       "id": "94b2e6be-4808-4d31-a276-1b4dbe24c517",
@@ -6753,12 +6753,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 438272
+        "tierId": "c",
+        "rank": 41984
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:58:27.786Z"
     },
     "95e57f6f-a0a0-401c-8314-5b397331bbb1": {
       "id": "95e57f6f-a0a0-401c-8314-5b397331bbb1",
@@ -6873,14 +6873,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 476160
+        "tierId": "b",
+        "rank": 48128
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:59:53.581Z"
     },
     "97ffb5c8-b246-4f54-9ffc-682d715fd186": {
       "id": "97ffb5c8-b246-4f54-9ffc-682d715fd186",
@@ -6920,12 +6920,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 190464
+        "tierId": "b",
+        "rank": 58368
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:18:47.867Z"
     },
     "9a8b4737-7a4a-4782-95d0-a37ce90e3797": {
       "id": "9a8b4737-7a4a-4782-95d0-a37ce90e3797",
@@ -6944,12 +6944,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 140288
+        "tierId": "b",
+        "rank": 52224
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:03:30.673Z"
     },
     "9b5358d9-d881-49aa-bfd8-8167aba8180f": {
       "id": "9b5358d9-d881-49aa-bfd8-8167aba8180f",
@@ -6966,14 +6966,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 402432
+        "tierId": "b",
+        "rank": 11264
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:33:47.176Z"
     },
     "9b64f180-5ab8-4042-bf71-a105824e764f": {
       "id": "9b64f180-5ab8-4042-bf71-a105824e764f",
@@ -6990,14 +6990,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 329728
+        "tierId": "c",
+        "rank": 67584
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:21:10.605Z"
     },
     "9b87fd99-62d9-423f-9063-19ac4f5a0913": {
       "id": "9b87fd99-62d9-423f-9063-19ac4f5a0913",
@@ -7013,14 +7013,14 @@
         "Инди",
         "Стратегии"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 473088
+        "tierId": "d",
+        "rank": 20480
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:19:44.106Z"
     },
     "9bade653-6ed4-464e-a310-f4a90dc4e670": {
       "id": "9bade653-6ed4-464e-a310-f4a90dc4e670",
@@ -7115,12 +7115,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 401408
+        "tierId": "c",
+        "rank": 38912
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:57:19.695Z"
     },
     "9d94a93b-a86b-4a0a-a1f8-b582f788ad15": {
       "id": "9d94a93b-a86b-4a0a-a1f8-b582f788ad15",
@@ -7138,14 +7138,14 @@
         "Казуальные игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 184320
+        "tierId": "b",
+        "rank": 8192
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:31:06.031Z"
     },
     "9f4e7bbd-9583-41d9-8709-d152a2d49a4a": {
       "id": "9f4e7bbd-9583-41d9-8709-d152a2d49a4a",
@@ -7185,14 +7185,14 @@
         "Приключенческие игры",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 234496
+        "tierId": "b",
+        "rank": 15360
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:37:19.763Z"
     },
     "9f9ffbdf-f884-4131-abdf-24650cd0a5cb": {
       "id": "9f9ffbdf-f884-4131-abdf-24650cd0a5cb",
@@ -7210,11 +7210,11 @@
       "status": "played",
       "placement": {
         "tierId": "unranked",
-        "rank": 49152
+        "rank": 40960
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T06:20:55.532Z"
     },
     "a1a594b8-99d4-4f4e-a849-8455b225b454": {
       "id": "a1a594b8-99d4-4f4e-a849-8455b225b454",
@@ -7231,14 +7231,14 @@
         "Приключенческие игры",
         "Казуальные игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 421888
+        "tierId": "a",
+        "rank": 11264
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:34:19.943Z"
     },
     "a3810c0b-2ef0-44af-b656-6ea0bc4bd640": {
       "id": "a3810c0b-2ef0-44af-b656-6ea0bc4bd640",
@@ -7255,14 +7255,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 278528
+        "tierId": "a",
+        "rank": 16384
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:38:10.167Z"
     },
     "a453ecea-1791-4fb5-9c37-2d82dfd3004b": {
       "id": "a453ecea-1791-4fb5-9c37-2d82dfd3004b",
@@ -7278,14 +7278,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 346112
+        "tierId": "d",
+        "rank": 16384
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:01:49.679Z"
     },
     "a4f97037-697e-4e44-9941-69f2d9590350": {
       "id": "a4f97037-697e-4e44-9941-69f2d9590350",
@@ -7352,12 +7352,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 245760
+        "tierId": "b",
+        "rank": 34816
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:54:01.093Z"
     },
     "a685c8b6-2bcc-4a60-88b3-a2b4fb026966": {
       "id": "a685c8b6-2bcc-4a60-88b3-a2b4fb026966",
@@ -7373,14 +7373,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "playing",
+      "status": "completed",
       "placement": {
         "tierId": "unranked",
         "rank": 485376
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:28:43.295Z"
     },
     "a6d3d052-6dfc-4d5b-b448-f3cbe64b17c4": {
       "id": "a6d3d052-6dfc-4d5b-b448-f3cbe64b17c4",
@@ -7399,14 +7399,14 @@
         "Ролевые игры",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 230400
+        "tierId": "c",
+        "rank": 71680
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:22:17.779Z"
     },
     "a7810db0-c3a3-49ca-853b-9c9e35d15325": {
       "id": "a7810db0-c3a3-49ca-853b-9c9e35d15325",
@@ -7422,14 +7422,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 179200
+        "tierId": "b",
+        "rank": 19456
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:40:58.136Z"
     },
     "a7f6aecf-a990-4c70-9659-3db9942dd08c": {
       "id": "a7f6aecf-a990-4c70-9659-3db9942dd08c",
@@ -7447,14 +7447,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 479232
+        "tierId": "c",
+        "rank": 9216
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:35:50.262Z"
     },
     "a8291da1-e5e1-40bc-86bb-27bfefff5394": {
       "id": "a8291da1-e5e1-40bc-86bb-27bfefff5394",
@@ -7542,14 +7542,14 @@
         "Инди",
         "Стратегии"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 354304
+        "tierId": "c",
+        "rank": 53248
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:02:22.956Z"
     },
     "a9a6da2b-571c-41b4-a0f6-c848b90f1476": {
       "id": "a9a6da2b-571c-41b4-a0f6-c848b90f1476",
@@ -7621,14 +7621,14 @@
         "Спорт",
         "Стратегии"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 356352
+        "tierId": "d",
+        "rank": 18432
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:02:04.484Z"
     },
     "ab7b809a-2346-4d73-86a3-f81ba6c82710": {
       "id": "ab7b809a-2346-4d73-86a3-f81ba6c82710",
@@ -7668,14 +7668,14 @@
         "Экшены",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 202752
+        "tierId": "b",
+        "rank": 30720
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:53:04.673Z"
     },
     "ac3eee64-439a-4db7-8d4e-9b54b00e3a7b": {
       "id": "ac3eee64-439a-4db7-8d4e-9b54b00e3a7b",
@@ -7814,14 +7814,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 350208
+        "tierId": "b",
+        "rank": 39936
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:55:34.647Z"
     },
     "adfdefbe-3472-467e-9ab4-6398888cd643": {
       "id": "adfdefbe-3472-467e-9ab4-6398888cd643",
@@ -7931,14 +7931,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 420864
+        "tierId": "a",
+        "rank": 29696
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:58:02.385Z"
     },
     "af40e940-9476-40b3-9328-5ce68f29f07d": {
       "id": "af40e940-9476-40b3-9328-5ce68f29f07d",
@@ -8001,14 +8001,14 @@
       "tags": [
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 324608
+        "tierId": "s",
+        "rank": 18432
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:38:57.452Z"
     },
     "b1efe8a5-da03-4436-bd02-97b119cf556a": {
       "id": "b1efe8a5-da03-4436-bd02-97b119cf556a",
@@ -8026,14 +8026,14 @@
         "Ролевые игры",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 372736
+        "tierId": "c",
+        "rank": 6144
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:33:13.335Z"
     },
     "b38ad2ee-b1ac-4bd8-8fb0-64e048769cb2": {
       "id": "b38ad2ee-b1ac-4bd8-8fb0-64e048769cb2",
@@ -8119,14 +8119,14 @@
         "Экшены",
         "Приключенческие игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 275456
+        "tierId": "a",
+        "rank": 6144
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:31:47.991Z"
     },
     "b4d66988-67f2-42fc-a7e9-533ff45900c1": {
       "id": "b4d66988-67f2-42fc-a7e9-533ff45900c1",
@@ -8166,14 +8166,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 25600
+        "tierId": "b",
+        "rank": 24576
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:49:16.275Z"
     },
     "b580deb7-0b77-4a76-a9b4-8b39772ed97f": {
       "id": "b580deb7-0b77-4a76-a9b4-8b39772ed97f",
@@ -8191,12 +8191,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 326656
+        "tierId": "a",
+        "rank": 27648
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:55:21.942Z"
     },
     "b69c2954-f414-417a-a1e4-304cda6e756f": {
       "id": "b69c2954-f414-417a-a1e4-304cda6e756f",
@@ -8215,14 +8215,14 @@
         "Симуляторы",
         "Стратегии"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 338944
+        "tierId": "c",
+        "rank": 5120
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:32:59.736Z"
     },
     "b7af5ffe-2f6c-4e26-a55d-3ff07171b61a": {
       "id": "b7af5ffe-2f6c-4e26-a55d-3ff07171b61a",
@@ -8239,14 +8239,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 434176
+        "tierId": "f",
+        "rank": 6144
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:01:08.125Z"
     },
     "b89ad2f7-fae8-46c2-96c2-37451bf76d9f": {
       "id": "b89ad2f7-fae8-46c2-96c2-37451bf76d9f",
@@ -8286,14 +8286,14 @@
         "Экшены",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 98304
+        "tierId": "c",
+        "rank": 14336
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:41:31.895Z"
     },
     "b9273fe0-d986-4375-8fca-d24f67c4f218": {
       "id": "b9273fe0-d986-4375-8fca-d24f67c4f218",
@@ -8334,14 +8334,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 380928
+        "tierId": "f",
+        "rank": 3072
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:56:38.234Z"
     },
     "bb0361cf-74ad-4f35-a507-ee34eb4d8bf8": {
       "id": "bb0361cf-74ad-4f35-a507-ee34eb4d8bf8",
@@ -8358,14 +8358,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 443392
+        "tierId": "b",
+        "rank": 12288
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:34:41.903Z"
     },
     "bccf16c3-9b12-4263-8ef5-788fdca25796": {
       "id": "bccf16c3-9b12-4263-8ef5-788fdca25796",
@@ -8382,14 +8382,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 66560
+        "tierId": "b",
+        "rank": 23552
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:48:34.385Z"
     },
     "bdb052d1-d8e1-44b1-9527-4e388c64185d": {
       "id": "bdb052d1-d8e1-44b1-9527-4e388c64185d",
@@ -8453,14 +8453,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 422912
+        "tierId": "b",
+        "rank": 44032
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:57:53.645Z"
     },
     "bee8f649-5b20-4386-ad12-dd52687fd8de": {
       "id": "bee8f649-5b20-4386-ad12-dd52687fd8de",
@@ -8478,14 +8478,14 @@
         "Инди",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 339968
+        "tierId": "b",
+        "rank": 9216
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:32:35.692Z"
     },
     "bf0ef00c-2875-43a9-82ec-fe5f059caaf0": {
       "id": "bf0ef00c-2875-43a9-82ec-fe5f059caaf0",
@@ -8502,14 +8502,14 @@
         "Приключенческие игры",
         "Казуальные игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 78848
+        "tierId": "b",
+        "rank": 27648
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:49:48.573Z"
     },
     "bf3f7e24-60d7-43d2-8410-bcca24154d63": {
       "id": "bf3f7e24-60d7-43d2-8410-bcca24154d63",
@@ -8625,14 +8625,14 @@
         "Инди",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 95232
+        "tierId": "a",
+        "rank": 19456
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:41:40.701Z"
     },
     "c2e75cd2-2581-429f-931b-86c9cb64ab8a": {
       "id": "c2e75cd2-2581-429f-931b-86c9cb64ab8a",
@@ -8695,14 +8695,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "platinum",
       "placement": {
-        "tierId": "unranked",
-        "rank": 399360
+        "tierId": "s",
+        "rank": 19456
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:39:33.633Z"
     },
     "c3348b4d-ddfd-49bd-b606-6c82da4e6b6f": {
       "id": "c3348b4d-ddfd-49bd-b606-6c82da4e6b6f",
@@ -8719,14 +8719,14 @@
         "Казуальные игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 454656
+        "tierId": "b",
+        "rank": 45056
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:58:42.943Z"
     },
     "c370edda-867b-4a1a-b35a-a04fea045dd0": {
       "id": "c370edda-867b-4a1a-b35a-a04fea045dd0",
@@ -8790,14 +8790,14 @@
         "Инди",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 349184
+        "tierId": "d",
+        "rank": 15360
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:01:43.931Z"
     },
     "c3f7cde7-ab50-4e31-ad5b-90e9e5cb24d9": {
       "id": "c3f7cde7-ab50-4e31-ad5b-90e9e5cb24d9",
@@ -8814,14 +8814,14 @@
         "Казуальные игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 391168
+        "tierId": "c",
+        "rank": 37888
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:56:50.052Z"
     },
     "c420e08d-31e6-49e1-b0e4-35cf70f19b67": {
       "id": "c420e08d-31e6-49e1-b0e4-35cf70f19b67",
@@ -8956,12 +8956,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 37888
+        "tierId": "c",
+        "rank": 59392
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:04:07.609Z"
     },
     "c6ba388c-0c96-4c1f-aa0d-49270b3024b8": {
       "id": "c6ba388c-0c96-4c1f-aa0d-49270b3024b8",
@@ -8977,14 +8977,14 @@
         "Экшены",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 21504
+        "tierId": "b",
+        "rank": 22528
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:47:06.752Z"
     },
     "c745a045-5af0-4729-83e1-9fc9126bf715": {
       "id": "c745a045-5af0-4729-83e1-9fc9126bf715",
@@ -9003,12 +9003,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 199680
+        "tierId": "a",
+        "rank": 31744
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:03:03.185Z"
     },
     "c797cd0e-1113-4341-b9ea-b26f75ae1aca": {
       "id": "c797cd0e-1113-4341-b9ea-b26f75ae1aca",
@@ -9024,14 +9024,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 455680
+        "tierId": "d",
+        "rank": 9216
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:58:38.290Z"
     },
     "c7e6e434-cf93-43b1-a067-67ef6526e09c": {
       "id": "c7e6e434-cf93-43b1-a067-67ef6526e09c",
@@ -9098,14 +9098,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 112640
+        "tierId": "s",
+        "rank": 26624
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:51:00.297Z"
     },
     "ca1f33f9-2886-4bd6-a30f-a066ce92fc44": {
       "id": "ca1f33f9-2886-4bd6-a30f-a066ce92fc44",
@@ -9142,14 +9142,14 @@
       "tags": [
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 452608
+        "tierId": "c",
+        "rank": 43008
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:58:54.986Z"
     },
     "ccf64f6f-9750-4762-96fe-2e24926dad07": {
       "id": "ccf64f6f-9750-4762-96fe-2e24926dad07",
@@ -9284,12 +9284,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 89088
+        "tierId": "b",
+        "rank": 65536
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:23:39.912Z"
     },
     "d1a68196-58d8-4dd3-ac52-f964a1b4a056": {
       "id": "d1a68196-58d8-4dd3-ac52-f964a1b4a056",
@@ -9306,14 +9306,14 @@
         "Приключенческие игры",
         "Казуальные игры"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 197632
+        "tierId": "c",
+        "rank": 62464
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:17:59.596Z"
     },
     "d2839ae4-b321-49c0-9c4f-0cb00597523d": {
       "id": "d2839ae4-b321-49c0-9c4f-0cb00597523d",
@@ -9376,14 +9376,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 403456
+        "tierId": "a",
+        "rank": 10240
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:33:39.174Z"
     },
     "d386ee47-a11d-408e-972b-042aa44a9da2": {
       "id": "d386ee47-a11d-408e-972b-042aa44a9da2",
@@ -9399,14 +9399,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 428032
+        "tierId": "d",
+        "rank": 14336
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:01:16.983Z"
     },
     "d3f0eda7-476c-41ab-8497-9d90b8e24b50": {
       "id": "d3f0eda7-476c-41ab-8497-9d90b8e24b50",
@@ -9493,14 +9493,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 457728
+        "tierId": "b",
+        "rank": 13312
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:35:10.826Z"
     },
     "d4d56066-a86e-4080-b07d-da17f29bb5f0": {
       "id": "d4d56066-a86e-4080-b07d-da17f29bb5f0",
@@ -9516,14 +9516,14 @@
         "Симуляторы",
         "Стратегии"
       ],
-      "status": "wishlist",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 35840
+        "tierId": "a",
+        "rank": 20480
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:46:35.923Z"
     },
     "d521bd57-6ed1-462e-8df3-ef15ec68f36c": {
       "id": "d521bd57-6ed1-462e-8df3-ef15ec68f36c",
@@ -9567,14 +9567,14 @@
         "Ролевые игры",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 366592
+        "tierId": "a",
+        "rank": 28672
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:56:13.241Z"
     },
     "d5fd7c54-5adf-4849-b271-e0ccb741c67b": {
       "id": "d5fd7c54-5adf-4849-b271-e0ccb741c67b",
@@ -9614,14 +9614,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 482304
+        "tierId": "b",
+        "rank": 59392
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:19:55.705Z"
     },
     "d6f241dc-71fa-4203-a866-18bb8a092d45": {
       "id": "d6f241dc-71fa-4203-a866-18bb8a092d45",
@@ -9639,14 +9639,14 @@
         "Казуальные игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 447488
+        "tierId": "c",
+        "rank": 50176
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:00:47.526Z"
     },
     "d6f6a85a-ad86-4b16-9b90-0a0e426e6dff": {
       "id": "d6f6a85a-ad86-4b16-9b90-0a0e426e6dff",
@@ -9713,12 +9713,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 265216
+        "tierId": "a",
+        "rank": 15360
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:38:01.201Z"
     },
     "d919d01e-93fb-496b-8800-35e168dd0a67": {
       "id": "d919d01e-93fb-496b-8800-35e168dd0a67",
@@ -9736,12 +9736,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 32768
+        "tierId": "c",
+        "rank": 77824
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:24:00.794Z"
     },
     "da60283c-587f-4bd0-afbe-c6443417613f": {
       "id": "da60283c-587f-4bd0-afbe-c6443417613f",
@@ -9783,12 +9783,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 376832
+        "tierId": "c",
+        "rank": 65536
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:20:47.068Z"
     },
     "dbcf24eb-a521-43a6-95cc-874e7be63f36": {
       "id": "dbcf24eb-a521-43a6-95cc-874e7be63f36",
@@ -9877,14 +9877,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 417792
+        "tierId": "a",
+        "rank": 30720
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:58:08.451Z"
     },
     "dee49541-7e4c-46f5-bd8a-c6b38a994dff": {
       "id": "dee49541-7e4c-46f5-bd8a-c6b38a994dff",
@@ -9926,14 +9926,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 468992
+        "tierId": "d",
+        "rank": 4096
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:39:56.834Z"
     },
     "df97cf09-9af4-4217-9d17-a0f5e56c91a3": {
       "id": "df97cf09-9af4-4217-9d17-a0f5e56c91a3",
@@ -9974,14 +9974,14 @@
         "Инди",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 461824
+        "tierId": "d",
+        "rank": 12288
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:00:34.498Z"
     },
     "e01bf922-a298-437d-8eec-52c071cb6b36": {
       "id": "e01bf922-a298-437d-8eec-52c071cb6b36",
@@ -9999,14 +9999,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "playing",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 470016
+        "tierId": "c",
+        "rank": 45056
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:59:25.576Z"
     },
     "e1c11f62-47ae-4bcc-ad04-f237a6fe4568": {
       "id": "e1c11f62-47ae-4bcc-ad04-f237a6fe4568",
@@ -10025,12 +10025,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 148480
+        "tierId": "a",
+        "rank": 33792
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:19:10.655Z"
     },
     "e2926287-704c-4388-a518-9ebf659e4229": {
       "id": "e2926287-704c-4388-a518-9ebf659e4229",
@@ -10046,14 +10046,14 @@
         "Экшены",
         "Приключенческие игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 318464
+        "tierId": "c",
+        "rank": 32768
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:55:11.647Z"
     },
     "e2ebf9a1-5cc1-43e9-9987-7752f3bcd3b2": {
       "id": "e2ebf9a1-5cc1-43e9-9987-7752f3bcd3b2",
@@ -10070,14 +10070,14 @@
         "Казуальные игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 418816
+        "tierId": "s",
+        "rank": 16384
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:34:01.790Z"
     },
     "e3036487-c1af-4171-8b75-640cf715f81f": {
       "id": "e3036487-c1af-4171-8b75-640cf715f81f",
@@ -10233,14 +10233,14 @@
         "Приключенческие игры",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 168960
+        "tierId": "a",
+        "rank": 14336
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:37:07.711Z"
     },
     "e7e414dd-76fc-4fb6-9e16-cfa643d0895f": {
       "id": "e7e414dd-76fc-4fb6-9e16-cfa643d0895f",
@@ -10258,14 +10258,14 @@
         "Симуляторы",
         "Стратегии"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 100352
+        "tierId": "c",
+        "rank": 25600
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:50:30.284Z"
     },
     "e81e34fc-268a-4608-b9a7-8e4d590cc206": {
       "id": "e81e34fc-268a-4608-b9a7-8e4d590cc206",
@@ -10282,14 +10282,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 385024
+        "tierId": "c",
+        "rank": 36864
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:56:44.339Z"
     },
     "eab4316f-9452-44fb-9b7f-d5d46e61fdaa": {
       "id": "eab4316f-9452-44fb-9b7f-d5d46e61fdaa",
@@ -10306,14 +10306,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 39936
+        "tierId": "b",
+        "rank": 20480
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:46:18.530Z"
     },
     "eb5d6935-86ac-4249-b635-dbf4192c619a": {
       "id": "eb5d6935-86ac-4249-b635-dbf4192c619a",
@@ -10332,14 +10332,14 @@
         "Ролевые игры",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 407552
+        "tierId": "c",
+        "rank": 51200
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:01:26.744Z"
     },
     "ebc64a2a-6f3c-40b8-973d-65a52603f282": {
       "id": "ebc64a2a-6f3c-40b8-973d-65a52603f282",
@@ -10376,14 +10376,14 @@
       "tags": [
         "Экшены"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 369664
+        "tierId": "b",
+        "rank": 40960
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:55:47.583Z"
     },
     "ec58406e-c5d6-4b33-9f11-333a03ad4574": {
       "id": "ec58406e-c5d6-4b33-9f11-333a03ad4574",
@@ -10450,14 +10450,14 @@
         "Спорт",
         "Стратегии"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 451584
+        "tierId": "d",
+        "rank": 10240
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:59:05.985Z"
     },
     "edb847ca-8f9b-4eb2-b49b-fd1c865a2583": {
       "id": "edb847ca-8f9b-4eb2-b49b-fd1c865a2583",
@@ -10473,14 +10473,14 @@
         "Инди",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 193536
+        "tierId": "d",
+        "rank": 19456
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:18:11.752Z"
     },
     "ee76e799-a408-4c25-b9f4-579732b33cdd": {
       "id": "ee76e799-a408-4c25-b9f4-579732b33cdd",
@@ -10543,14 +10543,14 @@
         "Приключенческие игры",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "platinum",
       "placement": {
-        "tierId": "unranked",
-        "rank": 269312
+        "tierId": "a",
+        "rank": 34816
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:21:39.929Z"
     },
     "f105df53-56ed-4a93-9411-e13ef8c16678": {
       "id": "f105df53-56ed-4a93-9411-e13ef8c16678",
@@ -10615,12 +10615,12 @@
       ],
       "status": "playing",
       "placement": {
-        "tierId": "unranked",
-        "rank": 371712
+        "tierId": "a",
+        "rank": 5120
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:29:18.323Z"
     },
     "f1420b97-508f-4dd6-87ed-ad4b009e4f6b": {
       "id": "f1420b97-508f-4dd6-87ed-ad4b009e4f6b",
@@ -10636,14 +10636,14 @@
         "Экшены",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 176128
+        "tierId": "s",
+        "rank": 13312
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:30:48.645Z"
     },
     "f28fc4ce-7d1c-4722-8e03-a0050819a8c0": {
       "id": "f28fc4ce-7d1c-4722-8e03-a0050819a8c0",
@@ -10683,14 +10683,14 @@
         "Экшены",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 86016
+        "tierId": "b",
+        "rank": 28672
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:50:16.553Z"
     },
     "f363ac4e-9905-4475-90b5-8899edf83bb9": {
       "id": "f363ac4e-9905-4475-90b5-8899edf83bb9",
@@ -10706,14 +10706,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 315392
+        "tierId": "c",
+        "rank": 31744
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:55:02.647Z"
     },
     "f4406c43-ea23-46f3-8f2d-4770bc79069a": {
       "id": "f4406c43-ea23-46f3-8f2d-4770bc79069a",
@@ -10778,14 +10778,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 101376
+        "tierId": "c",
+        "rank": 75776
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:23:21.212Z"
     },
     "f4c98318-8d9a-41af-a6d5-d0f1c2e0680e": {
       "id": "f4c98318-8d9a-41af-a6d5-d0f1c2e0680e",
@@ -10802,14 +10802,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 143360
+        "tierId": "a",
+        "rank": 24576
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:51:50.590Z"
     },
     "f4d3b52a-665f-4363-87ce-898f0270ce83": {
       "id": "f4d3b52a-665f-4363-87ce-898f0270ce83",
@@ -10826,14 +10826,14 @@
         "Инди",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 41984
+        "tierId": "s",
+        "rank": 22528
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:47:23.072Z"
     },
     "f505cb85-5fed-43d6-a90d-0cce5e665cf2": {
       "id": "f505cb85-5fed-43d6-a90d-0cce5e665cf2",
@@ -10849,14 +10849,14 @@
         "Экшены",
         "Приключенческие игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 375808
+        "tierId": "b",
+        "rank": 10240
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:33:21.318Z"
     },
     "f5267cef-1c65-4a82-b7f3-1bc718086c3b": {
       "id": "f5267cef-1c65-4a82-b7f3-1bc718086c3b",
@@ -10943,14 +10943,14 @@
         "Экшены",
         "Инди"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
+        "tierId": "c",
         "rank": 23552
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:49:08.222Z"
     },
     "f649e7c0-3a2a-4b49-88ad-81887a790568": {
       "id": "f649e7c0-3a2a-4b49-88ad-81887a790568",
@@ -10968,14 +10968,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 425984
+        "tierId": "c",
+        "rank": 40960
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:58:21.103Z"
     },
     "f7af00a2-c5bf-439b-bad5-a464e1313b01": {
       "id": "f7af00a2-c5bf-439b-bad5-a464e1313b01",
@@ -11061,14 +11061,14 @@
         "Инди",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 244736
+        "tierId": "c",
+        "rank": 11264
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:37:52.055Z"
     },
     "f9c375a4-c0b9-4750-b56e-7de132d6fe83": {
       "id": "f9c375a4-c0b9-4750-b56e-7de132d6fe83",
@@ -11084,14 +11084,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "wishlist",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 361472
+        "tierId": "f",
+        "rank": 7168
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:02:14.411Z"
     },
     "fa2963a1-b980-4034-903f-4a6965a206b1": {
       "id": "fa2963a1-b980-4034-903f-4a6965a206b1",
@@ -11110,12 +11110,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 135168
+        "tierId": "c",
+        "rank": 3072
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T04:59:39.183Z"
     },
     "fa7c9113-8891-4b74-bb8e-6108a7d9310e": {
       "id": "fa7c9113-8891-4b74-bb8e-6108a7d9310e",
@@ -11134,12 +11134,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 166912
+        "tierId": "b",
+        "rank": 64512
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:23:11.237Z"
     },
     "fae2d205-7b72-4600-92a0-2f7b850990ae": {
       "id": "fae2d205-7b72-4600-92a0-2f7b850990ae",
@@ -11156,14 +11156,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 252928
+        "tierId": "c",
+        "rank": 69632
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T09:21:56.620Z"
     },
     "fae50701-e350-43c9-9e67-659db2926d06": {
       "id": "fae50701-e350-43c9-9e67-659db2926d06",
@@ -11181,14 +11181,14 @@
         "Симуляторы",
         "Стратегии"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 472064
+        "tierId": "c",
+        "rank": 46080
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:59:34.311Z"
     },
     "fc979e89-4d0a-4a2f-9fb9-11b4c05a23ef": {
       "id": "fc979e89-4d0a-4a2f-9fb9-11b4c05a23ef",
@@ -11251,14 +11251,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 363520
+        "tierId": "c",
+        "rank": 33792
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:55:41.086Z"
     },
     "fed49187-fc37-4447-8ff5-2eee90371a88": {
       "id": "fed49187-fc37-4447-8ff5-2eee90371a88",
@@ -11347,12 +11347,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 103424
+        "tierId": "s",
+        "rank": 25600
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-21T19:08:56.871Z"
+      "updatedAt": "2026-07-22T08:50:46.591Z"
     }
   },
   "notes": {
