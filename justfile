@@ -67,6 +67,14 @@ steam-import-via-patch *ARGS:
 steam-import *ARGS:
     npm run import:steam -- --apply {{ARGS}}
 
+# Full benchmark suite (build + vitest/bundle/FPS/Lighthouse)
+bench: ensure-env
+    npm run build
+    npm run bench
+    npm run bench:bundle
+    npm run bench:fps
+    npm run bench:lighthouse
+
 # Full local gate before push
 check: validate test build
 
