@@ -20,6 +20,37 @@ beforeEach(() => {
   })));
 });
 
+describe("tab bar — four tabs", () => {
+  it("lists История before Настройки in the mobile tab bar DOM", () => {
+    render(
+      <AppShell onOpenDiff={vi.fn()} route="tiers" storage={{ bytes: 0, operationCount: 0 }}>
+        <div>body</div>
+      </AppShell>,
+    );
+    const tabBar = screen.getByRole("navigation", { name: "Мобильная навигация" });
+    const labels = within(tabBar).getAllByRole("link").map((link) => link.textContent?.trim());
+    expect(labels).toEqual(["Тирлист", "Каталог", "История", "Настройки"]);
+    const historyIndex = labels.indexOf("История");
+    const settingsIndex = labels.indexOf("Настройки");
+    expect(historyIndex).toBeGreaterThanOrEqual(0);
+    expect(settingsIndex).toBeGreaterThan(historyIndex);
+  });
+
+  it("maps history press to --press-tab 2 and settings to 3", () => {
+    const { container } = render(
+      <AppShell onOpenDiff={vi.fn()} route="tiers" storage={{ bytes: 0, operationCount: 0 }}>
+        <div>body</div>
+      </AppShell>,
+    );
+    const shell = container.querySelector(".app-shell") as HTMLElement;
+    const tabBar = screen.getByRole("navigation", { name: "Мобильная навигация" });
+    const history = within(tabBar).getByRole("link", { name: "История" });
+    fireEvent.pointerDown(history, { pointerId: 1, button: 0 });
+    expect(shell.style.getPropertyValue("--press-tab").trim()).toBe("2");
+    fireEvent.pointerUp(history, { pointerId: 1, button: 0 });
+  });
+});
+
 describe("tab bar press glass — callout", () => {
   it("prevents context menu on tab links and add button", () => {
     const { container } = render(

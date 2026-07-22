@@ -13,6 +13,7 @@ describe("mobile nav css", () => {
     expect(bar).toContain("border-radius: 28px");
     expect(bar).toContain("backdrop-filter: blur(22px) saturate(1.35)");
     expect(bar).toContain("bottom: calc(12px + env(safe-area-inset-bottom))");
+    expect(bar).toContain("grid-template-columns: repeat(4, minmax(0, 1fr))");
     expect(styles).toContain("--app-tab-bar-height: calc(64px + env(safe-area-inset-bottom) + 12px)");
   });
 
@@ -73,6 +74,7 @@ describe("mobile nav css", () => {
     expect(styles).toContain(".app-tab-bar__blob");
     const blob = declarationsIn(styles, '.app-shell[data-mobile-chrome="true"] .app-tab-bar__blob');
     expect(blob).toContain("position: absolute");
+    expect(blob).toContain("width: calc((100% - 12px) / 4)");
     expect(blob).toContain("transform: translateX(calc(var(--pager-progress, 0) * (100% + 2px)))");
     expect(blob).toContain("--pager-progress 280ms cubic-bezier(.22, 1, .36, 1)");
     expect(styles).toContain('.app-shell[data-mobile-chrome="true"][data-pager-dragging="true"] .app-tab-bar__blob');
