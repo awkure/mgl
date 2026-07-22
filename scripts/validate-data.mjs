@@ -511,18 +511,17 @@ async function main() {
   }
   validateLibrary(database, { mediaRoot: path.resolve(path.dirname(inputPath), "..", "media") });
   const historyPath = path.resolve(path.dirname(inputPath), "history.json");
-  if (existsSync(historyPath)) {
-    let history;
-    try {
-      history = JSON.parse(readFileSync(historyPath, "utf8"));
-    } catch (cause) {
-      throw new Error(`${historyPath} is not valid JSON: ${cause.message}`);
-    }
-    validateHistoryFile(history);
-    process.stdout.write(`Valid history data: ${historyPath}\n`);
-  } else {
-    process.stderr.write(`Warning: ${relativeHistoryPath} is missing; history validation skipped\n`);
+  if (!existsSync(historyPath)) {
+    throw new Error(`Missing required file: ${relativeHistoryPath}`);
   }
+  let history;
+  try {
+    history = JSON.parse(readFileSync(historyPath, "utf8"));
+  } catch (cause) {
+    throw new Error(`${historyPath} is not valid JSON: ${cause.message}`);
+  }
+  validateHistoryFile(history);
+  process.stdout.write(`Valid history data: ${historyPath}\n`);
   process.stdout.write(`Valid library data: ${inputPath}\n`);
 }
 
