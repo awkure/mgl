@@ -13,7 +13,6 @@ import {
   PATCH_STORAGE_KEY,
   SAFARI_SAFE_BUDGET_BYTES,
   assertValidLibrary,
-  base64ToBytes,
   classifyStorageUsage,
   computeLibraryRevision,
   deleteLocalAssetsAtomic,
@@ -32,20 +31,16 @@ import {
   moveGameToTier,
   normalizePatchEnvelope,
   parsePatchPath,
-  projectedStorageUsage,
   publishedAssetUrl,
   readLocalAssets,
   reconcilePatch,
-  referencedAssetIds,
   requestPersistentOriginStorage,
   resolveConflict,
   savePatch,
-  sha256Bytes,
   storageIsPersisted,
   updateLocalAssetState,
   validatePatch,
   webkitStorageBytes,
-  webkitStringBytes,
   writeLocalAssetsAtomic,
   DEFAULT_NOTE_GROUP_RANK,
   LIBRARY_SCHEMA_VERSION,
@@ -80,106 +75,28 @@ import {
   GITHUB_REPOSITORY_OWNER,
   loadGitHubPat,
 } from "./githubPat";
+import {
+  emptyPatch,
+  garbageCollectReconciledAssets,
+  maxRank,
+  patchAssetMetadata,
+  patchLocalAssetIds,
+  patchUsage,
+  requiredLocalAssetIds,
+  samePublishedVersion,
+  uniqueStrings,
+} from "./libraryPatchHelpers";
+import {
+  assetFromPrepared,
+  localAssetsFromLegacyBlobs,
+  preparedLocalAssets,
+  retainLocalAsset,
+  verifyAndDeletePublishedLocalAssets,
+  verifyPublishedLocalAssets,
+} from "./libraryAssets";
 
-function emptyPatch(baseRevision: string): PatchEnvelope {
-  return { patchVersion: 2, schemaVersion: LIBRARY_SCHEMA_VERSION, baseRevision, operations: {}, blobs: {} };
-}
-
-function uniqueStrings(values: string[]): string[] {
-  const seen = new Set<string>();
-  return values.flatMap((value) => {
-    const trimmed = value.trim();
-    const key = trimmed.toLocaleLowerCase("ru");
-    if (!trimmed || seen.has(key)) return [];
-    seen.add(key);
-    return [trimmed];
-  });
-}
-
-function maxRank(items: Array<{ rank: number }>): number {
-  return items.reduce((maximum, item) => Math.max(maximum, item.rank), 0);
-}
-
-function assetFromPrepared(image: { assetId: string; width: number; height: number; alt: string; originalName: string; byteLength: number }): Asset {
-  return { id: image.assetId, kind: "image", mime: "image/webp", width: image.width, height: image.height, byteLength: image.byteLength, alt: image.alt, originalName: image.originalName };
-}
-
-function retainLocalAsset(database: LibraryDatabase, asset: Asset, expectedKind: "image" | "file"): string {
-  const existing = database.assets[asset.id];
-  if (existing) {
-    const compatible = expectedKind === "file" ? existing.kind === "file" : existing.kind !== "file";
-    if (!compatible) throw new Error("Файл с тем же содержимым уже сохранён как другой тип asset");
-    return existing.id;
-  }
-  database.assets[asset.id] = asset;
-  return asset.id;
-}
-
-function preparedLocalAssets(input: GameSaveInput, base: LibraryDatabase): LocalAsset[] {
-  const result = new Map<string, LocalAsset>();
-  const add = (id: string, blob: Blob, mimeType: string, expectedBytes: number) => {
-    if (Object.prototype.hasOwnProperty.call(base.assets, id)) return;
-    if (blob.size !== expectedBytes) throw new Error("Размер подготовленного вложения не совпадает с Blob");
-    result.set(id, makeLocalAsset(id, blob, mimeType));
-  };
-  if (input.pendingCover) add(input.pendingCover.assetId, input.pendingCover.blob, input.pendingCover.mime, input.pendingCover.byteLength);
-  for (const note of input.notes) for (const attachment of note.attachments) {
-    if (attachment.type === "pending-image") add(attachment.image.assetId, attachment.image.blob, attachment.image.mime, attachment.image.byteLength);
-    if (attachment.type === "pending-file") add(attachment.file.assetId, attachment.file.blob, attachment.file.mime, attachment.file.byteLength);
-  }
-  return [...result.values()];
-}
-
-function localAssetsFromLegacyBlobs(blobs: Record<string, string>, assets: Record<string, Asset>): LocalAsset[] {
-  return Object.entries(blobs).map(([id, encoded]) => {
-    const asset = assets[id];
-    if (!asset) throw new Error(`Для legacy Blob ${id} отсутствует metadata`);
-    const bytes = base64ToBytes(encoded);
-    if (bytes.byteLength !== asset.byteLength) throw new Error(`Размер legacy Blob ${id} не совпадает с metadata`);
-    const mime = asset.kind === "image" ? "image/webp" : asset.mime;
-    return makeLocalAsset(id, new Blob([bytes.slice().buffer as ArrayBuffer], { type: mime }), mime);
-  });
-}
-
-function patchAssetMetadata(patch: PatchEnvelope): Record<string, Asset> {
-  return Object.fromEntries(Object.entries(patch.operations).flatMap(([path, operation]) => {
-    const match = /^\/assets\/([0-9a-f]{64})$/.exec(path);
-    return match && operation.operation === "set" && operation.value && typeof operation.value === "object"
-      ? [[match[1], operation.value as Asset]]
-      : [];
-  }));
-}
-
-function patchLocalAssetIds(patch: PatchEnvelope): string[] {
-  return Object.keys(patchAssetMetadata(patch))
-    .filter((id) => patch.operations[`/assets/${id}`]?.baseExists === false)
-    .sort();
-}
-
-export function requiredLocalAssetIds(patch: PatchEnvelope, database: LibraryDatabase): string[] {
-  const referenced = referencedAssetIds(database);
-  return patchLocalAssetIds(patch).filter((id) => referenced.has(id));
-}
-
-function patchUsage(patch: PatchEnvelope): StorageUsage {
-  try {
-    return projectedStorageUsage(localStorage, PATCH_STORAGE_KEY, JSON.stringify(patch));
-  } catch {
-    return classifyStorageUsage(webkitStringBytes(PATCH_STORAGE_KEY, JSON.stringify(patch)));
-  }
-}
-
-function garbageCollectReconciledAssets(base: LibraryDatabase, reconciled: ReconciledPatch): ReconciledPatch {
-  if (reconciled.conflicts.length) return reconciled;
-  const effective = structuredClone(reconciled.effective);
-  if (!garbageCollectUnreferencedAssets(effective).length) return reconciled;
-  return reconcilePatch(base, diffLibrary(base, effective, { previousPatch: reconciled.patch }));
-}
-
-function samePublishedVersion(left: LibraryDatabase, right: LibraryDatabase): boolean {
-  return left.revision === right.revision
-    || left.publicationId !== null && left.publicationId === right.publicationId;
-}
+export { requiredLocalAssetIds } from "./libraryPatchHelpers";
+export { verifyPublishedLocalAssets, verifyAndDeletePublishedLocalAssets } from "./libraryAssets";
 
 async function deployedVersionIsGitHubHead(deployed: LibraryDatabase): Promise<boolean> {
   const credential = loadGitHubPat();
@@ -196,24 +113,6 @@ async function deployedVersionIsGitHubHead(deployed: LibraryDatabase): Promise<b
   } catch {
     return false;
   }
-}
-
-export async function verifyPublishedLocalAssets(ids: string[], database: LibraryDatabase): Promise<void> {
-  for (const id of ids) {
-    const asset = database.assets[id];
-    if (!asset) throw new Error(`Опубликованная база не содержит asset ${id}`);
-    const url = publishedAssetUrl(asset, import.meta.env.BASE_URL);
-    const response = await fetch(url, { cache: "no-store" });
-    if (!response.ok) throw new Error(`Опубликованный файл ${id} пока недоступен: HTTP ${response.status}`);
-    const blob = await response.blob();
-    if (blob.size !== asset.byteLength) throw new Error(`Размер опубликованного файла ${id} не совпадает`);
-    if (sha256Bytes(new Uint8Array(await blob.arrayBuffer())) !== id) throw new Error(`SHA-256 опубликованного файла ${id} не совпадает`);
-  }
-}
-
-export async function verifyAndDeletePublishedLocalAssets(ids: string[], database: LibraryDatabase): Promise<void> {
-  await verifyPublishedLocalAssets(ids, database);
-  await deleteLocalAssetsAtomic(ids);
 }
 
 interface LibraryState {
