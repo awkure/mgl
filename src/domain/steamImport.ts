@@ -86,58 +86,111 @@ export function isExcludedSteamType(type: string | undefined | null): boolean {
   return EXCLUDED_TYPES.has(type.trim().toLowerCase());
 }
 
+export interface SteamImportFilterResult {
+  candidates: SteamImportCandidate[];
+  fetched: number;
+  skippedDuplicate: number;
+  skippedFilter: number;
+}
+
+export interface SteamImportClassification {
+  creates: SteamImportCandidate[];
+  updates: Array<{ candidate: SteamImportCandidate; existing: Game }>;
+  fetched: number;
+  skippedFilter: number;
+  /** kept for logs; preferably 0 when reimport enabled */
+  skippedDuplicate: number;
+}
+
+type ClassifiedEntry =
+  | { kind: "create"; candidate: SteamImportCandidate }
+  | { kind: "update"; candidate: SteamImportCandidate; existing: Game };
+
+function buildSteamImportCandidate(row: SteamOwnedGame, name: string): SteamImportCandidate {
+  return {
+    appid: row.appid,
+    name,
+    playtime_forever: row.playtime_forever ?? 0,
+    playtime_2weeks: row.playtime_2weeks ?? 0,
+    rtime_last_played: row.rtime_last_played ?? 0,
+    details: null,
+  };
+}
+
+function passesSteamImportRowFilters(
+  row: SteamOwnedGame,
+  options: SteamImportFilterOptions,
+  appidAllow: Set<number> | null,
+): { pass: true; name: string } | { pass: false } {
+  const name = (row.name ?? "").trim();
+  if (!row.appid || !name) return { pass: false };
+  if (appidAllow && !appidAllow.has(row.appid)) return { pass: false };
+  const playtimeForever = row.playtime_forever ?? 0;
+  if (options.playedOnly && playtimeForever <= 0) return { pass: false };
+  if (isExcludedSteamName(name)) return { pass: false };
+  return { pass: true, name };
+}
+
+export function classifySteamOwnedGames(
+  owned: readonly SteamOwnedGame[],
+  options: SteamImportFilterOptions,
+): SteamImportClassification {
+  const appidAllow = options.appids?.length ? new Set(options.appids) : null;
+  const entries: ClassifiedEntry[] = [];
+  let skippedFilter = 0;
+
+  for (const row of owned) {
+    const filterResult = passesSteamImportRowFilters(row, options, appidAllow);
+    if (!filterResult.pass) {
+      skippedFilter += 1;
+      continue;
+    }
+    const candidate = buildSteamImportCandidate(row, filterResult.name);
+    const existing = findDuplicate(options.existingGames, {
+      steamAppId: row.appid,
+      title: filterResult.name,
+    });
+    if (existing) {
+      entries.push({ kind: "update", candidate, existing });
+    } else {
+      entries.push({ kind: "create", candidate });
+    }
+  }
+
+  const limited =
+    options.limit != null && options.limit >= 0
+      ? entries.slice(0, options.limit)
+      : entries;
+
+  const creates: SteamImportCandidate[] = [];
+  const updates: Array<{ candidate: SteamImportCandidate; existing: Game }> = [];
+  for (const entry of limited) {
+    if (entry.kind === "create") {
+      creates.push(entry.candidate);
+    } else {
+      updates.push({ candidate: entry.candidate, existing: entry.existing });
+    }
+  }
+
+  return {
+    creates,
+    updates,
+    fetched: owned.length,
+    skippedFilter,
+    skippedDuplicate: 0,
+  };
+}
+
 export function filterSteamImportCandidates(
   owned: readonly SteamOwnedGame[],
   options: SteamImportFilterOptions,
 ): SteamImportFilterResult {
-  const appidAllow = options.appids?.length ? new Set(options.appids) : null;
-  const candidates: SteamImportCandidate[] = [];
-  let skippedDuplicate = 0;
-  let skippedFilter = 0;
-
-  for (const row of owned) {
-    const name = (row.name ?? "").trim();
-    if (!row.appid || !name) {
-      skippedFilter += 1;
-      continue;
-    }
-    if (appidAllow && !appidAllow.has(row.appid)) {
-      skippedFilter += 1;
-      continue;
-    }
-    const playtimeForever = row.playtime_forever ?? 0;
-    const playtime2Weeks = row.playtime_2weeks ?? 0;
-    if (options.playedOnly && playtimeForever <= 0) {
-      skippedFilter += 1;
-      continue;
-    }
-    if (isExcludedSteamName(name)) {
-      skippedFilter += 1;
-      continue;
-    }
-    if (findDuplicate(options.existingGames, { steamAppId: row.appid, title: name })) {
-      skippedDuplicate += 1;
-      continue;
-    }
-    candidates.push({
-      appid: row.appid,
-      name,
-      playtime_forever: playtimeForever,
-      playtime_2weeks: playtime2Weeks,
-      rtime_last_played: row.rtime_last_played ?? 0,
-      details: null,
-    });
-  }
-
-  const limited = options.limit != null && options.limit >= 0
-    ? candidates.slice(0, options.limit)
-    : candidates;
-
+  const classified = classifySteamOwnedGames(owned, options);
   return {
-    candidates: limited,
-    fetched: owned.length,
-    skippedDuplicate,
-    skippedFilter,
+    candidates: classified.creates,
+    fetched: classified.fetched,
+    skippedDuplicate: classified.skippedDuplicate,
+    skippedFilter: classified.skippedFilter,
   };
 }
 

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  classifySteamOwnedGames,
   filterSteamImportCandidates,
   hoursFromSteamMinutes,
   mapSteamCandidateToGame,
@@ -41,13 +42,13 @@ describe("filterSteamImportCandidates", () => {
     { appid: 40, name: "Half-Life 2", playtime_forever: 50 },
   ];
 
-  it("dedups by steamAppId and excludes demo names", () => {
+  it("returns only creates; known appids omitted from candidates", () => {
     const existing = {
       a: game({ id: "a", title: "Other", steamAppId: 40 }),
     };
     const result = filterSteamImportCandidates(owned, { existingGames: existing });
     expect(result.candidates.map((c) => c.appid)).toEqual([10, 30]);
-    expect(result.skippedDuplicate).toBe(1);
+    expect(result.skippedDuplicate).toBe(0);
     expect(result.skippedFilter).toBe(1);
   });
 
@@ -60,6 +61,46 @@ describe("filterSteamImportCandidates", () => {
     });
     expect(result.candidates).toHaveLength(1);
     expect(result.candidates[0].appid).toBe(10);
+  });
+});
+
+describe("classifySteamOwnedGames", () => {
+  const owned = [
+    { appid: 10, name: "Counter-Strike", playtime_forever: 100 },
+    { appid: 20, name: "Some Demo", playtime_forever: 5 },
+    { appid: 30, name: "Idle Clicker", playtime_forever: 0 },
+    { appid: 40, name: "Half-Life 2", playtime_forever: 50 },
+  ];
+
+  it("routes known steamAppId to updates instead of dropping", () => {
+    const existing = {
+      a: game({ id: "a", title: "Other", steamAppId: 40 }),
+    };
+    const result = classifySteamOwnedGames(owned, { existingGames: existing });
+    expect(result.creates.map((c) => c.appid)).toEqual([10, 30]);
+    expect(result.updates).toHaveLength(1);
+    expect(result.updates[0].candidate.appid).toBe(40);
+    expect(result.updates[0].existing.id).toBe("a");
+    expect(result.skippedDuplicate).toBe(0);
+    expect(result.skippedFilter).toBe(1);
+  });
+
+  it("classifies new appid as create", () => {
+    const result = classifySteamOwnedGames(
+      [{ appid: 99, name: "New Game", playtime_forever: 1 }],
+      { existingGames: {} },
+    );
+    expect(result.creates).toHaveLength(1);
+    expect(result.updates).toHaveLength(0);
+  });
+
+  it("limit caps creates plus updates in encounter order", () => {
+    const result = classifySteamOwnedGames(owned, {
+      existingGames: { a: game({ id: "a", title: "HL2", steamAppId: 40 }) },
+      limit: 1,
+    });
+    expect(result.creates.length + result.updates.length).toBe(1);
+    expect(result.creates[0]?.appid ?? result.updates[0]?.candidate.appid).toBe(10);
   });
 });
 
