@@ -1633,6 +1633,32 @@ describe("TierListPage", () => {
     expect(onOpenGame).toHaveBeenCalledWith(DUCK_ID);
   });
 
+  it("blocks cover open while mobile drag mode is on", async () => {
+    const user = userEvent.setup();
+    const onOpenGame = vi.fn();
+    const matchMedia = vi.fn().mockImplementation((query: string) => ({
+      matches: String(query).includes("max-width") || String(query).includes("pointer: coarse"),
+      media: query,
+      onchange: null,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
+    vi.stubGlobal("matchMedia", matchMedia);
+
+    render(<TierListPage assets={{}} games={[makeGame()]} onMoveGame={vi.fn()} onOpenGame={onOpenGame} />);
+    const toggle = screen.getByRole("button", { name: "Режим перетаскивания" });
+    expect(toggle).toHaveAttribute("aria-pressed", "false");
+
+    await user.click(toggle);
+    expect(toggle).toHaveAttribute("aria-pressed", "true");
+
+    await user.click(screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ }));
+    expect(onOpenGame).not.toHaveBeenCalled();
+  });
+
   it("opens on Enter while reserving Space for keyboard dragging", async () => {
     const user = userEvent.setup();
     const onOpenGame = vi.fn();

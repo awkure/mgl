@@ -21,6 +21,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { TIER_IDS, type Asset, type Game, type TierId } from "../domain/types";
 import { GameCard } from "../components/GameCard";
 import { Icon } from "../components/Icon";
+import { useMobileChrome } from "../components/mobileChrome";
 import { PullToRefresh } from "../components/PullToRefresh";
 import { sortGamesByPlacement, TIER_DESCRIPTIONS, TIER_LABELS } from "../components/libraryUi";
 
@@ -245,6 +246,8 @@ const MemoTierRow = memo(TierRow);
 export function TierListPage({ games, assets, onMoveGame, onOpenGame, onRefresh, resolveAssetUrl, draggingRef }: TierListPageProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [dragItems, setDragItems] = useState<TierGameIds | null>(null);
+  const [dragMode, setDragMode] = useState(false);
+  const mobileChrome = useMobileChrome();
   const dragItemsRef = useRef<TierGameIds | null>(null);
   const suppressOpen = useRef(false);
   const sensors = useSensors(
@@ -312,13 +315,24 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, onRefresh,
     const target = getTierDropTarget(games, gameId, targetTier, overGameId);
     if (target) onMoveGame(gameId, target);
   };
-  const openGame = onOpenGame ? (gameId: string) => {
+  const openGame = onOpenGame && !dragMode ? (gameId: string) => {
     if (suppressOpen.current) return;
     onOpenGame(gameId);
   } : undefined;
   return (
-    <div className={`page tier-page${games.length ? "" : " tier-page--empty"}`}>
+    <div className={`page tier-page${games.length ? "" : " tier-page--empty"}${dragMode ? " tier-page--drag-mode" : ""}`}>
       <h1 className="visually-hidden">Тирлист игр</h1>
+      {mobileChrome && games.length ? (
+        <button
+          aria-label="Режим перетаскивания"
+          aria-pressed={dragMode}
+          className={`tier-drag-mode-toggle${dragMode ? " is-active" : ""}`}
+          onClick={() => setDragMode((current) => !current)}
+          type="button"
+        >
+          <Icon name="drag" size={18} />
+        </button>
+      ) : null}
       {!games.length ? (
         <div className="empty-state empty-state--hero"><span className="empty-state__icon"><Icon name="gamepad" /></span><h2>Здесь появится ваш тирлист</h2><p>Добавьте первую игру, а затем перемещайте карточки между тирами.</p><a className="button button--primary" href="#/games/new"><Icon name="plus" size={18} />Добавить первую игру</a></div>
       ) : (

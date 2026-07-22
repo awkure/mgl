@@ -73,23 +73,61 @@ describe("mobile nav css", () => {
       styles,
       '.app-shell[data-route="tiers"] .app-main, .app-shell[data-route="catalog"] .app-main, .app-shell[data-route="settings"] .app-main',
     );
-    expect(main).toContain("height: calc(100dvh - var(--app-header-height) - var(--app-search-bar-height))");
+    expect(main).toContain("height: 100dvh");
+    expect(main).toContain("padding-top: 0");
     expect(main).not.toContain("var(--app-tab-bar-height)");
     expect(styles).toContain("padding-bottom: var(--app-tab-bar-height)");
     expect(styles).toContain(".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page)");
+    const scrollSurfaces = declarationsIn(
+      styles,
+      ".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page)",
+    );
+    expect(scrollSurfaces).toContain("padding-top: calc(var(--app-header-height) + var(--app-search-bar-height))");
   });
 
-  it("defines a sticky under-header search bar for mobile tiers/catalog", () => {
+  it("defines a fixed under-header search bar for mobile tiers/catalog", () => {
     expect(styles).toContain("--app-search-bar-height: 0px");
     const withBar = declarationsIn(styles, '.app-shell[data-search-bar="true"]');
     expect(withBar).toMatch(/--app-search-bar-height:\s*(?!0px)/);
     const searchBar = declarationsIn(styles, ".app-search-bar");
-    expect(searchBar).toContain("position: sticky");
+    expect(searchBar).toContain("position: fixed");
     expect(searchBar).toContain("top: var(--app-header-height)");
+    expect(searchBar).toContain("isolation: isolate");
+    expect(styles).toContain(".app-search-bar::before");
     const barSearch = declarationsIn(styles, ".global-game-search--bar");
     expect(barSearch).toContain("max-width: none");
     expect(styles).toMatch(/\.global-game-search--bar\.is-open[^{]*\{[^}]*position:\s*relative/);
     expect(styles).toMatch(/\.global-game-search--bar\s+\.global-game-search__popover[^{]*\{[^}]*position:\s*absolute/);
     expect(styles).toMatch(/\.global-game-search--bar\s+\.global-game-search__popover[^{]*\{[^}]*top:\s*100%/);
+  });
+
+  it("uses liquid glass tokens on the fixed header without trapping fixed descendants", () => {
+    const header = declarationsIn(styles, ".app-header");
+    expect(header).toContain("position: fixed");
+    expect(header).toContain("isolation: isolate");
+    expect(header).not.toContain("backdrop-filter:");
+    expect(styles).toContain(".app-header::before");
+    const glass = declarationsIn(styles, ".app-header::before");
+    expect(glass).toContain("background: var(--glass-fill)");
+    expect(glass).toContain("backdrop-filter: blur(22px) saturate(1.35)");
+    expect(glass).toContain("pointer-events: none");
+  });
+
+  it("keeps filter menus outside the bar popover scroll clip", () => {
+    const barPopover = declarationsIn(styles, ".global-game-search--bar .global-game-search__popover");
+    expect(barPopover).toContain("overflow: visible");
+    expect(barPopover).not.toContain("overflow: auto");
+    const results = declarationsIn(styles, ".global-game-search--bar .global-game-search__results");
+    expect(results).toContain("overflow-y: auto");
+    expect(styles).toMatch(/\.filter-menu__panel\s*\{[^}]*z-index:\s*90;/);
+  });
+
+  it("defines a mobile-only glass drag-mode toggle on the tier page", () => {
+    expect(styles).toContain(".tier-drag-mode-toggle");
+    const toggle = declarationsIn(styles, ".tier-drag-mode-toggle");
+    expect(toggle).toContain("position: absolute");
+    expect(toggle).toContain("border-radius: 50%");
+    expect(toggle).toContain("background: var(--glass-fill)");
+    expect(styles).toMatch(/@media \(pointer: coarse\), \(max-width: 720px\)[\s\S]*?\.tier-drag-mode-toggle \{[^}]*display:\s*grid;/);
   });
 });

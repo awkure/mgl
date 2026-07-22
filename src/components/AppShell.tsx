@@ -1,9 +1,10 @@
-import { forwardRef, useEffect, useState, type ReactNode, type MouseEvent } from "react";
+import { forwardRef, type ReactNode, type MouseEvent } from "react";
 import type { Game } from "../domain/types";
 import type { TabId } from "../state/tabStacks";
 import { Icon, type IconName } from "./Icon";
 import { GlobalGameSearch } from "./GlobalGameSearch";
 import { formatBytes } from "./libraryUi";
+import { useMobileChrome } from "./mobileChrome";
 import { RandomGameButton } from "./RandomGameButton";
 
 export type AppRoute = "tiers" | "catalog" | "game" | "new" | "settings";
@@ -59,26 +60,6 @@ export interface AppShellProps {
   /** Tab bar / desktop nav: same tab → pop to root; other → activate. */
   onSelectTab?: (tab: TabId) => void;
   resolveAssetUrl?: (assetId: string) => string | null;
-}
-
-const MOBILE_CHROME_QUERY = "(max-width: 720px), (pointer: coarse)";
-
-function useMobileChrome(): boolean {
-  const [mobile, setMobile] = useState(() => {
-    if (typeof window === "undefined" || typeof window.matchMedia !== "function") return false;
-    return window.matchMedia(MOBILE_CHROME_QUERY).matches;
-  });
-
-  useEffect(() => {
-    if (typeof window.matchMedia !== "function") return;
-    const media = window.matchMedia(MOBILE_CHROME_QUERY);
-    const sync = () => setMobile(media.matches);
-    sync();
-    media.addEventListener("change", sync);
-    return () => media.removeEventListener("change", sync);
-  }, []);
-
-  return mobile;
 }
 
 function NavLink({
