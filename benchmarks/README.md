@@ -25,3 +25,12 @@ Starts `vite preview` on an ephemeral port, opens HashRouter routes in headless 
 **Setup:** install the browser once with `npx playwright install chromium`. FPS numbers reflect whatever library was baked into `dist/` at build time — seed a representative library before building (`just db-seed` copies `fixtures/library/` into `public/` without touching unrelated media workflows). Rebuild after seeding.
 
 Artifacts under `benchmarks/results/` are gitignored; commit runners only, not reports.
+
+```bash
+npm run build
+npm run bench:lighthouse
+```
+
+Runs Lighthouse (headless Chromium via Playwright CDP) against `vite preview` on HashRouter routes: `#/`, `#/games`, and `#/games/<id>` when the built library has at least one game. Categories: performance, accessibility, best-practices, seo. Writes HTML and JSON under `benchmarks/results/lighthouse/` plus `summary.json`. Exits with code 0 even when scores are low; exits with code 1 only when the harness fails (missing `dist/`, preview, Chrome, or Lighthouse).
+
+**Setup:** install the browser once with `npx playwright install chromium` (same as `bench:fps`). Scores reflect whatever library was baked into `dist/` at build time — seed before building (`just db-seed`) for representative game-page audits. Rebuild after seeding.
