@@ -4,7 +4,7 @@ dist/
 coverage/
 *.log
 .vscode/
-.cursor/*
+.cursor/
 .superpowers/
 .env.local
 .env.*.local
