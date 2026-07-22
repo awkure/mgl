@@ -61,16 +61,16 @@ describe("TierListPage live filters", () => {
       </ScreenFiltersProvider>,
     );
 
-    expect(screen.getByRole("link", { name: /DuckTales/ })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /Zelda/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /DuckTales/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Zelda/ })).toBeInTheDocument();
     expect(screen.getByRole("region", { name: "B" })).toBeInTheDocument();
 
     await act(async () => {
       fireEvent.click(screen.getByRole("button", { name: "set" }));
     });
 
-    expect(screen.getByRole("link", { name: /DuckTales/ })).toBeInTheDocument();
-    expect(screen.queryByRole("link", { name: /Zelda/ })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /DuckTales/ })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Zelda/ })).not.toBeInTheDocument();
     expect(screen.queryByRole("region", { name: "B" })).not.toBeInTheDocument();
     expect(screen.getByRole("region", { name: "A" })).toBeInTheDocument();
   });
@@ -97,7 +97,7 @@ describe("TierListPage live filters", () => {
       fireEvent.click(screen.getByRole("button", { name: "Сбросить фильтры" }));
     });
 
-    expect(screen.getByRole("link", { name: /DuckTales/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /DuckTales/ })).toBeInTheDocument();
     expect(screen.getByRole("region", { name: "A" })).toBeInTheDocument();
   });
 });

@@ -1597,19 +1597,21 @@ describe("TierListPage", () => {
   it("uses the whole cover-only tile as the drag activator", () => {
     renderTierListPage({ assets: {}, games: [makeGame()], onMoveGame: vi.fn() });
 
-    const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
+    // No onOpenGame → cover is button (no href) so Safari cannot offer Link Preview.
+    const cover = screen.getByRole("button", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
     const card = cover.closest("article");
     expect(card).not.toBeNull();
     expect(card).not.toHaveAttribute("role");
     expect(card).toHaveAttribute("title", "DuckTales");
     expect(cover).toHaveAttribute("title", "DuckTales");
+    expect(cover).not.toHaveAttribute("href");
     expect(cover).toHaveAttribute("tabindex", "0");
     expect(card?.querySelector(".game-card__cover")).toBeInTheDocument();
     expect(card?.querySelector(".game-card__body")).not.toBeInTheDocument();
     expect(card?.querySelector(".game-card__drag")).not.toBeInTheDocument();
     expect(card?.querySelector(".game-card__keyboard-drag")).not.toBeInTheDocument();
     expect(card?.querySelector(".game-card__move")).not.toBeInTheDocument();
-    expect(within(card as HTMLElement).queryByRole("button")).not.toBeInTheDocument();
+    expect(within(card as HTMLElement).getByRole("button")).toBe(cover);
     expect(card?.querySelector(".status-dot")).not.toBeInTheDocument();
     const hoverTitle = card?.querySelector(".game-card__hover-title");
     expect(hoverTitle).toHaveAttribute("aria-hidden", "true");
@@ -1620,7 +1622,7 @@ describe("TierListPage", () => {
   it("marks platinum cover-only cards with a platinum ribbon and an accessible status", () => {
     renderTierListPage({ assets: {}, games: [makeGame({ status: "platinum" })], onMoveGame: vi.fn() });
 
-    const cover = screen.getByRole("link", { name: /DuckTales, статус: Платина.*пробел — перетащить/ });
+    const cover = screen.getByRole("button", { name: /DuckTales, статус: Платина.*пробел — перетащить/ });
     const card = cover.closest("article");
     expect(cover).toHaveClass("cover--platinum");
     const hoverTitle = card?.querySelector(".game-card__hover-title");
@@ -1632,7 +1634,7 @@ describe("TierListPage", () => {
   it("leaves completed cover-only cards without the platinum ribbon", () => {
     renderTierListPage({ assets: {}, games: [makeGame({ status: "completed" })], onMoveGame: vi.fn() });
 
-    const cover = screen.getByRole("link", { name: /DuckTales, статус: Пройдено.*пробел — перетащить/ });
+    const cover = screen.getByRole("button", { name: /DuckTales, статус: Пройдено.*пробел — перетащить/ });
     expect(cover).not.toHaveClass("cover--platinum");
   });
 
@@ -1791,8 +1793,8 @@ describe("TierListPage", () => {
     });
 
     renderTierListPage({ assets: {}, games, onMoveGame });
-    const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
-    const marioCover = screen.getByRole("link", { name: /Mario, статус: Играю.*пробел — перетащить/ });
+    const cover = screen.getByRole("button", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
+    const marioCover = screen.getByRole("button", { name: /Mario, статус: Играю.*пробел — перетащить/ });
 
     expect(screen.getByRole("region", { name: "A" }).querySelector('[title="DuckTales"]')).not.toBeNull();
     expect(screen.getByRole("region", { name: "B" }).querySelector('[title="DuckTales"]')).toBeNull();
@@ -1832,7 +1834,7 @@ describe("TierListPage", () => {
     });
 
     renderTierListPage({ assets: {}, games, onMoveGame });
-    const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
+    const cover = screen.getByRole("button", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
     const card = cover.closest("article");
     cover.focus();
 
@@ -2002,7 +2004,7 @@ describe("TierListPage", () => {
     });
 
     renderTierListPage({ assets: {}, games, onMoveGame });
-    const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
+    const cover = screen.getByRole("button", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
     const card = cover.closest("article");
     expect(card).not.toBeNull();
     const emptyTier = screen.getByRole("region", { name: "B" }).querySelector<HTMLElement>(".tier-row__games");
