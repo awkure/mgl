@@ -181,8 +181,9 @@ filetype=3), не маркетинг со страницы игры в Store. `-
 title/tags/cover/platforms/steamAppId), `--no-video-thumbs` (alias `--no-trailer-thumbs`).
 Без `--apply` пишет patch (`steam-media-import.patch.json` или `steam-media-import-all.patch.json`
 с `--all`); `--apply` — в `public/data` + `public/media`. При bulk (`--all`) — последовательный
-обход, один combined patch на `--out` или один `--apply`. Кодирование best-effort: сбой одного
-файла пропускает вложение, заметка всё равно upsert; сбой API по игре — skip в `--all`, exit 1
+обход, один combined patch на `--out` или один `--apply`. `--dry-run` с `--all` — только
+counts по UGC (без encode, patch и apply). Кодирование best-effort: сбой одного файла
+пропускает вложение, заметка всё равно upsert; сбой API по игре — skip в `--all`, exit 1
 в одноигровом режиме.
 
 Флаги `import:steam`: `--profile`, `--out`, `--apply`, `--dry-run`, `--force`, `--played-only`,
@@ -238,7 +239,8 @@ storefront slice). Пишется только после успешного `--
   `import:steam` для затронутых игр (`--no-media` чтобы отключить). Нужны
   `STEAM_WEB_API_KEY` + профиль. Скрины → WebP в заметке «Медиа Steam»; видео —
   ссылки на sharedfiles (+ опциональный preview thumb). Повторный запуск заменяет
-  вложения целиком (all-or-nothing, маркер `<!-- steam-media:v1 -->`). Bulk:
+  вложения целиком при повторном запуске (all-or-nothing для списка вложений в заметке,
+  маркер `<!-- steam-media:v1 -->`; отдельные encode могут падать best-effort). Bulk:
   `just steam-import-media-all` / `--all`. Доменные хелперы префилла
   (`prefillGameFromSteamDetails`) — только одноигровый `--prefill` в `steamMedia.ts`.
 

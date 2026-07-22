@@ -7,6 +7,8 @@ import {
   importSteamMediaForGame,
   mergePatchFragments,
   mediaTargetsFromPatchItems,
+  shouldSkipMediaEncodeForBulk,
+  summarizeBulkMediaDryRun,
   validateMediaTargetFlags,
 } from "../scripts/lib/steamMediaImport.mjs";
 
@@ -69,8 +71,45 @@ describe("mediaTargetsFromPatchItems", () => {
       { kind: "create", game: game("c1", 10) },
       { kind: "update", game: game("u1", 20) },
       { kind: "create", game: game("c2", null) },
+      { kind: "skip", game: game("s1", 99) },
     ]);
     expect(rows.map((r) => r.appid)).toEqual([10, 20]);
+  });
+});
+
+describe("shouldSkipMediaEncodeForBulk", () => {
+  it("short-circuits bulk dry-run only", () => {
+    expect(shouldSkipMediaEncodeForBulk({ all: true, dryRun: true })).toBe(true);
+    expect(shouldSkipMediaEncodeForBulk({ all: true, dryRun: false })).toBe(false);
+    expect(shouldSkipMediaEncodeForBulk({ all: false, dryRun: true })).toBe(false);
+  });
+});
+
+describe("summarizeBulkMediaDryRun", () => {
+  it("returns UGC counts without encoding", async () => {
+    const g1 = game("g1", 570);
+    const g2 = game("g2", 440);
+    const summary = await summarizeBulkMediaDryRun({
+      apiKey: "k",
+      steamid: "1",
+      targets: [
+        { game: g1, appid: 570 },
+        { game: g2, appid: 440 },
+      ],
+      getUserScreenshots: async (_k, _s, appid) =>
+        appid === 570 ? [{ id: "1" }, { id: "2" }] : [],
+      getUserVideos: async (_k, _s, appid) => (appid === 440 ? [{ id: "v1" }] : []),
+    });
+    expect(summary).toMatchObject({
+      all: true,
+      dryRun: true,
+      games: 2,
+      failedGames: [],
+    });
+    expect(summary.summaries).toEqual([
+      { gameId: "g1", appid: 570, screenshots: 2, videos: 0 },
+      { gameId: "g2", appid: 440, screenshots: 0, videos: 1 },
+    ]);
   });
 });
 

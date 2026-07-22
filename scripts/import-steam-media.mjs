@@ -24,6 +24,8 @@ import {
   importSteamMediaForGame,
   listLibraryGamesWithSteamAppId,
   mergePatchFragments,
+  shouldSkipMediaEncodeForBulk,
+  summarizeBulkMediaDryRun,
   validateMediaTargetFlags,
 } from "./lib/steamMediaImport.mjs";
 import { applyPatch } from "./publish-patch.mjs";
@@ -234,6 +236,17 @@ try {
     const targets = listLibraryGamesWithSteamAppId(library);
     if (!targets.length) {
       console.log(JSON.stringify({ all: true, games: 0, message: "no games with steamAppId" }));
+      process.exit(0);
+    }
+
+    if (shouldSkipMediaEncodeForBulk(flags)) {
+      const summary = await summarizeBulkMediaDryRun({
+        apiKey,
+        steamid,
+        targets,
+        noVideoThumbs: flags.noVideoThumbs,
+      });
+      console.log(JSON.stringify(summary));
       process.exit(0);
     }
 

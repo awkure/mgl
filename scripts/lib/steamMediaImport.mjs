@@ -3,6 +3,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import {
   getUserScreenshots as defaultGetUserScreenshots,
   getUserVideos as defaultGetUserVideos,
+  withRetry,
 } from "./steamApi.mjs";
 import { fetchAndEncodeSteamImage as defaultFetchAndEncode } from "./steamImage.mjs";
 
@@ -23,15 +24,59 @@ export function listLibraryGamesWithSteamAppId(library) {
   return rows;
 }
 
+const MEDIA_PATCH_KINDS = new Set(["create", "update"]);
+
 export function mediaTargetsFromPatchItems(patchItems) {
   const out = [];
   for (const item of patchItems) {
+    if (item.kind != null && !MEDIA_PATCH_KINDS.has(item.kind)) continue;
     const appid = item.game?.steamAppId;
     if (typeof appid === "number" && Number.isSafeInteger(appid) && appid > 0) {
       out.push({ game: item.game, appid });
     }
   }
   return out;
+}
+
+export function shouldSkipMediaEncodeForBulk(flags) {
+  return Boolean(flags.all && flags.dryRun);
+}
+
+export async function summarizeBulkMediaDryRun(input) {
+  const getShots =
+    input.getUserScreenshots
+    ?? ((apiKey, steamid, appid) => withRetry(() => defaultGetUserScreenshots(apiKey, steamid, appid)));
+  const getVideos =
+    input.getUserVideos
+    ?? ((apiKey, steamid, appid) => withRetry(() => defaultGetUserVideos(apiKey, steamid, appid)));
+  const summaries = [];
+  const failedGames = [];
+  for (const { game, appid } of input.targets) {
+    try {
+      const screenshots = await getShots(input.apiKey, input.steamid, appid);
+      const videos = await getVideos(input.apiKey, input.steamid, appid);
+      summaries.push({
+        gameId: game.id,
+        appid,
+        screenshots: screenshots.length,
+        videos: videos.length,
+      });
+    } catch (reason) {
+      failedGames.push({
+        gameId: game.id,
+        appid,
+        error: reason instanceof Error ? reason.message : String(reason),
+      });
+    }
+  }
+  return {
+    all: true,
+    dryRun: true,
+    games: summaries.length,
+    summaries,
+    failedGames,
+    noVideoThumbs: Boolean(input.noVideoThumbs),
+  };
 }
 
 export function validateMediaTargetFlags(flags) {
@@ -44,8 +89,12 @@ export function validateMediaTargetFlags(flags) {
 }
 
 export async function importSteamMediaForGame(input) {
-  const getShots = input.getUserScreenshots ?? defaultGetUserScreenshots;
-  const getVideos = input.getUserVideos ?? defaultGetUserVideos;
+  const getShots =
+    input.getUserScreenshots
+    ?? ((apiKey, steamid, appid) => withRetry(() => defaultGetUserScreenshots(apiKey, steamid, appid)));
+  const getVideos =
+    input.getUserVideos
+    ?? ((apiKey, steamid, appid) => withRetry(() => defaultGetUserVideos(apiKey, steamid, appid)));
   const encode = input.fetchAndEncodeSteamImage ?? defaultFetchAndEncode;
   const { apiKey, steamid, library, game, appid, now } = input;
   const noVideoThumbs = Boolean(input.noVideoThumbs);
