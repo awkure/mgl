@@ -161,7 +161,17 @@ just steam-import-media-via-patch -- --appid 570 --game-id <uuid>
 
 just steam-import-media -- --appid 570 --game-id <uuid>
 # or: npm run import:steam-media -- --appid 570 --game-id <uuid> --apply
+
+# Только обложки Steam (CDN) для игр с steamAppId в library.json:
+just steam-import-covers-via-patch --limit 5
+just steam-import-covers --limit 5
+# or: npm run import:steam-covers -- --apply --limit 5
 ```
+
+`import:steam-covers` — только `coverAssetId` (+ asset). Не трогает часы/статус/tier/review,
+не пишет snapshot, не нужен `STEAM_WEB_API_KEY`. Учитывает `steamOverrides.coverAssetId`;
+`--force` перезаписывает locked. Флаги: `--apply`, `--out`, `--dry-run`, `--force`,
+`--limit`, `--appids`, `--game-id` (XOR с `--appids`).
 
 Нужны `STEAM_WEB_API_KEY` и `STEAM_PROFILE_ID` (или `--profile`) — те же, что у `import:steam`.
 Медиа — **опубликованный** UGC профиля для appid (`GetUserFiles`: скрины filetype=4, видео
