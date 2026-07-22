@@ -1,5 +1,6 @@
 import { forwardRef, useEffect, useState, type ReactNode, type MouseEvent } from "react";
 import type { Game } from "../domain/types";
+import type { TabId } from "../state/tabStacks";
 import { Icon, type IconName } from "./Icon";
 import { GlobalGameSearch } from "./GlobalGameSearch";
 import { formatBytes } from "./libraryUi";
@@ -12,6 +13,24 @@ export function tabProgressFromRoute(route: AppRoute): number {
   if (route === "settings") return 2;
   if (route === "catalog" || route === "game" || route === "new") return 1;
   return 0;
+}
+
+export function tabProgressFromTabId(tab: TabId): number {
+  if (tab === "settings") return 2;
+  if (tab === "catalog") return 1;
+  return 0;
+}
+
+export function shellRouteFromTab(tab: TabId): AppRoute {
+  if (tab === "settings") return "settings";
+  if (tab === "catalog") return "catalog";
+  return "tiers";
+}
+
+export function tabIdFromAppRoute(route: AppRoute): TabId {
+  if (route === "settings") return "settings";
+  if (route === "tiers") return "tiers";
+  return "catalog";
 }
 
 export interface StorageSummary {
@@ -30,10 +49,15 @@ export interface StorageSummary {
 export interface AppShellProps {
   children: ReactNode;
   games?: Game[];
+  /** Screen kind of the active tab’s top entry (search bar, FAB). */
   route: AppRoute;
+  /** Owning tab for highlight; defaults from `route` when omitted. */
+  activeTab?: TabId;
   storage: StorageSummary;
   onOpenDiff: () => void;
   onNavigate?: (href: string) => void;
+  /** Tab bar / desktop nav: same tab → pop to root; other → activate. */
+  onSelectTab?: (tab: TabId) => void;
   resolveAssetUrl?: (assetId: string) => string | null;
 }
 
@@ -62,17 +86,26 @@ function NavLink({
   href,
   icon,
   label,
+  tab,
   onNavigate,
+  onSelectTab,
   className = "app-nav__link",
 }: {
   active: boolean;
   href: string;
   icon: IconName;
   label: string;
+  tab: TabId;
   onNavigate?: (href: string) => void;
+  onSelectTab?: (tab: TabId) => void;
   className?: string;
 }) {
   const onClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (onSelectTab) {
+      event.preventDefault();
+      onSelectTab(tab);
+      return;
+    }
     if (!onNavigate) return;
     event.preventDefault();
     onNavigate(href);
@@ -89,13 +122,18 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
   children,
   games = [],
   route,
+  activeTab: activeTabProp,
   storage,
   onOpenDiff,
   onNavigate,
+  onSelectTab,
   resolveAssetUrl,
 }, ref) {
   const mobileChrome = useMobileChrome();
-  const showSearchBar = mobileChrome && (route === "tiers" || route === "catalog");
+  const activeTab = activeTabProp ?? tabIdFromAppRoute(route);
+  const shellRoute = activeTabProp ? shellRouteFromTab(activeTab) : route;
+  const atTabRoot = route === "tiers" || route === "catalog" || route === "settings";
+  const showSearchBar = mobileChrome && (activeTab === "tiers" || activeTab === "catalog") && atTabRoot;
   const searchLayout = showSearchBar ? "bar" : "header";
   const search = <GlobalGameSearch games={games} layout={searchLayout} onNavigate={onNavigate} />;
   const budget = storage.budgetBytes ?? 4 * 1024 * 1024;
@@ -121,7 +159,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
     <div
       className="app-shell"
       data-mobile-chrome={mobileChrome ? "true" : undefined}
-      data-route={route}
+      data-route={shellRoute}
       data-search-bar={showSearchBar ? "true" : undefined}
       ref={ref}
     >
@@ -129,8 +167,8 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
       <header className="app-header">
         {!mobileChrome ? (
           <nav aria-label="Основная навигация" className="app-nav app-nav--desktop">
-            <NavLink active={route === "tiers"} href="#/" icon="book" label="Тирлист" onNavigate={onNavigate} />
-            <NavLink active={route === "catalog"} href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} />
+            <NavLink active={activeTab === "tiers"} href="#/" icon="book" label="Тирлист" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="tiers" />
+            <NavLink active={activeTab === "catalog"} href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="catalog" />
           </nav>
         ) : null}
         {!showSearchBar ? search : null}
@@ -154,9 +192,11 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
             <>
               <a
                 aria-label="Настройки"
-                className={`button button--ghost button--icon app-header__settings${route === "settings" ? " is-active" : ""}`}
+                className={`button button--ghost button--icon app-header__settings${activeTab === "settings" ? " is-active" : ""}`}
                 href="#/settings"
-                onClick={onNavigate ? (event) => { event.preventDefault(); onNavigate("#/settings"); } : undefined}
+                onClick={onSelectTab
+                  ? (event) => { event.preventDefault(); onSelectTab("settings"); }
+                  : onNavigate ? (event) => { event.preventDefault(); onNavigate("#/settings"); } : undefined}
               >
                 <Icon name="settings" size={18} />
               </a>
@@ -175,9 +215,9 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
         <>
           <nav aria-label="Мобильная навигация" className="app-tab-bar">
             <span aria-hidden="true" className="app-tab-bar__blob" />
-            <NavLink active={route === "tiers"} className="app-tab-bar__link" href="#/" icon="book" label="Тирлист" onNavigate={onNavigate} />
-            <NavLink active={route === "catalog" || route === "game"} className="app-tab-bar__link" href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} />
-            <NavLink active={route === "settings"} className="app-tab-bar__link" href="#/settings" icon="settings" label="Настройки" onNavigate={onNavigate} />
+            <NavLink active={activeTab === "tiers"} className="app-tab-bar__link" href="#/" icon="book" label="Тирлист" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="tiers" />
+            <NavLink active={activeTab === "catalog"} className="app-tab-bar__link" href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="catalog" />
+            <NavLink active={activeTab === "settings"} className="app-tab-bar__link" href="#/settings" icon="settings" label="Настройки" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="settings" />
           </nav>
           <a
             aria-current={route === "new" ? "page" : undefined}

@@ -45,7 +45,9 @@ describe("mobile nav css", () => {
 
   it("defines swipe pager track layout for three panels", () => {
     expect(declarationsIn(styles, ".swipe-pager__track")).toContain("width: 300%");
-    expect(declarationsIn(styles, ".swipe-pager__panel")).toContain("width: calc(100% / 3)");
+    expect(declarationsIn(styles, ".swipe-pager__panel")).toContain("position: relative");
+    expect(styles).toContain(".swipe-pager__overlay");
+    expect(declarationsIn(styles, ".swipe-pager__overlay")).toContain("position: absolute");
   });
 
   it("defines a sliding tab blob driven by --pager-progress", () => {

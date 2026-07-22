@@ -1,16 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   HashRouter,
-  Route,
-  Routes,
   useLocation,
   useNavigate,
-  useParams,
 } from "react-router-dom";
 import {
   AppShell,
   DiffDialog,
-  tabProgressFromRoute,
   type AppRoute,
   type DiffSyncController,
   type DiffGroupId,
@@ -43,6 +39,23 @@ import {
   saveGitHubPat,
   type GitHubPatPersistence,
 } from "./state/githubPat";
+import {
+  createInitialTabStacksState,
+  entryFromPath,
+  isTabRoot,
+  locationHref,
+  popTab,
+  pushOntoTab,
+  selectTab,
+  stackTop,
+  syncFromLocation,
+  tabIdFromPath,
+  tabProgressFromTabId,
+  type StackEntry,
+  type TabId,
+  type TabStacksState,
+  TAB_ROOTS,
+} from "./state/tabStacks";
 const fieldLabels: Record<string, string> = {
   title: "Название",
   coverAssetId: "Обложка",
@@ -66,7 +79,30 @@ function routeKind(pathname: string): AppRoute {
   if (pathname === "/games") return "catalog";
   if (pathname === "/games/new") return "new";
   if (pathname === "/settings") return "settings";
-  return "game";
+  if (pathname.startsWith("/games/")) return "game";
+  return "catalog";
+}
+
+function gameIdFromPath(pathname: string): string | null {
+  const match = /^\/games\/([^/]+)$/.exec(pathname);
+  if (!match || match[1] === "new") return null;
+  try {
+    return decodeURIComponent(match[1]);
+  } catch {
+    return match[1];
+  }
+}
+
+function parseHref(href: string): StackEntry {
+  const raw = href.startsWith("#") ? href.slice(1) || "/" : href;
+  const [pathPart, searchPart] = raw.split("?");
+  return entryFromPath(pathPart || "/", searchPart);
+}
+
+function overlayEntry(state: TabStacksState, tab: TabId): StackEntry | null {
+  const top = stackTop(state, tab);
+  if (!top || isTabRoot(tab, top)) return null;
+  return top;
 }
 
 function entityName(
@@ -144,8 +180,13 @@ function LibraryRoutes() {
     commitUrl?: string;
   }>({ busy: false, stage: "idle", error: null });
   const previousPendingCommitRef = useRef<string | null>(null);
-  const route = routeKind(location.pathname);
-  const showPager = route === "tiers" || route === "catalog" || route === "settings";
+  const [tabState, setTabState] = useState<TabStacksState>(() =>
+    createInitialTabStacksState(entryFromPath(location.pathname, location.search.replace(/^\?/, "") || undefined)),
+  );
+
+  const activeTop = stackTop(tabState) ?? TAB_ROOTS[tabState.activeTab];
+  const route = routeKind(activeTop.pathname);
+  const catalogAtRoot = !overlayEntry(tabState, "catalog");
 
   const setPagerProgress = useCallback((progress: number) => {
     shellRef.current?.style.setProperty("--pager-progress", String(progress));
@@ -159,10 +200,73 @@ function LibraryRoutes() {
   }, []);
 
   useEffect(() => {
-    if (showPager) return;
-    setPagerProgress(tabProgressFromRoute(route));
-    setPagerDragging(false);
-  }, [showPager, route, setPagerProgress, setPagerDragging]);
+    setPagerProgress(tabProgressFromTabId(tabState.activeTab));
+  }, [tabState.activeTab, setPagerProgress]);
+
+  useEffect(() => {
+    const entry = entryFromPath(location.pathname, location.search.replace(/^\?/, "") || undefined);
+    setTabState((current) => syncFromLocation(current, entry));
+  }, [location.pathname, location.search]);
+
+  const goToEntry = useCallback((entry: StackEntry, replace = false) => {
+    navigate(locationHref(entry), { replace });
+  }, [navigate]);
+
+  const activateTabAndSync = useCallback((tab: TabId) => {
+    setTabState((current) => {
+      const resolved = selectTab(current, tab);
+      goToEntry(stackTop(resolved) ?? TAB_ROOTS[tab], true);
+      return resolved;
+    });
+  }, [goToEntry]);
+
+  const openGameOnTab = useCallback((tab: TabId, gameId: string) => {
+    const entry = entryFromPath(`/games/${encodeURIComponent(gameId)}`);
+    setTabState((current) => pushOntoTab(current, tab, entry));
+    goToEntry(entry);
+  }, [goToEntry]);
+
+  const popStack = useCallback((tab: TabId) => {
+    setTabState((current) => {
+      const next = popTab(current, tab);
+      if (current.activeTab === tab) {
+        goToEntry(stackTop(next, tab) ?? TAB_ROOTS[tab], true);
+      }
+      return next;
+    });
+  }, [goToEntry]);
+
+  const navigateHref = useCallback((href: string) => {
+    const entry = parseHref(href);
+    const path = entry.pathname;
+
+    if (path === "/games/new" || gameIdFromPath(path)) {
+      setTabState((current) => pushOntoTab(current, "catalog", entry));
+      goToEntry(entry);
+      return;
+    }
+
+    if (path === "/games") {
+      setTabState((current) => ({
+        activeTab: "catalog",
+        stacks: { ...current.stacks, catalog: [entry] },
+      }));
+      goToEntry(entry, true);
+      return;
+    }
+
+    if (path === "/" || path === "/settings") {
+      const tab = tabIdFromPath(path);
+      setTabState((current) => ({
+        activeTab: tab,
+        stacks: { ...current.stacks, [tab]: [entry] },
+      }));
+      goToEntry(entry, true);
+      return;
+    }
+
+    goToEntry(entry);
+  }, [goToEntry]);
 
   useEffect(() => {
     const loaded = loadGitHubPat();
@@ -252,7 +356,6 @@ function LibraryRoutes() {
   }), [library.base, library.conflicts, library.effective]);
 
   const showError = (error: unknown) => setActionError(error instanceof Error ? error.message : String(error));
-  const navigateHref = (href: string) => navigate(href.startsWith("#") ? href.slice(1) || "/" : href);
   const exportPatch = () => { void library.exportRecoveryArchive().catch(showError); };
   const freeLocalAssetSpace = () => {
     if (!window.confirm("Удалить все локальные копии вложений? Неопубликованные ссылки на них также будут удалены; текст сохранится.")) return;
@@ -409,9 +512,11 @@ function LibraryRoutes() {
 
   return (
     <AppShell
+      activeTab={tabState.activeTab}
       games={games}
       onNavigate={navigateHref}
       onOpenDiff={() => setDiffOpen(true)}
+      onSelectTab={activateTabAndSync}
       ref={shellRef}
       resolveAssetUrl={library.resolveAssetUrl}
       route={route}
@@ -429,40 +534,73 @@ function LibraryRoutes() {
       }}
     >
       <div className="app-main__swipe" ref={mainRef}>
-        {showPager ? (
-          <SwipePager
-            assets={library.effective.assets}
-            draggingRef={tierDraggingRef}
-            games={games}
-            onDraggingChange={setPagerDragging}
-            onMoveGame={(gameId, target) => {
-              try {
-                library.moveGame(gameId, target.tierId, target.index);
-              } catch (error) { showError(error); }
-            }}
-            onNavigate={(path) => navigate(path)}
-            onOpenGame={(id) => navigate(`/games/${id}`)}
-            onProgress={setPagerProgress}
-            onRefresh={() => library.refreshFromPublished()}
-            pathname={location.pathname}
-            resolveAssetUrl={library.resolveAssetUrl}
-            settingsPat={{
-              busy: githubSyncState.busy,
-              connected: githubPatRef.current !== null,
-              onDisconnect: disconnectGitHub,
-              onSave: savePatFromSettings,
-              patCreationHref: getGitHubPatCreationUrl(),
-              persistence: githubPatPersistence,
-              repository: `${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_NAME} · main`,
-            }}
-          />
-        ) : (
-          <Routes>
-            <Route path="/games/new" element={<GameRoute mode="new" />} />
-            <Route path="/games/:id" element={<GameRoute mode="game" />} />
-            <Route path="*" element={<div className="empty-state empty-state--hero"><h1>Страница не найдена</h1><p>Такого раздела в библиотеке нет.</p><a className="button button--primary" href="#/">Вернуться в тирлист</a></div>} />
-          </Routes>
-        )}
+        <SwipePager
+          activeTab={tabState.activeTab}
+          assets={library.effective.assets}
+          catalogHashSync={catalogAtRoot && tabState.activeTab === "catalog"}
+          catalogOverlay={overlayEntry(tabState, "catalog") ? (
+            <StackGameScreen
+              entry={overlayEntry(tabState, "catalog")!}
+              onPop={() => popStack("catalog")}
+              onReplaceGame={(gameId) => {
+                const entry = entryFromPath(`/games/${encodeURIComponent(gameId)}`);
+                setTabState((current) => {
+                  const stacks = {
+                    ...current.stacks,
+                    catalog: current.stacks.catalog.length
+                      ? [...current.stacks.catalog.slice(0, -1), entry]
+                      : [TAB_ROOTS.catalog, entry],
+                  };
+                  return { ...current, activeTab: "catalog", stacks };
+                });
+                goToEntry(entry, true);
+              }}
+              showError={showError}
+            />
+          ) : null}
+          draggingRef={tierDraggingRef}
+          games={games}
+          onActivateTab={activateTabAndSync}
+          onDraggingChange={setPagerDragging}
+          onMoveGame={(gameId, target) => {
+            try {
+              library.moveGame(gameId, target.tierId, target.index);
+            } catch (error) { showError(error); }
+          }}
+          onOpenGame={openGameOnTab}
+          onProgress={setPagerProgress}
+          onRefresh={() => library.refreshFromPublished()}
+          resolveAssetUrl={library.resolveAssetUrl}
+          settingsPat={{
+            busy: githubSyncState.busy,
+            connected: githubPatRef.current !== null,
+            onDisconnect: disconnectGitHub,
+            onSave: savePatFromSettings,
+            patCreationHref: getGitHubPatCreationUrl(),
+            persistence: githubPatPersistence,
+            repository: `${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_NAME} · main`,
+          }}
+          tiersOverlay={overlayEntry(tabState, "tiers") ? (
+            <StackGameScreen
+              entry={overlayEntry(tabState, "tiers")!}
+              onPop={() => popStack("tiers")}
+              onReplaceGame={(gameId) => {
+                const entry = entryFromPath(`/games/${encodeURIComponent(gameId)}`);
+                setTabState((current) => {
+                  const stacks = {
+                    ...current.stacks,
+                    tiers: current.stacks.tiers.length
+                      ? [...current.stacks.tiers.slice(0, -1), entry]
+                      : [TAB_ROOTS.tiers, entry],
+                  };
+                  return { ...current, activeTab: "tiers", stacks };
+                });
+                goToEntry(entry, true);
+              }}
+              showError={showError}
+            />
+          ) : null}
+        />
       </div>
 
       <DiffDialog
@@ -508,10 +646,20 @@ function LibraryRoutes() {
   );
 }
 
-function GameRoute({ mode }: { mode: "new" | "game" }) {
+function StackGameScreen({
+  entry,
+  onPop,
+  onReplaceGame,
+  showError,
+}: {
+  entry: StackEntry;
+  onPop: () => void;
+  onReplaceGame: (gameId: string) => void;
+  showError: (error: unknown) => void;
+}) {
   const library = useLibrary();
-  const navigate = useNavigate();
-  const { id } = useParams();
+  const mode = entry.pathname === "/games/new" ? "new" as const : "game" as const;
+  const id = mode === "game" ? gameIdFromPath(entry.pathname) : null;
   const gameSuggestions = useMemo(() => Object.values(library.effective.games), [library.effective.games]);
   const game = id ? library.effective.games[id] : undefined;
   const notes = useMemo(
@@ -522,7 +670,7 @@ function GameRoute({ mode }: { mode: "new" | "game" }) {
   const tagSuggestions = [...new Set(gameSuggestions.flatMap((item) => item.tags))];
 
   if (mode === "game" && !game) {
-    return <div className="empty-state empty-state--hero"><h1>Игра не найдена</h1><p>Возможно, она была удалена локально.</p></div>;
+    return <div className="empty-state empty-state--hero"><h1>Игра не найдена</h1><p>Возможно, она была удалена локально.</p><button className="button button--primary" onClick={onPop} type="button">Назад</button></div>;
   }
 
   return <GamePage
@@ -533,11 +681,15 @@ function GameRoute({ mode }: { mode: "new" | "game" }) {
     key={game?.id ?? "new"}
     mode={mode}
     notes={notes}
-    onCancel={() => navigate("/games")}
-    onDelete={game ? async (gameId) => { library.deleteGame(gameId); navigate("/games"); } : undefined}
+    onCancel={onPop}
+    onDelete={game ? async (gameId) => { library.deleteGame(gameId); onPop(); } : undefined}
     onSave={async (input) => {
-      const gameId = await library.saveGame(input);
-      if (mode === "new") navigate(`/games/${gameId}`, { replace: true });
+      try {
+        const gameId = await library.saveGame(input);
+        if (mode === "new") onReplaceGame(gameId);
+      } catch (error) {
+        showError(error);
+      }
     }}
     platformSuggestions={platformSuggestions}
     resolveAssetUrl={library.resolveAssetUrl}

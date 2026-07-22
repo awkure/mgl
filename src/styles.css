@@ -1135,10 +1135,27 @@ h4 {
 }
 
 .swipe-pager__panel {
+  position: relative;
   width: calc(100% / 3);
   height: 100%;
   overflow: hidden;
   flex: 0 0 calc(100% / 3);
+}
+
+.swipe-pager__stack {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.swipe-pager__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--bg);
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .swipe-pager__panel :is(.page, .pull-to-refresh, .tier-page, .tier-board) {
@@ -4918,7 +4935,8 @@ h4 {
   }
 }
 
-@media (pointer: coarse), (max-width: 720px) {
+@media (pointer: coarse),
+(max-width: 720px) {
 
   html {
     scroll-behavior: auto;
