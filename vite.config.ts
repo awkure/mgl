@@ -22,8 +22,9 @@ export default defineConfig({
         "src/vite-env.d.ts",
         "src/main.tsx",
       ],
-      // Report-only until Task 14 fills gaps:
-      thresholds: undefined,
+      thresholds: {
+        lines: 70,
+      },
     },
   },
 });
