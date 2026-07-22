@@ -2969,6 +2969,11 @@ h4 {
   width: 100%;
 }
 
+.game-sidebar .steam-media-pull {
+  width: 100%;
+  margin-top: 8px;
+}
+
 .game-sidebar__meta-short dd {
   min-width: 0;
   margin: 0;

@@ -15,9 +15,12 @@ import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { isMp4FileMetadata, makeFileAssetMetadata, optimizeCover, optimizeNoteImage, withVideoPreviewFragment } from "../domain/assets";
 import {
   parseSteamAppInput,
+  isSteamMediaNote,
   prefillGameFromSteamDetails,
   steamAppDetailsApiUrl,
   steamAppDetailsFromStoreJson,
+  steamMediaFetchErrorMessage,
+  steamMediaNoteBody,
   steamPrefillFetchErrorMessage,
   steamStoreAppUrl,
 } from "../domain/steamMedia";
@@ -170,6 +173,43 @@ async function prepareNoteAttachment(file: File): Promise<EditableAttachment> {
       byteLength: optimized.byteLength,
     },
   };
+}
+
+async function prepareNoteAttachmentFromUrl(
+  url: string,
+  alt: string,
+  canAddBlob?: GamePageProps["canAddBlob"],
+  onFetchError?: () => Error,
+): Promise<EditableAttachment> {
+  let response: Response;
+  try {
+    response = await fetch(url);
+  } catch {
+    throw onFetchError?.() ?? new Error("Не удалось скачать изображение");
+  }
+  if (!response.ok) {
+    throw onFetchError?.() ?? new Error("Не удалось скачать изображение");
+  }
+  const blob = await response.blob();
+  const file = new File([blob], "steam-image.jpg", { type: blob.type || "image/jpeg" });
+  const attachment = await prepareNoteAttachment(file);
+  if (attachment.type !== "pending-image") throw new Error("Не удалось подготовить изображение");
+  const storageError = await canAddBlob?.(attachment.image.byteLength);
+  if (storageError) throw new Error(storageError);
+  return { ...attachment, alt: alt.trim() || attachment.alt };
+}
+
+function upsertSteamMediaInEditableList(editableNotes: EditableNote[], attachments: EditableAttachment[]): EditableNote[] {
+  const bodyMarkdown = steamMediaNoteBody();
+  const existingIndex = editableNotes.findIndex((note) => isSteamMediaNote(note));
+  if (existingIndex >= 0) {
+    const existing = editableNotes[existingIndex];
+    return editableNotes.map((note, index) => (
+      index === existingIndex ? { ...existing, bodyMarkdown, attachments: [...attachments] } : note
+    ));
+  }
+  const rank = editableNotes.reduce((max, note) => Math.max(max, note.rank), 0) + 1024;
+  return [...editableNotes, { clientId: crypto.randomUUID(), bodyMarkdown, attachments: [...attachments], rank }];
 }
 
 async function prepareFileAttachment(file: File): Promise<EditableAttachment> {
@@ -977,6 +1017,8 @@ function InlineGamePage({ game, notes, assets, platformSuggestions = [], tagSugg
   const [coverDraftDirty, setCoverDraftDirty] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [mediaBusy, setMediaBusy] = useState(false);
+  const [mediaStatus, setMediaStatus] = useState<string | null>(null);
   const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
   const [noteDropIndicator, setNoteDropIndicator] = useState<{ clientId: string; edge: NoteDropEdge } | null>(null);
   const taskSaveInFlight = useRef(false);
@@ -1053,6 +1095,47 @@ function InlineGamePage({ game, notes, assets, platformSuggestions = [], tagSugg
       });
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : "Не удалось подтянуть данные Steam");
+    }
+  };
+  const pullSteamMedia = async () => {
+    const appid = game.steamAppId;
+    if (appid == null || storageLocked || saving || mediaBusy) return;
+    setMediaBusy(true);
+    setMediaStatus(null);
+    setError(null);
+    const mediaFetchError = () => new Error(steamMediaFetchErrorMessage(appid));
+    try {
+      const details = await fetchSteamStoreDetails(appid).catch(() => {
+        throw mediaFetchError();
+      });
+      const screenshots = details.screenshots ?? [];
+      const movies = details.movies ?? [];
+      const attachments: EditableAttachment[] = [];
+      for (let index = 0; index < screenshots.length; index += 1) {
+        setMediaStatus(`Скачиваем скриншоты… ${index + 1}/${screenshots.length}`);
+        const screenshot = screenshots[index];
+        attachments.push(await prepareNoteAttachmentFromUrl(
+          screenshot.pathFull,
+          `Скриншот ${index + 1}`,
+          canAddBlob,
+          mediaFetchError,
+        ));
+      }
+      const storeUrl = steamStoreAppUrl(appid);
+      for (const movie of movies) {
+        const label = movie.name.trim() || "Trailer";
+        attachments.push({ type: "link", url: storeUrl, label });
+        if (movie.thumbnail) {
+          attachments.push(await prepareNoteAttachmentFromUrl(movie.thumbnail, label, canAddBlob, mediaFetchError));
+        }
+      }
+      const nextNotes = upsertSteamMediaInEditableList(editableNotes, attachments);
+      await persist({ notes: nextNotes });
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Не удалось подтянуть медиа Steam");
+    } finally {
+      setMediaBusy(false);
+      setMediaStatus(null);
     }
   };
 
@@ -1170,7 +1253,16 @@ function InlineGamePage({ game, notes, assets, platformSuggestions = [], tagSugg
             <div><dt>Достижения</dt><dd>{game.achievementsUnlocked != null && game.achievementsTotal != null ? `${game.achievementsUnlocked}/${game.achievementsTotal}` : "—"}</dd></div>
             <div><dt>Изменено</dt><dd>{formatRelativeDate(game.updatedAt)}</dd></div>
           </dl>
-          <SteamPrefillRow disabled={saving || storageLocked} onPrefill={pullFromSteam} />
+          <SteamPrefillRow disabled={saving || storageLocked || mediaBusy} onPrefill={pullFromSteam} />
+          <button
+            aria-label="Подтянуть медиа Steam"
+            className="button button--secondary steam-prefill-row__action steam-media-pull"
+            disabled={game.steamAppId == null || saving || storageLocked || mediaBusy}
+            onClick={() => void pullSteamMedia()}
+            type="button"
+          >
+            {mediaBusy ? (mediaStatus ?? "Загружаем…") : "Подтянуть медиа Steam"}
+          </button>
           {onDelete ? <div className="game-sidebar__tools"><button aria-label="Удалить игру" disabled={saving} onClick={() => void deleteGame()} title="Удалить игру" type="button"><Icon name="trash" size={15} /></button></div> : null}
           {error ? <p className="field-error inline-save-error" role="alert">{error}</p> : null}
         </aside>

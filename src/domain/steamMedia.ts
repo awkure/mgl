@@ -61,9 +61,18 @@ export function steamPrefillCliHint(appid: number): string {
   return `npm run import:steam-media -- --appid ${appid} --prefill --apply`;
 }
 
+export function steamMediaCliHint(appid: number): string {
+  return `npm run import:steam-media -- --appid ${appid} --apply`;
+}
+
 export function steamPrefillFetchErrorMessage(appid: number, detail?: string): string {
   const prefix = detail?.trim() ? `${detail.trim()} ` : "Не удалось загрузить данные Steam. ";
   return `${prefix}Запустите: ${steamPrefillCliHint(appid)}`;
+}
+
+export function steamMediaFetchErrorMessage(appid: number, detail?: string): string {
+  const prefix = detail?.trim() ? `${detail.trim()} ` : "Не удалось загрузить медиа Steam. ";
+  return `${prefix}Запустите: ${steamMediaCliHint(appid)}`;
 }
 
 /** Map raw storefront `appdetails` JSON body to a details slice (SPA + tests). */

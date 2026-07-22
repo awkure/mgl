@@ -7,6 +7,8 @@ import {
   parseSteamAppInput,
   prefillGameFromSteamDetails,
   steamAppDetailsFromStoreJson,
+  steamMediaCliHint,
+  steamMediaFetchErrorMessage,
   steamMediaNoteBody,
   steamStoreAppUrl,
   upsertSteamMediaNote,
@@ -64,6 +66,14 @@ describe("parseSteamAppInput", () => {
 describe("steamStoreAppUrl", () => {
   it("builds canonical store URL", () => {
     expect(steamStoreAppUrl(570)).toBe("https://store.steampowered.com/app/570/");
+  });
+});
+
+describe("steam media CLI hints", () => {
+  it("uses apply-only hint for media errors", () => {
+    expect(steamMediaCliHint(570)).toBe("npm run import:steam-media -- --appid 570 --apply");
+    expect(steamMediaFetchErrorMessage(570)).toContain("--apply");
+    expect(steamMediaFetchErrorMessage(570)).not.toContain("--prefill");
   });
 });
 
