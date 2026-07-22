@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { AppShell } from "../src/components/AppShell";
 
@@ -39,5 +39,64 @@ describe("tab bar press glass — callout", () => {
     expect(catalogMenu).toBe(false);
     expect(addMenu).toBe(false);
     expect(container.querySelector(".app-shell")).toBeTruthy();
+  });
+});
+
+describe("tab bar press glass — press state", () => {
+  it("sets data-tab-press and --press-tab while a tab is pressed, then clears on pointerup", () => {
+    const { container } = render(
+      <AppShell onOpenDiff={vi.fn()} route="tiers" storage={{ bytes: 0, operationCount: 0 }}>
+        <div>body</div>
+      </AppShell>,
+    );
+    const shell = container.querySelector(".app-shell") as HTMLElement;
+    const tabBar = screen.getByRole("navigation", { name: "Мобильная навигация" });
+    const catalog = within(tabBar).getByRole("link", { name: "Каталог" });
+
+    fireEvent.pointerDown(catalog, { pointerId: 1, button: 0 });
+    expect(shell).toHaveAttribute("data-tab-press", "true");
+    expect(shell.style.getPropertyValue("--press-tab").trim()).toBe("1");
+    expect(catalog).toHaveAttribute("data-pressed", "true");
+
+    fireEvent.pointerUp(catalog, { pointerId: 1, button: 0 });
+    expect(shell).not.toHaveAttribute("data-tab-press");
+    expect(catalog).not.toHaveAttribute("data-pressed");
+  });
+
+  it("ignores press lens while pager is dragging", () => {
+    const { container } = render(
+      <AppShell onOpenDiff={vi.fn()} route="tiers" storage={{ bytes: 0, operationCount: 0 }}>
+        <div>body</div>
+      </AppShell>,
+    );
+    const shell = container.querySelector(".app-shell") as HTMLElement;
+    const tabBar = screen.getByRole("navigation", { name: "Мобильная навигация" });
+    const catalog = within(tabBar).getByRole("link", { name: "Каталог" });
+
+    shell.setAttribute("data-pager-dragging", "true");
+    fireEvent.pointerDown(catalog, { pointerId: 1, button: 0 });
+    expect(shell).not.toHaveAttribute("data-tab-press");
+    expect(catalog).not.toHaveAttribute("data-pressed");
+  });
+
+  it("clears press when pager-dragging becomes true mid-press", async () => {
+    const { container } = render(
+      <AppShell onOpenDiff={vi.fn()} route="tiers" storage={{ bytes: 0, operationCount: 0 }}>
+        <div>body</div>
+      </AppShell>,
+    );
+    const shell = container.querySelector(".app-shell") as HTMLElement;
+    const tabBar = screen.getByRole("navigation", { name: "Мобильная навигация" });
+    const settings = within(tabBar).getByRole("link", { name: "Настройки" });
+
+    fireEvent.pointerDown(settings, { pointerId: 1, button: 0 });
+    expect(shell).toHaveAttribute("data-tab-press", "true");
+    expect(shell.style.getPropertyValue("--press-tab").trim()).toBe("2");
+
+    shell.setAttribute("data-pager-dragging", "true");
+    await waitFor(() => {
+      expect(shell).not.toHaveAttribute("data-tab-press");
+      expect(settings).not.toHaveAttribute("data-pressed");
+    });
   });
 });

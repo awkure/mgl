@@ -1,4 +1,4 @@
-import { forwardRef, type ReactNode, type MouseEvent } from "react";
+import { forwardRef, useEffect, useRef, useState, type ReactNode, type MouseEvent, type PointerEvent } from "react";
 import type { Game } from "../domain/types";
 import type { TabId } from "../state/tabStacks";
 import { Icon, type IconName } from "./Icon";
@@ -77,6 +77,10 @@ function NavLink({
   onNavigate,
   onSelectTab,
   className = "app-nav__link",
+  pressEnabled,
+  pressed,
+  onPressStart,
+  onPressEnd,
 }: {
   active: boolean;
   href: string;
@@ -86,6 +90,10 @@ function NavLink({
   onNavigate?: (href: string) => void;
   onSelectTab?: (tab: TabId) => void;
   className?: string;
+  pressEnabled?: boolean;
+  pressed?: boolean;
+  onPressStart?: (tab: TabId, event: PointerEvent<HTMLAnchorElement>) => void;
+  onPressEnd?: () => void;
 }) {
   const onClick = (event: MouseEvent<HTMLAnchorElement>) => {
     if (onSelectTab) {
@@ -102,10 +110,17 @@ function NavLink({
       aria-current={active ? "page" : undefined}
       aria-label={label}
       className={className}
+      data-pressed={pressed ? "true" : undefined}
       draggable={false}
       href={href}
       onClick={onClick}
       onContextMenu={blockSafariCallout}
+      onPointerCancel={pressEnabled ? () => onPressEnd?.() : undefined}
+      onPointerDown={pressEnabled ? (e) => onPressStart?.(tab, e) : undefined}
+      onPointerLeave={pressEnabled ? (e) => {
+        if (e.buttons === 0) onPressEnd?.();
+      } : undefined}
+      onPointerUp={pressEnabled ? () => onPressEnd?.() : undefined}
     >
       <Icon name={icon} />
       <span>{label}</span>
@@ -125,6 +140,36 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
   resolveAssetUrl,
 }, ref) {
   const mobileChrome = useMobileChrome();
+  const localRef = useRef<HTMLDivElement | null>(null);
+  const [pressedTab, setPressedTab] = useState<TabId | null>(null);
+
+  const clearTabPress = () => setPressedTab(null);
+
+  const beginTabPress = (tab: TabId, event: PointerEvent<HTMLAnchorElement>) => {
+    if (event.button !== 0) return;
+    const shell = event.currentTarget.closest(".app-shell") as HTMLElement | null;
+    if (shell?.getAttribute("data-pager-dragging") === "true") return;
+    setPressedTab(tab);
+  };
+
+  const setRefs = (node: HTMLDivElement | null) => {
+    localRef.current = node;
+    if (typeof ref === "function") ref(node);
+    else if (ref) ref.current = node;
+  };
+
+  useEffect(() => {
+    const shell = localRef.current;
+    if (!shell || !pressedTab) return;
+    const sync = () => {
+      if (shell.getAttribute("data-pager-dragging") === "true") clearTabPress();
+    };
+    const observer = new MutationObserver(sync);
+    observer.observe(shell, { attributes: true, attributeFilter: ["data-pager-dragging"] });
+    sync();
+    return () => observer.disconnect();
+  }, [pressedTab]);
+
   const activeTab = activeTabProp ?? tabIdFromAppRoute(route);
   const shellRoute = activeTabProp ? shellRouteFromTab(activeTab) : route;
   const atTabRoot = route === "tiers" || route === "catalog" || route === "settings";
@@ -155,7 +200,9 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
       className="app-shell"
       data-mobile-chrome={mobileChrome ? "true" : undefined}
       data-route={shellRoute}
-      ref={ref}
+      data-tab-press={pressedTab ? "true" : undefined}
+      ref={setRefs}
+      style={pressedTab ? { ["--press-tab" as string]: String(tabProgressFromTabId(pressedTab)) } : undefined}
     >
       <a className="skip-link" href="#main-content">К основному содержимому</a>
       <header className="app-header">
@@ -208,9 +255,9 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
         <>
           <nav aria-label="Мобильная навигация" className="app-tab-bar">
             <span aria-hidden="true" className="app-tab-bar__blob" />
-            <NavLink active={activeTab === "tiers"} className="app-tab-bar__link" href="#/" icon="book" label="Тирлист" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="tiers" />
-            <NavLink active={activeTab === "catalog"} className="app-tab-bar__link" href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="catalog" />
-            <NavLink active={activeTab === "settings"} className="app-tab-bar__link" href="#/settings" icon="settings" label="Настройки" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="settings" />
+            <NavLink active={activeTab === "tiers"} className="app-tab-bar__link" href="#/" icon="book" label="Тирлист" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "tiers"} tab="tiers" />
+            <NavLink active={activeTab === "catalog"} className="app-tab-bar__link" href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "catalog"} tab="catalog" />
+            <NavLink active={activeTab === "settings"} className="app-tab-bar__link" href="#/settings" icon="settings" label="Настройки" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "settings"} tab="settings" />
           </nav>
           <a
             aria-current={route === "new" ? "page" : undefined}
