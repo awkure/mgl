@@ -12,3 +12,5 @@ export * from "./storageQuota";
 export * from "./youtube";
 export * from "./historyTypes";
 export * from "./historyValidate";
+export * from "./historyDiff";
+export * from "./historyCluster";

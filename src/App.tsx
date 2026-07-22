@@ -112,7 +112,6 @@ function LibraryRoutes() {
       const data = (await response.json()) as { events?: HistoryEvent[] };
       setHistoryEvents(Array.isArray(data.events) ? data.events : []);
     } catch (reason) {
-      setHistoryEvents([]);
       setHistoryError(
         reason instanceof Error
           ? `Не удалось загрузить историю: ${reason.message}`

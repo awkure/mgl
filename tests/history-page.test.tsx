@@ -86,4 +86,19 @@ describe("HistoryPage", () => {
     render(<HistoryPage events={[]} liveGameIds={new Set()} />);
     expect(screen.getByText("Пока нет опубликованных изменений.")).toBeInTheDocument();
   });
+
+  it("keeps timeline visible when load error is shown", () => {
+    const events = [event({ id: "e1", gameId: "g1", title: "Hades" })];
+    render(
+      <HistoryPage
+        error="Не удалось загрузить историю"
+        events={events}
+        liveGameIds={new Set(["g1"])}
+        onRetry={vi.fn()}
+      />,
+    );
+    expect(screen.getByRole("alert")).toHaveTextContent("Не удалось загрузить историю");
+    expect(screen.getByText("Hades")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Повторить" })).toBeInTheDocument();
+  });
 });

@@ -1334,7 +1334,7 @@ h4 {
   height: 100%;
 }
 
-.swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page) {
+.swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page, .history-page) {
   overflow-x: hidden;
   overflow-y: auto;
   padding-top: var(--app-header-height);
@@ -1522,6 +1522,7 @@ h4 {
 
 .app-shell[data-mobile-chrome="true"][data-route="tiers"] .app-main,
 .app-shell[data-mobile-chrome="true"][data-route="catalog"] .app-main,
+.app-shell[data-mobile-chrome="true"][data-route="history"] .app-main,
 .app-shell[data-mobile-chrome="true"][data-route="settings"] .app-main {
   height: 100dvh;
   padding-top: 0;
@@ -1530,6 +1531,7 @@ h4 {
 
 .app-shell[data-route="tiers"],
 .app-shell[data-route="catalog"],
+.app-shell[data-route="history"],
 .app-shell[data-route="settings"] {
   height: 100dvh;
   min-height: 100dvh;
@@ -1538,6 +1540,7 @@ h4 {
 
 .app-shell[data-route="tiers"] .app-main,
 .app-shell[data-route="catalog"] .app-main,
+.app-shell[data-route="history"] .app-main,
 .app-shell[data-route="settings"] .app-main {
   height: 100dvh;
   min-height: 0;

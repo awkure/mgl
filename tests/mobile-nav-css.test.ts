@@ -88,19 +88,21 @@ describe("mobile nav css", () => {
     expect(active).not.toContain("box-shadow:");
   });
 
-  it("lets main fill under the floating tab bar on tiers/catalog/settings", () => {
+  it("lets main fill under the floating tab bar on tiers/catalog/history/settings", () => {
     const main = declarationsIn(
       styles,
-      '.app-shell[data-route="tiers"] .app-main, .app-shell[data-route="catalog"] .app-main, .app-shell[data-route="settings"] .app-main',
+      '.app-shell[data-route="tiers"] .app-main, .app-shell[data-route="catalog"] .app-main, .app-shell[data-route="history"] .app-main, .app-shell[data-route="settings"] .app-main',
     );
     expect(main).toContain("height: 100dvh");
     expect(main).toContain("padding-top: 0");
     expect(main).not.toContain("var(--app-tab-bar-height)");
     expect(styles).toContain("padding-bottom: var(--app-tab-bar-height)");
-    expect(styles).toContain(".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page)");
+    expect(styles).toContain(
+      ".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page, .history-page)",
+    );
     const scrollSurfaces = declarationsIn(
       styles,
-      ".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page)",
+      ".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page, .history-page)",
     );
     expect(scrollSurfaces).toContain("padding-top: var(--app-header-height)");
     expect(scrollSurfaces).not.toContain("--app-search-bar-height");
