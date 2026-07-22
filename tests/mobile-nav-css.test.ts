@@ -13,6 +13,7 @@ describe("mobile nav css", () => {
     expect(bar).toContain("border-radius: 28px");
     expect(bar).toContain("backdrop-filter: blur(22px) saturate(1.35)");
     expect(bar).toContain("bottom: calc(12px + env(safe-area-inset-bottom))");
+    expect(bar).toContain("grid-template-columns: repeat(4, minmax(0, 1fr))");
     expect(styles).toContain("--app-tab-bar-height: calc(64px + env(safe-area-inset-bottom) + 12px)");
   });
 
@@ -43,9 +44,12 @@ describe("mobile nav css", () => {
     expect(styles).not.toContain("data-glass-effect");
   });
 
-  it("defines swipe pager track layout for three panels", () => {
-    expect(declarationsIn(styles, ".swipe-pager__track")).toContain("width: 300%");
-    expect(declarationsIn(styles, ".swipe-pager__panel")).toContain("position: relative");
+  it("defines swipe pager track layout for four panels", () => {
+    expect(declarationsIn(styles, ".swipe-pager__track")).toContain("width: 400%");
+    const panel = declarationsIn(styles, ".swipe-pager__panel");
+    expect(panel).toContain("position: relative");
+    expect(panel).toContain("width: calc(100% / 4)");
+    expect(panel).toContain("flex: 0 0 calc(100% / 4)");
     expect(styles).toContain(".swipe-pager__overlay");
     expect(declarationsIn(styles, ".swipe-pager__overlay")).toContain("position: absolute");
   });
@@ -70,6 +74,7 @@ describe("mobile nav css", () => {
     expect(styles).toContain(".app-tab-bar__blob");
     const blob = declarationsIn(styles, '.app-shell[data-mobile-chrome="true"] .app-tab-bar__blob');
     expect(blob).toContain("position: absolute");
+    expect(blob).toContain("width: calc((100% - 12px) / 4)");
     expect(blob).toContain("transform: translateX(calc(var(--pager-progress, 0) * (100% + 2px)))");
     expect(blob).toContain("--pager-progress 280ms cubic-bezier(.22, 1, .36, 1)");
     expect(styles).toContain('.app-shell[data-mobile-chrome="true"][data-pager-dragging="true"] .app-tab-bar__blob');
@@ -83,19 +88,21 @@ describe("mobile nav css", () => {
     expect(active).not.toContain("box-shadow:");
   });
 
-  it("lets main fill under the floating tab bar on tiers/catalog/settings", () => {
+  it("lets main fill under the floating tab bar on tiers/catalog/history/settings", () => {
     const main = declarationsIn(
       styles,
-      '.app-shell[data-route="tiers"] .app-main, .app-shell[data-route="catalog"] .app-main, .app-shell[data-route="settings"] .app-main',
+      '.app-shell[data-route="tiers"] .app-main, .app-shell[data-route="catalog"] .app-main, .app-shell[data-route="history"] .app-main, .app-shell[data-route="settings"] .app-main',
     );
     expect(main).toContain("height: 100dvh");
     expect(main).toContain("padding-top: 0");
     expect(main).not.toContain("var(--app-tab-bar-height)");
     expect(styles).toContain("padding-bottom: var(--app-tab-bar-height)");
-    expect(styles).toContain(".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page)");
+    expect(styles).toContain(
+      ".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page, .history-page)",
+    );
     const scrollSurfaces = declarationsIn(
       styles,
-      ".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page)",
+      ".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page, .history-page)",
     );
     expect(scrollSurfaces).toContain("padding-top: var(--app-header-height)");
     expect(scrollSurfaces).not.toContain("--app-search-bar-height");

@@ -88,6 +88,8 @@ describe("clipboard publication entrypoint", () => {
 
   it("is exposed as a fixed npm script", () => {
     const packageJson = JSON.parse(readFileSync(path.join(process.cwd(), "package.json"), "utf8"));
-    expect(packageJson.scripts["publish:clipboard"]).toBe("node scripts/publish-clipboard.mjs");
+    expect(packageJson.scripts["publish:clipboard"]).toBe(
+      "node --experimental-strip-types scripts/publish-clipboard.mjs",
+    );
   });
 });

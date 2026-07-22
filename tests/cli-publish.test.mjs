@@ -38,6 +38,9 @@ const CREATE_GAME_MESSAGE = `Add DuckTales
 
 Games:
 - Add "DuckTales"`;
+const HISTORY_DATA_PATH = "public/data/history.json";
+const LIBRARY_DATA_PATH = "public/data/library.json";
+const PUBLISH_LIBRARY_COMMIT_PATHS = [HISTORY_DATA_PATH, LIBRARY_DATA_PATH];
 
 afterEach(() => {
   while (temporaryPaths.length > 0) rmSync(temporaryPaths.pop(), { recursive: true, force: true });
@@ -652,7 +655,7 @@ describe("publish patch transaction", () => {
     expect(published.assets[metadata.id]).toEqual(metadata);
     expect(readFileSync(path.join(root, relativeMediaPath))).toEqual(bytes);
     expect(git(root, "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD").split("\n").sort())
-      .toEqual(["public/data/library.json", relativeMediaPath].sort());
+      .toEqual([...PUBLISH_LIBRARY_COMMIT_PATHS, relativeMediaPath].sort());
     expect(git(root, "show", "-s", "--format=%B", "HEAD")).toContain(`Files:\n- Add "route notes.txt"`);
     expect(() => validateLibrary(published, { mediaRoot: path.join(root, "public", "media") })).not.toThrow();
   });
@@ -667,7 +670,7 @@ describe("publish patch transaction", () => {
     expect(result.mediaPaths).toEqual([relativeMediaPath]);
     expect(readFileSync(path.join(root, relativeMediaPath))).toEqual(bytes);
     expect(git(root, "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD").split("\n").sort())
-      .toEqual(["public/data/library.json", relativeMediaPath].sort());
+      .toEqual([...PUBLISH_LIBRARY_COMMIT_PATHS, relativeMediaPath].sort());
     expect(() => validateLibrary(JSON.parse(readFileSync(path.join(root, "public", "data", "library.json"), "utf8")), { mediaRoot: path.join(root, "public", "media") })).not.toThrow();
   });
 
@@ -695,7 +698,7 @@ describe("publish patch transaction", () => {
     expect(published.assets[metadata.id]).toEqual(metadata);
     expect(readFileSync(path.join(root, relativeMediaPath))).toEqual(bytes);
     expect(git(root, "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD").split("\n").sort())
-      .toEqual(["public/data/library.json", relativeMediaPath].sort());
+      .toEqual([...PUBLISH_LIBRARY_COMMIT_PATHS, relativeMediaPath].sort());
   });
 
   it("rejects legacy inline assets in the static library", () => {
@@ -769,6 +772,7 @@ describe("publish patch transaction", () => {
 
     expect(() => publishPatchInRepository(root, createMediaPatch(bytes, metadata))).toThrow(/git commit/);
     expect(readFileSync(dataPath, "utf8")).toBe(original);
+    expect(existsSync(path.join(root, HISTORY_DATA_PATH))).toBe(false);
     expect(existsSync(path.join(root, "public", "media", `${metadata.id}.bin`))).toBe(false);
     expect(existsSync(path.join(root, "public", "media"))).toBe(false);
     expect(git(root, "rev-parse", "HEAD")).toBe(originalHead);
@@ -818,7 +822,7 @@ describe("publish patch transaction", () => {
 
     expect(existsSync(oldMedia)).toBe(false);
     expect(git(root, "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD").split("\n").sort())
-      .toEqual(["public/data/library.json", `public/media/${"f".repeat(64)}.bin`].sort());
+      .toEqual([...PUBLISH_LIBRARY_COMMIT_PATHS, `public/media/${"f".repeat(64)}.bin`].sort());
   });
 
   it("collects published metadata and media when an old patch removes only the owners", () => {
@@ -854,7 +858,7 @@ describe("publish patch transaction", () => {
     expect(result.mediaPaths).toEqual([relativeMediaPath]);
     expect(existsSync(path.join(root, relativeMediaPath))).toBe(false);
     expect(git(root, "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD").split("\n").sort())
-      .toEqual(["public/data/library.json", relativeMediaPath].sort());
+      .toEqual([...PUBLISH_LIBRARY_COMMIT_PATHS, relativeMediaPath].sort());
   });
 
   it("restores garbage-collected media when the publication commit fails", () => {
@@ -915,6 +919,7 @@ describe("publish patch transaction", () => {
 
     expect(() => publishPatchInRepository(root, createPatch())).toThrow(/git commit/);
     expect(readFileSync(dataPath, "utf8")).toBe(original);
+    expect(existsSync(path.join(root, HISTORY_DATA_PATH))).toBe(false);
     expect(git(root, "rev-parse", "HEAD")).toBe(originalHead);
     expect(git(root, "status", "--porcelain")).toBe("");
   });
@@ -970,8 +975,8 @@ describe("publish patch transaction", () => {
     expect(result.commitMessage).toBe(CREATE_GAME_MESSAGE);
     expect(git(root, "show", "-s", "--format=%B", "HEAD")).toBe(CREATE_GAME_MESSAGE);
     expect(git(root, "rev-parse", "HEAD^")).toBe(baseHead);
-    expect(git(root, "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD"))
-      .toBe("public/data/library.json");
+    expect(git(root, "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD").split("\n").sort())
+      .toEqual(PUBLISH_LIBRARY_COMMIT_PATHS.sort());
     expect(spawnSync("git", ["symbolic-ref", "--quiet", "--short", "HEAD"], { cwd: root }).status).not.toBe(0);
     expect(git(root, "rev-parse", "main")).toBe(baseHead);
     expect(git(remote, "rev-parse", "main")).toBe(remoteHeadBefore);
@@ -1001,7 +1006,7 @@ describe("publish patch transaction", () => {
     expect(result.commitMessage).toBe(CREATE_GAME_MESSAGE);
     expect(jj(root, "log", "-r", "@-", "--no-graph", "-T", "description"))
       .toBe(CREATE_GAME_MESSAGE);
-    expect(jj(root, "diff", "-r", "@-", "--summary")).toBe("M public/data/library.json");
+    expect(jj(root, "diff", "-r", "@-", "--summary")).toBe("A public/data/history.json\nM public/data/library.json");
     expect(jj(root, "log", "-r", "main", "--no-graph", "-T", "commit_id")).toBe(mainBefore);
     expect(JSON.parse(readFileSync(path.join(root, "public", "data", "library.json"), "utf8")).games[GAME_ID].title)
       .toBe("DuckTales");
@@ -1019,7 +1024,7 @@ describe("publish patch transaction", () => {
     expect(result.commitMessage).toBe(CREATE_GAME_MESSAGE);
     expect(jj(root, "log", "-r", "@-", "--no-graph", "-T", "description"))
       .toBe(CREATE_GAME_MESSAGE);
-    expect(jj(root, "diff", "-r", "@-", "--summary")).toBe("M public/data/library.json");
+    expect(jj(root, "diff", "-r", "@-", "--summary")).toBe("A public/data/history.json\nM public/data/library.json");
   });
 
   it.skipIf(!jjExecutable)("keeps unrelated untracked files outside a successful media publication", () => {
@@ -1041,7 +1046,7 @@ describe("publish patch transaction", () => {
     expect(jj(root, ...noAutoTrack, "log", "-r", "@", "--no-graph", "-T", "change_id"))
       .toBe(workingChangeBefore);
     expect(jj(root, ...noAutoTrack, "diff", "-r", "@-", "--summary").split("\n").sort())
-      .toEqual([`A ${relativeMediaPath}`, "M public/data/library.json"].sort());
+      .toEqual([`A ${relativeMediaPath}`, "A public/data/history.json", "M public/data/library.json"].sort());
   });
 
   it.skipIf(!jjExecutable)("restores the exact Jujutsu operation when splitting pre-existing untracked media fails", () => {
@@ -1102,7 +1107,7 @@ describe("publish patch transaction", () => {
     expect(jj(root, "log", "-r", "@", "--no-graph", "-T", "change_id")).toBe(workingChangeBefore);
     expect(jj(root, "diff", "--summary")).toBe("");
     expect(jj(root, "diff", "-r", "@-", "--summary").split("\n").sort())
-      .toEqual([`A ${relativeMediaPath}`, "M public/data/library.json"].sort());
+      .toEqual([`A ${relativeMediaPath}`, "A public/data/history.json", "M public/data/library.json"].sort());
     expect(readFileSync(path.join(root, relativeMediaPath))).toEqual(bytes);
   });
 });

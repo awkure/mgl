@@ -53,10 +53,12 @@ import {
   type TabStacksState,
   TAB_ROOTS,
 } from "./state/tabStacks";
+import type { HistoryEvent } from "./domain/historyTypes";
 function routeKind(pathname: string): AppRoute {
   if (pathname === "/") return "tiers";
   if (pathname === "/games") return "catalog";
   if (pathname === "/games/new") return "new";
+  if (pathname === "/history") return "history";
   if (pathname === "/settings") return "settings";
   if (pathname.startsWith("/games/")) return "game";
   return "catalog";
@@ -96,6 +98,37 @@ function LibraryRoutes() {
   const previousPendingCommitRef = useRef<string | null>(null);
   const [tabState, setTabState] = useState<TabStacksState>(() =>
     createInitialTabStacksState(entryFromPath(location.pathname, location.search.replace(/^\?/, "") || undefined)),
+  );
+  const [historyEvents, setHistoryEvents] = useState<HistoryEvent[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(true);
+  const [historyError, setHistoryError] = useState<string | null>(null);
+
+  const loadHistory = useCallback(async () => {
+    setHistoryLoading(true);
+    setHistoryError(null);
+    try {
+      const response = await fetch(`${import.meta.env.BASE_URL}data/history.json`);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = (await response.json()) as { events?: HistoryEvent[] };
+      setHistoryEvents(Array.isArray(data.events) ? data.events : []);
+    } catch (reason) {
+      setHistoryError(
+        reason instanceof Error
+          ? `Не удалось загрузить историю: ${reason.message}`
+          : "Не удалось загрузить историю",
+      );
+    } finally {
+      setHistoryLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    void loadHistory();
+  }, [loadHistory]);
+
+  const liveGameIds = useMemo(
+    () => new Set(Object.keys(library.effective.games)),
+    [library.effective.games],
   );
 
   const activeTop = stackTop(tabState) ?? TAB_ROOTS[tabState.activeTab];
@@ -169,7 +202,7 @@ function LibraryRoutes() {
       return;
     }
 
-    if (path === "/" || path === "/settings") {
+    if (path === "/" || path === "/history" || path === "/settings") {
       const tab = tabIdFromPath(path);
       setTabState((current) => ({
         activeTab: tab,
@@ -481,6 +514,15 @@ function LibraryRoutes() {
           }}
           onOpenGame={openGameOnTab}
           onProgress={setPagerProgress}
+          history={{
+            events: historyEvents,
+            loading: historyLoading,
+            error: historyError,
+            onRetry: () => { void loadHistory(); },
+            liveGameIds,
+            resolveAssetUrl: library.resolveAssetUrl,
+            onOpenGame: (gameId) => openGameOnTab("catalog", gameId),
+          }}
           settingsPat={{
             busy: githubSyncState.busy,
             connected: githubPatRef.current !== null,

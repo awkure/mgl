@@ -1,7 +1,8 @@
 import { type MutableRefObject, type ReactNode, useEffect, useRef } from "react";
 import type { TabId } from "../state/tabStacks";
-import { pagerIndexFromTab } from "../state/tabStacks";
+import { pagerIndexFromTab, tabFromPagerIndex } from "../state/tabStacks";
 import { CatalogRouteIsland, TierRouteIsland } from "../App/routeIslands";
+import { HistoryPage, type HistoryPageProps } from "../pages/HistoryPage";
 import { SettingsPage, type SettingsPatProps } from "../pages/SettingsPage";
 import { type MoveGameTarget } from "../pages/TierListPage";
 import {
@@ -26,6 +27,7 @@ export interface SwipePagerProps {
   tiersOverlay?: ReactNode;
   catalogOverlay?: ReactNode;
   settingsOverlay?: ReactNode;
+  history?: HistoryPageProps;
 }
 
 export function SwipePager({
@@ -41,6 +43,7 @@ export function SwipePager({
   tiersOverlay,
   catalogOverlay,
   settingsOverlay,
+  history,
 }: SwipePagerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -55,8 +58,7 @@ export function SwipePager({
     settleKey,
     isBlocked: () => draggingRef.current,
     onCommit: (next) => {
-      const tab = next === 0 ? "tiers" : next === 1 ? "catalog" : "settings";
-      onActivateTab(tab);
+      onActivateTab(tabFromPagerIndex(next));
     },
     onProgress,
     onDraggingChange,
@@ -96,7 +98,13 @@ export function SwipePager({
             {catalogOverlay ? <div className="swipe-pager__overlay">{catalogOverlay}</div> : null}
           </div>
         </SwipePanel>
-        <SwipePanel active={index === 2} labelledBy="settings-panel-label">
+        <SwipePanel active={index === 2} labelledBy="history-panel-label">
+          <span className="visually-hidden" id="history-panel-label">История</span>
+          <div className="swipe-pager__stack">
+            <HistoryPage {...history} />
+          </div>
+        </SwipePanel>
+        <SwipePanel active={index === 3} labelledBy="settings-panel-label">
           <span className="visually-hidden" id="settings-panel-label">Настройки</span>
           <div className="swipe-pager__stack">
             <SettingsPage pat={settingsPat} />
