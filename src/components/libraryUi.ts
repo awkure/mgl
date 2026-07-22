@@ -41,6 +41,15 @@ export const TIER_DESCRIPTIONS: Record<TierId, string> = {
   unranked: "Ещё не в тирлисте",
 };
 
+export const TIER_MEANINGS: Record<Exclude<TierId, "unranked">, string> = {
+  s: "Шедевр",
+  a: "Отлично, но не дотягивает до шедевра",
+  b: "Хорошая игра",
+  c: "Норм, можно и скипнуть",
+  d: "Плохо — жаль потраченного времени",
+  f: "Очень плохо",
+};
+
 export function formatBytes(bytes: number): string {
   if (!Number.isFinite(bytes) || bytes <= 0) return "0 Б";
   const units = ["Б", "КБ", "МБ", "ГБ"];

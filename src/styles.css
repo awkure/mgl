@@ -1449,6 +1449,28 @@ h4 {
   font-size: 12px;
 }
 
+.settings-tier-legend {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.settings-tier-legend__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.settings-tier-legend__row .tier-badge {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
 .theme-selector {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

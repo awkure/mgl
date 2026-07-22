@@ -66,6 +66,18 @@ describe("SettingsPage", () => {
     expect(loadRandomGameStatuses()).toEqual(["playing"]);
   });
 
+  it("shows graded tier meanings legend", () => {
+    render(<SettingsPage />);
+    expect(screen.getByRole("heading", { name: "Тирлист" })).toBeInTheDocument();
+    expect(screen.getByText("Шедевр")).toBeInTheDocument();
+    expect(screen.getByText("Отлично, но не дотягивает до шедевра")).toBeInTheDocument();
+    expect(screen.getByText("Хорошая игра")).toBeInTheDocument();
+    expect(screen.getByText("Норм, можно и скипнуть")).toBeInTheDocument();
+    expect(screen.getByText("Плохо — жаль потраченного времени")).toBeInTheDocument();
+    expect(screen.getByText("Очень плохо")).toBeInTheDocument();
+    expect(screen.queryByText("Ещё не в тирлисте")).not.toBeInTheDocument();
+  });
+
   it("saves and disconnects a GitHub PAT through settings", async () => {
     const user = userEvent.setup();
     const onSave = vi.fn().mockResolvedValue(undefined);

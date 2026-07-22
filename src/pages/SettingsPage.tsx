@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { STATUS_IDS, type StatusId } from "../domain/types";
+import { STATUS_IDS, TIER_IDS, type StatusId } from "../domain/types";
 import { applyTheme, loadTheme, saveTheme, type ThemeId } from "../state/theme";
 import {
   loadRandomGameStatuses,
@@ -7,7 +7,7 @@ import {
 } from "../state/randomGamePrefs";
 import type { GitHubPatPersistence } from "../state/githubPat";
 import { Icon } from "../components/Icon";
-import { STATUS_LABELS } from "../components/libraryUi";
+import { STATUS_LABELS, TIER_LABELS, TIER_MEANINGS } from "../components/libraryUi";
 
 const THEME_OPTIONS: { id: ThemeId; label: string }[] = [
   { id: "dark", label: "Тёмная" },
@@ -122,6 +122,26 @@ export function SettingsPage({ pat }: SettingsPageProps) {
             </button>
           ))}
         </div>
+      </section>
+
+      <section aria-labelledby="settings-tiers-heading" className="settings-card">
+        <div className="settings-card__header">
+          <span className="settings-card__icon" aria-hidden="true">
+            <Icon name="info" size={18} />
+          </span>
+          <div>
+            <h2 id="settings-tiers-heading">Тирлист</h2>
+            <p>Что означают буквы на доске.</p>
+          </div>
+        </div>
+        <ul className="settings-tier-legend" aria-label="Значения тиров">
+          {TIER_IDS.filter((id): id is Exclude<typeof id, "unranked"> => id !== "unranked").map((tierId) => (
+            <li className="settings-tier-legend__row" key={tierId}>
+              <b className={`tier-badge tier-badge--${tierId}`}>{TIER_LABELS[tierId]}</b>
+              <span>{TIER_MEANINGS[tierId]}</span>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section aria-labelledby="settings-random-heading" className="settings-card">
