@@ -75,6 +75,14 @@ steam-import-media-via-patch *ARGS:
 steam-import-media *ARGS:
     npm run import:steam-media -- --apply {{ARGS}}
 
+# Steam covers only → patch file
+steam-import-covers-via-patch *ARGS:
+    npm run import:steam-covers -- {{ARGS}}
+
+# Steam covers only → apply into public/data + public/media
+steam-import-covers *ARGS:
+    npm run import:steam-covers -- --apply {{ARGS}}
+
 # Full benchmark suite (build + vitest/bundle/FPS/Lighthouse)
 bench: ensure-env
     npm run build

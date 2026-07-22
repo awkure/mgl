@@ -19,6 +19,7 @@
     "steam:probe": "node --experimental-strip-types scripts/steam-probe.mjs",
     "import:steam": "node --experimental-strip-types scripts/import-steam.mjs",
     "import:steam-media": "node --experimental-strip-types scripts/import-steam-media.mjs",
+    "import:steam-covers": "node --experimental-strip-types scripts/import-steam-covers.mjs",
     "test:steam": "vitest run tests/steam-live.test.ts",
     "test:coverage": "vitest run --coverage",
     "bench": "vitest bench --run benchmarks/vitest",
