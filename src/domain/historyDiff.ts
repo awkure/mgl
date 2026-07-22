@@ -1,7 +1,14 @@
-import { canonicalHash, canonicalStringify } from "./canonical";
-import { entityPath } from "./patch";
-import type { HistoryEntity, HistoryEvent } from "./historyTypes";
-import type { Game, LibraryDatabase, Note, PatchEnvelope } from "./types";
+import { canonicalHash, canonicalStringify } from "./canonical.ts";
+import type { HistoryEntity, HistoryEvent } from "./historyTypes.ts";
+import type { Game, LibraryDatabase, Note, PatchEnvelope } from "./types.ts";
+
+function pointerToken(value: string): string {
+  return value.replace(/~/g, "~0").replace(/\//g, "~1");
+}
+
+function entityPath(map: "games" | "notes", id: string, field?: string): string {
+  return `/${map}/${pointerToken(id)}${field === undefined ? "" : `/${pointerToken(field)}`}`;
+}
 
 const TRACKED_GAME_FIELDS = [
   "title",

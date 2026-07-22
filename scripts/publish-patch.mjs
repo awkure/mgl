@@ -35,6 +35,14 @@ import {
   validateLibrary,
 } from "./validate-data.mjs";
 import { buildCommitMessage } from "../src/shared/commitMessage.js";
+import {
+  appendHistoryEvents,
+  emptyHistoryFile,
+  formatHistoryFile,
+  parseHistoryJson,
+  relativeHistoryPath,
+  diffLibraryToHistoryEvents,
+} from "./lib/history.mjs";
 
 export { buildCommitMessage };
 
@@ -554,10 +562,14 @@ async function readPayloadArgument(args) {
 export function publishPatchInRepository(root, patch) {
   const relativeDataPath = "public/data/library.json";
   const dataPath = path.join(root, relativeDataPath);
+  const historyPath = path.join(root, relativeHistoryPath);
   const kind = repositoryKind(root);
   assertLibraryPathSafe(root, relativeDataPath);
   assertLibraryFileClean(root, relativeDataPath);
+  const historyExisted = existsSync(historyPath);
+  if (historyExisted) assertLibraryFileClean(root, relativeHistoryPath);
   const original = readFileSync(dataPath, "utf8");
+  const originalHistory = historyExisted ? readFileSync(historyPath, "utf8") : null;
   const database = JSON.parse(original);
   validateLibrary(database);
   verifyPublishedMedia(root, database);
@@ -567,16 +579,27 @@ export function publishPatchInRepository(root, patch) {
   const { database: next, sources } = preparePublishedAssets(semanticNext, parsed.blobBytes);
   const media = prepareMediaWrites(root, next, sources);
   assertMediaPathsClean(root, media.commitPaths);
-  const commitPaths = [relativeDataPath, ...media.commitPaths];
+  const existingHistory = originalHistory ? parseHistoryJson(originalHistory) : emptyHistoryFile();
+  const incomingHistory = diffLibraryToHistoryEvents({
+    before: database,
+    after: next,
+    patch: parsed.normalizedPatch,
+  });
+  const nextHistory = appendHistoryEvents(existingHistory, incomingHistory);
+  const stagePaths = [...media.writePaths];
+  if (!historyExisted) stagePaths.push(relativeHistoryPath);
+  const commitPaths = [relativeDataPath, relativeHistoryPath, ...media.commitPaths];
   const jujutsuOperation = kind === "jj" ? captureJujutsuOperation(root) : null;
   const operationCount = Object.keys(patch.operations).length;
   const tempPath = `${dataPath}.tmp-${process.pid}`;
+  const historyTempPath = `${historyPath}.tmp-${process.pid}`;
   const mediaTempPaths = [];
   const createdMediaPaths = [];
   const deletedMedia = [];
   const transaction = { gitStageAttempted: false, jjMutationAttempted: false };
   let createdMediaRoot = false;
   let dataReplaced = false;
+  let historyReplaced = false;
 
   try {
     if (media.writes.length > 0) {
@@ -598,8 +621,11 @@ export function publishPatchInRepository(root, patch) {
     writeFileSync(tempPath, `${JSON.stringify(next, null, 2)}\n`, { encoding: "utf8", mode: 0o644, flag: "wx" });
     renameSync(tempPath, dataPath);
     dataReplaced = true;
+    writeFileSync(historyTempPath, formatHistoryFile(nextHistory), { encoding: "utf8", mode: 0o644, flag: "wx" });
+    renameSync(historyTempPath, historyPath);
+    historyReplaced = true;
     git(root, ["diff", "--check", "--", ...commitPaths]);
-    commitLibraryUpdate(root, commitPaths, media.writePaths, kind, commit.message, transaction);
+    commitLibraryUpdate(root, commitPaths, stagePaths, kind, commit.message, transaction);
   } catch (cause) {
     const rollbackFailures = [];
     if (kind === "git" && transaction.gitStageAttempted) {
@@ -610,6 +636,7 @@ export function publishPatchInRepository(root, patch) {
       }
     }
     removeRollbackPath(tempPath, rollbackFailures, `remove temporary ${relativeDataPath}`);
+    removeRollbackPath(historyTempPath, rollbackFailures, `remove temporary ${relativeHistoryPath}`);
     for (const tempMediaPath of mediaTempPaths) {
       removeRollbackPath(tempMediaPath, rollbackFailures, `remove temporary ${path.relative(root, tempMediaPath)}`);
     }
@@ -619,6 +646,19 @@ export function publishPatchInRepository(root, patch) {
         renameSync(tempPath, dataPath);
       });
       removeRollbackPath(tempPath, rollbackFailures, `remove rollback temporary ${relativeDataPath}`);
+    }
+    if (historyReplaced) {
+      if (originalHistory === null) {
+        collectRollbackFailure(rollbackFailures, `remove created ${relativeHistoryPath}`, () => {
+          if (existsSync(historyPath)) unlinkSync(historyPath);
+        });
+      } else {
+        collectRollbackFailure(rollbackFailures, `restore ${relativeHistoryPath}`, () => {
+          writeFileSync(historyTempPath, originalHistory, { encoding: "utf8", mode: 0o644, flag: "wx" });
+          renameSync(historyTempPath, historyPath);
+        });
+        removeRollbackPath(historyTempPath, rollbackFailures, `remove rollback temporary ${relativeHistoryPath}`);
+      }
     }
     for (const filePath of createdMediaPaths) {
       removeRollbackPath(filePath, rollbackFailures, `remove created ${path.relative(root, filePath)}`);

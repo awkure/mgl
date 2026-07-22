@@ -8,11 +8,12 @@
  */
 
 import { createHash } from "node:crypto";
-import { lstatSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, lstatSync, readFileSync, readdirSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { relativeHistoryPath, validateHistoryFile } from "./lib/history.mjs";
 
 const ROOT_KEYS = [
   "schemaVersion",
@@ -509,6 +510,19 @@ async function main() {
     throw new Error(`${inputPath} is not valid JSON: ${cause.message}`);
   }
   validateLibrary(database, { mediaRoot: path.resolve(path.dirname(inputPath), "..", "media") });
+  const historyPath = path.resolve(path.dirname(inputPath), "history.json");
+  if (existsSync(historyPath)) {
+    let history;
+    try {
+      history = JSON.parse(readFileSync(historyPath, "utf8"));
+    } catch (cause) {
+      throw new Error(`${historyPath} is not valid JSON: ${cause.message}`);
+    }
+    validateHistoryFile(history);
+    process.stdout.write(`Valid history data: ${historyPath}\n`);
+  } else {
+    process.stderr.write(`Warning: ${relativeHistoryPath} is missing; history validation skipped\n`);
+  }
   process.stdout.write(`Valid library data: ${inputPath}\n`);
 }
 
