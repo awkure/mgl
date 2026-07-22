@@ -1990,6 +1990,50 @@ describe("TierListPage", () => {
     expect(onOpenGame).not.toHaveBeenCalled();
   });
 
+  it("still blocks a ghost click that arrives after the drag-end macrotask", async () => {
+    const user = userEvent.setup();
+    const onMoveGame = vi.fn();
+    const onOpenGame = vi.fn();
+    const games = [
+      makeGame({ placement: { tierId: "a", rank: 1024 } }),
+      makeGame({ id: MARIO_ID, title: "Mario", placement: { tierId: "a", rank: 2048 } }),
+      makeGame({ id: ZELDA_ID, title: "Zelda", placement: { tierId: "a", rank: 3072 } }),
+    ];
+    const cardLeft = new Map([["DuckTales", 0], ["Mario", 140], ["Zelda", 280]]);
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function () {
+      if (this.matches(".game-card")) {
+        const title = this.getAttribute("title") ?? "";
+        return domRect(cardLeft.get(title) ?? 0, 100, 120, 160);
+      }
+      if (this.matches(".tier-row__games")) return domRect(0, 100, 560, 180);
+      return domRect(0, 0, 1024, 768);
+    });
+
+    renderTierListPage({ assets: {}, games, onMoveGame, onOpenGame });
+    const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
+    const card = cover.closest("article");
+
+    await user.pointer([{ keys: "[MouseLeft>]", target: cover, coords: { clientX: 10, clientY: 120 } }]);
+    await user.pointer([{ target: cover, coords: { clientX: 170, clientY: 120 } }]);
+    await waitFor(() => expect(card).toHaveClass("is-dragging"));
+    await user.pointer([{ target: cover, coords: { clientX: 180, clientY: 120 } }]);
+    await user.pointer([{ keys: "[/MouseLeft]", target: cover, coords: { clientX: 180, clientY: 120 } }]);
+
+    await waitFor(() => {
+      expect(onMoveGame).toHaveBeenCalledWith(DUCK_ID, { tierId: "a", index: 1 });
+    });
+    // Real browsers often deliver the post-drag click after layout/drop-animation macrotasks —
+    // longer than a bare setTimeout(0) suppress window.
+    await new Promise((resolve) => window.setTimeout(resolve, 50));
+    fireEvent.click(screen.getByRole("link", { name: /Mario, статус: Играю.*пробел — перетащить/ }));
+    expect(onOpenGame).not.toHaveBeenCalled();
+
+    // A later intentional click must still open.
+    await new Promise((resolve) => window.setTimeout(resolve, 500));
+    fireEvent.click(screen.getByRole("link", { name: /Mario, статус: Играю.*пробел — перетащить/ }));
+    expect(onOpenGame).toHaveBeenCalledWith(MARIO_ID);
+  });
+
   it("moves a game into an empty tier row under the pointer", async () => {
     const user = userEvent.setup();
     const onMoveGame = vi.fn();

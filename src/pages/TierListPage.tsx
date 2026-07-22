@@ -1,4 +1,4 @@
-import { memo, useDeferredValue, useMemo, useRef, useState, type AnchorHTMLAttributes, type CSSProperties, type HTMLAttributes, type MutableRefObject } from "react";
+import { memo, useDeferredValue, useEffect, useMemo, useRef, useState, type AnchorHTMLAttributes, type CSSProperties, type HTMLAttributes, type MutableRefObject } from "react";
 import { gameMatchesFilters } from "../domain/catalogue";
 import { emptyCatalogSearchFilters } from "../domain/catalogSearch";
 import { useTierFilters } from "../components/screenFilters";
@@ -266,6 +266,7 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, onRefresh,
   const mobileChrome = useMobileChrome();
   const dragItemsRef = useRef<TierGameIds | null>(null);
   const suppressOpen = useRef(false);
+  const suppressClickCleanup = useRef<(() => void) | null>(null);
   const sensors = useSensors(
     useSensor(TIER_LIST_SENSOR_TYPES.pointer, TIER_LIST_SENSOR_OPTIONS.pointer),
     useSensor(TIER_LIST_SENSOR_TYPES.touch, TIER_LIST_SENSOR_OPTIONS.touch),
@@ -282,9 +283,39 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, onRefresh,
   );
   const activeGame = activeId ? gameById[activeId] ?? null : null;
 
+  const clearOpenSuppress = () => {
+    suppressClickCleanup.current?.();
+    suppressClickCleanup.current = null;
+    suppressOpen.current = false;
+  };
+
+  useEffect(() => () => {
+    suppressClickCleanup.current?.();
+    suppressClickCleanup.current = null;
+  }, []);
+
+  const armOpenSuppress = () => {
+    clearOpenSuppress();
+    suppressOpen.current = true;
+    // Browsers fire a click after pointerup on custom drags, often after drop-animation macrotasks.
+    // Swallow clicks in capture for a short window; openGame also ignores during that window.
+    const swallowClick = (event: MouseEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+    const timeoutId = window.setTimeout(() => {
+      clearOpenSuppress();
+    }, 400);
+    document.addEventListener("click", swallowClick, true);
+    suppressClickCleanup.current = () => {
+      document.removeEventListener("click", swallowClick, true);
+      window.clearTimeout(timeoutId);
+    };
+  };
+
   const onDragStart = ({ active }: DragStartEvent) => {
     const gameId = String(active.data.current?.gameId ?? "");
-    suppressOpen.current = true;
+    armOpenSuppress();
     if (draggingRef) draggingRef.current = true;
     setActiveId(gameId);
     dragItemsRef.current = baseItems;
@@ -295,10 +326,8 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, onRefresh,
     dragItemsRef.current = null;
     setDragItems(null);
     if (draggingRef) draggingRef.current = false;
-    // Keep suppress through the ghost click that follows pointerup; clear after that task.
-    window.setTimeout(() => {
-      suppressOpen.current = false;
-    }, 0);
+    // Re-arm so the post-release ghost click is swallowed even after layout/drop animation.
+    armOpenSuppress();
   };
   const onDragOver = ({ active, over }: DragOverEvent) => {
     if (!over) return;
