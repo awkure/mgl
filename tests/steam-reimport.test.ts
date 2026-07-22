@@ -1,11 +1,14 @@
 import { describe, expect, it } from "vitest";
 import type { Game } from "../src/domain/types";
 import {
+  achievementCountsFromSteam,
   buildSnapshotGameFromCandidate,
   canWriteAchievementProgress,
   mergeSteamGameUpdate,
   nextSteamOverrides,
+  proposeSteamFieldsFromCandidate,
   snapshotGamesEqual,
+  type SteamProposedFields,
   type SteamSnapshotGame,
 } from "../src/domain/steamReimport";
 
@@ -42,6 +45,22 @@ function snap(overrides: Partial<SteamSnapshotGame> = {}): SteamSnapshotGame {
     rtimeLastPlayed: 1735689600,
     genres: ["Action"],
     headerImage: "https://cdn.example/header.jpg",
+    achievementsUnlocked: null,
+    achievementsTotal: null,
+    ...overrides,
+  };
+}
+
+function proposed(overrides: Partial<SteamProposedFields> = {}): SteamProposedFields {
+  return {
+    title: "Test Game",
+    tags: ["Action"],
+    status: "played",
+    hoursPlayed: 10,
+    lastPlayedAt: "2026-01-01T00:00:00.000Z",
+    coverAssetId: null,
+    achievementsUnlocked: null,
+    achievementsTotal: null,
     ...overrides,
   };
 }
@@ -58,6 +77,60 @@ describe("snapshotGamesEqual", () => {
   it("returns false on header or playtime mismatch", () => {
     expect(snapshotGamesEqual(snap(), snap({ headerImage: null }))).toBe(false);
     expect(snapshotGamesEqual(snap(), snap({ playtimeForever: 601 }))).toBe(false);
+  });
+
+  it("returns false when achievement counts differ", () => {
+    expect(snapshotGamesEqual(snap(), snap({ achievementsUnlocked: 5, achievementsTotal: 10 }))).toBe(false);
+  });
+
+  it("returns true when achievement counts match", () => {
+    expect(
+      snapshotGamesEqual(
+        snap({ achievementsUnlocked: 12, achievementsTotal: 40 }),
+        snap({ achievementsUnlocked: 12, achievementsTotal: 40 }),
+      ),
+    ).toBe(true);
+  });
+
+  it("returns false when one snapshot lacks achievement keys (legacy)", () => {
+    const legacy = {
+      name: "Test Game",
+      playtimeForever: 600,
+      playtime2Weeks: 0,
+      rtimeLastPlayed: 1735689600,
+      genres: ["Action"],
+      headerImage: "https://cdn.example/header.jpg",
+    } as SteamSnapshotGame;
+    expect(snapshotGamesEqual(legacy, snap())).toBe(false);
+  });
+});
+
+describe("achievementCountsFromSteam", () => {
+  it("returns null when stats unavailable", () => {
+    expect(
+      achievementCountsFromSteam({ schemaTotal: 10, unlocked: 5, available: false }),
+    ).toBeNull();
+  });
+
+  it("returns null for invalid schema or unlocked", () => {
+    expect(achievementCountsFromSteam({ schemaTotal: null, unlocked: 5, available: true })).toBeNull();
+    expect(achievementCountsFromSteam({ schemaTotal: 0, unlocked: 5, available: true })).toBeNull();
+    expect(achievementCountsFromSteam({ schemaTotal: 10, unlocked: null, available: true })).toBeNull();
+  });
+
+  it("returns clamped counts when valid", () => {
+    expect(achievementCountsFromSteam({ schemaTotal: 40, unlocked: 12, available: true })).toEqual({
+      unlocked: 12,
+      total: 40,
+    });
+    expect(achievementCountsFromSteam({ schemaTotal: 10, unlocked: 99, available: true })).toEqual({
+      unlocked: 10,
+      total: 10,
+    });
+    expect(achievementCountsFromSteam({ schemaTotal: 5, unlocked: -1, available: true })).toEqual({
+      unlocked: 0,
+      total: 5,
+    });
   });
 });
 
@@ -80,14 +153,7 @@ describe("mergeSteamGameUpdate", () => {
   it("always updates hours when proposed differs", () => {
     const result = mergeSteamGameUpdate({
       existing: baseGame({ hoursPlayed: 10 }),
-      proposed: {
-        title: "Test Game",
-        tags: ["Action"],
-        status: "played",
-        hoursPlayed: 20,
-        lastPlayedAt: "2026-01-01T00:00:00.000Z",
-        coverAssetId: null,
-      },
+      proposed: proposed({ hoursPlayed: 20 }),
       force: false,
       now: NOW,
     });
@@ -99,14 +165,7 @@ describe("mergeSteamGameUpdate", () => {
     const locked = baseGame({ steamOverrides: { title: true } });
     const noForce = mergeSteamGameUpdate({
       existing: locked,
-      proposed: {
-        title: "Steam Title",
-        tags: ["Action"],
-        status: "played",
-        hoursPlayed: 10,
-        lastPlayedAt: "2026-01-01T00:00:00.000Z",
-        coverAssetId: null,
-      },
+      proposed: proposed({ title: "Steam Title" }),
       force: false,
       now: NOW,
     });
@@ -115,14 +174,7 @@ describe("mergeSteamGameUpdate", () => {
 
     const forced = mergeSteamGameUpdate({
       existing: locked,
-      proposed: {
-        title: "Steam Title",
-        tags: ["Action"],
-        status: "played",
-        hoursPlayed: 10,
-        lastPlayedAt: "2026-01-01T00:00:00.000Z",
-        coverAssetId: null,
-      },
+      proposed: proposed({ title: "Steam Title" }),
       force: true,
       now: NOW,
     });
@@ -133,14 +185,7 @@ describe("mergeSteamGameUpdate", () => {
     const platinum = baseGame({ status: "platinum", steamOverrides: {} });
     const noForce = mergeSteamGameUpdate({
       existing: platinum,
-      proposed: {
-        title: "Test Game",
-        tags: ["Action"],
-        status: "playing",
-        hoursPlayed: 10,
-        lastPlayedAt: "2026-01-01T00:00:00.000Z",
-        coverAssetId: null,
-      },
+      proposed: proposed({ status: "playing" }),
       force: false,
       now: NOW,
     });
@@ -149,14 +194,7 @@ describe("mergeSteamGameUpdate", () => {
 
     const forced = mergeSteamGameUpdate({
       existing: platinum,
-      proposed: {
-        title: "Test Game",
-        tags: ["Action"],
-        status: "playing",
-        hoursPlayed: 10,
-        lastPlayedAt: "2026-01-01T00:00:00.000Z",
-        coverAssetId: null,
-      },
+      proposed: proposed({ status: "playing" }),
       force: true,
       now: NOW,
     });
@@ -166,18 +204,91 @@ describe("mergeSteamGameUpdate", () => {
   it("updates soft played to playing when proposed is playing", () => {
     const result = mergeSteamGameUpdate({
       existing: baseGame({ status: "played" }),
-      proposed: {
-        title: "Test Game",
-        tags: ["Action"],
-        status: "playing",
-        hoursPlayed: 10,
-        lastPlayedAt: "2026-01-01T00:00:00.000Z",
-        coverAssetId: null,
-      },
+      proposed: proposed({ status: "playing" }),
       force: false,
       now: NOW,
     });
     expect(result.game?.status).toBe("playing");
+  });
+
+  it("writes achievement counts when proposed differs and lock allows", () => {
+    const result = mergeSteamGameUpdate({
+      existing: baseGame({ achievementsUnlocked: null, achievementsTotal: null }),
+      proposed: proposed({ achievementsUnlocked: 12, achievementsTotal: 40 }),
+      force: false,
+      now: NOW,
+    });
+    expect(result.game?.achievementsUnlocked).toBe(12);
+    expect(result.game?.achievementsTotal).toBe(40);
+    expect(result.changedKeys).toContain("achievementsUnlocked");
+    expect(result.changedKeys).toContain("achievementsTotal");
+  });
+
+  it("skips achievement count writes on platinum without force", () => {
+    const result = mergeSteamGameUpdate({
+      existing: baseGame({
+        status: "platinum",
+        achievementsUnlocked: 30,
+        achievementsTotal: 40,
+      }),
+      proposed: proposed({ achievementsUnlocked: 40, achievementsTotal: 40 }),
+      force: false,
+      now: NOW,
+    });
+    expect(result.game).toBeNull();
+    expect(result.skipReason).toBe("locked");
+  });
+
+  it("auto-platinum on 100% when status is soft", () => {
+    const result = mergeSteamGameUpdate({
+      existing: baseGame({ status: "played" }),
+      proposed: proposed({
+        status: "wishlist",
+        achievementsUnlocked: 40,
+        achievementsTotal: 40,
+      }),
+      force: false,
+      now: NOW,
+    });
+    expect(result.game?.status).toBe("platinum");
+    expect(result.game?.achievementsUnlocked).toBe(40);
+    expect(result.changedKeys).toContain("status");
+  });
+
+  it("100% does not auto-platinum completed without force", () => {
+    const result = mergeSteamGameUpdate({
+      existing: baseGame({ status: "completed" }),
+      proposed: proposed({ achievementsUnlocked: 10, achievementsTotal: 10 }),
+      force: false,
+      now: NOW,
+    });
+    expect(result.game?.status).toBe("completed");
+    expect(result.game?.achievementsUnlocked).toBe(10);
+  });
+
+  it("100% achievements override playtime status on soft game", () => {
+    const result = mergeSteamGameUpdate({
+      existing: baseGame({ status: "playing" }),
+      proposed: proposed({
+        status: "played",
+        achievementsUnlocked: 5,
+        achievementsTotal: 5,
+      }),
+      force: false,
+      now: NOW,
+    });
+    expect(result.game?.status).toBe("platinum");
+  });
+
+  it("leaves existing counts when proposed achievement fields are null", () => {
+    const result = mergeSteamGameUpdate({
+      existing: baseGame({ achievementsUnlocked: 3, achievementsTotal: 20 }),
+      proposed: proposed({ achievementsUnlocked: null, achievementsTotal: null }),
+      force: false,
+      now: NOW,
+    });
+    expect(result.skipReason).toBe("unchanged");
+    expect(result.game).toBeNull();
   });
 
   it("never changes placement or reviewMarkdown even with force", () => {
@@ -187,14 +298,14 @@ describe("mergeSteamGameUpdate", () => {
     });
     const result = mergeSteamGameUpdate({
       existing,
-      proposed: {
+      proposed: proposed({
         title: "New Title",
         tags: ["RPG"],
         status: "playing",
         hoursPlayed: 99,
         lastPlayedAt: null,
         coverAssetId: "abc123",
-      },
+      }),
       force: true,
       now: NOW,
     });
@@ -207,14 +318,12 @@ describe("mergeSteamGameUpdate", () => {
       existing: baseGame({
         steamOverrides: { title: true, tags: true, status: true, coverAssetId: true },
       }),
-      proposed: {
+      proposed: proposed({
         title: "Other",
         tags: ["RPG"],
         status: "playing",
-        hoursPlayed: 10,
-        lastPlayedAt: "2026-01-01T00:00:00.000Z",
         coverAssetId: "new-cover",
-      },
+      }),
       force: false,
       now: NOW,
     });
@@ -226,14 +335,13 @@ describe("mergeSteamGameUpdate", () => {
     const existing = baseGame();
     const result = mergeSteamGameUpdate({
       existing,
-      proposed: {
+      proposed: proposed({
         title: existing.title,
         tags: [...existing.tags],
         status: existing.status,
         hoursPlayed: existing.hoursPlayed ?? 0,
         lastPlayedAt: existing.lastPlayedAt,
-        coverAssetId: null,
-      },
+      }),
       force: false,
       now: NOW,
     });
@@ -244,14 +352,7 @@ describe("mergeSteamGameUpdate", () => {
   it("treats null hoursPlayed as 0 vs Steam zero minutes", () => {
     const result = mergeSteamGameUpdate({
       existing: baseGame({ hoursPlayed: null }),
-      proposed: {
-        title: "Test Game",
-        tags: ["Action"],
-        status: "played",
-        hoursPlayed: 0,
-        lastPlayedAt: "2026-01-01T00:00:00.000Z",
-        coverAssetId: null,
-      },
+      proposed: proposed({ hoursPlayed: 0 }),
       force: false,
       now: NOW,
     });
@@ -309,7 +410,59 @@ describe("buildSnapshotGameFromCandidate", () => {
       rtimeLastPlayed: 1700000000,
       genres: ["Action", "Free to Play"],
       headerImage: "https://cdn/h.jpg",
+      achievementsUnlocked: null,
+      achievementsTotal: null,
     });
+  });
+
+  it("includes optional achievement counts", () => {
+    const built = buildSnapshotGameFromCandidate(
+      {
+        name: "Dota 2",
+        playtime_forever: 120,
+        playtime_2weeks: 30,
+        rtime_last_played: 1700000000,
+        details: { genres: ["Action"], headerImage: null },
+      },
+      { unlocked: 3, total: 10 },
+    );
+    expect(built.achievementsUnlocked).toBe(3);
+    expect(built.achievementsTotal).toBe(10);
+  });
+});
+
+describe("proposeSteamFieldsFromCandidate", () => {
+  it("defaults achievement counts to null", () => {
+    const fields = proposeSteamFieldsFromCandidate(
+      {
+        appid: 570,
+        name: "Dota 2",
+        playtime_forever: 0,
+        playtime_2weeks: 0,
+        rtime_last_played: 0,
+        details: null,
+      },
+      null,
+    );
+    expect(fields.achievementsUnlocked).toBeNull();
+    expect(fields.achievementsTotal).toBeNull();
+  });
+
+  it("passes through optional achievement counts", () => {
+    const fields = proposeSteamFieldsFromCandidate(
+      {
+        appid: 570,
+        name: "Dota 2",
+        playtime_forever: 0,
+        playtime_2weeks: 0,
+        rtime_last_played: 0,
+        details: null,
+      },
+      null,
+      { unlocked: 7, total: 20 },
+    );
+    expect(fields.achievementsUnlocked).toBe(7);
+    expect(fields.achievementsTotal).toBe(20);
   });
 });
 

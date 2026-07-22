@@ -17,6 +17,8 @@ export interface SteamSnapshotGame {
   rtimeLastPlayed: number;
   genres: string[];
   headerImage: string | null;
+  achievementsUnlocked: number | null;
+  achievementsTotal: number | null;
 }
 
 export interface SteamImportSnapshot {
@@ -33,6 +35,8 @@ export interface SteamProposedFields {
   hoursPlayed: number;
   lastPlayedAt: string | null;
   coverAssetId: string | null;
+  achievementsUnlocked: number | null;
+  achievementsTotal: number | null;
 }
 
 export type SteamMergeSkipReason = "unchanged" | "locked";
@@ -50,6 +54,23 @@ export function normalizedSteamHoursPlayed(hours: number | null | undefined): nu
 
 export function canWriteAchievementProgress(status: StatusId, force: boolean): boolean {
   return force || status !== "platinum";
+}
+
+export function achievementCountsFromSteam(input: {
+  schemaTotal: number | null;
+  unlocked: number | null;
+  available: boolean;
+}): { unlocked: number; total: number } | null {
+  if (!input.available) return null;
+  const total = input.schemaTotal;
+  const rawUnlocked = input.unlocked;
+  if (total == null || total <= 0 || rawUnlocked == null) return null;
+  const unlocked = Math.max(0, Math.min(rawUnlocked, total));
+  return { unlocked, total };
+}
+
+function snapshotAchievementFieldsPresent(entry: SteamSnapshotGame): boolean {
+  return "achievementsUnlocked" in entry && "achievementsTotal" in entry;
 }
 
 export function snapshotUnchangedForCandidate(
@@ -80,8 +101,10 @@ export function proposeSteamFieldsFromCandidate(
     details: { genres?: string[] } | null;
   },
   coverAssetId: string | null,
+  achievements?: { unlocked: number | null; total: number | null } | null,
 ): SteamProposedFields {
   const title = (candidate.name.trim() || `Steam ${candidate.appid}`).slice(0, 500);
+  const achievementCounts = achievements ?? null;
   return {
     title,
     tags: uniqueTagList(candidate.details?.genres ?? []),
@@ -89,6 +112,8 @@ export function proposeSteamFieldsFromCandidate(
     hoursPlayed: hoursFromSteamMinutes(candidate.playtime_forever),
     lastPlayedAt: lastPlayedAtFromSteam(candidate.rtime_last_played),
     coverAssetId,
+    achievementsUnlocked: achievementCounts?.unlocked ?? null,
+    achievementsTotal: achievementCounts?.total ?? null,
   };
 }
 
@@ -179,6 +204,9 @@ export function snapshotGamesEqual(a: SteamSnapshotGame, b: SteamSnapshotGame): 
   if (a.playtime2Weeks !== b.playtime2Weeks) return false;
   if (a.rtimeLastPlayed !== b.rtimeLastPlayed) return false;
   if (a.headerImage !== b.headerImage) return false;
+  if (!snapshotAchievementFieldsPresent(a) || !snapshotAchievementFieldsPresent(b)) return false;
+  if (a.achievementsUnlocked !== b.achievementsUnlocked) return false;
+  if (a.achievementsTotal !== b.achievementsTotal) return false;
   const norm = (tags: string[]) => [...tags].map((t) => t.trim().toLocaleLowerCase("ru")).filter(Boolean).sort();
   return JSON.stringify(norm(a.genres)) === JSON.stringify(norm(b.genres));
 }
@@ -187,13 +215,16 @@ function tagsEqual(a: readonly string[], b: readonly string[]): boolean {
   return JSON.stringify(uniqueTagList(a)) === JSON.stringify(uniqueTagList(b));
 }
 
-export function buildSnapshotGameFromCandidate(candidate: {
-  name: string;
-  playtime_forever: number;
-  playtime_2weeks: number;
-  rtime_last_played: number;
-  details: { genres?: string[]; headerImage?: string | null } | null;
-}): SteamSnapshotGame {
+export function buildSnapshotGameFromCandidate(
+  candidate: {
+    name: string;
+    playtime_forever: number;
+    playtime_2weeks: number;
+    rtime_last_played: number;
+    details: { genres?: string[]; headerImage?: string | null } | null;
+  },
+  achievements?: { unlocked: number | null; total: number | null },
+): SteamSnapshotGame {
   return {
     name: candidate.name,
     playtimeForever: candidate.playtime_forever,
@@ -201,6 +232,8 @@ export function buildSnapshotGameFromCandidate(candidate: {
     rtimeLastPlayed: candidate.rtime_last_played,
     genres: uniqueTagList(candidate.details?.genres ?? []),
     headerImage: candidate.details?.headerImage ?? null,
+    achievementsUnlocked: achievements?.unlocked ?? null,
+    achievementsTotal: achievements?.total ?? null,
   };
 }
 
@@ -275,6 +308,41 @@ export function mergeSteamGameUpdate(input: {
       next.status = proposed.status;
     },
   );
+
+  const canWriteAchievements = canWriteAchievementProgress(existing.status, force);
+  const proposedCountsReady =
+    proposed.achievementsUnlocked != null && proposed.achievementsTotal != null;
+  const countsEqual =
+    next.achievementsUnlocked === proposed.achievementsUnlocked &&
+    next.achievementsTotal === proposed.achievementsTotal;
+
+  if (proposedCountsReady && !countsEqual) {
+    wantedKeys.push("achievementsUnlocked", "achievementsTotal");
+    if (canWriteAchievements) {
+      next.achievementsUnlocked = proposed.achievementsUnlocked;
+      next.achievementsTotal = proposed.achievementsTotal;
+      changedKeys.push("achievementsUnlocked", "achievementsTotal");
+    }
+  }
+
+  const resolvedUnlocked = next.achievementsUnlocked;
+  const resolvedTotal = next.achievementsTotal;
+  const fullCompletion =
+    resolvedUnlocked != null &&
+    resolvedTotal != null &&
+    resolvedTotal > 0 &&
+    resolvedUnlocked === resolvedTotal;
+  const statusWritableForPlatinum = force || (!next.steamOverrides.status && soft);
+
+  if (fullCompletion && canWriteAchievements && statusWritableForPlatinum && next.status !== "platinum") {
+    if (next.status !== proposed.status) {
+      wantedKeys.push("status");
+    }
+    next.status = "platinum";
+    if (!changedKeys.includes("status")) {
+      changedKeys.push("status");
+    }
+  }
 
   if (changedKeys.length === 0) {
     return {
