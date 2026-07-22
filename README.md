@@ -154,6 +154,13 @@ just steam-import-via-patch --limit 5
 # Write straight into public/data + public/media (reload dev server page):
 just steam-import --limit 5
 # or: npm run import:steam -- --apply --limit 5
+# По умолчанию для созданных/обновлённых игр подтягивает заметку «Медиа Steam»
+# (UGC профиля). Без медиа: --no-media
+
+# Вся библиотека с steamAppId — медиа в заметках (patch или apply):
+just steam-import-media-all-via-patch
+just steam-import-media-all
+# or: npm run import:steam-media -- --all [--apply]
 
 # Одна игра: медиа из профиля (скрины + видео) в заметке «Медиа Steam»:
 just steam-import-media-via-patch -- --appid 570 --game-id <uuid>
@@ -168,15 +175,20 @@ just steam-import-media -- --appid 570 --game-id <uuid>
 filetype=3), не маркетинг со страницы игры в Store. `--prefill` по-прежнему читает storefront
 `appdetails` только для пустых полей игры.
 
-Флаги `import:steam-media`: `--appid`, `--game-id` (хотя бы один; игра в `library.json`),
-`--profile`, `--out`, `--apply`, `--dry-run`, `--prefill` (пустые title/tags/cover/platforms/steamAppId),
-`--no-video-thumbs` (alias `--no-trailer-thumbs`). Без `--apply` пишет patch (по умолчанию
-`steam-media-import.patch.json`); `--apply` — сразу в `public/data` + `public/media`. Одна игра,
-без crawl всей библиотеки.
+Флаги `import:steam-media`: `--all` (все игры с `steamAppId` в `library.json`; нельзя с
+`--appid`/`--game-id`), `--appid`, `--game-id` (хотя бы один в одноигровом режиме),
+`--profile`, `--out`, `--apply`, `--dry-run`, `--prefill` (только одна игра: пустые
+title/tags/cover/platforms/steamAppId), `--no-video-thumbs` (alias `--no-trailer-thumbs`).
+Без `--apply` пишет patch (`steam-media-import.patch.json` или `steam-media-import-all.patch.json`
+с `--all`); `--apply` — в `public/data` + `public/media`. При bulk (`--all`) — последовательный
+обход, один combined patch на `--out` или один `--apply`. Кодирование best-effort: сбой одного
+файла пропускает вложение, заметка всё равно upsert; сбой API по игре — skip в `--all`, exit 1
+в одноигровом режиме.
 
 Флаги `import:steam`: `--profile`, `--out`, `--apply`, `--dry-run`, `--force`, `--played-only`,
 `--limit`, `--appids`, `--no-covers`, `--skip-details`, `--no-achievements` (по умолчанию счётчики
-достижений подтягиваются), `--continue` (продолжить с `steam-import-progress.json` в корне репо;
+достижений подтягиваются), `--no-media` (не тянуть «Медиа Steam» для затронутых игр; по умолчанию
+медиа включается), `--continue` (продолжить с `steam-import-progress.json` в корне репо;
 без флага файл перезаписывается; после успешного `--apply` удаляется). `--apply` не делает git commit.
 
 Повторный импорт обновляет уже импортированные игры (`steamAppId`): часы, last played,
@@ -222,15 +234,18 @@ storefront slice). Пишется только после успешного `--
 На `/games/new` и `/games/:id`:
 
 - При заданном `steamAppId` — ссылка **Steam** в сайдбаре на storefront.
-- Медиа (скрины + видео профиля) — **только CLI** `import:steam-media` (нужны
-  `STEAM_WEB_API_KEY` + профиль). Скрины → WebP в заметке «Медиа Steam»; видео —
+- Медиа (скрины + видео профиля) — CLI `import:steam-media` или вместе с
+  `import:steam` для затронутых игр (`--no-media` чтобы отключить). Нужны
+  `STEAM_WEB_API_KEY` + профиль. Скрины → WebP в заметке «Медиа Steam»; видео —
   ссылки на sharedfiles (+ опциональный preview thumb). Повторный запуск заменяет
-  вложения целиком (all-or-nothing, маркер `<!-- steam-media:v1 -->`). Доменные
-  хелперы префилла (`prefillGameFromSteamDetails`) живут в `steamMedia.ts` для CLI `--prefill`.
+  вложения целиком (all-or-nothing, маркер `<!-- steam-media:v1 -->`). Bulk:
+  `just steam-import-media-all` / `--all`. Доменные хелперы префилла
+  (`prefillGameFromSteamDetails`) — только одноигровый `--prefill` в `steamMedia.ts`.
 
 ```bash
 npm run import:steam-media -- --appid … --apply
 # префилл пустых полей: добавьте --prefill
+npm run import:steam-media -- --all --apply   # вся библиотека
 ```
 
 - [x] Ссылка на страницу в Steam в карточке игры
