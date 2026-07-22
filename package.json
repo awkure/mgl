@@ -20,7 +20,8 @@
     "import:steam": "node --experimental-strip-types scripts/import-steam.mjs",
     "test:steam": "vitest run tests/steam-live.test.ts",
     "test:coverage": "vitest run --coverage",
-    "bench": "vitest bench --run benchmarks/vitest"
+    "bench": "vitest bench --run benchmarks/vitest",
+    "bench:bundle": "node benchmarks/bundle/recordBundleSize.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
