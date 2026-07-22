@@ -12800,6 +12800,76 @@
       "after": null,
       "title": "Path of Exile 2",
       "coverAssetId": "2cde7cdf583d29c5b6d33525b2961be6c14aca2925353b717dc94f16cdb99109"
+    },
+    {
+      "id": "aea665a0e3fbcc9666ea249d9c2d237cea1c88c0ec517279d92eda2f99b93cea",
+      "changedAt": "2026-07-22T19:59:14.857Z",
+      "entity": "game",
+      "entityId": "087f98ef-95ec-48a1-a445-809f16922cbd",
+      "gameId": "087f98ef-95ec-48a1-a445-809f16922cbd",
+      "field": "placement",
+      "op": "set",
+      "before": {
+        "tierId": "s",
+        "rank": 27648
+      },
+      "after": {
+        "tierId": "s",
+        "rank": 9984
+      },
+      "title": "ULTRAKILL",
+      "coverAssetId": "de7786935f015b6d6691815bde8c8c65897c070d0e06d00ab82dbf07396567a6"
+    },
+    {
+      "id": "cc1a518d64a4ead5b8076fb46568500da6ccbe5db576cda47ef7a6056cb951f1",
+      "changedAt": "2026-07-22T19:59:16.228Z",
+      "entity": "game",
+      "entityId": "c20495ba-7f58-4bc9-97de-1c5b4f14ebc4",
+      "gameId": "c20495ba-7f58-4bc9-97de-1c5b4f14ebc4",
+      "field": "placement",
+      "op": "set",
+      "before": {
+        "tierId": "a",
+        "rank": 19456
+      },
+      "after": {
+        "tierId": "a",
+        "rank": 384
+      },
+      "title": "Dujanah",
+      "coverAssetId": "f3a94998d7a01676256818383ea464a31f91ba5225bb4c23e73c307b5e41020c"
+    },
+    {
+      "id": "e3e2c1c3935a971b4438a9010ba025e1c39b318566b41c47a076a81dbb1a33e5",
+      "changedAt": "2026-07-22T19:59:17.215Z",
+      "entity": "game",
+      "entityId": "a3810c0b-2ef0-44af-b656-6ea0bc4bd640",
+      "gameId": "a3810c0b-2ef0-44af-b656-6ea0bc4bd640",
+      "field": "placement",
+      "op": "set",
+      "before": {
+        "tierId": "a",
+        "rank": 16384
+      },
+      "after": {
+        "tierId": "a",
+        "rank": 9984
+      },
+      "title": "ANTONBLAST",
+      "coverAssetId": "6d540e5528285df4403442bf210bebf4336b6ed5e4fd1e05d2f3b74a8bb18862"
+    },
+    {
+      "id": "b1cdc47dfe683a4fab20b524b3d452c768a80837e6a9e2a7f5ba4ad536f0d132",
+      "changedAt": "2026-07-22T20:01:23.427Z",
+      "entity": "note",
+      "entityId": "f327877c-f14b-46d9-9435-849fb2367d66",
+      "gameId": "087f98ef-95ec-48a1-a445-809f16922cbd",
+      "field": null,
+      "op": "create",
+      "before": null,
+      "after": null,
+      "title": "ULTRAKILL",
+      "coverAssetId": "de7786935f015b6d6691815bde8c8c65897c070d0e06d00ab82dbf07396567a6"
     }
   ]
 }

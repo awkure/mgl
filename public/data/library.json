@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": "e273641bc7158d9f5ddd23d9de613ab79937d8f85b7b1a7b4ccea06014765593",
-  "publicationId": "3877e0c9-fb27-42dc-9dce-d455f73d1a6d",
+  "revision": "60ec91b64ec2566cd00baa1a089c2d1a8e35782ac0b1516e32918656a46249be",
+  "publicationId": "934e0597-a7de-43a7-808c-cdc52b131065",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
       "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
@@ -439,11 +439,11 @@
       "status": "completed",
       "placement": {
         "tierId": "s",
-        "rank": 27648
+        "rank": 9984
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T17:34:03.151Z"
+      "updatedAt": "2026-07-22T20:01:23.427Z"
     },
     "088b8118-eb06-402e-b92c-8a67bed32edd": {
       "id": "088b8118-eb06-402e-b92c-8a67bed32edd",
@@ -8526,11 +8526,11 @@
       "status": "completed",
       "placement": {
         "tierId": "a",
-        "rank": 16384
+        "rank": 9984
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T17:01:30.086Z"
+      "updatedAt": "2026-07-22T19:59:17.215Z"
     },
     "a453ecea-1791-4fb5-9c37-2d82dfd3004b": {
       "id": "a453ecea-1791-4fb5-9c37-2d82dfd3004b",
@@ -10126,11 +10126,11 @@
       "status": "completed",
       "placement": {
         "tierId": "a",
-        "rank": 19456
+        "rank": 384
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T17:01:30.086Z"
+      "updatedAt": "2026-07-22T19:59:16.228Z"
     },
     "c2e75cd2-2581-429f-931b-86c9cb64ab8a": {
       "id": "c2e75cd2-2581-429f-931b-86c9cb64ab8a",
@@ -18060,6 +18060,15 @@
       "rank": 1024,
       "createdAt": "2026-07-22T19:47:56.773Z",
       "updatedAt": "2026-07-22T19:47:56.785Z"
+    },
+    "f327877c-f14b-46d9-9435-849fb2367d66": {
+      "id": "f327877c-f14b-46d9-9435-849fb2367d66",
+      "gameId": "087f98ef-95ec-48a1-a445-809f16922cbd",
+      "bodyMarkdown": "Лучший фпс шутер современности и вообще мясо балдёж каеф + каеф",
+      "attachments": [],
+      "rank": 2048,
+      "createdAt": "2026-07-22T20:01:23.417Z",
+      "updatedAt": "2026-07-22T20:01:23.427Z"
     }
   },
   "assets": {
