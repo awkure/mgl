@@ -1,13 +1,17 @@
 import {
-  createContext,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useRef,
   useState,
   type ReactNode,
 } from "react";
+import {
+  activateLibraryStore,
+  deactivateLibraryStore,
+  publishLibrarySnapshot,
+  useLibrarySelector,
+} from "./libraryStore";
 import type { GameSaveInput, EditableAttachment } from "../pages/GamePage";
 import {
   PATCH_STORAGE_KEY,
@@ -163,9 +167,11 @@ export interface LibraryContextValue extends LibraryState {
   refreshFromPublished: () => Promise<void>;
 }
 
-const LibraryContext = createContext<LibraryContextValue | null>(null);
+export { useLibrarySelector } from "./libraryStore";
 
 export function LibraryProvider({ children }: { children: ReactNode }) {
+  activateLibraryStore();
+  useEffect(() => () => deactivateLibraryStore(), []);
   const [state, setState] = useState<LibraryState | null>(null);
   const [loading, setLoading] = useState(true);
   const [fatalError, setFatalError] = useState<string | null>(null);
@@ -1027,13 +1033,13 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
     refreshFromPublished,
   }), [resolvedState, loading, fatalError, persistenceError, corruptedPatchRaw, usage, storageEstimate, quotaStatus, persistentStorage, attachmentWriteBlocked, localAssets, localAssetBytes, canAddBlob, resolveAssetUrl, saveGame, deleteGame, moveGame, discardPath, discardPaths, clearPatch, resolvePatchConflict, importPatch, undoLast, downloadCorruptedPatch, exportRecoveryArchive, deleteAllLocalAssets, verifyGitHubAccess, syncToGitHub, refreshFromPublished]);
 
-  return <LibraryContext.Provider value={value}>{children}</LibraryContext.Provider>;
+  publishLibrarySnapshot(value);
+
+  return children;
 }
 
 export function useLibrary(): LibraryContextValue {
-  const value = useContext(LibraryContext);
-  if (!value) throw new Error("useLibrary must be used inside LibraryProvider");
-  return value;
+  return useLibrarySelector((snapshot) => snapshot);
 }
 
 export function operationLocalValue(database: LibraryDatabase, path: string): unknown {
