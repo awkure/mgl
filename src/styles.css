@@ -1468,6 +1468,8 @@ h4 {
   -webkit-user-select: none;
   user-select: none;
 }
+
+.app-shell[data-mobile-chrome="true"] .app-tab-bar__link svg {
   width: 20px;
   height: 20px;
 }
