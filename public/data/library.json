@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": "8225ae0a09a20a2c3ea750974bc38d32bf2241a678c01b483ca81737065788fb",
-  "publicationId": "eb301106-b1f0-4aea-b95d-ed3cc937628a",
+  "revision": "83852d851ef02a651242ad8e64579b6acc2c90c19b83c8a1cea880b9c1eb1076",
+  "publicationId": "0a00556a-8b75-44b5-918c-1fcded7d2e50",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
       "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
@@ -197,7 +197,9 @@
       "lastPlayedAt": "2025-09-25T15:26:03.000Z",
       "achievementsUnlocked": 7,
       "achievementsTotal": 47,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -207,14 +209,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 239616
+        "tierId": "c",
+        "rank": 110592
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:46:52.349Z"
     },
     "02bdbf73-74a2-4e21-97d2-09d0b722022f": {
       "id": "02bdbf73-74a2-4e21-97d2-09d0b722022f",
@@ -283,7 +285,9 @@
       "lastPlayedAt": "2024-04-15T14:47:58.000Z",
       "achievementsUnlocked": 0,
       "achievementsTotal": 33,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -292,14 +296,14 @@
         "Симуляторы",
         "Стратегии"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 91136
+        "tierId": "f",
+        "rank": 9216
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:44:54.553Z"
     },
     "0694e1d3-2a40-4064-9fbf-c467a9bf558a": {
       "id": "0694e1d3-2a40-4064-9fbf-c467a9bf558a",
@@ -349,12 +353,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 316416
+        "tierId": "c",
+        "rank": 115712
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:47:42.555Z"
     },
     "07f0cdbb-c0bf-4e3d-b184-deb5d488f413": {
       "id": "07f0cdbb-c0bf-4e3d-b184-deb5d488f413",
@@ -377,12 +381,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 118784
+        "tierId": "c",
+        "rank": 103424
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:45:29.202Z"
     },
     "087cffe0-ee69-4be5-a731-04a04b369d98": {
       "id": "087cffe0-ee69-4be5-a731-04a04b369d98",
@@ -587,7 +591,9 @@
       "lastPlayedAt": "2024-09-12T18:59:10.000Z",
       "achievementsUnlocked": 8,
       "achievementsTotal": 35,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -598,14 +604,14 @@
         "Инди",
         "Гонки"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 405504
+        "tierId": "d",
+        "rank": 23552
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:29:48.994Z"
     },
     "0aaba8d6-7824-4d5d-9876-8721cd055b39": {
       "id": "0aaba8d6-7824-4d5d-9876-8721cd055b39",
@@ -711,12 +717,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 368640
+        "tierId": "f",
+        "rank": 8192
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T12:49:26.725Z"
     },
     "0b7fd4ce-0ec7-48a6-9d79-b762681800a6": {
       "id": "0b7fd4ce-0ec7-48a6-9d79-b762681800a6",
@@ -1100,12 +1106,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 439296
+        "tierId": "b",
+        "rank": 67584
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T12:49:13.063Z"
     },
     "13374c0c-5bb3-409d-a7d7-ec7b8e7bd18d": {
       "id": "13374c0c-5bb3-409d-a7d7-ec7b8e7bd18d",
@@ -1129,12 +1135,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 442368
+        "tierId": "c",
+        "rank": 94208
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:30:03.765Z"
     },
     "13bbf763-933d-4307-a2f3-33d56ccb9371": {
       "id": "13bbf763-933d-4307-a2f3-33d56ccb9371",
@@ -1679,12 +1685,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 173056
+        "tierId": "c",
+        "rank": 98304
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:30:42.070Z"
     },
     "1ca0b9f6-8b17-47e6-b523-380957eae44f": {
       "id": "1ca0b9f6-8b17-47e6-b523-380957eae44f",
@@ -1780,7 +1786,9 @@
       "lastPlayedAt": "2024-08-19T17:17:39.000Z",
       "achievementsUnlocked": 15,
       "achievementsTotal": 63,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -1791,14 +1799,14 @@
         "Инди",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 109568
+        "tierId": "d",
+        "rank": 25600
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:31:13.478Z"
     },
     "1e08f5ab-1373-411b-a291-2aa240536a29": {
       "id": "1e08f5ab-1373-411b-a291-2aa240536a29",
@@ -1864,7 +1872,9 @@
       "lastPlayedAt": "2025-08-23T08:33:59.000Z",
       "achievementsUnlocked": 1,
       "achievementsTotal": 33,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -1872,14 +1882,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 211968
+        "tierId": "c",
+        "rank": 108544
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:46:29.321Z"
     },
     "201fee45-4a27-45d5-9eae-4e081ef4a2cc": {
       "id": "201fee45-4a27-45d5-9eae-4e081ef4a2cc",
@@ -2275,7 +2285,9 @@
       "lastPlayedAt": "2024-05-16T09:13:52.000Z",
       "achievementsUnlocked": null,
       "achievementsTotal": null,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -2284,14 +2296,14 @@
         "Казуальные игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 256000
+        "tierId": "c",
+        "rank": 83968
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:28:09.307Z"
     },
     "297bb504-d220-4578-98d3-e9323edcd57c": {
       "id": "297bb504-d220-4578-98d3-e9323edcd57c",
@@ -2425,11 +2437,11 @@
       "status": "platinum",
       "placement": {
         "tierId": "s",
-        "rank": 21504
+        "rank": 19968
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T12:48:49.481Z"
     },
     "2b26ce31-00ca-422e-a57a-dbb0f5391653": {
       "id": "2b26ce31-00ca-422e-a57a-dbb0f5391653",
@@ -2532,7 +2544,9 @@
       "lastPlayedAt": "2026-03-24T15:31:13.000Z",
       "achievementsUnlocked": 2,
       "achievementsTotal": 67,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -2540,14 +2554,14 @@
         "Экшены",
         "Инди"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 195584
+        "tierId": "c",
+        "rank": 81920
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:27:39.134Z"
     },
     "2d603148-17c0-4719-aaa7-ef8ebc7a6c90": {
       "id": "2d603148-17c0-4719-aaa7-ef8ebc7a6c90",
@@ -2626,12 +2640,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 266240
+        "tierId": "c",
+        "rank": 78848
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T10:17:51.501Z"
     },
     "2e67e002-f599-4a0b-92a2-7ccbd9ce686d": {
       "id": "2e67e002-f599-4a0b-92a2-7ccbd9ce686d",
@@ -2824,12 +2838,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 301056
+        "tierId": "c",
+        "rank": 90112
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:29:11.589Z"
     },
     "329a17ad-4aa3-4956-8e86-a0338edc0ee4": {
       "id": "329a17ad-4aa3-4956-8e86-a0338edc0ee4",
@@ -2881,12 +2895,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 243712
+        "tierId": "c",
+        "rank": 82944
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:28:03.930Z"
     },
     "33c2f582-6770-4ef3-862d-429b13f1d711": {
       "id": "33c2f582-6770-4ef3-862d-429b13f1d711",
@@ -2939,12 +2953,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 374784
+        "tierId": "c",
+        "rank": 91136
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:29:33.919Z"
     },
     "3715db65-dd9f-454b-8b6a-f4f119932bc0": {
       "id": "3715db65-dd9f-454b-8b6a-f4f119932bc0",
@@ -3319,21 +3333,23 @@
       "lastPlayedAt": "2024-02-21T14:46:35.000Z",
       "achievementsUnlocked": 1,
       "achievementsTotal": 53,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
       "tags": [
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 249856
+        "tierId": "d",
+        "rank": 22528
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:28:30.284Z"
     },
     "3d25acb3-1b64-44ee-9681-df0ea71fdc15": {
       "id": "3d25acb3-1b64-44ee-9681-df0ea71fdc15",
@@ -3409,12 +3425,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 276480
+        "tierId": "c",
+        "rank": 88064
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:29:00.882Z"
     },
     "3f2333ab-dc56-4c91-a6f0-01e8a960c890": {
       "id": "3f2333ab-dc56-4c91-a6f0-01e8a960c890",
@@ -3520,12 +3536,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 180224
+        "tierId": "c",
+        "rank": 97280
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:30:30.812Z"
     },
     "4127f5a3-465b-42a8-97a6-63886f196033": {
       "id": "4127f5a3-465b-42a8-97a6-63886f196033",
@@ -3565,21 +3581,23 @@
       "lastPlayedAt": "2025-01-10T17:34:04.000Z",
       "achievementsUnlocked": 4,
       "achievementsTotal": 24,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
       "tags": [
         "Приключенческие игры"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 233472
+        "tierId": "d",
+        "rank": 21504
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:27:56.162Z"
     },
     "427442ed-9877-4f01-8f7a-e62bef081225": {
       "id": "427442ed-9877-4f01-8f7a-e62bef081225",
@@ -3737,12 +3755,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 297984
+        "tierId": "c",
+        "rank": 113664
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:47:24.184Z"
     },
     "457238b1-2ae5-4a63-afd5-7bb6134ae4f1": {
       "id": "457238b1-2ae5-4a63-afd5-7bb6134ae4f1",
@@ -4121,12 +4139,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 210944
+        "tierId": "c",
+        "rank": 107520
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:46:22.066Z"
     },
     "497cdcd1-7715-4783-a9a1-758afaf601d0": {
       "id": "497cdcd1-7715-4783-a9a1-758afaf601d0",
@@ -4499,7 +4517,9 @@
       "lastPlayedAt": "2025-04-08T15:13:07.000Z",
       "achievementsUnlocked": 2,
       "achievementsTotal": 22,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -4507,14 +4527,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 137216
+        "tierId": "c",
+        "rank": 99328
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:30:53.681Z"
     },
     "4d51290a-b4c1-4716-952b-b9271c37a9eb": {
       "id": "4d51290a-b4c1-4716-952b-b9271c37a9eb",
@@ -5106,7 +5126,9 @@
       "lastPlayedAt": "2026-04-26T12:02:26.000Z",
       "achievementsUnlocked": 8,
       "achievementsTotal": 11,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -5116,14 +5138,14 @@
         "Гонки",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 448512
+        "tierId": "c",
+        "rank": 117760
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:48:12.074Z"
     },
     "592a3c0e-2f63-4543-8130-4c55d1096456": {
       "id": "592a3c0e-2f63-4543-8130-4c55d1096456",
@@ -5351,7 +5373,9 @@
       "lastPlayedAt": "2024-09-15T16:51:31.000Z",
       "achievementsUnlocked": 24,
       "achievementsTotal": 24,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -5362,12 +5386,12 @@
       ],
       "status": "platinum",
       "placement": {
-        "tierId": "unranked",
-        "rank": 13312
+        "tierId": "c",
+        "rank": 101376
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:44:06.868Z"
     },
     "5d6a4e35-fbcf-46d3-8698-3b034a51837f": {
       "id": "5d6a4e35-fbcf-46d3-8698-3b034a51837f",
@@ -5498,12 +5522,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 263168
+        "tierId": "c",
+        "rank": 87040
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:28:43.831Z"
     },
     "5fc20683-c6c2-4b72-b92f-d6b1e7ef5659": {
       "id": "5fc20683-c6c2-4b72-b92f-d6b1e7ef5659",
@@ -5667,12 +5691,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 277504
+        "tierId": "c",
+        "rank": 80896
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T12:49:45.412Z"
     },
     "6280221f-9a3f-4b7b-bcd3-fa43eacb2ecc": {
       "id": "6280221f-9a3f-4b7b-bcd3-fa43eacb2ecc",
@@ -5844,7 +5868,9 @@
       "lastPlayedAt": "2024-02-28T15:43:29.000Z",
       "achievementsUnlocked": 17,
       "achievementsTotal": 17,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -5854,12 +5880,12 @@
       ],
       "status": "platinum",
       "placement": {
-        "tierId": "unranked",
-        "rank": 209920
+        "tierId": "d",
+        "rank": 28672
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:46:18.435Z"
     },
     "662564d1-2d0c-40a8-926f-58354a0e8505": {
       "id": "662564d1-2d0c-40a8-926f-58354a0e8505",
@@ -5994,12 +6020,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 274432
+        "tierId": "b",
+        "rank": 69632
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:28:55.761Z"
     },
     "68ce0a25-fe8a-4a57-a878-dc17ae7c4918": {
       "id": "68ce0a25-fe8a-4a57-a878-dc17ae7c4918",
@@ -6068,7 +6094,9 @@
       "lastPlayedAt": "2024-10-03T14:37:48.000Z",
       "achievementsUnlocked": null,
       "achievementsTotal": null,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -6076,14 +6104,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 392192
+        "tierId": "c",
+        "rank": 92160
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:29:41.615Z"
     },
     "6b4c1f12-b616-4ad1-a8e0-cb68d58253d4": {
       "id": "6b4c1f12-b616-4ad1-a8e0-cb68d58253d4",
@@ -6095,7 +6123,9 @@
       "lastPlayedAt": "2023-05-20T16:12:53.000Z",
       "achievementsUnlocked": 23,
       "achievementsTotal": 130,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -6106,14 +6136,14 @@
         "Ролевые игры",
         "Симуляторы"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 328704
+        "tierId": "d",
+        "rank": 30720
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:47:52.408Z"
     },
     "6c12c795-59c0-4f1e-9d8d-248320d654ce": {
       "id": "6c12c795-59c0-4f1e-9d8d-248320d654ce",
@@ -6471,12 +6501,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 88064
+        "tierId": "b",
+        "rank": 73728
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:44:45.535Z"
     },
     "77d7d3ee-f19f-40d3-a5da-874442adef28": {
       "id": "77d7d3ee-f19f-40d3-a5da-874442adef28",
@@ -7046,12 +7076,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 336896
+        "tierId": "c",
+        "rank": 116736
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:47:56.224Z"
     },
     "84c07141-c345-4f35-8f4b-4a618429c90a": {
       "id": "84c07141-c345-4f35-8f4b-4a618429c90a",
@@ -7154,12 +7184,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 272384
+        "tierId": "c",
+        "rank": 79872
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T12:47:24.581Z"
     },
     "871f516e-9357-4356-ad24-4832a494d4e1": {
       "id": "871f516e-9357-4356-ad24-4832a494d4e1",
@@ -7264,12 +7294,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 446464
+        "tierId": "c",
+        "rank": 120832
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:48:26.969Z"
     },
     "892a500a-be28-4020-89be-b82a4b2a07b4": {
       "id": "892a500a-be28-4020-89be-b82a4b2a07b4",
@@ -7281,7 +7311,9 @@
       "lastPlayedAt": null,
       "achievementsUnlocked": 0,
       "achievementsTotal": 5,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -7290,14 +7322,14 @@
         "Инди",
         "Ролевые игры"
       ],
-      "status": "wishlist",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 130048
+        "tierId": "d",
+        "rank": 24576
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:31:02.965Z"
     },
     "89e36b9c-9dab-498c-af46-58dc70f6cecc": {
       "id": "89e36b9c-9dab-498c-af46-58dc70f6cecc",
@@ -7544,12 +7576,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 365568
+        "tierId": "b",
+        "rank": 70656
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:29:29.490Z"
     },
     "8f8ece1c-cd86-4537-bcaa-187a30203cae": {
       "id": "8f8ece1c-cd86-4537-bcaa-187a30203cae",
@@ -7671,7 +7703,9 @@
       "lastPlayedAt": "2025-11-12T16:13:49.000Z",
       "achievementsUnlocked": 5,
       "achievementsTotal": 11,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -7679,14 +7713,14 @@
         "Экшены",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 437248
+        "tierId": "c",
+        "rank": 118784
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:48:16.981Z"
     },
     "9162199a-5375-41ab-ae1b-5dfd2d794cd2": {
       "id": "9162199a-5375-41ab-ae1b-5dfd2d794cd2",
@@ -7725,7 +7759,9 @@
       "lastPlayedAt": "2024-04-02T15:23:30.000Z",
       "achievementsUnlocked": 23,
       "achievementsTotal": 23,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -7734,12 +7770,12 @@
       ],
       "status": "platinum",
       "placement": {
-        "tierId": "unranked",
-        "rank": 293888
+        "tierId": "c",
+        "rank": 114688
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:47:29.661Z"
     },
     "942fc976-591c-44b9-b68c-d9ed6ef19bb6": {
       "id": "942fc976-591c-44b9-b68c-d9ed6ef19bb6",
@@ -7761,12 +7797,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 429056
+        "tierId": "c",
+        "rank": 93184
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:29:55.005Z"
     },
     "944e9766-68e6-4d78-a493-beec6cfb2e6b": {
       "id": "944e9766-68e6-4d78-a493-beec6cfb2e6b",
@@ -8289,12 +8325,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 218112
+        "tierId": "c",
+        "rank": 109568
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:46:43.299Z"
     },
     "9d30ee79-a853-4c86-bc9e-af87ad65bd50": {
       "id": "9d30ee79-a853-4c86-bc9e-af87ad65bd50",
@@ -8420,21 +8456,23 @@
       "lastPlayedAt": "2024-04-28T17:56:38.000Z",
       "achievementsUnlocked": 1,
       "achievementsTotal": 40,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
       "tags": [
         "Инди"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 40960
+        "tierId": "d",
+        "rank": 26624
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:44:22.647Z"
     },
     "a1a594b8-99d4-4f4e-a849-8455b225b454": {
       "id": "a1a594b8-99d4-4f4e-a849-8455b225b454",
@@ -8569,12 +8607,12 @@
       ],
       "status": "playing",
       "placement": {
-        "tierId": "unranked",
-        "rank": 189440
+        "tierId": "c",
+        "rank": 95232
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:30:18.356Z"
     },
     "a63a77c4-2108-4893-a5a3-6509c97c90aa": {
       "id": "a63a77c4-2108-4893-a5a3-6509c97c90aa",
@@ -9023,12 +9061,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 134144
+        "tierId": "c",
+        "rank": 105472
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:45:48.871Z"
     },
     "ad013059-c9c1-484a-8d3e-dd3103017878": {
       "id": "ad013059-c9c1-484a-8d3e-dd3103017878",
@@ -9715,12 +9753,12 @@
       ],
       "status": "playing",
       "placement": {
-        "tierId": "unranked",
-        "rank": 90112
+        "tierId": "b",
+        "rank": 72704
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:44:41.585Z"
     },
     "b9d8da67-4e38-4c98-bd8f-b7cece7ffecf": {
       "id": "b9d8da67-4e38-4c98-bd8f-b7cece7ffecf",
@@ -9828,12 +9866,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 268288
+        "tierId": "c",
+        "rank": 112640
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:47:15.690Z"
     },
     "be7eb6e2-4a44-4deb-8e99-8870982a20a1": {
       "id": "be7eb6e2-4a44-4deb-8e99-8870982a20a1",
@@ -10042,7 +10080,9 @@
       "lastPlayedAt": "2023-06-02T14:50:34.000Z",
       "achievementsUnlocked": 27,
       "achievementsTotal": 98,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -10052,14 +10092,14 @@
         "Инди",
         "Ролевые игры"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 113664
+        "tierId": "b",
+        "rank": 74752
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:45:21.121Z"
     },
     "c20495ba-7f58-4bc9-97de-1c5b4f14ebc4": {
       "id": "c20495ba-7f58-4bc9-97de-1c5b4f14ebc4",
@@ -10377,7 +10417,9 @@
       "lastPlayedAt": "2025-08-02T06:56:10.000Z",
       "achievementsUnlocked": 1,
       "achievementsTotal": 30,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -10387,14 +10429,14 @@
         "Инди",
         "Ранний доступ"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 224256
+        "tierId": "c",
+        "rank": 111616
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:46:59.483Z"
     },
     "c55b12f0-a6dc-4bb9-bc63-1fb09689a7f9": {
       "id": "c55b12f0-a6dc-4bb9-bc63-1fb09689a7f9",
@@ -10826,12 +10868,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 191488
+        "tierId": "c",
+        "rank": 106496
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:46:09.478Z"
     },
     "d155db3c-52ce-49c3-bd13-37b5bac297a9": {
       "id": "d155db3c-52ce-49c3-bd13-37b5bac297a9",
@@ -11042,12 +11084,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 188416
+        "tierId": "b",
+        "rank": 71680
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:30:21.757Z"
     },
     "d4724d2a-f31b-456e-a2c1-5e3b737585db": {
       "id": "d4724d2a-f31b-456e-a2c1-5e3b737585db",
@@ -11212,12 +11254,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 286720
+        "tierId": "c",
+        "rank": 89088
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:29:05.668Z"
     },
     "d675083f-0d38-4499-8481-d79a90b0d673": {
       "id": "d675083f-0d38-4499-8481-d79a90b0d673",
@@ -11464,12 +11506,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 435200
+        "tierId": "b",
+        "rank": 66560
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T12:49:03.246Z"
     },
     "dbf0a347-4a4c-4d47-aa13-81fa518ec303": {
       "id": "dbf0a347-4a4c-4d47-aa13-81fa518ec303",
@@ -11842,7 +11884,9 @@
       "lastPlayedAt": "2024-05-19T08:28:41.000Z",
       "achievementsUnlocked": 22,
       "achievementsTotal": 41,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -11852,14 +11896,14 @@
         "Казуальные игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 222208
+        "tierId": "b",
+        "rank": 68608
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:27:46.227Z"
     },
     "e47f45fc-6a24-4e67-ab63-c64a12d0617c": {
       "id": "e47f45fc-6a24-4e67-ab63-c64a12d0617c",
@@ -11906,12 +11950,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 174080
+        "tierId": "d",
+        "rank": 27648
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:46:02.140Z"
     },
     "e5c97c75-0bbe-42a9-8851-9d3766897409": {
       "id": "e5c97c75-0bbe-42a9-8851-9d3766897409",
@@ -11923,7 +11967,9 @@
       "lastPlayedAt": "2024-10-21T13:57:41.000Z",
       "achievementsUnlocked": 40,
       "achievementsTotal": 40,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -11936,12 +11982,12 @@
       ],
       "status": "platinum",
       "placement": {
-        "tierId": "unranked",
-        "rank": 258048
+        "tierId": "c",
+        "rank": 84992
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:28:17.892Z"
     },
     "e638af44-c65c-4434-b3dd-fb0c070fd17f": {
       "id": "e638af44-c65c-4434-b3dd-fb0c070fd17f",
@@ -12158,12 +12204,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 251904
+        "tierId": "c",
+        "rank": 86016
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:28:22.797Z"
     },
     "ed6c7ae1-21e4-4035-9352-07886219d174": {
       "id": "ed6c7ae1-21e4-4035-9352-07886219d174",
@@ -12543,12 +12589,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 120832
+        "tierId": "c",
+        "rank": 104448
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:45:36.838Z"
     },
     "f46fd60a-acba-4c21-8432-ac88744ce30c": {
       "id": "f46fd60a-acba-4c21-8432-ac88744ce30c",
@@ -12700,7 +12746,9 @@
       "lastPlayedAt": "2023-11-23T17:46:06.000Z",
       "achievementsUnlocked": 2,
       "achievementsTotal": 63,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -12709,14 +12757,14 @@
         "Приключенческие игры",
         "Инди"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 215040
+        "tierId": "d",
+        "rank": 29696
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:46:36.971Z"
     },
     "f55fecac-8113-42ee-8a3d-3a154a5b498a": {
       "id": "f55fecac-8113-42ee-8a3d-3a154a5b498a",
@@ -12737,12 +12785,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 183296
+        "tierId": "c",
+        "rank": 96256
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:30:26.868Z"
     },
     "f5641335-3111-4e8f-b209-84f8a0c9c36f": {
       "id": "f5641335-3111-4e8f-b209-84f8a0c9c36f",
@@ -12877,12 +12925,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 12288
+        "tierId": "c",
+        "rank": 100352
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:43:57.313Z"
     },
     "f886d5a6-d7f1-4db5-ad6f-5115b009c035": {
       "id": "f886d5a6-d7f1-4db5-ad6f-5115b009c035",
@@ -13088,7 +13136,9 @@
       "lastPlayedAt": "2024-05-16T11:36:02.000Z",
       "achievementsUnlocked": 0,
       "achievementsTotal": 26,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -13096,14 +13146,14 @@
         "Симуляторы",
         "Стратегии"
       ],
-      "status": "played",
+      "status": "completed",
       "placement": {
-        "tierId": "unranked",
-        "rank": 96256
+        "tierId": "c",
+        "rank": 102400
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:45:08.510Z"
     },
     "fe38c5ea-a5ed-4b99-a2ad-d4a68c6f2d36": {
       "id": "fe38c5ea-a5ed-4b99-a2ad-d4a68c6f2d36",
@@ -13182,12 +13232,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 431104
+        "tierId": "c",
+        "rank": 119808
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T14:56:31.080Z"
+      "updatedAt": "2026-07-22T13:48:22.464Z"
     },
     "ff043471-b4ed-4aca-b023-f6a88543add6": {
       "id": "ff043471-b4ed-4aca-b023-f6a88543add6",
