@@ -42,6 +42,12 @@ describe("ULTRAKILL cover OCR crop", () => {
 
   it("encodeSteamCoverWebp pins logo south when attention is above", async () => {
     const logo = pickLogoTextBox(snapshot.boxes, snapshot)!;
+    const logoInset = {
+      x: logo.x + 8,
+      y: logo.y,
+      width: logo.width - 16,
+      height: logo.height,
+    };
     const extracts: Array<{ left: number; top: number; width: number; height: number }> = [];
     const positions: Array<string | number> = [];
 
@@ -60,10 +66,32 @@ describe("ULTRAKILL cover OCR crop", () => {
 
     expect(positions).toEqual([]);
     expect(extracts).toHaveLength(1);
-    expect(rectContainsBox(extracts[0], logo)).toBe(true);
-    expect(extracts[0].top).toBe(60);
+    expect(extracts[0].left + extracts[0].width).toBeLessThanOrEqual(300);
+    expect(extracts[0].width).toBeLessThan(300);
+    expect(rectContainsBox(extracts[0], logoInset)).toBe(true);
     const meta = await sharp(webp).metadata();
     expect(meta.width).toBe(512);
     expect(meta.height).toBe(512);
+  });
+
+  it("frame trim removes left/right pillars from encoded cover", async () => {
+    const webp = await encodeSteamCoverWebp(jpeg, {
+      detectTextBoxes: async () => snapshot.boxes,
+      attentionFocus: async () => ({ x: 262, y: 182 }),
+    });
+    const { data, info } = await sharp(webp).raw().ensureAlpha().toBuffer({ resolveWithObject: true });
+    function colMean(x: number) {
+      let r = 0, g = 0, b = 0;
+      for (let y = 0; y < info.height; y++) {
+        const i = (y * info.width + x) * 4;
+        r += data[i]; g += data[i + 1]; b += data[i + 2];
+      }
+      const n = info.height;
+      return { r: r / n, g: g / n, b: b / n };
+    }
+    const edge = colMean(2);
+    const inward = colMean(40);
+    expect(edge.r - edge.g).toBeLessThan(120);
+    expect(Math.abs(edge.r - inward.r)).toBeLessThan(80);
   });
 });

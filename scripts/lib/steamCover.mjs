@@ -2,9 +2,18 @@
 
 import { createHash } from "node:crypto";
 import sharp from "sharp";
-import { textFitCoverRect } from "./steamCoverTextFit.mjs";
+import {
+  padBoundsLogo,
+  pickLogoTextBox,
+  textFitCoverRect,
+} from "./steamCoverTextFit.mjs";
 import { attentionFocus as defaultAttentionFocus } from "./steamCoverAttention.mjs";
 import { detectTextBoxes as defaultDetectTextBoxes } from "./steamCoverDetect.mjs";
+import {
+  localSquareAfterFrameTrim,
+  mapLocalToSource,
+  measureFrameDepths,
+} from "./steamCoverFrameTrim.mjs";
 
 const CDN_LIBRARY = (appid) =>
   `https://cdn.cloudflare.steamstatic.com/steam/apps/${appid}/library_600x900.jpg`;
@@ -15,6 +24,56 @@ function sha256(bytes) {
 
 function bytesToBase64(bytes) {
   return Buffer.from(bytes).toString("base64");
+}
+
+/**
+ * @param {number} width
+ * @param {number} height
+ * @param {{ x?: number, y?: number } | null} focus
+ */
+function shortSideCoverRect(width, height, focus) {
+  const side = Math.min(width, height);
+  let left = Math.floor((focus?.x ?? width / 2) - side / 2);
+  let top = Math.floor((focus?.y ?? height / 2) - side / 2);
+  left = Math.min(Math.max(0, left), width - side);
+  top = Math.min(Math.max(0, top), height - side);
+  return { left, top, width: side, height: side };
+}
+
+/**
+ * @param {Buffer} upright
+ * @param {{ left: number, top: number, width: number, height: number }} rect
+ * @param {{ x0: number, y0: number, x1: number, y1: number } | null} mustSource
+ */
+async function trimCoverRect(upright, rect, mustSource) {
+  let finalRect = rect;
+  try {
+    const crop = await sharp(upright)
+      .extract(rect)
+      .ensureAlpha()
+      .raw()
+      .toBuffer({ resolveWithObject: true });
+    const measured = measureFrameDepths(crop.data, crop.info.width, crop.info.height);
+    if ("depths" in measured) {
+      const mustLocal = mustSource
+        ? {
+            x0: mustSource.x0 - rect.left,
+            y0: mustSource.y0 - rect.top,
+            x1: mustSource.x1 - rect.left,
+            y1: mustSource.y1 - rect.top,
+          }
+        : null;
+      const local = localSquareAfterFrameTrim(
+        { width: crop.info.width, height: crop.info.height },
+        measured.depths,
+        { must: mustLocal },
+      );
+      if (local) finalRect = mapLocalToSource(rect, local);
+    }
+  } catch {
+    // keep rect
+  }
+  return finalRect;
 }
 
 /**
@@ -56,18 +115,44 @@ export async function encodeSteamCoverWebp(imageBytes, options = {}) {
     const width = meta.width ?? 0;
     const height = meta.height ?? 0;
     const attention = await attentionFocus(upright);
-    const rect = textFitCoverRect(boxes ?? [], { width, height }, { attention });
+    const imageSize = { width, height };
+    const rect = textFitCoverRect(boxes ?? [], imageSize, { attention });
     if (rect) {
-      return await encodeExtract(upright, rect);
+      let mustSource = null;
+      const logo = pickLogoTextBox(boxes ?? [], imageSize);
+      if (logo) {
+        mustSource = padBoundsLogo(
+          {
+            x0: logo.x,
+            y0: logo.y,
+            x1: logo.x + logo.width,
+            y1: logo.y + logo.height,
+          },
+          imageSize,
+        );
+      }
+      const finalRect = await trimCoverRect(upright, rect, mustSource);
+      return await encodeExtract(upright, finalRect);
     }
   } catch {
-    // fall through to attention
+    // fall through to attention materialize
   }
 
   try {
-    return await encodeResize(imageBytes, sharp.strategy.attention);
+    const upright = await sharp(imageBytes).rotate().toBuffer();
+    const meta = await sharp(upright).metadata();
+    const width = meta.width ?? 0;
+    const height = meta.height ?? 0;
+    const attention = await attentionFocus(upright);
+    let rect = shortSideCoverRect(width, height, attention);
+    rect = await trimCoverRect(upright, rect, null);
+    return await encodeExtract(upright, rect);
   } catch {
-    return await encodeResize(imageBytes, "centre");
+    try {
+      return await encodeResize(imageBytes, sharp.strategy.attention);
+    } catch {
+      return await encodeResize(imageBytes, "centre");
+    }
   }
 }
 
