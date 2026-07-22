@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": "f5d44837e289c8aa6d9b5037a2e6e193b4513d3946a378c06299ad6850d47e77",
-  "publicationId": "90025598-2fc7-425f-8719-c55040ff1b2d",
+  "revision": "e273641bc7158d9f5ddd23d9de613ab79937d8f85b7b1a7b4ccea06014765593",
+  "publicationId": "3877e0c9-fb27-42dc-9dce-d455f73d1a6d",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
       "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
@@ -1975,7 +1975,7 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T17:01:30.086Z"
+      "updatedAt": "2026-07-22T19:47:56.785Z"
     },
     "22cc3bf5-650c-4f9a-936d-fa61816df5ed": {
       "id": "22cc3bf5-650c-4f9a-936d-fa61816df5ed",
@@ -18041,6 +18041,25 @@
       "rank": 1024,
       "createdAt": "2026-07-22T15:50:57.240Z",
       "updatedAt": "2026-07-22T15:50:57.272Z"
+    },
+    "2c47b416-f916-4b3f-894a-e68c882a1a62": {
+      "id": "2c47b416-f916-4b3f-894a-e68c882a1a62",
+      "gameId": "22b71a23-95b5-40dd-aaa8-ce3796ade221",
+      "bodyMarkdown": "еуые еыофлдваожфыв\n",
+      "attachments": [],
+      "rank": 2048,
+      "createdAt": "2026-07-22T19:47:46.936Z",
+      "updatedAt": "2026-07-22T19:47:46.948Z"
+    },
+    "f34fc396-64a8-42e6-8f98-52fbe8a55e03": {
+      "id": "f34fc396-64a8-42e6-8f98-52fbe8a55e03",
+      "gameId": "22b71a23-95b5-40dd-aaa8-ce3796ade221",
+      "bodyMarkdown": "test group\n",
+      "attachments": [],
+      "groupRank": 2048,
+      "rank": 1024,
+      "createdAt": "2026-07-22T19:47:56.773Z",
+      "updatedAt": "2026-07-22T19:47:56.785Z"
     }
   },
   "assets": {
