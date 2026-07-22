@@ -2,6 +2,8 @@ import { describe, expect, it, vi } from "vitest";
 import sharp from "sharp";
 import { encodeSteamCoverWebp, fetchAndEncodeSteamCover } from "../scripts/lib/steamCover.mjs";
 
+const noDetect = { detectTextBoxes: async () => [] };
+
 describe("steamCover", () => {
   it("encodes a fetched JPEG into a 512 WebP asset", async () => {
     const jpeg = await sharp({
@@ -16,7 +18,7 @@ describe("steamCover", () => {
       };
     });
 
-    const result = await fetchAndEncodeSteamCover(570, { alt: "Dota 2", fetchImpl });
+    const result = await fetchAndEncodeSteamCover(570, { alt: "Dota 2", fetchImpl, ...noDetect });
     expect(result).not.toBeNull();
     expect(result.asset).toMatchObject({
       kind: "image",
@@ -49,6 +51,7 @@ describe("steamCover", () => {
     const result = await fetchAndEncodeSteamCover(10, {
       headerImage: "https://example.com/header.jpg",
       fetchImpl,
+      ...noDetect,
     });
     expect(result).not.toBeNull();
     expect(fetchImpl).toHaveBeenCalledTimes(2);

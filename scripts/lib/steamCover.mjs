@@ -69,7 +69,14 @@ export async function encodeSteamCoverWebp(imageBytes, options = {}) {
 
 /**
  * @param {number|string} appid
- * @param {{ headerImage?: string | null; alt?: string; fetchImpl?: typeof fetch }} [options]
+ * @param {{
+ *   headerImage?: string | null
+ *   alt?: string
+ *   fetchImpl?: typeof fetch
+ *   detectTextBoxes?: (bytes: Buffer) => Promise<Array<{ x: number, y: number, width: number, height: number }>>
+ *   encodeResize?: (bytes: Buffer, position: string | number) => Promise<Buffer>
+ *   encodeExtract?: (bytes: Buffer, rect: { left: number, top: number, width: number, height: number }) => Promise<Buffer>
+ * }} [options]
  * @returns {Promise<null | { asset: object; base64: string }>}
  */
 export async function fetchAndEncodeSteamCover(appid, options = {}) {
@@ -93,7 +100,8 @@ export async function fetchAndEncodeSteamCover(appid, options = {}) {
   }
   if (!imageBytes) return null;
 
-  const webp = await encodeSteamCoverWebp(imageBytes);
+  const { headerImage: _headerImage, alt: _alt, fetchImpl: _fetchImpl, ...encodeOptions } = options;
+  const webp = await encodeSteamCoverWebp(imageBytes, encodeOptions);
 
   const id = sha256(webp);
   return {
