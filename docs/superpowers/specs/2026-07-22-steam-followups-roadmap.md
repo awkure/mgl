@@ -62,19 +62,11 @@ Related but **not** in the Out list from A — schedule only if requested as sep
 
 ---
 
-### Spec C — Per-game screenshots / videos
+### Spec C — Per-game screenshots / videos (+ C2 prefill)
 
-**Goal:** For a chosen Steam game, pull screenshots / trailer URLs into optional note attachments (or similar), without blowing asset quotas.
+**Status:** design drafted — `2026-07-22-steam-media-prefill-design.md`; plan — `../plans/2026-07-22-steam-media-prefill.md` (awaiting execution)
 
-**In (draft):**
-
-- Storefront / appdetails media URLs → optional note attachments (image/link)
-- Explicit user action per game (not silent full-library media crawl)
-- Respect asset/orphan invariants; local vs published paths
-
-**Out (draft):** Full-library automatic screenshot download; video file hosting in `public/media` unless separately approved.
-
-**Open questions:** URL-only links vs download+WebP; one note vs many; overlap with C2 prefill.
+**Goal:** For a chosen Steam game, download screenshots as WebP note images; trailers as store links (+ thumbs); paste URL/appid empty-only prefill; CLI + GamePage.
 
 ---
 
