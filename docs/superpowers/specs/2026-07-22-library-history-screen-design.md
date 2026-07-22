@@ -19,7 +19,8 @@ Separate screen **История** (before Настройки in footer / tab ba
 | Seed | One-shot from current `library.json` (create events per game/note) |
 | UI | Soft timeline (accent rail + dots); nest field deltas under game node |
 | Nesting rule | Consecutive run: adjacent same `gameId` in time-sorted feed |
-| Game navigation | Links push onto **catalog** stack (`#/games/:id`) |
+| Game navigation | **Required:** every living game in the feed is clickable → `#/games/:id` on **catalog** stack |
+| Hit target | Whole node header (cover + title); nested field lines are not separate navigators |
 | Ranks / assets as primary events | Out of v1 |
 | Filters / search | Out of v1 |
 
@@ -95,7 +96,7 @@ One-shot (script or first publish with empty history):
 | Mobile tab bar | Тирлист · Каталог · **История** · Настройки |
 | Desktop | «История» in primary nav with tiers/catalog; settings icon remains last |
 | Pager / blob | Four tabs — update `TAB_ORDER`, progress, swipe indices |
-| Game links | Activate catalog stack at `#/games/:id` (same pattern as search/random) |
+| Game links | **Clickable.** Node header navigates to `#/games/:id` on catalog stack (same pattern as search/random). Resolve live: if `gameId` still in library → link; else non-interactive muted node |
 
 Copy: title **История**; subtitle **Изменения опубликованной библиотеки.**
 
@@ -105,11 +106,11 @@ Copy: title **История**; subtitle **Изменения опубликов
 
 - Page heading matches Settings density (tokens only; no marketing chrome).
 - Vertical accent rail + node dots.
-- **Node:** cover thumb + game title (link) + cluster time (newest `changedAt` in run).
-- **Nested lines:** field deltas when consecutive same-`gameId` events collapse into one node.
+- **Node header (primary control):** cover thumb + game title wrapped as one link/button to the game page; cluster time (newest `changedAt` in run) sits beside, not blocking the hit area. Keyboard: focusable, Enter/Space activates.
+- **Nested lines:** field deltas when consecutive same-`gameId` events collapse into one node — informational only (do not steal navigation).
 - Single-event games: one delta line under the node (no heavy chrome).
 - Empty: `empty-state` — «Пока нет опубликованных изменений.»
-- Deleted game: denormalized title/cover; link disabled or muted «удалена».
+- Deleted / missing game: keep denormalized title/cover; **no** navigation; muted affordance + optional «удалена».
 - Cover resolve: event snapshot → live library → placeholder.
 - Load failure: error strip + retry; rest of app unaffected.
 - Virtualization: defer until measured; plain list OK for v1.
@@ -147,7 +148,7 @@ Storage stays flat; clustering is presentational.
 - Seed from fixture library
 - `validate-data` accepts good history; rejects malformed
 - Nav: history tab before settings (desktop + mobile); blob/pager 4-way
-- `HistoryPage`: nested cluster, game link target, empty state, deleted muted
+- `HistoryPage`: nested cluster; node header click/keyboard → `#/games/:id`; empty state; missing game not clickable
 
 ## Open implementation notes (non-blocking)
 
