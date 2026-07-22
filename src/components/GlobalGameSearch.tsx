@@ -82,7 +82,7 @@ export function GlobalGameSearch({ games, onNavigate }: GlobalGameSearchProps) {
     };
     window.addEventListener("keydown", shortcut);
     return () => window.removeEventListener("keydown", shortcut);
-  });
+  }, []);
 
   const onKeyDown = (event: ReactKeyboardEvent<HTMLInputElement>) => {
     if (event.nativeEvent.isComposing) return;

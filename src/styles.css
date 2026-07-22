@@ -455,7 +455,9 @@ h4 {
   align-items: center;
   gap: 5px;
   padding: 7px;
-  overflow: visible;
+  max-height: min(70dvh, calc(100dvh - var(--app-header-height, 52px) - 24px));
+  overflow-x: visible;
+  overflow-y: auto;
   border: 1px solid var(--line);
   border-radius: 6px;
   background: #1c1d20;
@@ -600,10 +602,6 @@ h4 {
   gap: 5px;
   padding: 7px;
   border-bottom: 1px solid var(--line-soft);
-}
-
-.global-game-search__popover.is-filters-only .global-game-search__filters {
-  border-bottom: 0;
 }
 
 .global-game-search__reset {

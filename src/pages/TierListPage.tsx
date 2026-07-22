@@ -1,5 +1,6 @@
 import { memo, useDeferredValue, useMemo, useRef, useState, type AnchorHTMLAttributes, type CSSProperties, type HTMLAttributes, type MutableRefObject } from "react";
 import { gameMatchesFilters } from "../domain/catalogue";
+import { emptyCatalogSearchFilters } from "../domain/catalogSearch";
 import { useTierFilters } from "../components/screenFilters";
 import {
   closestCenter,
@@ -246,7 +247,7 @@ function TierRow({
 const MemoTierRow = memo(TierRow);
 
 export function TierListPage({ games, assets, onMoveGame, onOpenGame, onRefresh, resolveAssetUrl, draggingRef }: TierListPageProps) {
-  const { filters } = useTierFilters();
+  const { filters, setFilters } = useTierFilters();
   const deferred = useDeferredValue(filters);
   const filtering = Boolean(deferred.q.trim() || deferred.statuses.length || deferred.tiers.length || deferred.platforms.length || deferred.tags.length);
   const visibleGames = useMemo(
@@ -350,6 +351,8 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, onRefresh,
       ) : null}
       {!games.length ? (
         <div className="empty-state empty-state--hero"><span className="empty-state__icon"><Icon name="gamepad" /></span><h2>Здесь появится ваш тирлист</h2><p>Добавьте первую игру, а затем перемещайте карточки между тирами.</p><a className="button button--primary" href="#/games/new"><Icon name="plus" size={18} />Добавить первую игру</a></div>
+      ) : filtering && !visibleGames.length ? (
+        <div className="empty-state"><span className="empty-state__icon"><Icon name="search" /></span><h2>Ничего не найдено</h2><p>Попробуйте изменить запрос или убрать часть фильтров.</p><button className="button button--secondary" onClick={() => setFilters(emptyCatalogSearchFilters())} type="button">Сбросить фильтры</button></div>
       ) : (
         <DndContext
           accessibility={{ announcements: { onDragStart: ({ active }) => `Вы взяли игру ${visibleGames.find((game) => `game:${game.id}` === active.id)?.title ?? ""}.`, onDragOver: ({ over }) => over ? "Выберите это место, чтобы переместить игру." : "Игра вне списка.", onDragEnd: ({ over }) => over ? "Игра перемещена." : "Перемещение отменено.", onDragCancel: () => "Перемещение отменено." } }}

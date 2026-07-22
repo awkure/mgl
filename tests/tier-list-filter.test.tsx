@@ -74,4 +74,30 @@ describe("TierListPage live filters", () => {
     expect(screen.queryByRole("region", { name: "B" })).not.toBeInTheDocument();
     expect(screen.getByRole("region", { name: "A" })).toBeInTheDocument();
   });
+
+  it("shows filter empty state when no games match", async () => {
+    const games = [makeGame()];
+
+    render(
+      <ScreenFiltersProvider>
+        <SetQ q="no-match-query" />
+        <TierListPage assets={{}} games={games} onMoveGame={vi.fn()} />
+      </ScreenFiltersProvider>,
+    );
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "set" }));
+    });
+
+    expect(screen.getByRole("heading", { name: "Ничего не найдено" })).toBeInTheDocument();
+    expect(screen.queryByRole("region", { name: "A" })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Сбросить фильтры" })).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Сбросить фильтры" }));
+    });
+
+    expect(screen.getByRole("link", { name: /DuckTales/ })).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "A" })).toBeInTheDocument();
+  });
 });

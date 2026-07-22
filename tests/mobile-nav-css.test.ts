@@ -100,6 +100,7 @@ describe("mobile nav css", () => {
     const sheet = declarationsIn(styles, ".screen-filter-bar__sheet");
     expect(sheet).toContain("top: calc(100% + 6px)");
     expect(sheet).toContain("animation: screen-filter-sheet-in 180ms ease-out");
+    expect(sheet).toContain("max-height:");
   });
 
   it("uses liquid glass tokens on the fixed header without trapping fixed descendants", () => {
@@ -114,10 +115,9 @@ describe("mobile nav css", () => {
     expect(glass).toContain("pointer-events: none");
   });
 
-  it("keeps filter menus outside the screen filter sheet scroll clip", () => {
+  it("scrolls the filter sheet on short viewports while menus stay above the sheet", () => {
     const sheet = declarationsIn(styles, ".screen-filter-bar__sheet");
-    expect(sheet).toContain("overflow: visible");
-    expect(sheet).not.toContain("overflow: auto");
+    expect(sheet).toContain("overflow-y: auto");
     expect(styles).toMatch(/\.filter-menu__panel\s*\{[^}]*z-index:\s*90;/);
   });
 
