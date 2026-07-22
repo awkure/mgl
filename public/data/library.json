@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": "73e7bec194ff43e897b175c78dc51da0f08979f6de20c0ec25e96290aa8194dd",
-  "publicationId": "5f06c5a8-92d3-406a-bd8d-24e53524d010",
+  "revision": "c4e8c3e12cb66f87394e7ea01e5f15a6c0a9137a84edcdb64a22bef794040e66",
+  "publicationId": "abdf3970-52f9-45c1-8463-1d0951376360",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
       "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
@@ -13394,11 +13394,11 @@
       "status": "completed",
       "placement": {
         "tierId": "s",
-        "rank": 30720
+        "rank": 1280
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-22T20:36:33.426Z",
-      "updatedAt": "2026-07-22T20:36:44.928Z"
+      "updatedAt": "2026-07-22T20:37:16.405Z"
     },
     "259355b0-6212-4e15-ab2c-493bbc8674d2": {
       "id": "259355b0-6212-4e15-ab2c-493bbc8674d2",
@@ -13420,11 +13420,11 @@
       "status": "completed",
       "placement": {
         "tierId": "a",
-        "rank": 36864
+        "rank": 448
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-22T20:35:26.044Z",
-      "updatedAt": "2026-07-22T20:35:37.302Z"
+      "updatedAt": "2026-07-22T20:37:20.712Z"
     }
   },
   "notes": {

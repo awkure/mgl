@@ -13260,6 +13260,44 @@
       "after": null,
       "title": "Super Mario Odyssey",
       "coverAssetId": "13a4614b519a8c08c1bf8a382fb1f5861939bdcc99a04930df19ef4959c3828c"
+    },
+    {
+      "id": "fac5a0523c9cfd814e7773b5a96dbc533cb6b594da4610c67b1e3e67ccd0d3fc",
+      "changedAt": "2026-07-22T20:37:16.405Z",
+      "entity": "game",
+      "entityId": "050c22b0-98d7-4d37-b723-f407b1cb4b5f",
+      "gameId": "050c22b0-98d7-4d37-b723-f407b1cb4b5f",
+      "field": "placement",
+      "op": "set",
+      "before": {
+        "tierId": "s",
+        "rank": 30720
+      },
+      "after": {
+        "tierId": "s",
+        "rank": 1280
+      },
+      "title": "Super Mario Odyssey",
+      "coverAssetId": "13a4614b519a8c08c1bf8a382fb1f5861939bdcc99a04930df19ef4959c3828c"
+    },
+    {
+      "id": "64bf06a1b35e819cd4a44c836323a022381d246606452270fe3d9ce656e8b6f7",
+      "changedAt": "2026-07-22T20:37:20.712Z",
+      "entity": "game",
+      "entityId": "259355b0-6212-4e15-ab2c-493bbc8674d2",
+      "gameId": "259355b0-6212-4e15-ab2c-493bbc8674d2",
+      "field": "placement",
+      "op": "set",
+      "before": {
+        "tierId": "a",
+        "rank": 36864
+      },
+      "after": {
+        "tierId": "a",
+        "rank": 448
+      },
+      "title": "Super Mario Bros. Wonder",
+      "coverAssetId": "4a5a17a4e8c688d94e7945094f9b633051c1112a7b3bd548e0c5cdebf0ebb505"
     }
   ]
 }
