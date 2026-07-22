@@ -6,6 +6,7 @@ import {
   isSteamMediaNote,
   parseSteamAppInput,
   prefillGameFromSteamDetails,
+  steamAppDetailsFromStoreJson,
   steamMediaNoteBody,
   steamStoreAppUrl,
   upsertSteamMediaNote,
@@ -63,6 +64,37 @@ describe("parseSteamAppInput", () => {
 describe("steamStoreAppUrl", () => {
   it("builds canonical store URL", () => {
     expect(steamStoreAppUrl(570)).toBe("https://store.steampowered.com/app/570/");
+  });
+});
+
+describe("steamAppDetailsFromStoreJson", () => {
+  it("maps storefront appdetails body", () => {
+    const details = steamAppDetailsFromStoreJson(570, {
+      "570": {
+        success: true,
+        data: {
+          type: "game",
+          name: "Dota 2",
+          header_image: "https://cdn.example/header.jpg",
+          genres: [{ description: "Action" }, { description: "Free to Play" }],
+          screenshots: [{ id: 1, path_full: "https://cdn.example/shot.jpg", path_thumbnail: "https://cdn.example/thumb.jpg" }],
+          movies: [{ id: 2, name: "Trailer", thumbnail: "https://cdn.example/movie.jpg" }],
+        },
+      },
+    });
+    expect(details).toMatchObject({
+      type: "game",
+      name: "Dota 2",
+      headerImage: "https://cdn.example/header.jpg",
+      genres: ["Action", "Free to Play"],
+      screenshots: [{ id: 1, pathFull: "https://cdn.example/shot.jpg", pathThumbnail: "https://cdn.example/thumb.jpg" }],
+      movies: [{ id: 2, name: "Trailer", thumbnail: "https://cdn.example/movie.jpg" }],
+    });
+  });
+
+  it("returns null when entry missing or unsuccessful", () => {
+    expect(steamAppDetailsFromStoreJson(570, {})).toBeNull();
+    expect(steamAppDetailsFromStoreJson(570, { "570": { success: false } })).toBeNull();
   });
 });
 

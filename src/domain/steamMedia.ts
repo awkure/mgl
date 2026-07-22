@@ -50,6 +50,58 @@ export function steamStoreAppUrl(appid: number): string {
   return `https://store.steampowered.com/app/${appid}/`;
 }
 
+export function steamAppDetailsApiUrl(appid: number, language = "russian"): string {
+  const url = new URL("https://store.steampowered.com/api/appdetails");
+  url.searchParams.set("appids", String(appid));
+  url.searchParams.set("l", language);
+  return url.toString();
+}
+
+export function steamPrefillCliHint(appid: number): string {
+  return `npm run import:steam-media -- --appid ${appid} --prefill --apply`;
+}
+
+export function steamPrefillFetchErrorMessage(appid: number, detail?: string): string {
+  const prefix = detail?.trim() ? `${detail.trim()} ` : "Не удалось загрузить данные Steam. ";
+  return `${prefix}Запустите: ${steamPrefillCliHint(appid)}`;
+}
+
+/** Map raw storefront `appdetails` JSON body to a details slice (SPA + tests). */
+export function steamAppDetailsFromStoreJson(appid: number, body: unknown): SteamAppDetailsSlice | null {
+  const entry = (body as Record<string, { success?: boolean; data?: Record<string, unknown> }> | undefined)?.[
+    String(appid)
+  ];
+  if (!entry?.success || !entry.data) return null;
+  const data = entry.data;
+  const genres = Array.isArray(data.genres)
+    ? data.genres.map((item) => String((item as { description?: string })?.description ?? "").trim()).filter(Boolean)
+    : [];
+  const screenshots = Array.isArray(data.screenshots)
+    ? data.screenshots
+        .map((s) => ({
+          id: Number((s as { id?: unknown }).id),
+          pathFull: String((s as { path_full?: unknown }).path_full ?? ""),
+          pathThumbnail: String((s as { path_thumbnail?: unknown }).path_thumbnail ?? ""),
+        }))
+        .filter((s) => s.pathFull)
+    : [];
+  const movies = Array.isArray(data.movies)
+    ? data.movies.map((m) => ({
+        id: Number((m as { id?: unknown }).id),
+        name: String((m as { name?: unknown }).name ?? "Trailer").trim() || "Trailer",
+        thumbnail: typeof (m as { thumbnail?: unknown }).thumbnail === "string" ? (m as { thumbnail: string }).thumbnail : null,
+      }))
+    : [];
+  return {
+    type: typeof data.type === "string" ? data.type : undefined,
+    name: typeof data.name === "string" ? data.name : undefined,
+    genres,
+    headerImage: typeof data.header_image === "string" ? data.header_image : null,
+    screenshots,
+    movies,
+  };
+}
+
 export function isSteamMediaNote(note: Pick<Note, "bodyMarkdown">): boolean {
   return note.bodyMarkdown.includes(STEAM_MEDIA_NOTE_MARKER);
 }
