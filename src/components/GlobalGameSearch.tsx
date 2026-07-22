@@ -55,7 +55,12 @@ export function GlobalGameSearch({ games, onNavigate }: GlobalGameSearchProps) {
   };
   const openCatalog = () => {
     const query = serializeCatalogSearch(filters);
-    navigate(`#/games${query ? `?${query}` : ""}`);
+    const href = `#/games${query ? `?${query}` : ""}`;
+    // Seed the hash before tab activation so CatalogPage hydrate sees q=/filters.
+    if (typeof window !== "undefined" && window.location.hash !== href.slice(1)) {
+      history.replaceState(null, "", href);
+    }
+    navigate(href);
   };
   const updateFilters = (next: CatalogSearchFilters) => {
     setFilters(next);

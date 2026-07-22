@@ -4928,6 +4928,13 @@ h4 {
     flex: 0 0 var(--touch-target);
   }
 
+  .app-header .global-game-search.is-open {
+    min-width: 0;
+    max-width: none;
+    flex: 1 1 auto;
+    width: 100vw;
+  }
+
   .app-header .global-game-search:not(.is-open) .global-game-search__field {
     width: var(--touch-target);
     min-height: var(--touch-target);
@@ -4940,6 +4947,14 @@ h4 {
   .app-header .global-game-search:not(.is-open) .global-game-search__filter-button,
   .app-header .global-game-search:not(.is-open) .global-game-search__shortcut {
     display: none;
+  }
+
+  .app-header .global-game-search.is-open .global-game-search__field input {
+    display: block;
+  }
+
+  .app-header .global-game-search.is-open .global-game-search__filter-button {
+    display: inline-flex;
   }
 
   .tier-row {

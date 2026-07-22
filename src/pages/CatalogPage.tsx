@@ -34,9 +34,32 @@ export function CatalogPage({
 }: CatalogPageProps) {
   const [filters, setFilters] = useState<CatalogSearchFilters>(initialFilters);
   const deferredFilters = useDeferredValue(filters);
+  /** Skip stomping URL once after the pager activates this panel. */
+  const skipNextWriteRef = useRef(false);
+  const wasActiveRef = useRef(active);
+
+  useLayoutEffect(() => {
+    if (!active) {
+      wasActiveRef.current = false;
+      return;
+    }
+    const justActivated = !wasActiveRef.current;
+    wasActiveRef.current = true;
+    if (!justActivated) return;
+    skipNextWriteRef.current = true;
+    setFilters(initialFilters());
+  }, [active]);
 
   useEffect(() => {
     if (!active || typeof window === "undefined") return;
+    if (skipNextWriteRef.current) {
+      skipNextWriteRef.current = false;
+      // Preserve navigate()'s hash (may already include q=…) — don't write stale React state.
+      const hydrated = initialFilters();
+      setFilters((current) => (sameCatalogSearch(current, hydrated) ? current : hydrated));
+      window.dispatchEvent(new Event(CATALOG_FILTERS_EVENT));
+      return;
+    }
     const query = serializeCatalogSearch(filters);
     history.replaceState(null, "", `#/games${query ? `?${query}` : ""}`);
     window.dispatchEvent(new Event(CATALOG_FILTERS_EVENT));
