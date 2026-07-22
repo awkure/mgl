@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": "c4e8c3e12cb66f87394e7ea01e5f15a6c0a9137a84edcdb64a22bef794040e66",
-  "publicationId": "abdf3970-52f9-45c1-8463-1d0951376360",
+  "revision": "54b03c6d347b6dc2bc5159d7aa6d20142f5c43d9f7d086bfe4fe9845b080ad8a",
+  "publicationId": "b6da79b4-4aa0-4e51-8454-86582a075c24",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
       "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
@@ -1001,12 +1001,12 @@
       ],
       "status": "played",
       "placement": {
-        "tierId": "unranked",
-        "rank": 290816
+        "tierId": "c",
+        "rank": 121856
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T16:16:57.366Z"
+      "updatedAt": "2026-07-22T20:40:30.325Z"
     },
     "110802ed-3ea0-4b1b-b79e-cc8c2f3c1a7c": {
       "id": "110802ed-3ea0-4b1b-b79e-cc8c2f3c1a7c",
@@ -3044,7 +3044,9 @@
       "lastPlayedAt": "2024-03-22T16:45:47.000Z",
       "achievementsUnlocked": 2,
       "achievementsTotal": 18,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -3054,14 +3056,14 @@
         "Инди",
         "Многопользовательские игры"
       ],
-      "status": "played",
+      "status": "dropped",
       "placement": {
-        "tierId": "unranked",
-        "rank": 136192
+        "tierId": "f",
+        "rank": 10240
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T17:01:30.086Z"
+      "updatedAt": "2026-07-22T20:40:55.569Z"
     },
     "384d90b5-2073-4ea1-88b8-ea8d7a02fc76": {
       "id": "384d90b5-2073-4ea1-88b8-ea8d7a02fc76",

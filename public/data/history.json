@@ -13298,6 +13298,57 @@
       },
       "title": "Super Mario Bros. Wonder",
       "coverAssetId": "4a5a17a4e8c688d94e7945094f9b633051c1112a7b3bd548e0c5cdebf0ebb505"
+    },
+    {
+      "id": "2b3a610468ff6869f2e429223637281a277a5e42d794141f3bb1fdf4c39a46fa",
+      "changedAt": "2026-07-22T20:40:30.325Z",
+      "entity": "game",
+      "entityId": "10350e66-164b-44d1-a1ea-0e432fa132e1",
+      "gameId": "10350e66-164b-44d1-a1ea-0e432fa132e1",
+      "field": "placement",
+      "op": "set",
+      "before": {
+        "tierId": "unranked",
+        "rank": 290816
+      },
+      "after": {
+        "tierId": "c",
+        "rank": 121856
+      },
+      "title": "Garage: Bad Dream Adventure",
+      "coverAssetId": "0b22739c14314f3453e94bea06c481598fe6e5ac8dd17a4f112987e008d1c8f7"
+    },
+    {
+      "id": "e4e4191930f725751d0951e72e0f7d7fcaecbf0e339c2100f705316775711012",
+      "changedAt": "2026-07-22T20:40:50.584Z",
+      "entity": "game",
+      "entityId": "378813e5-9173-4138-8753-af190a2e75d4",
+      "gameId": "378813e5-9173-4138-8753-af190a2e75d4",
+      "field": "status",
+      "op": "set",
+      "before": "played",
+      "after": "dropped",
+      "title": "Phantom Abyss",
+      "coverAssetId": "4798ba4b90a3bfc84408b779b1a1562a26cd345e5c67f98d1f06a4c69e103a65"
+    },
+    {
+      "id": "5e76d2907a5f7e7ffd3aa124b47d18a0b6aa764a5cd8285d9d2655ed7254295e",
+      "changedAt": "2026-07-22T20:40:55.569Z",
+      "entity": "game",
+      "entityId": "378813e5-9173-4138-8753-af190a2e75d4",
+      "gameId": "378813e5-9173-4138-8753-af190a2e75d4",
+      "field": "placement",
+      "op": "set",
+      "before": {
+        "tierId": "unranked",
+        "rank": 136192
+      },
+      "after": {
+        "tierId": "f",
+        "rank": 10240
+      },
+      "title": "Phantom Abyss",
+      "coverAssetId": "4798ba4b90a3bfc84408b779b1a1562a26cd345e5c67f98d1f06a4c69e103a65"
     }
   ]
 }
