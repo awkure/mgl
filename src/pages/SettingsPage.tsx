@@ -170,7 +170,7 @@ export function SettingsPage({ pat }: SettingsPageProps) {
             <div className="inline-alert inline-alert--error" role="alert">
               <Icon name="warning" size={15} />
               <span>{patError}</span>
-              <button onClick={() => setPatError(null)} type="button">Скрыть</button>
+              <button className="button button--ghost" onClick={() => setPatError(null)} type="button">Скрыть</button>
             </div>
           ) : null}
 

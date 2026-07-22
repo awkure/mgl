@@ -29,6 +29,13 @@ describe("mobile nav css", () => {
     expect(styles).toContain(".game-card--list:active");
     expect(styles).toContain(".app-tab-bar__link:active");
     expect(styles).toContain("background: var(--press-wash)");
+    expect(styles).toContain("--control-height: var(--touch-target)");
+    const sharedTouch = declarationsIn(
+      styles,
+      "button, summary, .button, .filter-menu__panel label",
+    );
+    expect(sharedTouch).toContain("min-height: var(--touch-target)");
+    expect(sharedTouch).not.toContain("min-width:");
   });
 
   it("does not define a glass theme", () => {

@@ -59,9 +59,9 @@ describe("notes shelf CSS", () => {
     expect(declarationsIn(styles, ".note-group.is-file-over, .note-empty-group.is-file-over")).toMatch(
       /outline:\s*1px solid var\(--accent\)/,
     );
-    expect(styles).toMatch(/@media \(pointer: coarse\)[\s\S]*?\.note-empty-group \{[^}]*min-height:\s*44px;/);
-    expect(styles).toMatch(/@media \(pointer: coarse\)[\s\S]*?\.note-group-add-slot \{[^}]*min-height:\s*44px;/);
-    expect(styles).toMatch(/@media \(pointer: coarse\)[\s\S]*?\.note-group-add-button \{[^}]*min-width:\s*180px;[^}]*height:\s*44px;/);
+    expect(styles).toMatch(/@media \(pointer: coarse\)[\s\S]*?\.note-empty-group \{[^}]*min-height:\s*var\(--touch-target\);/);
+    expect(styles).toMatch(/@media \(pointer: coarse\)[\s\S]*?\.note-group-add-slot \{[^}]*min-height:\s*var\(--touch-target\);/);
+    expect(styles).toMatch(/@media \(pointer: coarse\)[\s\S]*?\.note-group-add-button \{[^}]*min-width:\s*180px;[^}]*height:\s*var\(--touch-target\);/);
   });
 
   it("keeps top-level Markdown lists flush with the note content", () => {

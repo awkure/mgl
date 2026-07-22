@@ -25,7 +25,7 @@ describe("catalog search consolidation", () => {
 
   it("keeps the header route-independent and expands search to the full narrow viewport", () => {
     expect(styles).not.toContain(".global-game-search.is-catalog {");
-    expect(styles).toMatch(/@media \(max-width: 500px\)[\s\S]*?\.global-game-search \{[^}]*max-width:\s*30px;/);
+    expect(styles).toMatch(/@media \(max-width: 500px\)[\s\S]*?\.global-game-search \{[^}]*max-width:\s*var\(--touch-target\);/);
     expect(styles).toMatch(/@media \(max-width: 720px\)[\s\S]*?\.global-game-search\.is-open \{[^}]*right:\s*0;[^}]*left:\s*0;[^}]*width:\s*100vw;/);
     expect(styles).toMatch(/@media \(max-width: 720px\)[\s\S]*?\.global-game-search__popover \{[^}]*width:\s*100%;[^}]*min-width:\s*0;/);
     expect(declarations(".global-game-search__close")).toContain("display: none");

@@ -244,7 +244,7 @@ export function DiffDialog({
 
         <div className="diff-dialog__body">
           {sync ? <DiffSyncPanel blockedReason={syncBlockedReason} controller={sync} onBusyChange={setSyncSubmitting} onClose={closeSyncPanel} open={syncOpen} /> : null}
-          {error ? <div className="inline-alert inline-alert--error" role="alert"><Icon name="warning" /><span>{error}</span>{onDismissError ? <button onClick={onDismissError} type="button">Скрыть</button> : null}</div> : null}
+          {error ? <div className="inline-alert inline-alert--error" role="alert"><Icon name="warning" /><span>{error}</span>{onDismissError ? <button className="button button--ghost" onClick={onDismissError} type="button">Скрыть</button> : null}</div> : null}
           {localAssets ? (
             <section aria-labelledby="local-assets-title" className={`local-assets-panel local-assets-panel--${localAssetsLevel}`}>
               <div className="local-assets-panel__heading">
@@ -268,14 +268,14 @@ export function DiffDialog({
             <div className="inline-alert inline-alert--error" role="alert">
               <Icon name="warning" />
               <span>{importError}</span>
-              {onDownloadCorruptedRaw ? <button onClick={onDownloadCorruptedRaw} type="button">Скачать исходное значение</button> : null}
+              {onDownloadCorruptedRaw ? <button className="button button--ghost" onClick={onDownloadCorruptedRaw} type="button">Скачать исходное значение</button> : null}
             </div>
           ) : null}
           {onDownloadCorruptedRaw ? (
             <div className="inline-alert inline-alert--error" role="alert">
               <Icon name="warning" />
               <span>В localStorage найдено повреждённое raw-значение. Скачайте его перед сбросом или импортом.</span>
-              <button onClick={onDownloadCorruptedRaw} type="button">Скачать raw</button>
+              <button className="button button--ghost" onClick={onDownloadCorruptedRaw} type="button">Скачать raw</button>
             </div>
           ) : null}
 
@@ -299,9 +299,9 @@ export function DiffDialog({
                     </div>
                   ) : (
                     <div className="conflict-card__actions">
-                      <button onClick={() => onResolveConflict?.(conflict.id, "static")} type="button">Оставить с сайта</button>
-                      <button onClick={() => onResolveConflict?.(conflict.id, "local")} type="button">Оставить локальное</button>
-                      {conflict.canMergeManually === false ? null : <button onClick={() => beginManual(conflict)} type="button">Объединить вручную</button>}
+                      <button className="button button--secondary" onClick={() => onResolveConflict?.(conflict.id, "static")} type="button">Оставить с сайта</button>
+                      <button className="button button--secondary" onClick={() => onResolveConflict?.(conflict.id, "local")} type="button">Оставить локальное</button>
+                      {conflict.canMergeManually === false ? null : <button className="button button--ghost" onClick={() => beginManual(conflict)} type="button">Объединить вручную</button>}
                     </div>
                   )}
                 </article>
@@ -315,7 +315,7 @@ export function DiffDialog({
                 <section className="diff-group" key={groupId}>
                   <header>
                     <div><span className={`section-icon section-icon--${groupId}`}><Icon name={groupIcons[groupId]} /></span><h3>{groupLabels[groupId]}</h3><span>{groupItems.length}</span></div>
-                    {onUndoGroup ? <button onClick={() => onUndoGroup(groupId)} type="button">Отменить группу</button> : null}
+                    {onUndoGroup ? <button className="button button--ghost" onClick={() => onUndoGroup(groupId)} type="button">Отменить группу</button> : null}
                   </header>
                   <ul>
                     {groupItems.map((item) => (
