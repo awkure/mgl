@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": "dd7e8a2027b10e9a21fb6db32b3a54f4531e3eece76edb0bf45af0ce54a46f09",
-  "publicationId": "d24298c1-ed81-4221-ac0a-6d68cdc8ecca",
+  "revision": "8c75b315413c4d57f6306bf651debbbb74ebbf0b7d27b04099c3dd2960f159b3",
+  "publicationId": "5a3fbd1b-ca56-4e26-a499-5365462b8024",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
       "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
@@ -4747,12 +4747,12 @@
       ],
       "status": "completed",
       "placement": {
-        "tierId": "d",
-        "rank": 3072
+        "tierId": "f",
+        "rank": 1536
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T15:31:54.445Z"
+      "updatedAt": "2026-07-22T18:32:58.662Z"
     },
     "50cf7b57-dfa0-42a8-bcb8-96aaaedf5775": {
       "id": "50cf7b57-dfa0-42a8-bcb8-96aaaedf5775",
@@ -5444,11 +5444,11 @@
       "status": "played",
       "placement": {
         "tierId": "unranked",
-        "rank": 220160
+        "rank": 170496
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T17:01:30.086Z"
+      "updatedAt": "2026-07-22T14:39:24.978Z"
     },
     "5df802a7-eded-4b7a-85a0-2dfd34ae17cf": {
       "id": "5df802a7-eded-4b7a-85a0-2dfd34ae17cf",
@@ -6422,11 +6422,11 @@
       "status": "completed",
       "placement": {
         "tierId": "b",
-        "rank": 50176
+        "rank": 23040
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T17:01:30.086Z"
+      "updatedAt": "2026-07-22T14:39:19.087Z"
     },
     "75151e08-56d6-40ba-a59a-d0247dfad83d": {
       "id": "75151e08-56d6-40ba-a59a-d0247dfad83d",
@@ -6449,12 +6449,12 @@
       ],
       "status": "completed",
       "placement": {
-        "tierId": "b",
-        "rank": 21504
+        "tierId": "a",
+        "rank": 9728
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T17:01:30.086Z"
+      "updatedAt": "2026-07-22T18:32:20.978Z"
     },
     "76611235-ace4-4c3a-9f45-8e957346a2e8": {
       "id": "76611235-ace4-4c3a-9f45-8e957346a2e8",
@@ -9480,11 +9480,11 @@
       "status": "played",
       "placement": {
         "tierId": "unranked",
-        "rank": 235520
+        "rank": 177664
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T17:01:30.086Z"
+      "updatedAt": "2026-07-22T14:39:26.694Z"
     },
     "b41f6f61-a859-4940-9e59-cca4eb617f35": {
       "id": "b41f6f61-a859-4940-9e59-cca4eb617f35",
@@ -12844,11 +12844,11 @@
       "status": "dropped",
       "placement": {
         "tierId": "c",
-        "rank": 23552
+        "rank": 10752
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T17:01:30.086Z"
+      "updatedAt": "2026-07-22T14:39:21.792Z"
     },
     "f649e7c0-3a2a-4b49-88ad-81887a790568": {
       "id": "f649e7c0-3a2a-4b49-88ad-81887a790568",
@@ -12955,11 +12955,11 @@
       "status": "played",
       "placement": {
         "tierId": "unranked",
-        "rank": 237568
+        "rank": 190464
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T16:29:53.247Z"
+      "updatedAt": "2026-07-22T14:39:25.862Z"
     },
     "f88db0e7-093c-4331-a59e-33d5b5150fbc": {
       "id": "f88db0e7-093c-4331-a59e-33d5b5150fbc",

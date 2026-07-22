@@ -6255,6 +6255,101 @@
       "coverAssetId": "9ae36d136029261edfa65c4ee892fcfe0a6df02585642bd1f6c2bb4ae5bc1013"
     },
     {
+      "id": "b136b31c6948485c8bc250f0e680578406298bf93cdb6b8ced168b4aad59b0e4",
+      "changedAt": "2026-07-22T14:39:19.087Z",
+      "entity": "game",
+      "entityId": "7382cbc3-0832-4323-901f-6abef058f62a",
+      "gameId": "7382cbc3-0832-4323-901f-6abef058f62a",
+      "field": "placement",
+      "op": "set",
+      "before": {
+        "tierId": "b",
+        "rank": 50176
+      },
+      "after": {
+        "tierId": "b",
+        "rank": 23040
+      },
+      "title": "The Cabin Factory",
+      "coverAssetId": "40ea7812c23a4fede4db80c92f9b53ba96d4fb996205c82878a46f022ac7873e"
+    },
+    {
+      "id": "31a613c29883c90a6ab7b0d1c3cc39dba6d647c4753ca9f820623d2d3a83e52c",
+      "changedAt": "2026-07-22T14:39:21.792Z",
+      "entity": "game",
+      "entityId": "f5641e27-23d8-4619-91f2-974a64ac4775",
+      "gameId": "f5641e27-23d8-4619-91f2-974a64ac4775",
+      "field": "placement",
+      "op": "set",
+      "before": {
+        "tierId": "c",
+        "rank": 23552
+      },
+      "after": {
+        "tierId": "c",
+        "rank": 10752
+      },
+      "title": "Freedom Planet",
+      "coverAssetId": "4606a2737b8050ae2e2b9fd9a4a8b12e74f00f5dd601db6ef3ebc612812e0e20"
+    },
+    {
+      "id": "ba3fa0be799bf603df8bee805f1fdb402306d6e5c69383257b0eeb522c64abc6",
+      "changedAt": "2026-07-22T14:39:24.978Z",
+      "entity": "game",
+      "entityId": "5d8d144a-d900-46bd-ad1c-c2de674a7937",
+      "gameId": "5d8d144a-d900-46bd-ad1c-c2de674a7937",
+      "field": "placement",
+      "op": "set",
+      "before": {
+        "tierId": "unranked",
+        "rank": 220160
+      },
+      "after": {
+        "tierId": "unranked",
+        "rank": 170496
+      },
+      "title": "Under The Island",
+      "coverAssetId": "b52ed972809a96831b93ff1c559d526c8408ecdf74b05b4cb23d45e3bb5e31b5"
+    },
+    {
+      "id": "4247470a1dd8a916ec194e30ff25d194ff575afd8637a083f57b86b334c4830d",
+      "changedAt": "2026-07-22T14:39:25.862Z",
+      "entity": "game",
+      "entityId": "f886d5a6-d7f1-4db5-ad6f-5115b009c035",
+      "gameId": "f886d5a6-d7f1-4db5-ad6f-5115b009c035",
+      "field": "placement",
+      "op": "set",
+      "before": {
+        "tierId": "unranked",
+        "rank": 237568
+      },
+      "after": {
+        "tierId": "unranked",
+        "rank": 190464
+      },
+      "title": "Spark the Electric Jester 3",
+      "coverAssetId": "f4217a0cb6e244c209941349dbb7e927f945c0cb4471c928a1c6942b6584ca02"
+    },
+    {
+      "id": "19ef2b73a0917b2b579863a636702490de964699282390ef63231e744afe9d68",
+      "changedAt": "2026-07-22T14:39:26.694Z",
+      "entity": "game",
+      "entityId": "b3c51f91-75cd-4e23-8a84-bb990710a847",
+      "gameId": "b3c51f91-75cd-4e23-8a84-bb990710a847",
+      "field": "placement",
+      "op": "set",
+      "before": {
+        "tierId": "unranked",
+        "rank": 235520
+      },
+      "after": {
+        "tierId": "unranked",
+        "rank": 177664
+      },
+      "title": "Paquerette Down the Bunburrows",
+      "coverAssetId": "fd8ea2004792263589456c00fbbd6716def313941bb0bd6f4c4f1903c559574f"
+    },
+    {
       "id": "cc0670f95c408587aa4a38dc14a3f5515ff10d0805ecad7d98d7691bfd2b4413",
       "changedAt": "2026-07-22T15:01:28.766Z",
       "entity": "game",
@@ -12596,6 +12691,44 @@
       },
       "title": "Bugsnax",
       "coverAssetId": "21284602c94911e85f3f66b3c121d0f5a5fc3e77fd2d9ff41e2ec289b5103a93"
+    },
+    {
+      "id": "b07c90068799d58844cb1e629b509142b4993bb6757f21890a99456fd16ab9e1",
+      "changedAt": "2026-07-22T18:32:20.978Z",
+      "entity": "game",
+      "entityId": "75151e08-56d6-40ba-a59a-d0247dfad83d",
+      "gameId": "75151e08-56d6-40ba-a59a-d0247dfad83d",
+      "field": "placement",
+      "op": "set",
+      "before": {
+        "tierId": "b",
+        "rank": 21504
+      },
+      "after": {
+        "tierId": "a",
+        "rank": 9728
+      },
+      "title": "Environmental Station Alpha",
+      "coverAssetId": "abfd7084fce17bc8422c387453681766460bcf98265006aa97007fe41c18341e"
+    },
+    {
+      "id": "7dbae888818ce33bafb9a9cf96a5163531f5bba4e502e1d5a9e5211668c65bbf",
+      "changedAt": "2026-07-22T18:32:58.662Z",
+      "entity": "game",
+      "entityId": "5039b092-58d2-40a7-b40a-0e241921fb58",
+      "gameId": "5039b092-58d2-40a7-b40a-0e241921fb58",
+      "field": "placement",
+      "op": "set",
+      "before": {
+        "tierId": "d",
+        "rank": 3072
+      },
+      "after": {
+        "tierId": "f",
+        "rank": 1536
+      },
+      "title": "Amanda the Adventurer 3",
+      "coverAssetId": "bcd4f4114e37c0752ed7e670d9e8af11167bb55df45573ff69e827e4f32e9bae"
     }
   ]
 }
