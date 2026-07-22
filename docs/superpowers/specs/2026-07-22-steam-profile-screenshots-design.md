@@ -29,15 +29,16 @@ Delta vs: `2026-07-22-steam-media-prefill-design.md`
 3. Resolve library game + appid  
 4. `getUserScreenshots` + `getUserVideos` (paginate `numperpage=100`)  
 5. Optional `--prefill` → `getAppDetails`  
-6. Encode screenshot/thumb WebP → upsert `<!-- steam-media:v1 -->` note (all-or-nothing)
+6. Encode screenshot/thumb WebP → upsert `<!-- steam-media:v1 -->` note (best-effort per file; see bulk design)
 
 ## Out of scope
 
 - SPA browser pull of profile media (key must not enter Vite client)  
 - Private / unpublished client-local screenshots  
 - Storefront trailers / marketing shots  
-- Full-library media crawl  
 - Hosting video binaries / HLS  
+
+**Amended:** full-library media crawl + import-default media + best-effort encode — see `2026-07-22-steam-media-bulk-design.md`.
 
 ## Verification
 
