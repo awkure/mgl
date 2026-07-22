@@ -772,6 +772,7 @@ describe("publish patch transaction", () => {
 
     expect(() => publishPatchInRepository(root, createMediaPatch(bytes, metadata))).toThrow(/git commit/);
     expect(readFileSync(dataPath, "utf8")).toBe(original);
+    expect(existsSync(path.join(root, HISTORY_DATA_PATH))).toBe(false);
     expect(existsSync(path.join(root, "public", "media", `${metadata.id}.bin`))).toBe(false);
     expect(existsSync(path.join(root, "public", "media"))).toBe(false);
     expect(git(root, "rev-parse", "HEAD")).toBe(originalHead);
@@ -918,6 +919,7 @@ describe("publish patch transaction", () => {
 
     expect(() => publishPatchInRepository(root, createPatch())).toThrow(/git commit/);
     expect(readFileSync(dataPath, "utf8")).toBe(original);
+    expect(existsSync(path.join(root, HISTORY_DATA_PATH))).toBe(false);
     expect(git(root, "rev-parse", "HEAD")).toBe(originalHead);
     expect(git(root, "status", "--porcelain")).toBe("");
   });

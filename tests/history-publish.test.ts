@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { chmodSync, existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
@@ -9,12 +9,14 @@ import {
   appendHistoryEvents,
   diffLibraryToHistoryEvents,
   emptyHistoryFile,
+  formatHistoryFile,
   relativeHistoryPath,
 } from "../scripts/lib/history.mjs";
 import { computeRevision } from "../scripts/validate-data.mjs";
 import { historyEventId } from "../src/domain/historyDiff";
 
 const GAME_ID = "00000000-0000-4000-8000-000000000001";
+const CELESTE_ID = "00000000-0000-4000-8000-000000000003";
 const TRANSACTION_ID = "00000000-0000-4000-8000-000000000002";
 const NOW = "2026-07-16T06:00:00.000Z";
 const temporaryPaths: string[] = [];
@@ -53,33 +55,60 @@ function makeRepository(database = emptyDatabase()) {
   return root;
 }
 
-function createGamePatch(database = emptyDatabase()) {
+function celesteGame() {
+  return {
+    id: CELESTE_ID,
+    title: "Celeste",
+    coverAssetId: null,
+    steamAppId: null,
+    importedVia: "manually" as const,
+    hoursPlayed: null,
+    lastPlayedAt: null,
+    achievementsUnlocked: null,
+    achievementsTotal: null,
+    steamOverrides: {},
+    platforms: ["PC"],
+    tags: ["platformer"],
+    status: "playing" as const,
+    placement: { tierId: "unranked", rank: 2048 },
+    reviewMarkdown: "",
+    createdAt: NOW,
+    updatedAt: NOW,
+  };
+}
+
+function duckTalesGame() {
+  return {
+    id: GAME_ID,
+    title: "DuckTales",
+    coverAssetId: null,
+    steamAppId: null,
+    importedVia: "manually" as const,
+    hoursPlayed: null,
+    lastPlayedAt: null,
+    achievementsUnlocked: null,
+    achievementsTotal: null,
+    steamOverrides: {},
+    platforms: ["NES"],
+    tags: ["platformer"],
+    status: "playing" as const,
+    placement: { tierId: "unranked", rank: 1024 },
+    reviewMarkdown: "",
+    createdAt: NOW,
+    updatedAt: NOW,
+  };
+}
+
+function createGamePatch(database = emptyDatabase(), gameId = GAME_ID) {
+  const gameValue = gameId === GAME_ID ? duckTalesGame() : celesteGame();
   return {
     patchVersion: 2,
     schemaVersion: 2,
     baseRevision: database.revision || computeRevision(database),
     operations: {
-      [`/games/${GAME_ID}`]: {
+      [`/games/${gameId}`]: {
         operation: "set",
-        value: {
-          id: GAME_ID,
-          title: "DuckTales",
-          coverAssetId: null,
-          steamAppId: null,
-          importedVia: "manually",
-          hoursPlayed: null,
-          lastPlayedAt: null,
-          achievementsUnlocked: null,
-          achievementsTotal: null,
-          steamOverrides: {},
-          platforms: ["NES"],
-          tags: ["platformer"],
-          status: "playing",
-          placement: { tierId: "unranked", rank: 1024 },
-          reviewMarkdown: "",
-          createdAt: NOW,
-          updatedAt: NOW,
-        },
+        value: gameValue,
         baseExists: false,
         baseHash: MISSING_VALUE_HASH,
         changedAt: NOW,
@@ -135,11 +164,69 @@ describe("publishPatchInRepository history", () => {
   it("does not duplicate events when diff yields the same ids again", () => {
     const before = emptyDatabase();
     const after = structuredClone(before);
-    after.games[GAME_ID] = createGamePatch().operations[`/games/${GAME_ID}`].value;
+    after.games[GAME_ID] = duckTalesGame();
     const patch = createGamePatch(before);
     const incoming = diffLibraryToHistoryEvents({ before, after, patch });
     const existing = appendHistoryEvents(emptyHistoryFile(), incoming);
     const again = appendHistoryEvents(existing, incoming);
     expect(again.events).toHaveLength(existing.events.length);
+  });
+
+  it("appends new events when history.json already exists from a prior publish", () => {
+    const root = makeRepository();
+    const database = emptyDatabase();
+    publishPatchInRepository(root, createGamePatch(database));
+
+    const historyPath = path.join(root, relativeHistoryPath);
+    const afterFirst = JSON.parse(readFileSync(historyPath, "utf8"));
+    const firstEventIds = afterFirst.events.map((event: { id: string }) => event.id);
+    expect(firstEventIds.length).toBeGreaterThan(0);
+
+    const published = JSON.parse(readFileSync(path.join(root, "public", "data", "library.json"), "utf8"));
+    publishPatchInRepository(root, createGamePatch(published, CELESTE_ID));
+
+    const afterSecond = JSON.parse(readFileSync(historyPath, "utf8"));
+    expect(afterSecond.events.length).toBeGreaterThan(afterFirst.events.length);
+    for (const id of firstEventIds) {
+      expect(afterSecond.events.some((event: { id: string }) => event.id === id)).toBe(true);
+    }
+    expect(afterSecond.events.some((event: { op: string; entityId: string }) => event.op === "create" && event.entityId === CELESTE_ID)).toBe(true);
+  });
+
+  it("removes created history.json when the publication commit fails", () => {
+    const root = makeRepository();
+    const database = emptyDatabase();
+    const historyPath = path.join(root, relativeHistoryPath);
+    const hook = path.join(root, ".git", "hooks", "pre-commit");
+    writeFileSync(hook, "#!/bin/sh\nexit 1\n");
+    chmodSync(hook, 0o755);
+
+    expect(() => publishPatchInRepository(root, createGamePatch(database))).toThrow(/git commit/);
+    expect(existsSync(historyPath)).toBe(false);
+  });
+
+  it("restores committed history.json when the publication commit fails", () => {
+    const root = makeRepository();
+    const database = emptyDatabase();
+    const before = emptyDatabase();
+    const afterSeed = structuredClone(before);
+    afterSeed.games[CELESTE_ID] = celesteGame();
+    const seedPatch = createGamePatch(before, CELESTE_ID);
+    const seeded = appendHistoryEvents(
+      emptyHistoryFile(),
+      diffLibraryToHistoryEvents({ before, after: afterSeed, patch: seedPatch }),
+    );
+    const historyPath = path.join(root, relativeHistoryPath);
+    writeFileSync(historyPath, formatHistoryFile(seeded));
+    git(root, "add", "--", relativeHistoryPath);
+    git(root, "commit", "-m", "Seed history");
+    const originalHistory = readFileSync(historyPath, "utf8");
+
+    const hook = path.join(root, ".git", "hooks", "pre-commit");
+    writeFileSync(hook, "#!/bin/sh\nexit 1\n");
+    chmodSync(hook, 0o755);
+
+    expect(() => publishPatchInRepository(root, createGamePatch(database))).toThrow(/git commit/);
+    expect(readFileSync(historyPath, "utf8")).toBe(originalHistory);
   });
 });
