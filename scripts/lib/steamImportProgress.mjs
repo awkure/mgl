@@ -65,7 +65,12 @@ export function assertProgressCompatible(progress, profileKey, flags) {
 
 export function loadProgressFile(filePath) {
   if (!existsSync(filePath)) return null;
-  return JSON.parse(readFileSync(filePath, "utf8"));
+  try {
+    return JSON.parse(readFileSync(filePath, "utf8"));
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    throw new Error(`Invalid progress file: ${msg}`);
+  }
 }
 
 export function loadForContinue(filePath, profileKey, flags) {

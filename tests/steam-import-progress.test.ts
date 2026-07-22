@@ -1,7 +1,7 @@
-import { mkdtempSync, writeFileSync, readFileSync, existsSync } from "node:fs";
+import { mkdtempSync, writeFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
   assertProgressCompatible,
   createEmptyProgress,
@@ -22,11 +22,6 @@ const FLAGS = {
 };
 
 describe("steamImportProgress", () => {
-  const dirs: string[] = [];
-  afterEach(() => {
-    // leave temps; OS cleans — or rmSync if preferred
-  });
-
   it("createEmptyProgress has v1 empty maps", () => {
     const p = createEmptyProgress("7656119", FLAGS, "2026-07-22T12:00:00.000Z");
     expect(p).toMatchObject({
@@ -51,8 +46,14 @@ describe("steamImportProgress", () => {
 
   it("loadForContinue requires existing file", () => {
     const dir = mkdtempSync(join(tmpdir(), "steam-progress-"));
-    dirs.push(dir);
     expect(() => loadForContinue(join(dir, "missing.json"), "7656119", FLAGS)).toThrow(/--continue|missing/i);
+  });
+
+  it("loadForContinue rejects invalid JSON with Invalid progress file prefix", () => {
+    const dir = mkdtempSync(join(tmpdir(), "steam-progress-"));
+    const file = join(dir, "steam-import-progress.json");
+    writeFileSync(file, "{ not json", "utf8");
+    expect(() => loadForContinue(file, "7656119", FLAGS)).toThrow(/^Invalid progress file:/);
   });
 
   it("upsert + writeAtomic round-trip", () => {
@@ -71,5 +72,17 @@ describe("steamImportProgress", () => {
     expect(loaded.achievements["220"]).toEqual({ ok: true, unlocked: 1, total: 10 });
     removeProgress(file);
     expect(existsSync(file)).toBe(false);
+  });
+
+  it("upsert failure entries round-trip via writeAtomic and loadForContinue", () => {
+    const dir = mkdtempSync(join(tmpdir(), "steam-progress-"));
+    const file = join(dir, "steam-import-progress.json");
+    let p = createEmptyProgress("7656119", FLAGS, "2026-07-22T12:00:00.000Z");
+    p = upsertDetail(p, 570, { ok: false, error: "store timeout" }, "2026-07-22T12:01:00.000Z");
+    p = upsertAchievement(p, 570, { ok: false, error: "achievements private" }, "2026-07-22T12:02:00.000Z");
+    writeAtomic(file, p);
+    const loaded = loadForContinue(file, "7656119", FLAGS);
+    expect(loaded.details["570"]).toEqual({ ok: false, error: "store timeout" });
+    expect(loaded.achievements["570"]).toEqual({ ok: false, error: "achievements private" });
   });
 });
