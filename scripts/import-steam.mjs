@@ -11,10 +11,11 @@
  * Flags:
  *   --profile <url|id|vanity>   default: STEAM_PROFILE_ID from env
  *   --out <path>                write patch JSON (default steam-import.patch.json unless --apply)
- *   --apply                     write into public/data/library.json + public/media
- *   --dry-run                   print candidates; no covers / no writes
+ *   --apply                     write into public/data/library.json + public/media + snapshot
+ *   --dry-run                   merge stats only; no covers / no writes
+ *   --force                     ignore steamOverrides; allow terminal status rewrite
  *   --played-only               only playtime_forever > 0
- *   --limit <n>                 max games after name/dedup filters
+ *   --limit <n>                 max games after name filters (creates + updates)
  *   --appids <a,b,c>            allowlist
  *   --no-covers                 skip cover download/encode
  *   --skip-details              skip storefront appdetails (no genres/type filter)
@@ -38,6 +39,7 @@ import { applyPatch } from "./publish-patch.mjs";
 import { computeRevision, externalAssetPath } from "./validate-data.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const SNAPSHOT_PATH = path.join(root, "public", "data", "steam-import-snapshot.json");
 
 function loadEnvFile(filePath) {
   if (!existsSync(filePath)) return;
@@ -67,6 +69,7 @@ function parseArgs(argv) {
     out: null,
     dryRun: false,
     apply: false,
+    force: false,
     playedOnly: false,
     limit: null,
     appids: null,
@@ -84,6 +87,7 @@ function parseArgs(argv) {
     };
     if (arg === "--dry-run") flags.dryRun = true;
     else if (arg === "--apply") flags.apply = true;
+    else if (arg === "--force") flags.force = true;
     else if (arg === "--played-only") flags.playedOnly = true;
     else if (arg === "--no-covers") flags.noCovers = true;
     else if (arg === "--skip-details") flags.skipDetails = true;
@@ -113,8 +117,9 @@ function usage() {
 Flags:
   --profile <url|id|vanity>   default: STEAM_PROFILE_ID
   --out <path>                write patch JSON (default steam-import.patch.json unless --apply)
-  --apply                     write games+covers into public/data + public/media (no git commit)
-  --dry-run                   candidates only
+  --apply                     write games+covers into public/data + public/media (+ snapshot)
+  --dry-run                   merge stats only; no writes
+  --force                     ignore steamOverrides; rewrite terminal status
   --played-only
   --limit <n>
   --appids <a,b,c>
@@ -122,15 +127,47 @@ Flags:
   --skip-details`);
 }
 
+function loadSteamSnapshot(profileKey) {
+  if (!existsSync(SNAPSHOT_PATH)) return null;
+  try {
+    const raw = JSON.parse(readFileSync(SNAPSHOT_PATH, "utf8"));
+    if (raw?.version !== 1) {
+      console.warn(`Invalid steam snapshot at ${SNAPSHOT_PATH}: bad version`);
+      return null;
+    }
+    if (typeof raw.profileKey !== "string" || !raw.profileKey) {
+      console.warn(`Invalid steam snapshot at ${SNAPSHOT_PATH}: missing profileKey`);
+      return null;
+    }
+    if (raw.profileKey !== profileKey) return null;
+    if (typeof raw.games !== "object" || raw.games === null || Array.isArray(raw.games)) {
+      console.warn(`Invalid steam snapshot at ${SNAPSHOT_PATH}: bad games map`);
+      return null;
+    }
+    return raw;
+  } catch (reason) {
+    console.warn(
+      `Invalid steam snapshot JSON at ${SNAPSHOT_PATH}: ${reason instanceof Error ? reason.message : reason}`,
+    );
+    return null;
+  }
+}
+
 const {
   parseSteamProfileInput,
 } = await import(pathToFileURL(path.join(root, "src/domain/steamIdentity.ts")).href);
 const {
-  buildSteamImportPatch,
-  filterSteamImportCandidates,
+  classifySteamOwnedGames,
   mapSteamCandidateToGame,
   rejectExcludedTypes,
 } = await import(pathToFileURL(path.join(root, "src/domain/steamImport.ts")).href);
+const {
+  buildSnapshotGameFromCandidate,
+  buildSteamUpsertPatch,
+  mergeSteamGameUpdate,
+  proposeSteamFieldsFromCandidate,
+  snapshotUnchangedForCandidate,
+} = await import(pathToFileURL(path.join(root, "src/domain/steamReimport.ts")).href);
 
 let flags;
 try {
@@ -180,62 +217,91 @@ try {
   }
   console.log(`owned: ${owned.gameCount}`);
 
-  let { candidates, fetched, skippedDuplicate, skippedFilter } = filterSteamImportCandidates(
-    owned.games,
-    {
-      existingGames: library.games ?? {},
-      playedOnly: flags.playedOnly,
-      appids: flags.appids ?? undefined,
-      limit: flags.limit ?? undefined,
-    },
-  );
+  const classified = classifySteamOwnedGames(owned.games, {
+    existingGames: library.games ?? {},
+    playedOnly: flags.playedOnly,
+    appids: flags.appids ?? undefined,
+    limit: flags.limit ?? undefined,
+  });
+  let { creates, updates, fetched, skippedFilter } = classified;
   console.log(
-    `after filter: ${candidates.length} (fetched ${fetched}, skip dup ${skippedDuplicate}, skip filter ${skippedFilter})`,
+    `after filter: ${creates.length} create, ${updates.length} update (fetched ${fetched}, skip filter ${skippedFilter})`,
   );
+
+  const snapshotDoc = loadSteamSnapshot(steamid);
+  const snapshotGames = snapshotDoc?.games ?? {};
 
   const throttle = createThrottle(1500);
-  let coversFailed = 0;
   let typeSkipped = 0;
+  let coversFailed = 0;
+  let skippedUnchanged = 0;
+  let skippedLocked = 0;
+
+  const needsDetails = (candidate, existing) => {
+    if (flags.skipDetails || flags.dryRun) return false;
+    if (!existing) return true;
+    if (flags.force) return true;
+    const entry = snapshotGames[String(candidate.appid)];
+    return !snapshotUnchangedForCandidate(entry, candidate);
+  };
+
+  const fetchDetailsFor = async (candidate, existing, label, index, total) => {
+    if (!needsDetails(candidate, existing)) return;
+    process.stdout.write(`details ${label} ${index + 1}/${total} appid=${candidate.appid}\r`);
+    await throttle();
+    try {
+      const details = await withRetry(() => getAppDetails(candidate.appid, { language: "russian" }));
+      candidate.details = details;
+      if (details?.name) candidate.name = details.name;
+    } catch (reason) {
+      console.warn(`\ndetails failed for ${candidate.appid}: ${reason instanceof Error ? reason.message : reason}`);
+      candidate.details = null;
+    }
+  };
 
   if (!flags.skipDetails && !flags.dryRun) {
-    for (let index = 0; index < candidates.length; index += 1) {
-      const candidate = candidates[index];
-      process.stdout.write(`details ${index + 1}/${candidates.length} appid=${candidate.appid}\r`);
-      await throttle();
-      try {
-        const details = await withRetry(() => getAppDetails(candidate.appid, { language: "russian" }));
-        candidate.details = details;
-        if (details?.name) candidate.name = details.name;
-      } catch (reason) {
-        console.warn(`\ndetails failed for ${candidate.appid}: ${reason instanceof Error ? reason.message : reason}`);
-        candidate.details = null;
-      }
+    for (let index = 0; index < creates.length; index += 1) {
+      await fetchDetailsFor(creates[index], null, "create", index, creates.length);
+    }
+    for (let index = 0; index < updates.length; index += 1) {
+      const { candidate, existing } = updates[index];
+      await fetchDetailsFor(candidate, existing, "update", index, updates.length);
     }
     process.stdout.write("\n");
-    const rejected = rejectExcludedTypes(candidates);
-    candidates = rejected.kept;
+    const allWithDetails = [...creates, ...updates.map((row) => row.candidate)];
+    const rejected = rejectExcludedTypes(allWithDetails);
+    const keptSet = new Set(rejected.kept.map((c) => c.appid));
+    creates = creates.filter((c) => keptSet.has(c.appid));
+    updates = updates.filter((row) => keptSet.has(row.candidate.appid));
     typeSkipped = rejected.skippedFilter;
     skippedFilter += typeSkipped;
-    console.log(`after type filter: ${candidates.length} (type skip ${typeSkipped})`);
+    console.log(`after type filter: ${creates.length} create, ${updates.length} update (type skip ${typeSkipped})`);
   }
 
-  if (flags.dryRun) {
-    for (const candidate of candidates) {
-      console.log(
-        `- ${candidate.appid}\t${candidate.name}\tforever=${candidate.playtime_forever}\t2w=${candidate.playtime_2weeks}`,
-      );
-    }
-    console.log(`dry-run complete: ${candidates.length} candidates`);
-    process.exit(0);
+  const snapshotRows = new Map();
+  const recordSnapshotRow = (candidate) => {
+    snapshotRows.set(String(candidate.appid), buildSnapshotGameFromCandidate(candidate));
+  };
+
+  for (const candidate of creates) {
+    recordSnapshotRow(candidate);
   }
 
+  const patchItems = [];
   const now = new Date().toISOString();
-  const items = [];
-  for (let index = 0; index < candidates.length; index += 1) {
-    const candidate = candidates[index];
+
+  for (const { candidate, existing } of updates) {
+    recordSnapshotRow(candidate);
+    const snapEntry = snapshotGames[String(candidate.appid)];
+    if (!flags.force && snapshotUnchangedForCandidate(snapEntry, candidate)) {
+      skippedUnchanged += 1;
+      continue;
+    }
+
+    const mayFetchCover = !flags.noCovers && !flags.dryRun
+      && (flags.force || !existing.steamOverrides?.coverAssetId);
     let cover = null;
-    if (!flags.noCovers) {
-      process.stdout.write(`covers ${index + 1}/${candidates.length} appid=${candidate.appid}\r`);
+    if (mayFetchCover) {
       try {
         cover = await fetchAndEncodeSteamCover(candidate.appid, {
           headerImage: candidate.details?.headerImage ?? null,
@@ -245,7 +311,45 @@ try {
       } catch (reason) {
         coversFailed += 1;
         console.warn(`\ncover failed for ${candidate.appid}: ${reason instanceof Error ? reason.message : reason}`);
-        cover = null;
+      }
+    }
+
+    const proposedCoverId = cover?.asset.id ?? null;
+    const proposed = proposeSteamFieldsFromCandidate(candidate, proposedCoverId);
+    const merged = mergeSteamGameUpdate({
+      existing,
+      proposed,
+      force: flags.force,
+      now,
+    });
+    if (!merged.game) {
+      if (merged.skipReason === "locked") skippedLocked += 1;
+      else skippedUnchanged += 1;
+      continue;
+    }
+
+    patchItems.push({
+      kind: "update",
+      game: merged.game,
+      previousGame: existing,
+      cover,
+    });
+  }
+
+  for (let index = 0; index < creates.length; index += 1) {
+    const candidate = creates[index];
+    let cover = null;
+    if (!flags.noCovers && !flags.dryRun) {
+      process.stdout.write(`covers create ${index + 1}/${creates.length} appid=${candidate.appid}\r`);
+      try {
+        cover = await fetchAndEncodeSteamCover(candidate.appid, {
+          headerImage: candidate.details?.headerImage ?? null,
+          alt: candidate.name,
+        });
+        if (!cover) coversFailed += 1;
+      } catch (reason) {
+        coversFailed += 1;
+        console.warn(`\ncover failed for ${candidate.appid}: ${reason instanceof Error ? reason.message : reason}`);
       }
     }
     const game = mapSteamCandidateToGame({
@@ -260,12 +364,30 @@ try {
       now,
       rankIndex: index,
     });
-    items.push({ game, cover });
+    patchItems.push({ kind: "create", game, cover });
   }
-  if (!flags.noCovers) process.stdout.write("\n");
+  if (!flags.noCovers && !flags.dryRun && creates.length) process.stdout.write("\n");
+
+  const created = patchItems.filter((item) => item.kind === "create").length;
+  const updated = patchItems.filter((item) => item.kind === "update").length;
+
+  if (flags.dryRun) {
+    console.log(
+      JSON.stringify({
+        fetched,
+        skippedFilter,
+        created,
+        updated,
+        skippedUnchanged,
+        skippedLocked,
+        dryRun: true,
+      }),
+    );
+    process.exit(0);
+  }
 
   const baseRevision = library.revision || computeRevision(library);
-  const patch = buildSteamImportPatch(baseRevision, items, { now });
+  const patch = buildSteamUpsertPatch(baseRevision, patchItems, { now });
   if (
     patch.patchVersion !== 2
     || typeof patch.baseRevision !== "string"
@@ -304,14 +426,26 @@ try {
     }
     writeFileSync(libraryPath, `${JSON.stringify(next, null, 2)}\n`);
     console.log(`applied to ${libraryPath} (+ ${Object.keys(patch.blobs).length} media)`);
+
+    const snapshotOut = {
+      version: 1,
+      profileKey: steamid,
+      fetchedAt: now,
+      games: Object.fromEntries(snapshotRows),
+    };
+    mkdirSync(path.dirname(SNAPSHOT_PATH), { recursive: true });
+    writeFileSync(SNAPSHOT_PATH, `${JSON.stringify(snapshotOut, null, 2)}\n`);
+    console.log(`wrote snapshot ${SNAPSHOT_PATH}`);
   }
 
   console.log(
     JSON.stringify({
       fetched,
-      skippedDuplicate,
       skippedFilter,
-      written: items.length,
+      created,
+      updated,
+      skippedUnchanged,
+      skippedLocked,
       coversFailed,
       operations: Object.keys(patch.operations).length,
       blobs: Object.keys(patch.blobs).length,

@@ -1,5 +1,12 @@
+import { canonicalHash, MISSING_VALUE_HASH } from "./canonical";
 import type { Game, StatusId } from "./types";
-import { uniqueTagList } from "./steamImport";
+import {
+  hoursFromSteamMinutes,
+  lastPlayedAtFromSteam,
+  statusFromPlaytime,
+  uniqueTagList,
+  type SteamImportAssetBlob,
+} from "./steamImport";
 
 export const STEAM_SOFT_STATUSES = ["wishlist", "playing", "played"] as const;
 
@@ -36,8 +43,134 @@ export interface SteamMergeResult {
   changedKeys: string[];
 }
 
+export function normalizedSteamHoursPlayed(hours: number | null | undefined): number {
+  if (hours == null || !Number.isFinite(hours)) return 0;
+  return hours;
+}
+
 export function canWriteAchievementProgress(status: StatusId, force: boolean): boolean {
   return force || status !== "platinum";
+}
+
+export function snapshotUnchangedForCandidate(
+  snapshotEntry: SteamSnapshotGame | undefined,
+  candidate: {
+    name: string;
+    playtime_forever: number;
+    playtime_2weeks: number;
+    rtime_last_played: number;
+    details: { genres?: string[]; headerImage?: string | null } | null;
+  },
+): boolean {
+  if (!snapshotEntry) return false;
+  let fresh = buildSnapshotGameFromCandidate(candidate);
+  if (!candidate.details) {
+    fresh = { ...fresh, genres: snapshotEntry.genres, headerImage: snapshotEntry.headerImage };
+  }
+  return snapshotGamesEqual(snapshotEntry, fresh);
+}
+
+export function proposeSteamFieldsFromCandidate(
+  candidate: {
+    appid: number;
+    name: string;
+    playtime_forever: number;
+    playtime_2weeks: number;
+    rtime_last_played: number;
+    details: { genres?: string[] } | null;
+  },
+  coverAssetId: string | null,
+): SteamProposedFields {
+  const title = (candidate.name.trim() || `Steam ${candidate.appid}`).slice(0, 500);
+  return {
+    title,
+    tags: uniqueTagList(candidate.details?.genres ?? []),
+    status: statusFromPlaytime(candidate.playtime_forever, candidate.playtime_2weeks),
+    hoursPlayed: hoursFromSteamMinutes(candidate.playtime_forever),
+    lastPlayedAt: lastPlayedAtFromSteam(candidate.rtime_last_played),
+    coverAssetId,
+  };
+}
+
+export type SteamUpsertPatchItem = {
+  kind: "create" | "update";
+  game: Game;
+  previousGame?: Game;
+  cover?: SteamImportAssetBlob | null;
+};
+
+/** Build a V2 OperationPatch for Steam creates and updates (+ optional cover assets). */
+export function buildSteamUpsertPatch(
+  baseRevision: string,
+  items: readonly SteamUpsertPatchItem[],
+  options: { now?: string; transactionId?: string } = {},
+): {
+  patchVersion: 2;
+  schemaVersion: 2;
+  baseRevision: string;
+  operations: Record<
+    string,
+    {
+      operation: "set";
+      value: unknown;
+      baseExists: boolean;
+      baseHash: string;
+      changedAt: string;
+      transactionId: string;
+    }
+  >;
+  blobs: Record<string, string>;
+} {
+  const now = options.now ?? new Date().toISOString();
+  const transactionId = options.transactionId ?? `steam-import-${now}`;
+  const operations: Record<
+    string,
+    {
+      operation: "set";
+      value: unknown;
+      baseExists: boolean;
+      baseHash: string;
+      changedAt: string;
+      transactionId: string;
+    }
+  > = {};
+  const blobs: Record<string, string> = {};
+
+  for (const item of items) {
+    const cover = item.cover ?? null;
+    if (cover) {
+      operations[`/assets/${cover.asset.id}`] = {
+        operation: "set",
+        value: cover.asset,
+        baseExists: false,
+        baseHash: MISSING_VALUE_HASH,
+        changedAt: now,
+        transactionId,
+      };
+      blobs[cover.asset.id] = cover.base64;
+    }
+    const isUpdate = item.kind === "update";
+    if (isUpdate && !item.previousGame) {
+      throw new Error("Steam update patch item requires previousGame");
+    }
+    const previousGame = item.previousGame;
+    operations[`/games/${item.game.id}`] = {
+      operation: "set",
+      value: item.game,
+      baseExists: isUpdate,
+      baseHash: isUpdate && previousGame ? canonicalHash(previousGame) : MISSING_VALUE_HASH,
+      changedAt: now,
+      transactionId,
+    };
+  }
+
+  return {
+    patchVersion: 2,
+    schemaVersion: 2,
+    baseRevision,
+    operations,
+    blobs,
+  };
 }
 
 export function snapshotGamesEqual(a: SteamSnapshotGame, b: SteamSnapshotGame): boolean {
@@ -96,9 +229,14 @@ export function mergeSteamGameUpdate(input: {
     changedKeys.push(key);
   };
 
-  apply("hoursPlayed", true, next.hoursPlayed === proposed.hoursPlayed, () => {
-    next.hoursPlayed = proposed.hoursPlayed;
-  });
+  apply(
+    "hoursPlayed",
+    true,
+    normalizedSteamHoursPlayed(next.hoursPlayed) === proposed.hoursPlayed,
+    () => {
+      next.hoursPlayed = proposed.hoursPlayed;
+    },
+  );
   apply("lastPlayedAt", true, next.lastPlayedAt === proposed.lastPlayedAt, () => {
     next.lastPlayedAt = proposed.lastPlayedAt;
   });

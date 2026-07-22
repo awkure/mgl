@@ -13,7 +13,7 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { isMp4FileMetadata, makeFileAssetMetadata, optimizeNoteImage, withVideoPreviewFragment } from "../domain/assets";
-import { DEFAULT_NOTE_GROUP_RANK, STATUS_IDS, TIER_IDS, type Asset, type Game, type ImportedViaId, type Note, type NoteAttachment, type StatusId, type TierId } from "../domain/types";
+import { DEFAULT_NOTE_GROUP_RANK, STATUS_IDS, TIER_IDS, type Asset, type Game, type ImportedViaId, type Note, type NoteAttachment, type StatusId, type SteamOverrideKey, type TierId } from "../domain/types";
 import { getYouTubeEmbedUrl, normalizeYouTubeUrl } from "../domain/youtube";
 import { Icon } from "../components/Icon";
 import { GameLinkMarkdownTextarea } from "../components/GameLinkMarkdownTextarea";
@@ -78,6 +78,7 @@ export interface GameSaveInput {
   importedVia?: ImportedViaId;
   hoursPlayed?: number | null;
   lastPlayedAt?: string | null;
+  steamOverrides?: Partial<Record<SteamOverrideKey, true>>;
   pendingCover: PreparedImage | null;
   platforms: string[];
   tags: string[];

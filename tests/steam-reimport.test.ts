@@ -238,6 +238,56 @@ describe("mergeSteamGameUpdate", () => {
     expect(result.skipReason).toBe("unchanged");
     expect(result.changedKeys).toEqual([]);
   });
+  it("treats null hoursPlayed as 0 vs Steam zero minutes", () => {
+    const result = mergeSteamGameUpdate({
+      existing: baseGame({ hoursPlayed: null }),
+      proposed: {
+        title: "Test Game",
+        tags: ["Action"],
+        status: "played",
+        hoursPlayed: 0,
+        lastPlayedAt: "2026-01-01T00:00:00.000Z",
+        coverAssetId: null,
+      },
+      force: false,
+      now: NOW,
+    });
+    expect(result.skipReason).toBe("unchanged");
+    expect(result.game).toBeNull();
+  });
+});
+
+describe("buildSteamUpsertPatch", () => {
+  it("sets baseExists true and stable baseHash for updates", async () => {
+    const { buildSteamUpsertPatch } = await import("../src/domain/steamReimport");
+    const { canonicalHash } = await import("../src/domain/canonical");
+    const previous = baseGame({ title: "Before" });
+    const updated = baseGame({ title: "After", updatedAt: "2026-07-22T13:00:00.000Z" });
+    const patch = buildSteamUpsertPatch(
+      "rev-base",
+      [{ kind: "update", game: updated, previousGame: previous }],
+      { now: NOW, transactionId: "tx1" },
+    );
+    const op = patch.operations[`/games/${previous.id}`];
+    expect(op).toMatchObject({
+      operation: "set",
+      baseExists: true,
+      baseHash: canonicalHash(previous),
+      transactionId: "tx1",
+    });
+    expect(op.value).toEqual(updated);
+  });
+
+  it("keeps create ops on MISSING_VALUE_HASH base", async () => {
+    const { buildSteamUpsertPatch } = await import("../src/domain/steamReimport");
+    const { MISSING_VALUE_HASH } = await import("../src/domain/canonical");
+    const created = baseGame({ id: "22222222-2222-4222-8222-222222222222" });
+    const patch = buildSteamUpsertPatch("rev", [{ kind: "create", game: created }], { now: NOW });
+    expect(patch.operations[`/games/${created.id}`]).toMatchObject({
+      baseExists: false,
+      baseHash: MISSING_VALUE_HASH,
+    });
+  });
 });
 
 describe("buildSnapshotGameFromCandidate", () => {

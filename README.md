@@ -156,8 +156,17 @@ just steam-import --limit 5
 # or: npm run import:steam -- --apply --limit 5
 ```
 
-Флаги `import:steam`: `--profile`, `--out`, `--apply`, `--dry-run`, `--played-only`,
+Флаги `import:steam`: `--profile`, `--out`, `--apply`, `--dry-run`, `--force`, `--played-only`,
 `--limit`, `--appids`, `--no-covers`, `--skip-details`. `--apply` не делает git commit.
+
+Повторный импорт обновляет уже импортированные игры (`steamAppId`): часы, last played,
+статус (мягкие), теги/обложку/название — если не помечены `steamOverrides` в UI.
+`--force` игнорирует overrides и переписывает терминальные статусы; tier и review не трогает.
+Platinum без `--force` не перезаписывает achievement progress (когда появится подсистема B).
+
+Снимок для skip-if-unchanged: `public/data/steam-import-snapshot.json` (steamID64, playtime /
+storefront slice). Пишется только после успешного `--apply`; patch-only (`--out`) snapshot не меняет.
+Невалидный JSON → предупреждение, импорт без skip по snapshot.
 
 ### Фундамент
 
