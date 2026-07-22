@@ -181,6 +181,7 @@ function validateGame(key, game, assets, at, error) {
     "steamAppId",
     "importedVia",
     "hoursPlayed",
+    "lastPlayedAt",
     "platforms",
     "tags",
     "status",
@@ -209,6 +210,7 @@ function validateGame(key, game, assets, at, error) {
   if (game.hoursPlayed !== null && !(typeof game.hoursPlayed === "number" && Number.isFinite(game.hoursPlayed) && game.hoursPlayed >= 0)) {
     error(`${at}.hoursPlayed`, "must be null or a non-negative number of hours");
   }
+  if (game.lastPlayedAt !== null) isoDate(game.lastPlayedAt, `${at}.lastPlayedAt`, error);
   stringSet(game.platforms, `${at}.platforms`, error);
   stringSet(game.tags, `${at}.tags`, error);
   if (!STATUS_IDS.has(game.status)) error(`${at}.status`, "is not a supported status");

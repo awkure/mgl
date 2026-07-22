@@ -28,7 +28,7 @@ function empty(): LibraryDatabase {
 }
 
 function game(title = "DuckTales"): Game {
-  return { id: GAME_ID, title, coverAssetId: null, steamAppId: null, importedVia: "manually", hoursPlayed: null, platforms: ["NES"], tags: ["platformer"], status: "playing", placement: { tierId: "a", rank: 1024 }, reviewMarkdown: "Хорошая игра", createdAt: NOW, updatedAt: NOW };
+  return { id: GAME_ID, title, coverAssetId: null, steamAppId: null, importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, platforms: ["NES"], tags: ["platformer"], status: "playing", placement: { tierId: "a", rank: 1024 }, reviewMarkdown: "Хорошая игра", createdAt: NOW, updatedAt: NOW };
 }
 
 function note(groupRank?: number): Note {

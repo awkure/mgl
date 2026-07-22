@@ -20,7 +20,7 @@ function game(id: string, title: string, status: StatusId): Game {
     title,
     coverAssetId: null,
     steamAppId: null,
-    importedVia: "manually", hoursPlayed: null, platforms: ["PC"],
+    importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, platforms: ["PC"],
     tags: [],
     status,
     placement: { tierId: "unranked", rank: 1024 },

@@ -14,7 +14,7 @@ function game(overrides: Partial<Game> & Pick<Game, "id" | "title">): Game {
   return {
     coverAssetId: null,
     steamAppId: null,
-    importedVia: "manually", hoursPlayed: null, platforms: ["Steam"],
+    importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, platforms: ["Steam"],
     tags: [],
     status: "wishlist",
     placement: { tierId: "unranked", rank: 1024 },
@@ -66,8 +66,8 @@ describe("filterSteamImportCandidates", () => {
 describe("rejectExcludedTypes + mapSteamCandidateToGame", () => {
   it("drops dlc/demo types after details", () => {
     const { kept, skippedFilter } = rejectExcludedTypes([
-      { appid: 1, name: "Game", playtime_forever: 1, playtime_2weeks: 0, details: { type: "game" } },
-      { appid: 2, name: "Pack", playtime_forever: 1, playtime_2weeks: 0, details: { type: "dlc" } },
+      { appid: 1, name: "Game", playtime_forever: 1, playtime_2weeks: 0, rtime_last_played: 0, details: { type: "game" } },
+      { appid: 2, name: "Pack", playtime_forever: 1, playtime_2weeks: 0, rtime_last_played: 0, details: { type: "dlc" } },
     ]);
     expect(kept).toHaveLength(1);
     expect(skippedFilter).toBe(1);
@@ -90,6 +90,7 @@ describe("rejectExcludedTypes + mapSteamCandidateToGame", () => {
       steamAppId: 570,
       importedVia: "steam",
       hoursPlayed: 0,
+      lastPlayedAt: null,
       platforms: ["Steam"],
       tags: ["Action", "Free to Play"],
       status: "playing",
@@ -112,6 +113,23 @@ describe("rejectExcludedTypes + mapSteamCandidateToGame", () => {
       rankIndex: 0,
     });
     expect(mapped.hoursPlayed).toBe(2.1);
+  });
+
+  it("maps rtime_last_played to lastPlayedAt ISO", async () => {
+    const { lastPlayedAtFromSteam } = await import("../src/domain/steamImport");
+    expect(lastPlayedAtFromSteam(0)).toBeNull();
+    expect(lastPlayedAtFromSteam(undefined)).toBeNull();
+    expect(lastPlayedAtFromSteam(1_700_000_000)).toBe("2023-11-14T22:13:20.000Z");
+    const mapped = mapSteamCandidateToGame({
+      id: "11111111-1111-4111-8111-111111111111",
+      appid: 620,
+      name: "Portal 2",
+      rtimeLastPlayed: 1_700_000_000,
+      coverAssetId: null,
+      now: NOW,
+      rankIndex: 0,
+    });
+    expect(mapped.lastPlayedAt).toBe("2023-11-14T22:13:20.000Z");
   });
 
   it("builds a patch with game and cover ops", async () => {

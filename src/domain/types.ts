@@ -22,6 +22,7 @@ export interface Game {
   steamAppId: number | null;
   importedVia: ImportedViaId;
   hoursPlayed: number | null;
+  lastPlayedAt: string | null;
   platforms: string[];
   tags: string[];
   status: StatusId;

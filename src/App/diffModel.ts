@@ -8,6 +8,7 @@ export const fieldLabels: Record<string, string> = {
   steamAppId: "Steam App ID",
   importedVia: "Импорт через",
   hoursPlayed: "Часов в игре",
+  lastPlayedAt: "Последняя игра",
   platforms: "Платформы",
   tags: "Теги",
   status: "Статус",

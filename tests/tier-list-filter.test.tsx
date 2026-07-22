@@ -23,6 +23,7 @@ function makeGame(overrides: Partial<Game> = {}): Game {
     steamAppId: null,
     importedVia: "manually",
     hoursPlayed: null,
+    lastPlayedAt: null,
     platforms: ["NES"],
     tags: ["platformer"],
     status: "playing",

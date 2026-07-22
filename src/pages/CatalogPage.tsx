@@ -1,7 +1,9 @@
 import { useCallback, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { gameMatchesFilters } from "../domain/catalogue";
+import { sortCatalogGames } from "../domain/catalogSort";
 import { CATALOG_FILTERS_EVENT, parseCatalogSearch, sameCatalogSearch, serializeCatalogSearch, type CatalogSearchFilters } from "../domain/catalogSearch";
 import { type Asset, type Game } from "../domain/types";
+import { useCatalogSort } from "../components/catalogSortState";
 import { CatalogVirtualList } from "../components/CatalogVirtualList";
 import { Icon } from "../components/Icon";
 import { PullToRefresh } from "../components/PullToRefresh";
@@ -34,6 +36,8 @@ export function CatalogPage({
 }: CatalogPageProps) {
   const [filters, setFilters] = useState<CatalogSearchFilters>(initialFilters);
   const deferredFilters = useDeferredValue(filters);
+  const [sort] = useCatalogSort();
+  const deferredSort = useDeferredValue(sort);
   /** Skip stomping URL once after the pager activates this panel. */
   const skipNextWriteRef = useRef(false);
   const wasActiveRef = useRef(active);
@@ -80,7 +84,7 @@ export function CatalogPage({
   }, [active]);
 
   const filtered = useMemo(() => {
-    return games.filter((game) => {
+    const matched = games.filter((game) => {
       return gameMatchesFilters(game, {
         query: deferredFilters.q,
         statuses: deferredFilters.statuses,
@@ -88,8 +92,9 @@ export function CatalogPage({
         platforms: deferredFilters.platforms,
         tags: deferredFilters.tags,
       });
-    }).sort((left, right) => right.updatedAt.localeCompare(left.updatedAt));
-  }, [deferredFilters, games]);
+    });
+    return sortCatalogGames(matched, deferredSort);
+  }, [deferredFilters, deferredSort, games]);
   const activeFilters = [
     ...filters.statuses.map((value) => ({ key: `status:${value}`, label: STATUS_LABELS[value], remove: () => setFilters((current) => ({ ...current, statuses: current.statuses.filter((item) => item !== value) })) })),
     ...filters.tiers.map((value) => ({ key: `tier:${value}`, label: `Тир ${TIER_LABELS[value]}`, remove: () => setFilters((current) => ({ ...current, tiers: current.tiers.filter((item) => item !== value) })) })),

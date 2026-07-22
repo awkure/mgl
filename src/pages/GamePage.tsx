@@ -77,6 +77,7 @@ export interface GameSaveInput {
   steamAppId?: number | null;
   importedVia?: ImportedViaId;
   hoursPlayed?: number | null;
+  lastPlayedAt?: string | null;
   pendingCover: PreparedImage | null;
   platforms: string[];
   tags: string[];
@@ -891,6 +892,7 @@ function InlineGamePage({ game, notes, assets, platformSuggestions = [], tagSugg
         steamAppId: overrides.steamAppId === undefined ? game.steamAppId : overrides.steamAppId,
         importedVia: overrides.importedVia === undefined ? game.importedVia : overrides.importedVia,
         hoursPlayed: overrides.hoursPlayed === undefined ? game.hoursPlayed : overrides.hoursPlayed,
+        lastPlayedAt: overrides.lastPlayedAt === undefined ? game.lastPlayedAt : overrides.lastPlayedAt,
         pendingCover: overrides.pendingCover ?? null,
         platforms: overrides.platforms ?? game.platforms,
         tags: overrides.tags ?? game.tags,
@@ -1021,6 +1023,7 @@ function InlineGamePage({ game, notes, assets, platformSuggestions = [], tagSugg
               if (!Number.isFinite(hoursPlayed) || hoursPlayed < 0) { setError("Часов в игре — неотрицательное число."); return false; }
               return persist({ hoursPlayed });
             }} onEnd={() => setEditingField((field) => field === "hoursPlayed" ? null : field)} value={game.hoursPlayed == null ? "" : String(game.hoursPlayed)}>{game.hoursPlayed == null ? "—" : formatHoursPlayed(game.hoursPlayed)}</InlineTextField></dd></div>
+            <div><dt>Последняя игра</dt><dd>{game.lastPlayedAt ? formatRelativeDate(game.lastPlayedAt) : "—"}</dd></div>
             <div><dt>Изменено</dt><dd>{formatRelativeDate(game.updatedAt)}</dd></div>
           </dl>
           {onDelete ? <div className="game-sidebar__tools"><button aria-label="Удалить игру" disabled={saving} onClick={() => void deleteGame()} title="Удалить игру" type="button"><Icon name="trash" size={15} /></button></div> : null}
@@ -1099,7 +1102,7 @@ function NewGamePage({ assets, platformSuggestions = [], tagSuggestions = [], st
     if (processingNoteIds.size || coverDraftDirty) return;
     if (!title.trim()) { setError("Укажите название игры."); return; }
     setSaving(true); setError(null);
-    try { await onSave({ title: title.trim(), coverAssetId: null, steamAppId: null, importedVia: "manually", hoursPlayed: null, pendingCover, platforms, tags, status, tierId, reviewMarkdown: "", notes: draftNotes }); setDirty(false); }
+    try { await onSave({ title: title.trim(), coverAssetId: null, steamAppId: null, importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, pendingCover, platforms, tags, status, tierId, reviewMarkdown: "", notes: draftNotes }); setDirty(false); }
     catch (reason) { setError(reason instanceof Error ? reason.message : "Не удалось сохранить игру"); }
     finally { setSaving(false); }
   };

@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from "react";
 import { CATALOG_FILTERS_EVENT, emptyCatalogSearchFilters, parseCatalogSearch, sameCatalogSearch, serializeCatalogSearch, type CatalogSearchFilters } from "../domain/catalogSearch";
 import { STATUS_IDS, TIER_IDS, type Game, type StatusId, type TierId } from "../domain/types";
+import { useCatalogSort } from "./catalogSortState";
 import { FilterMenu } from "./FilterMenu";
 import { Icon } from "./Icon";
 import { STATUS_LABELS, TIER_LABELS } from "./libraryUi";
 import { useTierFilters } from "./screenFilters";
+import { SortMenu } from "./SortMenu";
 
 function catalogHash(): boolean {
   return /^#\/games(?:\?|$)/.test(window.location.hash);
@@ -21,10 +23,11 @@ function writeCatalogLocation(filters: CatalogSearchFilters): void {
   window.dispatchEvent(new Event(CATALOG_FILTERS_EVENT));
 }
 
-function ScreenFilterBarView({ games, filters, onUpdate }: {
+function ScreenFilterBarView({ games, filters, onUpdate, sortControls }: {
   games: Game[];
   filters: CatalogSearchFilters;
   onUpdate: (next: CatalogSearchFilters) => void;
+  sortControls?: ReactNode;
 }) {
   const [expanded, setExpanded] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -87,6 +90,7 @@ function ScreenFilterBarView({ games, filters, onUpdate }: {
           <FilterMenu label="Тир" onChange={(tiers) => onUpdate({ ...filters, tiers: tiers as TierId[] })} renderLabel={(value) => TIER_LABELS[value as TierId]} selected={filters.tiers} values={[...TIER_IDS]} />
           <FilterMenu label="Платформа" onChange={(values) => onUpdate({ ...filters, platforms: values })} selected={filters.platforms} values={platforms} />
           <FilterMenu label="Тег" onChange={(values) => onUpdate({ ...filters, tags: values })} selected={filters.tags} values={tags} />
+          {sortControls}
           {activeFilterCount ? (
             <button className="screen-filter-bar__reset" onClick={() => onUpdate({ ...emptyCatalogSearchFilters(), q: filters.q })} type="button">
               Сбросить · {activeFilterCount}
@@ -94,6 +98,35 @@ function ScreenFilterBarView({ games, filters, onUpdate }: {
           ) : null}
         </div>
       ) : null}
+    </div>
+  );
+}
+
+function CatalogSortControls() {
+  const [sort, setSort] = useCatalogSort();
+  return (
+    <div className="screen-filter-bar__sort">
+      <SortMenu onChange={(key) => setSort({ ...sort, key })} value={sort.key} />
+      <div className="screen-filter-bar__sort-dir" role="group" aria-label="Направление сортировки">
+        <button
+          aria-label="По возрастанию"
+          aria-pressed={sort.dir === "asc"}
+          className={`screen-filter-bar__sort-dir-btn${sort.dir === "asc" ? " is-active" : ""}`}
+          onClick={() => setSort({ ...sort, dir: "asc" })}
+          type="button"
+        >
+          ↑
+        </button>
+        <button
+          aria-label="По убыванию"
+          aria-pressed={sort.dir === "desc"}
+          className={`screen-filter-bar__sort-dir-btn${sort.dir === "desc" ? " is-active" : ""}`}
+          onClick={() => setSort({ ...sort, dir: "desc" })}
+          type="button"
+        >
+          ↓
+        </button>
+      </div>
     </div>
   );
 }
@@ -120,7 +153,7 @@ function ScreenFilterBarCatalog({ games }: { games: Game[] }) {
     };
   }, []);
 
-  return <ScreenFilterBarView filters={filters} games={games} onUpdate={updateFilters} />;
+  return <ScreenFilterBarView filters={filters} games={games} onUpdate={updateFilters} sortControls={<CatalogSortControls />} />;
 }
 
 function ScreenFilterBarTier({ games }: { games: Game[] }) {

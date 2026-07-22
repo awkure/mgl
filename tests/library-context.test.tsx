@@ -63,6 +63,7 @@ function game(title: string, coverAssetId: string | null = null): Game {
     steamAppId: null,
     importedVia: "manually",
     hoursPlayed: null,
+    lastPlayedAt: null,
     platforms: ["NES"],
     tags: [],
     status: "playing",

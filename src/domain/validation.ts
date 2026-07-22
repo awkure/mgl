@@ -17,13 +17,13 @@ const ENTITY_MAPS = ["games", "notes", "assets"] as const;
 export type EntityMapName = (typeof ENTITY_MAPS)[number];
 
 export const ENTITY_FIELDS: Record<EntityMapName, readonly string[]> = {
-  games: ["id", "title", "coverAssetId", "steamAppId", "importedVia", "hoursPlayed", "platforms", "tags", "status", "placement", "reviewMarkdown", "createdAt", "updatedAt"],
+  games: ["id", "title", "coverAssetId", "steamAppId", "importedVia", "hoursPlayed", "lastPlayedAt", "platforms", "tags", "status", "placement", "reviewMarkdown", "createdAt", "updatedAt"],
   notes: ["id", "gameId", "bodyMarkdown", "attachments", "groupRank", "rank", "createdAt", "updatedAt"],
   assets: ["id", "kind", "mime", "width", "height", "byteLength", "alt", "originalName"],
 };
 
 export const LOCALLY_PATCHABLE_FIELDS: Record<EntityMapName, readonly string[]> = {
-  games: ["title", "coverAssetId", "steamAppId", "importedVia", "hoursPlayed", "platforms", "tags", "status", "placement", "reviewMarkdown"],
+  games: ["title", "coverAssetId", "steamAppId", "importedVia", "hoursPlayed", "lastPlayedAt", "platforms", "tags", "status", "placement", "reviewMarkdown"],
   notes: ["bodyMarkdown", "attachments", "groupRank", "rank"],
   assets: [],
 };
@@ -138,6 +138,7 @@ function validateGame(value: unknown, path: string, issues: ValidationIssue[]): 
   if (value.hoursPlayed !== null && !(typeof value.hoursPlayed === "number" && Number.isFinite(value.hoursPlayed) && value.hoursPlayed >= 0)) {
     issue(issues, `${path}/hoursPlayed`, "Ожидалось неотрицательное число часов или null");
   }
+  if (value.lastPlayedAt !== null) isoDate(value.lastPlayedAt, `${path}/lastPlayedAt`, issues);
   stringList(value.platforms, `${path}/platforms`, issues);
   stringList(value.tags, `${path}/tags`, issues);
   if (!STATUS_IDS.includes(value.status as never)) issue(issues, `${path}/status`, "Неизвестный статус");

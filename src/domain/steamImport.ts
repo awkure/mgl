@@ -5,6 +5,7 @@ export interface SteamOwnedGame {
   name?: string;
   playtime_forever?: number;
   playtime_2weeks?: number;
+  rtime_last_played?: number;
 }
 
 export interface SteamAppDetailsSlice {
@@ -19,6 +20,7 @@ export interface SteamImportCandidate {
   name: string;
   playtime_forever: number;
   playtime_2weeks: number;
+  rtime_last_played: number;
   details: SteamAppDetailsSlice | null;
 }
 
@@ -122,6 +124,7 @@ export function filterSteamImportCandidates(
       name,
       playtime_forever: playtimeForever,
       playtime_2weeks: playtime2Weeks,
+      rtime_last_played: row.rtime_last_played ?? 0,
       details: null,
     });
   }
@@ -175,6 +178,8 @@ export interface MapSteamGameInput {
   genres?: readonly string[];
   playtimeForever?: number;
   playtime2Weeks?: number;
+  /** Steam unix seconds `rtime_last_played`. */
+  rtimeLastPlayed?: number;
   coverAssetId: string | null;
   now: string;
   /** 0-based index among imported games for unique unranked ranks. */
@@ -187,6 +192,12 @@ export function hoursFromSteamMinutes(minutes: number): number {
   return Math.round((minutes / 60) * 10) / 10;
 }
 
+/** Steam `rtime_last_played` is unix seconds; store ISO or null. */
+export function lastPlayedAtFromSteam(rtimeLastPlayed?: number): string | null {
+  if (!Number.isFinite(rtimeLastPlayed) || (rtimeLastPlayed as number) <= 0) return null;
+  return new Date((rtimeLastPlayed as number) * 1000).toISOString();
+}
+
 export function mapSteamCandidateToGame(input: MapSteamGameInput): Game {
   const title = (input.name.trim() || `Steam ${input.appid}`).slice(0, 500);
   const playtimeForever = input.playtimeForever ?? 0;
@@ -197,6 +208,7 @@ export function mapSteamCandidateToGame(input: MapSteamGameInput): Game {
     steamAppId: input.appid,
     importedVia: "steam",
     hoursPlayed: hoursFromSteamMinutes(playtimeForever),
+    lastPlayedAt: lastPlayedAtFromSteam(input.rtimeLastPlayed),
     platforms: ["Steam"],
     tags: uniqueTagList(input.genres ?? []),
     status: statusFromPlaytime(playtimeForever, input.playtime2Weeks ?? 0),

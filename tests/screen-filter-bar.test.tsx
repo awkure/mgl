@@ -10,6 +10,7 @@ const game: Game = {
   title: "DuckTales",
   coverAssetId: null,
   steamAppId: null, importedVia: "manually", hoursPlayed: null,
+  lastPlayedAt: null,
   platforms: ["NES"], tags: ["platformer"], status: "playing",
   placement: { tierId: "a", rank: 1024 },
   reviewMarkdown: "",
@@ -26,6 +27,23 @@ describe("ScreenFilterBar", () => {
     await user.click(screen.getByRole("searchbox", { name: "Фильтр игр на экране" }));
     expect(screen.getByText("Статус")).toBeInTheDocument();
     expect(screen.getByText("Тир")).toBeInTheDocument();
+    expect(screen.getByText("Сортировка")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "По убыванию" })).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it("persists catalog sort without touching the hash", async () => {
+    const user = userEvent.setup();
+    window.localStorage.clear();
+    window.location.hash = "#/games";
+    render(<ScreenFilterBar games={[game]} mode="catalog" />);
+    await user.click(screen.getByRole("searchbox", { name: "Фильтр игр на экране" }));
+    await user.click(screen.getByText("Сортировка"));
+    await user.click(screen.getByRole("radio", { name: /Название/ }));
+    expect(window.location.hash).toBe("#/games");
+    expect(JSON.parse(window.localStorage.getItem("my-game-library.catalog-sort.v1")!)).toEqual({
+      key: "title",
+      dir: "desc",
+    });
   });
 
   it("writes catalog hash on text change", async () => {

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "revision": "b6dcefe4ead89323c49429361a52300fbe86c6ac9aa6cf472f55f5f65298c8f5",
+  "revision": "cea0402eeb25f7cc883052c27c1502319706432762fef3c5f8931cd5b40d3198",
   "publicationId": "acf8ad77-1cfc-4589-bbac-7b33a56e83a0",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
@@ -10,6 +10,7 @@
       "steamAppId": 620,
       "importedVia": "steam",
       "hoursPlayed": 2.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -33,6 +34,7 @@
       "steamAppId": 220,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -55,6 +57,7 @@
       "steamAppId": 320,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -77,6 +80,7 @@
       "steamAppId": 360,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -99,6 +103,7 @@
       "steamAppId": 70,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -121,6 +126,7 @@
       "steamAppId": 3147190,
       "importedVia": "steam",
       "hoursPlayed": 1.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -143,6 +149,7 @@
       "steamAppId": 1919550,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -166,6 +173,7 @@
       "steamAppId": 1637320,
       "importedVia": "steam",
       "hoursPlayed": 0.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -191,6 +199,7 @@
       "steamAppId": 2701800,
       "importedVia": "steam",
       "hoursPlayed": 2.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -216,6 +225,7 @@
       "steamAppId": 4275420,
       "importedVia": "steam",
       "hoursPlayed": 1.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -240,6 +250,7 @@
       "steamAppId": 658850,
       "importedVia": "steam",
       "hoursPlayed": 0.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -264,6 +275,7 @@
       "steamAppId": 360430,
       "importedVia": "steam",
       "hoursPlayed": 7.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -287,6 +299,7 @@
       "steamAppId": 2114740,
       "importedVia": "steam",
       "hoursPlayed": 17.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -311,6 +324,7 @@
       "steamAppId": 850190,
       "importedVia": "steam",
       "hoursPlayed": 0.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -335,6 +349,7 @@
       "steamAppId": 219150,
       "importedVia": "steam",
       "hoursPlayed": 3.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -358,6 +373,7 @@
       "steamAppId": 1229490,
       "importedVia": "steam",
       "hoursPlayed": 46.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -382,6 +398,7 @@
       "steamAppId": 790060,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -406,6 +423,7 @@
       "steamAppId": 204120,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -428,6 +446,7 @@
       "steamAppId": 1188760,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -454,6 +473,7 @@
       "steamAppId": 250900,
       "importedVia": "steam",
       "hoursPlayed": 308.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -476,6 +496,7 @@
       "steamAppId": 2319790,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -500,6 +521,7 @@
       "steamAppId": 2727650,
       "importedVia": "steam",
       "hoursPlayed": 2.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -526,6 +548,7 @@
       "steamAppId": 1561890,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -551,6 +574,7 @@
       "steamAppId": 2218750,
       "importedVia": "steam",
       "hoursPlayed": 1.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -575,6 +599,7 @@
       "steamAppId": 1729740,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -598,6 +623,7 @@
       "steamAppId": 2497920,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -621,6 +647,7 @@
       "steamAppId": 501300,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -644,6 +671,7 @@
       "steamAppId": 2062430,
       "importedVia": "steam",
       "hoursPlayed": 20.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -667,6 +695,7 @@
       "steamAppId": 1574310,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -690,6 +719,7 @@
       "steamAppId": 686060,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -716,6 +746,7 @@
       "steamAppId": 2513580,
       "importedVia": "steam",
       "hoursPlayed": 7.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -739,6 +770,7 @@
       "steamAppId": 422970,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -762,6 +794,7 @@
       "steamAppId": 2835570,
       "importedVia": "steam",
       "hoursPlayed": 4.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -786,6 +819,7 @@
       "steamAppId": 1313140,
       "importedVia": "steam",
       "hoursPlayed": 16.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -811,6 +845,7 @@
       "steamAppId": 553420,
       "importedVia": "steam",
       "hoursPlayed": 13.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -835,6 +870,7 @@
       "steamAppId": 1946430,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -859,6 +895,7 @@
       "steamAppId": 379430,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -883,6 +920,7 @@
       "steamAppId": 1055540,
       "importedVia": "steam",
       "hoursPlayed": 1.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -906,6 +944,7 @@
       "steamAppId": 920210,
       "importedVia": "steam",
       "hoursPlayed": 20.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -929,6 +968,7 @@
       "steamAppId": 3199650,
       "importedVia": "steam",
       "hoursPlayed": 3.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -954,6 +994,7 @@
       "steamAppId": 3216340,
       "importedVia": "steam",
       "hoursPlayed": 4.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -979,6 +1020,7 @@
       "steamAppId": 450390,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1001,6 +1043,7 @@
       "steamAppId": 2022670,
       "importedVia": "steam",
       "hoursPlayed": 10,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1023,6 +1066,7 @@
       "steamAppId": 2134320,
       "importedVia": "steam",
       "hoursPlayed": 1.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1046,6 +1090,7 @@
       "steamAppId": 1657740,
       "importedVia": "steam",
       "hoursPlayed": 8.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1069,6 +1114,7 @@
       "steamAppId": 865680,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1092,6 +1138,7 @@
       "steamAppId": 1859470,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1116,6 +1163,7 @@
       "steamAppId": 1888160,
       "importedVia": "steam",
       "hoursPlayed": 14.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1138,6 +1186,7 @@
       "steamAppId": 564310,
       "importedVia": "steam",
       "hoursPlayed": 6.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1161,6 +1210,7 @@
       "steamAppId": 356400,
       "importedVia": "steam",
       "hoursPlayed": 1.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1184,6 +1234,7 @@
       "steamAppId": 1233070,
       "importedVia": "steam",
       "hoursPlayed": 18.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1207,6 +1258,7 @@
       "steamAppId": 1182620,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1232,6 +1284,7 @@
       "steamAppId": 224760,
       "importedVia": "steam",
       "hoursPlayed": 3.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1254,6 +1307,7 @@
       "steamAppId": 3672720,
       "importedVia": "steam",
       "hoursPlayed": 3.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1280,6 +1334,7 @@
       "steamAppId": 505230,
       "importedVia": "steam",
       "hoursPlayed": 1.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1304,6 +1359,7 @@
       "steamAppId": 2073910,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1331,6 +1387,7 @@
       "steamAppId": 2121980,
       "importedVia": "steam",
       "hoursPlayed": 5.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1354,6 +1411,7 @@
       "steamAppId": 4512570,
       "importedVia": "steam",
       "hoursPlayed": 2.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1377,6 +1435,7 @@
       "steamAppId": 3107900,
       "importedVia": "steam",
       "hoursPlayed": 1.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1400,6 +1459,7 @@
       "steamAppId": 914710,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1425,6 +1485,7 @@
       "steamAppId": 1235140,
       "importedVia": "steam",
       "hoursPlayed": 0.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1449,6 +1510,7 @@
       "steamAppId": 1942280,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1475,6 +1537,7 @@
       "steamAppId": 2313240,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1498,6 +1561,7 @@
       "steamAppId": 1743850,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1521,6 +1585,7 @@
       "steamAppId": 785790,
       "importedVia": "steam",
       "hoursPlayed": 2.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1547,6 +1612,7 @@
       "steamAppId": 3275880,
       "importedVia": "steam",
       "hoursPlayed": 4.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1570,6 +1636,7 @@
       "steamAppId": 2100790,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1593,6 +1660,7 @@
       "steamAppId": 1521360,
       "importedVia": "steam",
       "hoursPlayed": 0.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1616,6 +1684,7 @@
       "steamAppId": 3485300,
       "importedVia": "steam",
       "hoursPlayed": 1.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1639,6 +1708,7 @@
       "steamAppId": 2485180,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1662,6 +1732,7 @@
       "steamAppId": 2694490,
       "importedVia": "steam",
       "hoursPlayed": 109.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1688,6 +1759,7 @@
       "steamAppId": 976310,
       "importedVia": "steam",
       "hoursPlayed": 30.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1710,6 +1782,7 @@
       "steamAppId": 1228520,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1736,6 +1809,7 @@
       "steamAppId": 1091500,
       "importedVia": "steam",
       "hoursPlayed": 14.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1758,6 +1832,7 @@
       "steamAppId": 2810550,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1782,6 +1857,7 @@
       "steamAppId": 1145360,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1806,6 +1882,7 @@
       "steamAppId": 1227650,
       "importedVia": "steam",
       "hoursPlayed": 6.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1831,6 +1908,7 @@
       "steamAppId": 473950,
       "importedVia": "steam",
       "hoursPlayed": 4.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1854,6 +1932,7 @@
       "steamAppId": 1939970,
       "importedVia": "steam",
       "hoursPlayed": 0.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1876,6 +1955,7 @@
       "steamAppId": 1971650,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1898,6 +1978,7 @@
       "steamAppId": 1325900,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1921,6 +2002,7 @@
       "steamAppId": 18420,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1944,6 +2026,7 @@
       "steamAppId": 1722620,
       "importedVia": "steam",
       "hoursPlayed": 0.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1968,6 +2051,7 @@
       "steamAppId": 1654660,
       "importedVia": "steam",
       "hoursPlayed": 0.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -1992,6 +2076,7 @@
       "steamAppId": 609490,
       "importedVia": "steam",
       "hoursPlayed": 2.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2015,6 +2100,7 @@
       "steamAppId": 201420,
       "importedVia": "steam",
       "hoursPlayed": 0.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2039,6 +2125,7 @@
       "steamAppId": 851100,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2063,6 +2150,7 @@
       "steamAppId": 1677770,
       "importedVia": "steam",
       "hoursPlayed": 13.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2086,6 +2174,7 @@
       "steamAppId": 2011780,
       "importedVia": "steam",
       "hoursPlayed": 12.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2110,6 +2199,7 @@
       "steamAppId": 433340,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2135,6 +2225,7 @@
       "steamAppId": 2743080,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2165,6 +2256,7 @@
       "steamAppId": 1328350,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2188,6 +2280,7 @@
       "steamAppId": 562260,
       "importedVia": "steam",
       "hoursPlayed": 2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2212,6 +2305,7 @@
       "steamAppId": 2260530,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2235,6 +2329,7 @@
       "steamAppId": 1796470,
       "importedVia": "steam",
       "hoursPlayed": 6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2260,6 +2355,7 @@
       "steamAppId": 1640890,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2286,6 +2382,7 @@
       "steamAppId": 1177980,
       "importedVia": "steam",
       "hoursPlayed": 3.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2311,6 +2408,7 @@
       "steamAppId": 1623730,
       "importedVia": "steam",
       "hoursPlayed": 1.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2336,6 +2434,7 @@
       "steamAppId": 2560530,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2359,6 +2458,7 @@
       "steamAppId": 1393820,
       "importedVia": "steam",
       "hoursPlayed": 7.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2382,6 +2482,7 @@
       "steamAppId": 2419670,
       "importedVia": "steam",
       "hoursPlayed": 0.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2405,6 +2506,7 @@
       "steamAppId": 1999520,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2430,6 +2532,7 @@
       "steamAppId": 761620,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2455,6 +2558,7 @@
       "steamAppId": 1660960,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2479,6 +2583,7 @@
       "steamAppId": 1244090,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2503,6 +2608,7 @@
       "steamAppId": 2537920,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2529,6 +2635,7 @@
       "steamAppId": 2324290,
       "importedVia": "steam",
       "hoursPlayed": 1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2553,6 +2660,7 @@
       "steamAppId": 1145350,
       "importedVia": "steam",
       "hoursPlayed": 20.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2577,6 +2685,7 @@
       "steamAppId": 989440,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2602,6 +2711,7 @@
       "steamAppId": 1190970,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2626,6 +2736,7 @@
       "steamAppId": 889910,
       "importedVia": "steam",
       "hoursPlayed": 1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2649,6 +2760,7 @@
       "steamAppId": 1583570,
       "importedVia": "steam",
       "hoursPlayed": 7.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2676,6 +2788,7 @@
       "steamAppId": 1250440,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2700,6 +2813,7 @@
       "steamAppId": 3279410,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2723,6 +2837,7 @@
       "steamAppId": 595500,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2747,6 +2862,7 @@
       "steamAppId": 21130,
       "importedVia": "steam",
       "hoursPlayed": 4.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2770,6 +2886,7 @@
       "steamAppId": 1172450,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2795,6 +2912,7 @@
       "steamAppId": 2129530,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2817,6 +2935,7 @@
       "steamAppId": 3764200,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2840,6 +2959,7 @@
       "steamAppId": 1687950,
       "importedVia": "steam",
       "hoursPlayed": 1.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2862,6 +2982,7 @@
       "steamAppId": 2729000,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2885,6 +3006,7 @@
       "steamAppId": 2901140,
       "importedVia": "steam",
       "hoursPlayed": 0.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2909,6 +3031,7 @@
       "steamAppId": 1876590,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2931,6 +3054,7 @@
       "steamAppId": 572890,
       "importedVia": "steam",
       "hoursPlayed": 5.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2956,6 +3080,7 @@
       "steamAppId": 275850,
       "importedVia": "steam",
       "hoursPlayed": 27.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -2979,6 +3104,7 @@
       "steamAppId": 2495450,
       "importedVia": "steam",
       "hoursPlayed": 6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3004,6 +3130,7 @@
       "steamAppId": 1257360,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3026,6 +3153,7 @@
       "steamAppId": 1376200,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3050,6 +3178,7 @@
       "steamAppId": 1627570,
       "importedVia": "steam",
       "hoursPlayed": 0.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3072,6 +3201,7 @@
       "steamAppId": 1422450,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3094,6 +3224,7 @@
       "steamAppId": 41010,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3114,6 +3245,7 @@
       "steamAppId": 3629780,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3139,6 +3271,7 @@
       "steamAppId": 3597880,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3164,6 +3297,7 @@
       "steamAppId": 331980,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3188,6 +3322,7 @@
       "steamAppId": 1979440,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3211,6 +3346,7 @@
       "steamAppId": 838310,
       "importedVia": "steam",
       "hoursPlayed": 2.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3233,6 +3369,7 @@
       "steamAppId": 2551170,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3256,6 +3393,7 @@
       "steamAppId": 2435180,
       "importedVia": "steam",
       "hoursPlayed": 1.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3279,6 +3417,7 @@
       "steamAppId": 668580,
       "importedVia": "steam",
       "hoursPlayed": 21.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3303,6 +3442,7 @@
       "steamAppId": 3442220,
       "importedVia": "steam",
       "hoursPlayed": 1.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3326,6 +3466,7 @@
       "steamAppId": 1494810,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3350,6 +3491,7 @@
       "steamAppId": 457210,
       "importedVia": "steam",
       "hoursPlayed": 2.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3374,6 +3516,7 @@
       "steamAppId": 2596420,
       "importedVia": "steam",
       "hoursPlayed": 0.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3398,6 +3541,7 @@
       "steamAppId": 1260520,
       "importedVia": "steam",
       "hoursPlayed": 7.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3422,6 +3566,7 @@
       "steamAppId": 1978590,
       "importedVia": "steam",
       "hoursPlayed": 2.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3445,6 +3590,7 @@
       "steamAppId": 1923790,
       "importedVia": "steam",
       "hoursPlayed": 1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3469,6 +3615,7 @@
       "steamAppId": 678950,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3491,6 +3638,7 @@
       "steamAppId": 1960900,
       "importedVia": "steam",
       "hoursPlayed": 2.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3515,6 +3663,7 @@
       "steamAppId": 1519710,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3539,6 +3688,7 @@
       "steamAppId": 1246250,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3563,6 +3713,7 @@
       "steamAppId": 285900,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3589,6 +3740,7 @@
       "steamAppId": 1602560,
       "importedVia": "steam",
       "hoursPlayed": 1.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3613,6 +3765,7 @@
       "steamAppId": 2059660,
       "importedVia": "steam",
       "hoursPlayed": 2.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3638,6 +3791,7 @@
       "steamAppId": 2550480,
       "importedVia": "steam",
       "hoursPlayed": 0.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3660,6 +3814,7 @@
       "steamAppId": 1849000,
       "importedVia": "steam",
       "hoursPlayed": 1.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3685,6 +3840,7 @@
       "steamAppId": 1983220,
       "importedVia": "steam",
       "hoursPlayed": 4.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3708,6 +3864,7 @@
       "steamAppId": 1154810,
       "importedVia": "steam",
       "hoursPlayed": 1.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3731,6 +3888,7 @@
       "steamAppId": 2608620,
       "importedVia": "steam",
       "hoursPlayed": 1.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3754,6 +3912,7 @@
       "steamAppId": 504130,
       "importedVia": "steam",
       "hoursPlayed": 1.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3777,6 +3936,7 @@
       "steamAppId": 1599020,
       "importedVia": "steam",
       "hoursPlayed": 7.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3801,6 +3961,7 @@
       "steamAppId": 1608230,
       "importedVia": "steam",
       "hoursPlayed": 0.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3825,6 +3986,7 @@
       "steamAppId": 41050,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3848,6 +4010,7 @@
       "steamAppId": 990630,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3871,6 +4034,7 @@
       "steamAppId": 1733170,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3893,6 +4057,7 @@
       "steamAppId": 3919190,
       "importedVia": "steam",
       "hoursPlayed": 1.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3916,6 +4081,7 @@
       "steamAppId": 1624540,
       "importedVia": "steam",
       "hoursPlayed": 2.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3938,6 +4104,7 @@
       "steamAppId": 993090,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3960,6 +4127,7 @@
       "steamAppId": 2366980,
       "importedVia": "steam",
       "hoursPlayed": 2.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -3984,6 +4152,7 @@
       "steamAppId": 894020,
       "importedVia": "steam",
       "hoursPlayed": 8.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4009,6 +4178,7 @@
       "steamAppId": 2840480,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4032,6 +4202,7 @@
       "steamAppId": 3657210,
       "importedVia": "steam",
       "hoursPlayed": 2.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4055,6 +4226,7 @@
       "steamAppId": 1601580,
       "importedVia": "steam",
       "hoursPlayed": 12.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4078,6 +4250,7 @@
       "steamAppId": 3407070,
       "importedVia": "steam",
       "hoursPlayed": 1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4102,6 +4275,7 @@
       "steamAppId": 1949960,
       "importedVia": "steam",
       "hoursPlayed": 0.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4124,6 +4298,7 @@
       "steamAppId": 33230,
       "importedVia": "steam",
       "hoursPlayed": 3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4147,6 +4322,7 @@
       "steamAppId": 1293230,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4176,6 +4352,7 @@
       "steamAppId": 1604000,
       "importedVia": "steam",
       "hoursPlayed": 1.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4199,6 +4376,7 @@
       "steamAppId": 1480830,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4223,6 +4401,7 @@
       "steamAppId": 1281270,
       "importedVia": "steam",
       "hoursPlayed": 2.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4247,6 +4426,7 @@
       "steamAppId": 2105910,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4271,6 +4451,7 @@
       "steamAppId": 250320,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4295,6 +4476,7 @@
       "steamAppId": 2864210,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4320,6 +4502,7 @@
       "steamAppId": 1747890,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4344,6 +4527,7 @@
       "steamAppId": 2580020,
       "importedVia": "steam",
       "hoursPlayed": 2.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4367,6 +4551,7 @@
       "steamAppId": 3293010,
       "importedVia": "steam",
       "hoursPlayed": 4.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4392,6 +4577,7 @@
       "steamAppId": 3445580,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4415,6 +4601,7 @@
       "steamAppId": 1522870,
       "importedVia": "steam",
       "hoursPlayed": 4.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4437,6 +4624,7 @@
       "steamAppId": 334120,
       "importedVia": "steam",
       "hoursPlayed": 1.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4460,6 +4648,7 @@
       "steamAppId": 601150,
       "importedVia": "steam",
       "hoursPlayed": 1.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4482,6 +4671,7 @@
       "steamAppId": 1291790,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4506,6 +4696,7 @@
       "steamAppId": 466630,
       "importedVia": "steam",
       "hoursPlayed": 3.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4529,6 +4720,7 @@
       "steamAppId": 731490,
       "importedVia": "steam",
       "hoursPlayed": 0.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4551,6 +4743,7 @@
       "steamAppId": 3599690,
       "importedVia": "steam",
       "hoursPlayed": 4.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4576,6 +4769,7 @@
       "steamAppId": 107100,
       "importedVia": "steam",
       "hoursPlayed": 8.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4600,6 +4794,7 @@
       "steamAppId": 2386720,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4622,6 +4817,7 @@
       "steamAppId": 1583520,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4647,6 +4843,7 @@
       "steamAppId": 48190,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4670,6 +4867,7 @@
       "steamAppId": 2060130,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4693,6 +4891,7 @@
       "steamAppId": 1745510,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4716,6 +4915,7 @@
       "steamAppId": 888530,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4740,6 +4940,7 @@
       "steamAppId": 753640,
       "importedVia": "steam",
       "hoursPlayed": 1.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4763,6 +4964,7 @@
       "steamAppId": 2532550,
       "importedVia": "steam",
       "hoursPlayed": 0.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4788,6 +4990,7 @@
       "steamAppId": 2168450,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4815,6 +5018,7 @@
       "steamAppId": 374320,
       "importedVia": "steam",
       "hoursPlayed": 41.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4837,6 +5041,7 @@
       "steamAppId": 1885110,
       "importedVia": "steam",
       "hoursPlayed": 0.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4861,6 +5066,7 @@
       "steamAppId": 2545220,
       "importedVia": "steam",
       "hoursPlayed": 7.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4885,6 +5091,7 @@
       "steamAppId": 2793370,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4907,6 +5114,7 @@
       "steamAppId": 952060,
       "importedVia": "steam",
       "hoursPlayed": 0.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4929,6 +5137,7 @@
       "steamAppId": 1971870,
       "importedVia": "steam",
       "hoursPlayed": 2.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4951,6 +5160,7 @@
       "steamAppId": 292030,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4973,6 +5183,7 @@
       "steamAppId": 312520,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -4997,6 +5208,7 @@
       "steamAppId": 1497440,
       "importedVia": "steam",
       "hoursPlayed": 3.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5020,6 +5232,7 @@
       "steamAppId": 3684710,
       "importedVia": "steam",
       "hoursPlayed": 1.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5044,6 +5257,7 @@
       "steamAppId": 3981100,
       "importedVia": "steam",
       "hoursPlayed": 1.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5068,6 +5282,7 @@
       "steamAppId": 1392820,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5091,6 +5306,7 @@
       "steamAppId": 257420,
       "importedVia": "steam",
       "hoursPlayed": 0.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5115,6 +5331,7 @@
       "steamAppId": 1869290,
       "importedVia": "steam",
       "hoursPlayed": 4.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5140,6 +5357,7 @@
       "steamAppId": 3298940,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5166,6 +5384,7 @@
       "steamAppId": 1522160,
       "importedVia": "steam",
       "hoursPlayed": 2.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5189,6 +5408,7 @@
       "steamAppId": 2655470,
       "importedVia": "steam",
       "hoursPlayed": 3.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5212,6 +5432,7 @@
       "steamAppId": 2181930,
       "importedVia": "steam",
       "hoursPlayed": 2.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5238,6 +5459,7 @@
       "steamAppId": 2138710,
       "importedVia": "steam",
       "hoursPlayed": 1.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5261,6 +5483,7 @@
       "steamAppId": 1819450,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5285,6 +5508,7 @@
       "steamAppId": 2608040,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5308,6 +5532,7 @@
       "steamAppId": 327410,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5332,6 +5557,7 @@
       "steamAppId": 2667970,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5362,6 +5588,7 @@
       "steamAppId": 367520,
       "importedVia": "steam",
       "hoursPlayed": 24.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5386,6 +5613,7 @@
       "steamAppId": 1712350,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5410,6 +5638,7 @@
       "steamAppId": 952070,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5432,6 +5661,7 @@
       "steamAppId": 480490,
       "importedVia": "steam",
       "hoursPlayed": 1.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5455,6 +5685,7 @@
       "steamAppId": 3311740,
       "importedVia": "steam",
       "hoursPlayed": 1.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5479,6 +5710,7 @@
       "steamAppId": 350070,
       "importedVia": "steam",
       "hoursPlayed": 6.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5503,6 +5735,7 @@
       "steamAppId": 1078420,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5527,6 +5760,7 @@
       "steamAppId": 613830,
       "importedVia": "steam",
       "hoursPlayed": 1.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5549,6 +5783,7 @@
       "steamAppId": 1887840,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5573,6 +5808,7 @@
       "steamAppId": 38700,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5596,6 +5832,7 @@
       "steamAppId": 2624670,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5619,6 +5856,7 @@
       "steamAppId": 3107880,
       "importedVia": "steam",
       "hoursPlayed": 1.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5645,6 +5883,7 @@
       "steamAppId": 764790,
       "importedVia": "steam",
       "hoursPlayed": 13,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5668,6 +5907,7 @@
       "steamAppId": 1587560,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5692,6 +5932,7 @@
       "steamAppId": 2951880,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5715,6 +5956,7 @@
       "steamAppId": 4174310,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5739,6 +5981,7 @@
       "steamAppId": 1693980,
       "importedVia": "steam",
       "hoursPlayed": 14.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5762,6 +6005,7 @@
       "steamAppId": 2435900,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5785,6 +6029,7 @@
       "steamAppId": 1721470,
       "importedVia": "steam",
       "hoursPlayed": 13.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5809,6 +6054,7 @@
       "steamAppId": 2166060,
       "importedVia": "steam",
       "hoursPlayed": 2.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5831,6 +6077,7 @@
       "steamAppId": 2377970,
       "importedVia": "steam",
       "hoursPlayed": 2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5854,6 +6101,7 @@
       "steamAppId": 774361,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5878,6 +6126,7 @@
       "steamAppId": 2368470,
       "importedVia": "steam",
       "hoursPlayed": 1.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5902,6 +6151,7 @@
       "steamAppId": 3203590,
       "importedVia": "steam",
       "hoursPlayed": 2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5924,6 +6174,7 @@
       "steamAppId": 963710,
       "importedVia": "steam",
       "hoursPlayed": 4.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5946,6 +6197,7 @@
       "steamAppId": 783840,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5970,6 +6222,7 @@
       "steamAppId": 2160220,
       "importedVia": "steam",
       "hoursPlayed": 6.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -5994,6 +6247,7 @@
       "steamAppId": 2231450,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6017,6 +6271,7 @@
       "steamAppId": 2299900,
       "importedVia": "steam",
       "hoursPlayed": 0.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6040,6 +6295,7 @@
       "steamAppId": 1931020,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6062,6 +6318,7 @@
       "steamAppId": 1986880,
       "importedVia": "steam",
       "hoursPlayed": 0.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6086,6 +6343,7 @@
       "steamAppId": 390290,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6109,6 +6367,7 @@
       "steamAppId": 1850570,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6132,6 +6391,7 @@
       "steamAppId": 2275150,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6155,6 +6415,7 @@
       "steamAppId": 1634360,
       "importedVia": "steam",
       "hoursPlayed": 2.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6178,6 +6439,7 @@
       "steamAppId": 1899060,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6203,6 +6465,7 @@
       "steamAppId": 3288210,
       "importedVia": "steam",
       "hoursPlayed": 0.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6226,6 +6489,7 @@
       "steamAppId": 959410,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6250,6 +6514,7 @@
       "steamAppId": 2358720,
       "importedVia": "steam",
       "hoursPlayed": 39,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6274,6 +6539,7 @@
       "steamAppId": 233860,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6300,6 +6566,7 @@
       "steamAppId": 1459010,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6323,6 +6590,7 @@
       "steamAppId": 40700,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6346,6 +6614,7 @@
       "steamAppId": 2806640,
       "importedVia": "steam",
       "hoursPlayed": 26.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6368,6 +6637,7 @@
       "steamAppId": 2238040,
       "importedVia": "steam",
       "hoursPlayed": 4.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6393,6 +6663,7 @@
       "steamAppId": 3207300,
       "importedVia": "steam",
       "hoursPlayed": 1.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6417,6 +6688,7 @@
       "steamAppId": 1186640,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6441,6 +6713,7 @@
       "steamAppId": 2488590,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6466,6 +6739,7 @@
       "steamAppId": 589590,
       "importedVia": "steam",
       "hoursPlayed": 0.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6489,6 +6763,7 @@
       "steamAppId": 1903340,
       "importedVia": "steam",
       "hoursPlayed": 45.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6512,6 +6787,7 @@
       "steamAppId": 824600,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6535,6 +6811,7 @@
       "steamAppId": 1804010,
       "importedVia": "steam",
       "hoursPlayed": 6.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6560,6 +6837,7 @@
       "steamAppId": 3167280,
       "importedVia": "steam",
       "hoursPlayed": 4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6583,6 +6861,7 @@
       "steamAppId": 1726750,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6606,6 +6885,7 @@
       "steamAppId": 1969080,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6628,6 +6908,7 @@
       "steamAppId": 3094480,
       "importedVia": "steam",
       "hoursPlayed": 0.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6651,6 +6932,7 @@
       "steamAppId": 475550,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6675,6 +6957,7 @@
       "steamAppId": 2663530,
       "importedVia": "steam",
       "hoursPlayed": 3.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6697,6 +6980,7 @@
       "steamAppId": 1147560,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6720,6 +7004,7 @@
       "steamAppId": 351920,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6743,6 +7028,7 @@
       "steamAppId": 3191050,
       "importedVia": "steam",
       "hoursPlayed": 0.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6767,6 +7053,7 @@
       "steamAppId": 1679320,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6791,6 +7078,7 @@
       "steamAppId": 2736480,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6814,6 +7102,7 @@
       "steamAppId": 2356500,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6837,6 +7126,7 @@
       "steamAppId": 613100,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6866,6 +7156,7 @@
       "steamAppId": 3924170,
       "importedVia": "steam",
       "hoursPlayed": 2.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6889,6 +7180,7 @@
       "steamAppId": 3352300,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6911,6 +7203,7 @@
       "steamAppId": 1297210,
       "importedVia": "steam",
       "hoursPlayed": 1.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6934,6 +7227,7 @@
       "steamAppId": 1002300,
       "importedVia": "steam",
       "hoursPlayed": 0.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6958,6 +7252,7 @@
       "steamAppId": 2720950,
       "importedVia": "steam",
       "hoursPlayed": 3.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -6982,6 +7277,7 @@
       "steamAppId": 2193050,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7006,6 +7302,7 @@
       "steamAppId": 3799100,
       "importedVia": "steam",
       "hoursPlayed": 1.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7029,6 +7326,7 @@
       "steamAppId": 544330,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7054,6 +7352,7 @@
       "steamAppId": 593640,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7078,6 +7377,7 @@
       "steamAppId": 1574240,
       "importedVia": "steam",
       "hoursPlayed": 0.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7103,6 +7403,7 @@
       "steamAppId": 2719750,
       "importedVia": "steam",
       "hoursPlayed": 1.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7129,6 +7430,7 @@
       "steamAppId": 1281040,
       "importedVia": "steam",
       "hoursPlayed": 7.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7154,6 +7456,7 @@
       "steamAppId": 1029210,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7177,6 +7480,7 @@
       "steamAppId": 1627720,
       "importedVia": "steam",
       "hoursPlayed": 24.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7201,6 +7505,7 @@
       "steamAppId": 361990,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7223,6 +7528,7 @@
       "steamAppId": 2950340,
       "importedVia": "steam",
       "hoursPlayed": 28.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7247,6 +7553,7 @@
       "steamAppId": 1887400,
       "importedVia": "steam",
       "hoursPlayed": 9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7271,6 +7578,7 @@
       "steamAppId": 2346840,
       "importedVia": "steam",
       "hoursPlayed": 0.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7294,6 +7602,7 @@
       "steamAppId": 1273540,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7319,6 +7628,7 @@
       "steamAppId": 1295920,
       "importedVia": "steam",
       "hoursPlayed": 1.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7343,6 +7653,7 @@
       "steamAppId": 1677100,
       "importedVia": "steam",
       "hoursPlayed": 5.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7366,6 +7677,7 @@
       "steamAppId": 4800590,
       "importedVia": "steam",
       "hoursPlayed": 1.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7389,6 +7701,7 @@
       "steamAppId": 1621690,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7415,6 +7728,7 @@
       "steamAppId": 1254370,
       "importedVia": "steam",
       "hoursPlayed": 2.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7438,6 +7752,7 @@
       "steamAppId": 4142980,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7463,6 +7778,7 @@
       "steamAppId": 115800,
       "importedVia": "steam",
       "hoursPlayed": 4.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7487,6 +7803,7 @@
       "steamAppId": 2077380,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7511,6 +7828,7 @@
       "steamAppId": 2725090,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7534,6 +7852,7 @@
       "steamAppId": 2379780,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7558,6 +7877,7 @@
       "steamAppId": 674140,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7583,6 +7903,7 @@
       "steamAppId": 969990,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7607,6 +7928,7 @@
       "steamAppId": 2389240,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7637,6 +7959,7 @@
       "steamAppId": 337340,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7661,6 +7984,7 @@
       "steamAppId": 1405500,
       "importedVia": "steam",
       "hoursPlayed": 16.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7684,6 +8008,7 @@
       "steamAppId": 2981650,
       "importedVia": "steam",
       "hoursPlayed": 1.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7708,6 +8033,7 @@
       "steamAppId": 977880,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7733,6 +8059,7 @@
       "steamAppId": 1629520,
       "importedVia": "steam",
       "hoursPlayed": 3.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7756,6 +8083,7 @@
       "steamAppId": 3106510,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7781,6 +8109,7 @@
       "steamAppId": 368340,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7806,6 +8135,7 @@
       "steamAppId": 2365810,
       "importedVia": "steam",
       "hoursPlayed": 4.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7830,6 +8160,7 @@
       "steamAppId": 1554840,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7854,6 +8185,7 @@
       "steamAppId": 19680,
       "importedVia": "steam",
       "hoursPlayed": 11.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7877,6 +8209,7 @@
       "steamAppId": 2179170,
       "importedVia": "steam",
       "hoursPlayed": 2.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7900,6 +8233,7 @@
       "steamAppId": 2099080,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7923,6 +8257,7 @@
       "steamAppId": 2903560,
       "importedVia": "steam",
       "hoursPlayed": 0.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7947,6 +8282,7 @@
       "steamAppId": 2067050,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7972,6 +8308,7 @@
       "steamAppId": 1144770,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -7995,6 +8332,7 @@
       "steamAppId": 2167220,
       "importedVia": "steam",
       "hoursPlayed": 6.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8017,6 +8355,7 @@
       "steamAppId": 2527500,
       "importedVia": "steam",
       "hoursPlayed": 4.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8042,6 +8381,7 @@
       "steamAppId": 214340,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8065,6 +8405,7 @@
       "steamAppId": 1628610,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8089,6 +8430,7 @@
       "steamAppId": 41060,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8112,6 +8454,7 @@
       "steamAppId": 1875580,
       "importedVia": "steam",
       "hoursPlayed": 17.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8135,6 +8478,7 @@
       "steamAppId": 996580,
       "importedVia": "steam",
       "hoursPlayed": 2.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8158,6 +8502,7 @@
       "steamAppId": 250760,
       "importedVia": "steam",
       "hoursPlayed": 19.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8182,6 +8527,7 @@
       "steamAppId": 2171440,
       "importedVia": "steam",
       "hoursPlayed": 2.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8205,6 +8551,7 @@
       "steamAppId": 2300840,
       "importedVia": "steam",
       "hoursPlayed": 2.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8231,6 +8578,7 @@
       "steamAppId": 3110010,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8255,6 +8603,7 @@
       "steamAppId": 257510,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8279,6 +8628,7 @@
       "steamAppId": 690040,
       "importedVia": "steam",
       "hoursPlayed": 11.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8302,6 +8652,7 @@
       "steamAppId": 653530,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8325,6 +8676,7 @@
       "steamAppId": 2555320,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8350,6 +8702,7 @@
       "steamAppId": 3237970,
       "importedVia": "steam",
       "hoursPlayed": 3.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8374,6 +8727,7 @@
       "steamAppId": 499180,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8398,6 +8752,7 @@
       "steamAppId": 1809540,
       "importedVia": "steam",
       "hoursPlayed": 1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8422,6 +8777,7 @@
       "steamAppId": 1942010,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8445,6 +8801,7 @@
       "steamAppId": 2951770,
       "importedVia": "steam",
       "hoursPlayed": 2.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8469,6 +8826,7 @@
       "steamAppId": 2305840,
       "importedVia": "steam",
       "hoursPlayed": 6.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8494,6 +8852,7 @@
       "steamAppId": 584400,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8518,6 +8877,7 @@
       "steamAppId": 1035560,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8543,6 +8903,7 @@
       "steamAppId": 206440,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8567,6 +8928,7 @@
       "steamAppId": 2717750,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8591,6 +8953,7 @@
       "steamAppId": 813630,
       "importedVia": "steam",
       "hoursPlayed": 7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8616,6 +8979,7 @@
       "steamAppId": 681240,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8641,6 +9005,7 @@
       "steamAppId": 2313250,
       "importedVia": "steam",
       "hoursPlayed": 0.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8665,6 +9030,7 @@
       "steamAppId": 1739900,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8688,6 +9054,7 @@
       "steamAppId": 2716400,
       "importedVia": "steam",
       "hoursPlayed": 27.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8711,6 +9078,7 @@
       "steamAppId": 3370870,
       "importedVia": "steam",
       "hoursPlayed": 5.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8735,6 +9103,7 @@
       "steamAppId": 253230,
       "importedVia": "steam",
       "hoursPlayed": 37.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8758,6 +9127,7 @@
       "steamAppId": 692890,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8781,6 +9151,7 @@
       "steamAppId": 2362680,
       "importedVia": "steam",
       "hoursPlayed": 1.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8806,6 +9177,7 @@
       "steamAppId": 2637990,
       "importedVia": "steam",
       "hoursPlayed": 2.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8830,6 +9202,7 @@
       "steamAppId": 1206070,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8854,6 +9227,7 @@
       "steamAppId": 1113120,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8878,6 +9252,7 @@
       "steamAppId": 1592280,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8903,6 +9278,7 @@
       "steamAppId": 1010750,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8925,6 +9301,7 @@
       "steamAppId": 1684930,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8948,6 +9325,7 @@
       "steamAppId": 329440,
       "importedVia": "steam",
       "hoursPlayed": 1.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8970,6 +9348,7 @@
       "steamAppId": 227780,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -8993,6 +9372,7 @@
       "steamAppId": 1388770,
       "importedVia": "steam",
       "hoursPlayed": 2.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9017,6 +9397,7 @@
       "steamAppId": 3380950,
       "importedVia": "steam",
       "hoursPlayed": 2.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9040,6 +9421,7 @@
       "steamAppId": 1147860,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9066,6 +9448,7 @@
       "steamAppId": 3840230,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9090,6 +9473,7 @@
       "steamAppId": 813230,
       "importedVia": "steam",
       "hoursPlayed": 10.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9114,6 +9498,7 @@
       "steamAppId": 358190,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9136,6 +9521,7 @@
       "steamAppId": 3334550,
       "importedVia": "steam",
       "hoursPlayed": 0.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9158,6 +9544,7 @@
       "steamAppId": 2070550,
       "importedVia": "steam",
       "hoursPlayed": 1.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9181,6 +9568,7 @@
       "steamAppId": 2563350,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9205,6 +9593,7 @@
       "steamAppId": 2321310,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9229,6 +9618,7 @@
       "steamAppId": 2416450,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9252,6 +9642,7 @@
       "steamAppId": 1304680,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9276,6 +9667,7 @@
       "steamAppId": 632470,
       "importedVia": "steam",
       "hoursPlayed": 1.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9298,6 +9690,7 @@
       "steamAppId": 1370140,
       "importedVia": "steam",
       "hoursPlayed": 1.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9322,6 +9715,7 @@
       "steamAppId": 809060,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9345,6 +9739,7 @@
       "steamAppId": 519860,
       "importedVia": "steam",
       "hoursPlayed": 0.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9368,6 +9763,7 @@
       "steamAppId": 2721890,
       "importedVia": "steam",
       "hoursPlayed": 1.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9392,6 +9788,7 @@
       "steamAppId": 3048140,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9415,6 +9812,7 @@
       "steamAppId": 41000,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9438,6 +9836,7 @@
       "steamAppId": 1295320,
       "importedVia": "steam",
       "hoursPlayed": 5.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9460,6 +9859,7 @@
       "steamAppId": 1353230,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9484,6 +9884,7 @@
       "steamAppId": 3426920,
       "importedVia": "steam",
       "hoursPlayed": 1.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9509,6 +9910,7 @@
       "steamAppId": 323190,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9532,6 +9934,7 @@
       "steamAppId": 2208350,
       "importedVia": "steam",
       "hoursPlayed": 1.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9556,6 +9959,7 @@
       "steamAppId": 2495100,
       "importedVia": "steam",
       "hoursPlayed": 55.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9583,6 +9987,7 @@
       "steamAppId": 1931770,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9606,6 +10011,7 @@
       "steamAppId": 4197610,
       "importedVia": "steam",
       "hoursPlayed": 3.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9630,6 +10036,7 @@
       "steamAppId": 3290710,
       "importedVia": "steam",
       "hoursPlayed": 0.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9655,6 +10062,7 @@
       "steamAppId": 2463690,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9680,6 +10088,7 @@
       "steamAppId": 1067850,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9703,6 +10112,7 @@
       "steamAppId": 1771300,
       "importedVia": "steam",
       "hoursPlayed": 24.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9727,6 +10137,7 @@
       "steamAppId": 289650,
       "importedVia": "steam",
       "hoursPlayed": 1.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9750,6 +10161,7 @@
       "steamAppId": 2300390,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9773,6 +10185,7 @@
       "steamAppId": 2542120,
       "importedVia": "steam",
       "hoursPlayed": 4.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9797,6 +10210,7 @@
       "steamAppId": 3111080,
       "importedVia": "steam",
       "hoursPlayed": 1.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9822,6 +10236,7 @@
       "steamAppId": 835960,
       "importedVia": "steam",
       "hoursPlayed": 42.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9845,6 +10260,7 @@
       "steamAppId": 504230,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9869,6 +10285,7 @@
       "steamAppId": 2870350,
       "importedVia": "steam",
       "hoursPlayed": 21.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9893,6 +10310,7 @@
       "steamAppId": 1158890,
       "importedVia": "steam",
       "hoursPlayed": 1.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9918,6 +10336,7 @@
       "steamAppId": 3690010,
       "importedVia": "steam",
       "hoursPlayed": 1.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9942,6 +10361,7 @@
       "steamAppId": 2672090,
       "importedVia": "steam",
       "hoursPlayed": 0.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9965,6 +10385,7 @@
       "steamAppId": 3495730,
       "importedVia": "steam",
       "hoursPlayed": 1.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -9990,6 +10411,7 @@
       "steamAppId": 3700980,
       "importedVia": "steam",
       "hoursPlayed": 2.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10015,6 +10437,7 @@
       "steamAppId": 1086940,
       "importedVia": "steam",
       "hoursPlayed": 7.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10039,6 +10462,7 @@
       "steamAppId": 2124490,
       "importedVia": "steam",
       "hoursPlayed": 14,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10062,6 +10486,7 @@
       "steamAppId": 2870710,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10086,6 +10511,7 @@
       "steamAppId": 2560460,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10108,6 +10534,7 @@
       "steamAppId": 1421250,
       "importedVia": "steam",
       "hoursPlayed": 17.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10131,6 +10558,7 @@
       "steamAppId": 1586800,
       "importedVia": "steam",
       "hoursPlayed": 4.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10156,6 +10584,7 @@
       "steamAppId": 383180,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10178,6 +10607,7 @@
       "steamAppId": 1238810,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10200,6 +10630,7 @@
       "steamAppId": 1726760,
       "importedVia": "steam",
       "hoursPlayed": 16.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10226,6 +10657,7 @@
       "steamAppId": 1227890,
       "importedVia": "steam",
       "hoursPlayed": 4.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10249,6 +10681,7 @@
       "steamAppId": 701160,
       "importedVia": "steam",
       "hoursPlayed": 7.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10274,6 +10707,7 @@
       "steamAppId": 2575900,
       "importedVia": "steam",
       "hoursPlayed": 6.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10298,6 +10732,7 @@
       "steamAppId": 332200,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10322,6 +10757,7 @@
       "steamAppId": 2732730,
       "importedVia": "steam",
       "hoursPlayed": 1.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10348,6 +10784,7 @@
       "steamAppId": 1410640,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10370,6 +10807,7 @@
       "steamAppId": 2513280,
       "importedVia": "steam",
       "hoursPlayed": 22.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10392,6 +10830,7 @@
       "steamAppId": 1699230,
       "importedVia": "steam",
       "hoursPlayed": 1.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10416,6 +10855,7 @@
       "steamAppId": 2776570,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10439,6 +10879,7 @@
       "steamAppId": 3314790,
       "importedVia": "steam",
       "hoursPlayed": 2.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10466,6 +10907,7 @@
       "steamAppId": 1321440,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10489,6 +10931,7 @@
       "steamAppId": 844590,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10511,6 +10954,7 @@
       "steamAppId": 384110,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10536,6 +10980,7 @@
       "steamAppId": 1812370,
       "importedVia": "steam",
       "hoursPlayed": 18.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10559,6 +11004,7 @@
       "steamAppId": 4167960,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10582,6 +11028,7 @@
       "steamAppId": 4007340,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10606,6 +11053,7 @@
       "steamAppId": 2524850,
       "importedVia": "steam",
       "hoursPlayed": 8.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10629,6 +11077,7 @@
       "steamAppId": 1245620,
       "importedVia": "steam",
       "hoursPlayed": 16,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10652,6 +11101,7 @@
       "steamAppId": 512300,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10676,6 +11126,7 @@
       "steamAppId": 612390,
       "importedVia": "steam",
       "hoursPlayed": 9.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10699,6 +11150,7 @@
       "steamAppId": 2107180,
       "importedVia": "steam",
       "hoursPlayed": 0.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10722,6 +11174,7 @@
       "steamAppId": 858710,
       "importedVia": "steam",
       "hoursPlayed": 0.2,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10745,6 +11198,7 @@
       "steamAppId": 1120320,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10770,6 +11224,7 @@
       "steamAppId": 720350,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10794,6 +11249,7 @@
       "steamAppId": 1030300,
       "importedVia": "steam",
       "hoursPlayed": 51.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10818,6 +11274,7 @@
       "steamAppId": 335670,
       "importedVia": "steam",
       "hoursPlayed": 12,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10842,6 +11299,7 @@
       "steamAppId": 2539960,
       "importedVia": "steam",
       "hoursPlayed": 1.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10865,6 +11323,7 @@
       "steamAppId": 1533420,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10889,6 +11348,7 @@
       "steamAppId": 1280300,
       "importedVia": "steam",
       "hoursPlayed": 0.4,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10911,6 +11371,7 @@
       "steamAppId": 3044030,
       "importedVia": "steam",
       "hoursPlayed": 0.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10936,6 +11397,7 @@
       "steamAppId": 248310,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10959,6 +11421,7 @@
       "steamAppId": 3017580,
       "importedVia": "steam",
       "hoursPlayed": 1.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -10984,6 +11447,7 @@
       "steamAppId": 2101390,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -11007,6 +11471,7 @@
       "steamAppId": 94300,
       "importedVia": "steam",
       "hoursPlayed": 0.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -11031,6 +11496,7 @@
       "steamAppId": 1629530,
       "importedVia": "steam",
       "hoursPlayed": 1.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -11054,6 +11520,7 @@
       "steamAppId": 1671210,
       "importedVia": "steam",
       "hoursPlayed": 16.8,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -11077,6 +11544,7 @@
       "steamAppId": 2453060,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -11100,6 +11568,7 @@
       "steamAppId": 982290,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -11124,6 +11593,7 @@
       "steamAppId": 1221480,
       "importedVia": "steam",
       "hoursPlayed": 5.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -11148,6 +11618,7 @@
       "steamAppId": 1701800,
       "importedVia": "steam",
       "hoursPlayed": 1.9,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -11172,6 +11643,7 @@
       "steamAppId": 3784030,
       "importedVia": "steam",
       "hoursPlayed": 0.5,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -11197,6 +11669,7 @@
       "steamAppId": 684410,
       "importedVia": "steam",
       "hoursPlayed": 0.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -11220,6 +11693,7 @@
       "steamAppId": 609320,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -11244,6 +11718,7 @@
       "steamAppId": 2475490,
       "importedVia": "steam",
       "hoursPlayed": 2.3,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -11267,6 +11742,7 @@
       "steamAppId": 3107800,
       "importedVia": "steam",
       "hoursPlayed": 0.1,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -11292,6 +11768,7 @@
       "steamAppId": 2700540,
       "importedVia": "steam",
       "hoursPlayed": 0,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -11315,6 +11792,7 @@
       "steamAppId": 393520,
       "importedVia": "steam",
       "hoursPlayed": 7.6,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],
@@ -11339,6 +11817,7 @@
       "steamAppId": 736260,
       "importedVia": "steam",
       "hoursPlayed": 14.7,
+      "lastPlayedAt": null,
       "platforms": [
         "Steam"
       ],

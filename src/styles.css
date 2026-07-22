@@ -466,6 +466,49 @@ h4 {
   cursor: pointer;
 }
 
+.screen-filter-bar__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.screen-filter-bar__sort-dir {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.screen-filter-bar__sort-dir-btn {
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0 6px;
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: .85rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.screen-filter-bar__sort-dir-btn:last-child {
+  border-right: 0;
+}
+
+.screen-filter-bar__sort-dir-btn.is-active,
+.screen-filter-bar__sort-dir-btn[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: var(--text);
+}
+
+.screen-filter-bar__sort-dir-btn:hover {
+  color: var(--text);
+}
+
 @media (prefers-reduced-motion: reduce) {
 
   .screen-filter-bar,

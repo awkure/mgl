@@ -47,7 +47,7 @@ const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/;
 const MEDIA_FILE_RE = /^[0-9a-f]{64}\.(?:webp|mp4|bin)$/;
 const PROTOTYPE_KEYS = new Set(["__proto__", "prototype", "constructor"]);
 const FIELDS = {
-  games: new Set(["title", "coverAssetId", "steamAppId", "importedVia", "hoursPlayed", "platforms", "tags", "status", "placement", "reviewMarkdown"]),
+  games: new Set(["title", "coverAssetId", "steamAppId", "importedVia", "hoursPlayed", "lastPlayedAt", "platforms", "tags", "status", "placement", "reviewMarkdown"]),
   notes: new Set(["bodyMarkdown", "attachments", "groupRank", "rank"]),
   assets: new Set(),
 };

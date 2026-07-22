@@ -255,6 +255,7 @@ try {
       genres: candidate.details?.genres ?? [],
       playtimeForever: candidate.playtime_forever,
       playtime2Weeks: candidate.playtime_2weeks,
+      rtimeLastPlayed: candidate.rtime_last_played,
       coverAssetId: cover?.asset.id ?? null,
       now,
       rankIndex: index,
