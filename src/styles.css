@@ -1504,6 +1504,7 @@ h4 {
   -webkit-user-select: none;
   user-select: none;
 }
+
 .app-shell[data-mobile-chrome="true"] .app-tab-add[aria-current="page"] {
   color: var(--accent-strong);
   background: color-mix(in srgb, var(--accent-wash) 80%, var(--glass-fill));
@@ -2931,52 +2932,10 @@ h4 {
   text-underline-offset: 2px;
 }
 
-.steam-prefill-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 10px;
-  align-items: flex-end;
-  margin: 12px 0 0;
-}
-
-.steam-prefill-row__field {
-  flex: 1 1 160px;
-  min-width: 0;
-  margin: 0;
-}
-
-.steam-prefill-row__action {
-  flex: 0 0 auto;
-  min-height: var(--touch-target, 44px);
-}
-
-.steam-prefill-row__store-link {
-  margin: 8px 0 0;
-  font-size: 0.875rem;
-}
-
-.steam-prefill-row__store-link a {
-  color: var(--accent, #8ec8ff);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.game-sidebar .steam-prefill-row {
-  margin-top: 16px;
-}
-
-.game-sidebar .steam-prefill-row__field .field-label {
-  font-size: 0.75rem;
-  color: var(--text-muted, #9aa3b2);
-}
-
-.game-sidebar .steam-prefill-row input {
-  width: 100%;
-}
-
 .game-sidebar .steam-media-pull {
   width: 100%;
-  margin-top: 8px;
+  margin-top: 16px;
+  min-height: var(--touch-target, 44px);
 }
 
 .game-sidebar__meta-short dd {

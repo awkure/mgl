@@ -12,11 +12,9 @@ import {
   type DraggableSyntheticListeners,
 } from "@dnd-kit/core";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
-import { isMp4FileMetadata, makeFileAssetMetadata, optimizeCover, optimizeNoteImage, withVideoPreviewFragment } from "../domain/assets";
+import { isMp4FileMetadata, makeFileAssetMetadata, optimizeNoteImage, withVideoPreviewFragment } from "../domain/assets";
 import {
-  parseSteamAppInput,
   isSteamMediaNote,
-  prefillGameFromSteamDetails,
   steamAppDetailsApiUrl,
   steamAppDetailsFromStoreJson,
   steamMediaFetchErrorMessage,
@@ -274,8 +272,6 @@ function useBlobUrl(blob: Blob | undefined): string | null {
   return url;
 }
 
-type SteamPrefillGameSlice = Pick<Game, "title" | "tags" | "coverAssetId" | "steamAppId" | "importedVia" | "platforms">;
-
 async function fetchSteamStoreDetails(appid: number): Promise<SteamAppDetailsSlice> {
   let response: Response;
   try {
@@ -292,85 +288,6 @@ async function fetchSteamStoreDetails(appid: number): Promise<SteamAppDetailsSli
     throw new Error(steamPrefillFetchErrorMessage(appid, "Игра не найдена в Steam."));
   }
   return details;
-}
-
-async function prepareCoverFromSteamHeader(
-  headerImage: string,
-  alt: string,
-  canAddBlob?: GamePageProps["canAddBlob"],
-): Promise<PreparedImage> {
-  let response: Response;
-  try {
-    response = await fetch(headerImage);
-  } catch {
-    throw new Error("Не удалось скачать обложку Steam");
-  }
-  if (!response.ok) throw new Error("Не удалось скачать обложку Steam");
-  const blob = await response.blob();
-  const file = new File([blob], "steam-header.jpg", { type: blob.type || "image/jpeg" });
-  const optimized = await optimizeCover(file, alt);
-  const storageError = await canAddBlob?.(optimized.byteLength);
-  if (storageError) throw new Error(storageError);
-  return {
-    clientId: crypto.randomUUID(),
-    assetId: optimized.asset.id,
-    mime: "image/webp",
-    width: optimized.asset.width,
-    height: optimized.asset.height,
-    blob: optimized.blob,
-    alt: optimized.asset.alt,
-    originalName: optimized.asset.originalName,
-    byteLength: optimized.byteLength,
-  };
-}
-
-function SteamPrefillRow({
-  disabled = false,
-  onPrefill,
-}: {
-  disabled?: boolean;
-  onPrefill: (raw: string) => void | Promise<void>;
-}) {
-  const [value, setValue] = useState("");
-  const [busy, setBusy] = useState(false);
-  const submit = async () => {
-    if (busy || disabled || !value.trim()) return;
-    setBusy(true);
-    try {
-      await onPrefill(value);
-    } finally {
-      setBusy(false);
-    }
-  };
-  return (
-    <div className="steam-prefill-row">
-      <label className="steam-prefill-row__field field-group">
-        <span className="field-label">Steam</span>
-        <input
-          aria-label="Steam appid или URL"
-          disabled={busy || disabled}
-          onChange={(event) => setValue(event.currentTarget.value)}
-          placeholder="appid или URL магазина"
-          value={value}
-          onKeyDown={(event) => {
-            if (event.key === "Enter") {
-              event.preventDefault();
-              void submit();
-            }
-          }}
-        />
-      </label>
-      <button
-        aria-label="Подтянуть из Steam"
-        className="button button--secondary steam-prefill-row__action"
-        disabled={busy || disabled || !value.trim()}
-        onClick={() => void submit()}
-        type="button"
-      >
-        {busy ? "Загружаем…" : "Подтянуть из Steam"}
-      </button>
-    </div>
-  );
 }
 
 function ImageAttachmentView({ attachment, assets, resolveAssetUrl, onRemove }: { attachment: Extract<EditableAttachment, { type: "image" | "pending-image" }>; assets: Record<string, Asset>; resolveAssetUrl?: (assetId: string) => string | null; onRemove?: () => void }) {
@@ -1067,36 +984,6 @@ function InlineGamePage({ game, notes, assets, platformSuggestions = [], tagSugg
     catch (reason) { setError(reason instanceof Error ? reason.message : "Не удалось удалить игру"); }
     finally { setSaving(false); }
   };
-  const pullFromSteam = async (raw: string) => {
-    setError(null);
-    try {
-      const appid = parseSteamAppInput(raw);
-      const details = await fetchSteamStoreDetails(appid);
-      let pendingCover: PreparedImage | null = null;
-      if (game.coverAssetId == null && details.headerImage) {
-        try {
-          pendingCover = await prepareCoverFromSteamHeader(
-            details.headerImage,
-            details.name?.trim() || game.title || "Обложка Steam",
-            canAddBlob,
-          );
-        } catch {
-          pendingCover = null;
-        }
-      }
-      const patch = prefillGameFromSteamDetails(game, details, {
-        appid,
-        coverAssetId: pendingCover?.assetId ?? null,
-      });
-      await persist({
-        ...patch,
-        pendingCover,
-        coverAssetId: pendingCover ? null : patch.coverAssetId,
-      });
-    } catch (reason) {
-      setError(reason instanceof Error ? reason.message : "Не удалось подтянуть данные Steam");
-    }
-  };
   const pullSteamMedia = async () => {
     const appid = game.steamAppId;
     if (appid == null || storageLocked || saving || mediaBusy) return;
@@ -1253,10 +1140,9 @@ function InlineGamePage({ game, notes, assets, platformSuggestions = [], tagSugg
             <div><dt>Достижения</dt><dd>{game.achievementsUnlocked != null && game.achievementsTotal != null ? `${game.achievementsUnlocked}/${game.achievementsTotal}` : "—"}</dd></div>
             <div><dt>Изменено</dt><dd>{formatRelativeDate(game.updatedAt)}</dd></div>
           </dl>
-          <SteamPrefillRow disabled={saving || storageLocked || mediaBusy} onPrefill={pullFromSteam} />
           <button
             aria-label="Подтянуть медиа Steam"
-            className="button button--secondary steam-prefill-row__action steam-media-pull"
+            className="button button--secondary steam-media-pull"
             disabled={game.steamAppId == null || saving || storageLocked || mediaBusy}
             onClick={() => void pullSteamMedia()}
             type="button"
@@ -1276,8 +1162,6 @@ function InlineGamePage({ game, notes, assets, platformSuggestions = [], tagSugg
 
 function NewGamePage({ assets, platformSuggestions = [], tagSuggestions = [], storageLocked = false, canAddBlob, resolveAssetUrl, onCancel, onSave }: GamePageProps) {
   const [title, setTitle] = useState(""); const [platforms, setPlatforms] = useState<string[]>([]); const [tags, setTags] = useState<string[]>([]);
-  const [steamAppId, setSteamAppId] = useState<number | null>(null);
-  const [importedVia, setImportedVia] = useState<ImportedViaId>("manually");
   const [status, setStatus] = useState<StatusId>("wishlist"); const [tierId, setTierId] = useState<TierId>("unranked");
   const [pendingCover, setPendingCover] = useState<PreparedImage | null>(null); const [draftNotes, setDraftNotes] = useState<EditableNote[]>([]);
   const [processingNoteIds, setProcessingNoteIds] = useState<Set<string>>(() => new Set());
@@ -1295,49 +1179,6 @@ function NewGamePage({ assets, platformSuggestions = [], tagSuggestions = [], st
     useSensor(NOTE_LIST_SENSOR_TYPES.keyboard, NOTE_LIST_SENSOR_OPTIONS.keyboard),
   );
   const change = <T,>(setter: (value: T) => void) => (value: T) => { setter(value); setDirty(true); };
-  const pullFromSteam = async (raw: string) => {
-    setError(null);
-    const draft: SteamPrefillGameSlice = {
-      title,
-      tags,
-      platforms,
-      coverAssetId: pendingCover ? pendingCover.assetId : null,
-      steamAppId,
-      importedVia,
-    };
-    try {
-      const appid = parseSteamAppInput(raw);
-      const details = await fetchSteamStoreDetails(appid);
-      let nextPendingCover = pendingCover;
-      if (draft.coverAssetId == null && !pendingCover && details.headerImage) {
-        try {
-          nextPendingCover = await prepareCoverFromSteamHeader(
-            details.headerImage,
-            details.name?.trim() || title || "Обложка Steam",
-            canAddBlob,
-          );
-        } catch {
-          nextPendingCover = pendingCover;
-        }
-      }
-      const patch = prefillGameFromSteamDetails(draft, details, {
-        appid,
-        coverAssetId: nextPendingCover?.assetId ?? null,
-      });
-      if (patch.title !== undefined) setTitle(patch.title);
-      if (patch.tags !== undefined) setTags(patch.tags);
-      if (patch.platforms !== undefined) setPlatforms(patch.platforms);
-      if (patch.steamAppId !== undefined) setSteamAppId(patch.steamAppId);
-      if (patch.importedVia !== undefined) setImportedVia(patch.importedVia);
-      if (nextPendingCover && nextPendingCover !== pendingCover) {
-        setPendingCover(nextPendingCover);
-        setCoverDraftDirty(false);
-      }
-      setDirty(true);
-    } catch (reason) {
-      setError(reason instanceof Error ? reason.message : "Не удалось подтянуть данные Steam");
-    }
-  };
   useUnsavedChangesGuard(dirty || coverDraftDirty);
   const updateNote = (clientId: string, note: EditableNote) => { setDraftNotes((values) => values.map((value) => value.clientId === clientId ? note : value)); setDirty(true); };
   const setNoteProcessing = (clientId: string, processing: boolean) => setProcessingNoteIds((current) => {
@@ -1384,7 +1225,7 @@ function NewGamePage({ assets, platformSuggestions = [], tagSuggestions = [], st
     if (processingNoteIds.size || coverDraftDirty) return;
     if (!title.trim()) { setError("Укажите название игры."); return; }
     setSaving(true); setError(null);
-    try { await onSave({ title: title.trim(), coverAssetId: null, steamAppId, importedVia, hoursPlayed: null, lastPlayedAt: null, steamOverrides: {}, pendingCover, platforms, tags, status, tierId, reviewMarkdown: "", notes: draftNotes }); setDirty(false); }
+    try { await onSave({ title: title.trim(), coverAssetId: null, steamAppId: null, importedVia: "manually", hoursPlayed: null, lastPlayedAt: null, steamOverrides: {}, pendingCover, platforms, tags, status, tierId, reviewMarkdown: "", notes: draftNotes }); setDirty(false); }
     catch (reason) { setError(reason instanceof Error ? reason.message : "Не удалось сохранить игру"); }
     finally { setSaving(false); }
   };
@@ -1393,9 +1234,7 @@ function NewGamePage({ assets, platformSuggestions = [], tagSuggestions = [], st
     <div className="page game-new-page">
       <form aria-label="Новая игра" className="game-form" onSubmit={(event) => { event.preventDefault(); void submit(); }}>
         <section className="form-card form-card--cover"><ImagePicker alt={title ? `Обложка ${title}` : "Обложка игры"} canAddBlob={canAddBlob} currentPreviewUrl={coverPreview} disabled={storageLocked} mode="cover" onDraftChange={setCoverDraftDirty} onPrepare={(image) => { setPendingCover(image); setDirty(true); }} onRemove={() => { setPendingCover(null); setCoverDraftDirty(false); setDirty(true); }} /></section>
-        <section className="form-card form-card--main"><label className="field-group"><span className="field-label">Название *</span><input autoFocus onChange={(event) => change(setTitle)(event.currentTarget.value)} placeholder="Например, DuckTales" value={title} /></label><SteamPrefillRow disabled={saving || storageLocked || coverDraftDirty} onPrefill={pullFromSteam} />{steamAppId != null ? (
-          <p className="steam-prefill-row__store-link"><a href={steamStoreAppUrl(steamAppId)} rel="noreferrer" target="_blank">Steam</a></p>
-        ) : null}<div className="form-grid"><TagInput label="Платформы" onChange={change(setPlatforms)} placeholder="NES, Switch, PC…" suggestions={platformSuggestions} values={platforms} /><TagInput label="Теги" onChange={change(setTags)} placeholder="platformer, mario…" suggestions={tagSuggestions} values={tags} /><label className="field-group"><span className="field-label">Статус</span><span className="select-wrap"><select onChange={(event) => change(setStatus)(event.currentTarget.value as StatusId)} value={status}>{STATUS_IDS.map((item) => <option key={item} value={item}>{STATUS_LABELS[item]}</option>)}</select><Icon name="chevron-down" size={17} /></span></label><label className="field-group"><span className="field-label">Тир</span><span className="select-wrap"><select onChange={(event) => change(setTierId)(event.currentTarget.value as TierId)} value={tierId}>{TIER_IDS.map((item) => <option key={item} value={item}>{TIER_LABELS[item]}</option>)}</select><Icon name="chevron-down" size={17} /></span></label></div></section>
+        <section className="form-card form-card--main"><label className="field-group"><span className="field-label">Название *</span><input autoFocus onChange={(event) => change(setTitle)(event.currentTarget.value)} placeholder="Например, DuckTales" value={title} /></label><div className="form-grid"><TagInput label="Платформы" onChange={change(setPlatforms)} placeholder="NES, Switch, PC…" suggestions={platformSuggestions} values={platforms} /><TagInput label="Теги" onChange={change(setTags)} placeholder="platformer, mario…" suggestions={tagSuggestions} values={tags} /><label className="field-group"><span className="field-label">Статус</span><span className="select-wrap"><select onChange={(event) => change(setStatus)(event.currentTarget.value as StatusId)} value={status}>{STATUS_IDS.map((item) => <option key={item} value={item}>{STATUS_LABELS[item]}</option>)}</select><Icon name="chevron-down" size={17} /></span></label><label className="field-group"><span className="field-label">Тир</span><span className="select-wrap"><select onChange={(event) => change(setTierId)(event.currentTarget.value as TierId)} value={tierId}>{TIER_IDS.map((item) => <option key={item} value={item}>{TIER_LABELS[item]}</option>)}</select><Icon name="chevron-down" size={17} /></span></label></div></section>
         <section {...noteFileDrag.handlers} aria-label="Заметки" className={`form-card--wide notes-editor${noteFileDrag.active ? " is-file-dragging" : ""}`}><DndContext autoScroll collisionDetection={noteListCollisionDetection} onDragCancel={finishDraftNoteDrag} onDragEnd={endDraftNoteDrag} onDragOver={updateDraftDropIndicator} onDragStart={({ active }) => { setDraftDropIndicator(null); setActiveDraftNoteId(String(active.data.current?.clientId ?? "")); }} sensors={draftNoteSensors}><SortableContext items={draftNotes.map((note) => `note:${note.clientId}`)} strategy={NOTE_LIST_SORTING_STRATEGY}><div className={`note-groups${noteFileDrag.active ? " is-file-dragging" : ""}`}>{draftNoteGroups.map((group, groupIndex) => <DroppableNoteGroup count={group.notes.length} disabled={draftSortingDisabled} filesDisabled={storageLocked} groupRank={group.groupRank} key={group.groupRank} label={`Группа заметок ${groupIndex + 1}`} onFiles={(files) => addDraftNote(group.groupRank, files)}><ShelfGrid className="note-editors-grid" layoutKey={group.notes.map((note) => `${note.clientId}:${note.rank}`).join("|")} packingFrozen={activeDraftNoteId !== null}>{group.notes.map((note, index) => <SortableDraftNoteEditor assets={assets} autoFocus={newDraftNoteId === note.clientId} canAddBlob={canAddBlob} disabled={draftSortingDisabled} dropIndicatorEdge={draftDropIndicator?.clientId === note.clientId ? draftDropIndicator.edge : null} extraActions={<><button aria-label="Переместить заметку выше" disabled={index === 0} onClick={() => { setDraftNotes(moveDraftNoteToGroup(draftNotes, note.clientId, group.groupRank, index - 1)); setDirty(true); }} type="button">↑</button><button aria-label="Переместить заметку ниже" disabled={index === group.notes.length - 1} onClick={() => { setDraftNotes(moveDraftNoteToGroup(draftNotes, note.clientId, group.groupRank, index + 1)); setDirty(true); }} type="button">↓</button><button aria-label="Удалить заметку" onClick={() => { initialDraftNoteFiles.current.delete(note.clientId); setDraftNotes((values) => values.filter((item) => item.clientId !== note.clientId)); setNoteProcessing(note.clientId, false); setDirty(true); }} type="button"><Icon name="trash" size={14} /></button></>} key={note.clientId} note={note} onChange={(value) => updateNote(note.clientId, value)} onProcessingChange={(processing) => setNoteProcessing(note.clientId, processing)} resolveAssetUrl={resolveAssetUrl} storageLocked={storageLocked} takeInitialFiles={() => { const files = initialDraftNoteFiles.current.get(note.clientId) ?? []; initialDraftNoteFiles.current.delete(note.clientId); return files; }} />)}</ShelfGrid><NoteGroupAddButton disabled={draftSortingDisabled} label={`Добавить заметку в группу ${groupIndex + 1}`} onCreate={() => addDraftNote(group.groupRank)} text="Добавить заметку" /></DroppableNoteGroup>)}<EmptyNoteGroup disabled={saving} filesDisabled={storageLocked} groupRank={emptyDraftGroupRank} onCreate={() => addDraftNote(emptyDraftGroupRank)} onFiles={(files) => addDraftNote(emptyDraftGroupRank, files)} /></div></SortableContext><DragOverlay dropAnimation={null}>{activeDraftNote ? <NoteDragPreview note={activeDraftNote} /> : null}</DragOverlay></DndContext></section>
         {error ? <p className="field-error form-error" role="alert">{error}</p> : null}<footer className="form-actions"><button className="button button--secondary" onClick={() => { if ((!dirty && !coverDraftDirty) || window.confirm("Отменить несохранённые изменения?")) onCancel?.(); }} type="button">Отмена</button><button className="button button--primary" disabled={saving || processingNoteIds.size > 0 || coverDraftDirty} type="submit"><Icon name="check" size={18} />{saving ? "Сохраняем…" : "Сохранить"}</button></footer>
       </form>
