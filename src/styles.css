@@ -285,8 +285,13 @@ h4 {
 
 .app-shell {
   --app-header-height: 44px;
+  --app-search-bar-height: 0px;
   --app-tab-bar-height: 0px;
   min-height: 100vh;
+}
+
+.app-shell[data-search-bar="true"] {
+  --app-search-bar-height: calc(var(--control-height, 32px) + 12px);
 }
 
 .app-header {
@@ -302,6 +307,21 @@ h4 {
   background: var(--header-bg);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
+}
+
+.app-search-bar {
+  position: sticky;
+  z-index: 49;
+  top: var(--app-header-height);
+  display: flex;
+  align-items: center;
+  height: var(--app-search-bar-height);
+  padding: 0 10px;
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--header-bg);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  overflow: visible;
 }
 
 .app-nav {
@@ -346,6 +366,30 @@ h4 {
   min-width: 190px;
   max-width: 560px;
   flex: 1 1 560px;
+}
+
+.global-game-search--bar {
+  min-width: 0;
+  max-width: none;
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+.global-game-search--bar.is-open {
+  position: relative;
+  z-index: 80;
+}
+
+.global-game-search--bar .global-game-search__popover {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  width: 100%;
+  min-width: 0;
+  max-height: min(70dvh, calc(100dvh - var(--app-header-height) - var(--app-search-bar-height) - var(--app-tab-bar-height) - 12px));
+  overflow: auto;
+  border-radius: 0 0 6px 6px;
 }
 
 .global-game-search__field {
@@ -1068,7 +1112,7 @@ h4 {
 }
 
 .app-main {
-  min-height: calc(100vh - var(--app-header-height));
+  min-height: calc(100vh - var(--app-header-height) - var(--app-search-bar-height));
 }
 
 .app-main__swipe {
@@ -1209,14 +1253,14 @@ h4 {
 }
 
 .app-shell[data-mobile-chrome="true"] .app-main {
-  min-height: calc(100vh - var(--app-header-height));
+  min-height: calc(100vh - var(--app-header-height) - var(--app-search-bar-height));
   padding-bottom: var(--app-tab-bar-height);
 }
 
 .app-shell[data-mobile-chrome="true"][data-route="tiers"] .app-main,
 .app-shell[data-mobile-chrome="true"][data-route="catalog"] .app-main,
 .app-shell[data-mobile-chrome="true"][data-route="settings"] .app-main {
-  height: calc(100dvh - var(--app-header-height));
+  height: calc(100dvh - var(--app-header-height) - var(--app-search-bar-height));
   padding-bottom: 0;
 }
 
@@ -1231,7 +1275,7 @@ h4 {
 .app-shell[data-route="tiers"] .app-main,
 .app-shell[data-route="catalog"] .app-main,
 .app-shell[data-route="settings"] .app-main {
-  height: calc(100dvh - var(--app-header-height));
+  height: calc(100dvh - var(--app-header-height) - var(--app-search-bar-height));
   min-height: 0;
   padding-right: env(safe-area-inset-right);
   padding-bottom: 0;
@@ -1573,7 +1617,7 @@ h4 {
 }
 
 .tier-page {
-  --tier-card-size: max(44px, calc((100dvh - var(--app-header-height) - 6px) / 7));
+  --tier-card-size: max(44px, calc((100dvh - var(--app-header-height) - var(--app-search-bar-height) - 6px) / 7));
   width: 100%;
   height: 100%;
   margin: 0;
@@ -4537,7 +4581,7 @@ h4 {
     min-width: 120px;
   }
 
-  .global-game-search.is-open {
+  .global-game-search.is-open:not(.global-game-search--bar) {
     position: fixed;
     z-index: 80;
     top: env(safe-area-inset-top);
@@ -4548,7 +4592,7 @@ h4 {
     max-width: none;
   }
 
-  .global-game-search.is-open .global-game-search__field {
+  .global-game-search.is-open:not(.global-game-search--bar) .global-game-search__field {
     border-right: 0;
     border-left: 0;
     border-radius: 0;
@@ -4568,6 +4612,10 @@ h4 {
     border-right: 0;
     border-left: 0;
     border-radius: 0 0 6px 6px;
+  }
+
+  .global-game-search--bar .global-game-search__popover {
+    max-height: min(70dvh, calc(100dvh - var(--app-header-height) - var(--app-search-bar-height) - var(--app-tab-bar-height) - 12px));
   }
 
   .global-game-search__results {
@@ -4723,13 +4771,13 @@ h4 {
     padding: 0 6px;
   }
 
-  .global-game-search {
+  .app-header .global-game-search {
     min-width: var(--touch-target);
     max-width: var(--touch-target);
     flex: 0 0 var(--touch-target);
   }
 
-  .global-game-search:not(.is-open) .global-game-search__field {
+  .app-header .global-game-search:not(.is-open) .global-game-search__field {
     width: var(--touch-target);
     min-height: var(--touch-target);
     padding: 0;
@@ -4737,9 +4785,9 @@ h4 {
     background: transparent;
   }
 
-  .global-game-search:not(.is-open) .global-game-search__field input,
-  .global-game-search:not(.is-open) .global-game-search__filter-button,
-  .global-game-search:not(.is-open) .global-game-search__shortcut {
+  .app-header .global-game-search:not(.is-open) .global-game-search__field input,
+  .app-header .global-game-search:not(.is-open) .global-game-search__filter-button,
+  .app-header .global-game-search:not(.is-open) .global-game-search__shortcut {
     display: none;
   }
 

@@ -7,6 +7,7 @@ import { Icon } from "./Icon";
 
 export interface GlobalGameSearchProps {
   games: Game[];
+  layout?: "header" | "bar";
   onNavigate?: (href: string) => void;
 }
 
@@ -64,7 +65,7 @@ export function resolveGlobalSearchEnter(matches: Game[], selectedIndex: number 
   return { kind: "catalog" };
 }
 
-export function GlobalGameSearch({ games, onNavigate }: GlobalGameSearchProps) {
+export function GlobalGameSearch({ games, layout = "header", onNavigate }: GlobalGameSearchProps) {
   const [filters, setFilters] = useState<CatalogSearchFilters>(() => typeof window === "undefined" ? emptyCatalogSearchFilters() : filtersFromLocation());
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -176,7 +177,7 @@ export function GlobalGameSearch({ games, onNavigate }: GlobalGameSearchProps) {
     ...filters.tags.map((value) => ({ key: `tag:${value}`, label: `#${value}` })),
   ];
 
-  return <div className={`global-game-search${open ? " is-open" : ""}${isCatalog ? " is-catalog" : ""}`} ref={rootRef}>
+  return <div className={`global-game-search${layout === "bar" ? " global-game-search--bar" : ""}${open ? " is-open" : ""}${isCatalog ? " is-catalog" : ""}`} ref={rootRef}>
     <div className="global-game-search__field" onClick={() => { if (isCatalog) setOpen(false); else setOpen(true); inputRef.current?.focus(); }}>
       <Icon name="search" size={16} />
       <input

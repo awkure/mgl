@@ -95,6 +95,9 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
   resolveAssetUrl,
 }, ref) {
   const mobileChrome = useMobileChrome();
+  const showSearchBar = mobileChrome && (route === "tiers" || route === "catalog");
+  const searchLayout = showSearchBar ? "bar" : "header";
+  const search = <GlobalGameSearch games={games} layout={searchLayout} onNavigate={onNavigate} />;
   const budget = storage.budgetBytes ?? 4 * 1024 * 1024;
   const ratio = budget ? storage.bytes / budget : 0;
   const localAssetCount = storage.localAssetCount ?? 0;
@@ -119,6 +122,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
       className="app-shell"
       data-mobile-chrome={mobileChrome ? "true" : undefined}
       data-route={route}
+      data-search-bar={showSearchBar ? "true" : undefined}
       ref={ref}
     >
       <a className="skip-link" href="#main-content">К основному содержимому</a>
@@ -129,7 +133,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
             <NavLink active={route === "catalog"} href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} />
           </nav>
         ) : null}
-        <GlobalGameSearch games={games} onNavigate={onNavigate} />
+        {!showSearchBar ? search : null}
         <div className="app-header__actions">
           <RandomGameButton games={games} onNavigate={onNavigate} resolveAssetUrl={resolveAssetUrl} />
           <button
@@ -163,6 +167,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
           ) : null}
         </div>
       </header>
+      {showSearchBar ? <div className="app-search-bar">{search}</div> : null}
 
       <main id="main-content" className="app-main">{children}</main>
 

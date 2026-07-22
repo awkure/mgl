@@ -71,9 +71,23 @@ describe("mobile nav css", () => {
       styles,
       '.app-shell[data-route="tiers"] .app-main, .app-shell[data-route="catalog"] .app-main, .app-shell[data-route="settings"] .app-main',
     );
-    expect(main).toContain("height: calc(100dvh - var(--app-header-height))");
+    expect(main).toContain("height: calc(100dvh - var(--app-header-height) - var(--app-search-bar-height))");
     expect(main).not.toContain("var(--app-tab-bar-height)");
     expect(styles).toContain("padding-bottom: var(--app-tab-bar-height)");
     expect(styles).toContain(".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page)");
+  });
+
+  it("defines a sticky under-header search bar for mobile tiers/catalog", () => {
+    expect(styles).toContain("--app-search-bar-height: 0px");
+    const withBar = declarationsIn(styles, '.app-shell[data-search-bar="true"]');
+    expect(withBar).toMatch(/--app-search-bar-height:\s*(?!0px)/);
+    const searchBar = declarationsIn(styles, ".app-search-bar");
+    expect(searchBar).toContain("position: sticky");
+    expect(searchBar).toContain("top: var(--app-header-height)");
+    const barSearch = declarationsIn(styles, ".global-game-search--bar");
+    expect(barSearch).toContain("max-width: none");
+    expect(styles).toMatch(/\.global-game-search--bar\.is-open[^{]*\{[^}]*position:\s*relative/);
+    expect(styles).toMatch(/\.global-game-search--bar\s+\.global-game-search__popover[^{]*\{[^}]*position:\s*absolute/);
+    expect(styles).toMatch(/\.global-game-search--bar\s+\.global-game-search__popover[^{]*\{[^}]*top:\s*100%/);
   });
 });
