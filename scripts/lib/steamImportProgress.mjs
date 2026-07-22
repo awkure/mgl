@@ -108,6 +108,22 @@ export function removeProgress(filePath) {
   if (existsSync(filePath)) unlinkSync(filePath);
 }
 
+export function progressEnabledForFlags({ skipDetails, noAchievements, dryRun }) {
+  const willFetchDetails = !skipDetails && !dryRun;
+  const willFetchAchievements = !noAchievements && !dryRun;
+  return willFetchDetails || willFetchAchievements;
+}
+
+export function assertContinueRequiresProgress(continueFlag, flagSlice) {
+  const progressEnabled = progressEnabledForFlags(flagSlice);
+  if (continueFlag && !progressEnabled) {
+    throw new Error(
+      "--continue requires details and/or achievements fetch (do not combine with --skip-details and --no-achievements).",
+    );
+  }
+  return progressEnabled;
+}
+
 /** @returns {boolean} true when `cached` was provided (skip network fetch) */
 export function applyCachedDetails(candidate, cached) {
   if (cached == null) return false;
@@ -125,9 +141,12 @@ export function applyCachedDetails(candidate, cached) {
 export function applyCachedAchievements(cached) {
   if (cached == null) return { hit: false, counts: null };
   if (cached.ok) {
+    if (cached.unlocked == null && cached.total == null) {
+      return { hit: true, counts: null };
+    }
     return {
       hit: true,
-      counts: { unlocked: cached.unlocked, total: cached.total },
+      counts: { unlocked: cached.unlocked ?? null, total: cached.total ?? null },
     };
   }
   return { hit: true, counts: null };

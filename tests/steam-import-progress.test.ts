@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 import {
   applyCachedAchievements,
   applyCachedDetails,
+  assertContinueRequiresProgress,
   assertProgressCompatible,
   createEmptyProgress,
   loadForContinue,
@@ -111,6 +112,39 @@ describe("steamImportProgress", () => {
       hit: true,
       counts: { unlocked: 3, total: 10 },
     });
+  });
+
+  it("applyCachedAchievements ok:true soft-null yields null counts (restore existing)", () => {
+    expect(applyCachedAchievements({ ok: true, unlocked: null, total: null })).toEqual({
+      hit: true,
+      counts: null,
+    });
+    const existing = { achievementsUnlocked: 5, achievementsTotal: 20 };
+    const { hit, counts } = applyCachedAchievements({ ok: true, unlocked: null, total: null });
+    expect(hit).toBe(true);
+    expect(
+      counts ?? {
+        unlocked: existing.achievementsUnlocked ?? null,
+        total: existing.achievementsTotal ?? null,
+      },
+    ).toEqual({ unlocked: 5, total: 20 });
+  });
+
+  it("assertContinueRequiresProgress rejects --continue when nothing to resume", () => {
+    expect(() =>
+      assertContinueRequiresProgress(true, {
+        skipDetails: true,
+        noAchievements: true,
+        dryRun: false,
+      }),
+    ).toThrow(/--continue requires details and\/or achievements fetch/);
+    expect(
+      assertContinueRequiresProgress(true, {
+        skipDetails: true,
+        noAchievements: false,
+        dryRun: false,
+      }),
+    ).toBe(true);
   });
 
   it("upsert failure entries round-trip via writeAtomic and loadForContinue", () => {

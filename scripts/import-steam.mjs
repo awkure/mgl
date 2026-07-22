@@ -40,6 +40,7 @@ import {
 import { fetchAndEncodeSteamCover } from "./lib/steamCover.mjs";
 import {
   applyCachedAchievements,
+  assertContinueRequiresProgress,
   applyCachedDetails,
   createEmptyProgress,
   DEFAULT_PROGRESS_FILENAME,
@@ -248,9 +249,11 @@ try {
     force: flags.force,
     playedOnly: flags.playedOnly,
   };
-  const willFetchDetails = !flags.skipDetails && !flags.dryRun;
-  const willFetchAchievements = !flags.noAchievements && !flags.dryRun;
-  const progressEnabled = willFetchDetails || willFetchAchievements;
+  const progressEnabled = assertContinueRequiresProgress(flags.continue, {
+    skipDetails: flags.skipDetails,
+    noAchievements: flags.noAchievements,
+    dryRun: flags.dryRun,
+  });
 
   /** @type {ReturnType<typeof createEmptyProgress> | null} */
   let progress = null;
