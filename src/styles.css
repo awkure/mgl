@@ -4975,7 +4975,13 @@ h4 {
     min-height: var(--touch-target);
     padding: 0;
     justify-content: center;
-    background: transparent;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--glass-fill) 80%, transparent);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14);
+  }
+
+  .app-header .global-game-search:not(.is-open) .global-game-search__field:hover {
+    background: color-mix(in srgb, var(--glass-fill) 55%, var(--hover-wash-strong));
   }
 
   .app-header .global-game-search:not(.is-open) .global-game-search__field input,
