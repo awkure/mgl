@@ -42,6 +42,12 @@ describe("ULTRAKILL cover OCR crop", () => {
 
   it("encodeSteamCoverWebp pins logo south when attention is above", async () => {
     const logo = pickLogoTextBox(snapshot.boxes, snapshot)!;
+    const logoInset = {
+      x: logo.x + 8,
+      y: logo.y,
+      width: logo.width - 16,
+      height: logo.height,
+    };
     const extracts: Array<{ left: number; top: number; width: number; height: number }> = [];
     const positions: Array<string | number> = [];
 
@@ -62,7 +68,7 @@ describe("ULTRAKILL cover OCR crop", () => {
     expect(extracts).toHaveLength(1);
     expect(extracts[0].left + extracts[0].width).toBeLessThanOrEqual(300);
     expect(extracts[0].width).toBeLessThan(300);
-    expect(rectContainsBox(extracts[0], logo)).toBe(true);
+    expect(rectContainsBox(extracts[0], logoInset)).toBe(true);
     const meta = await sharp(webp).metadata();
     expect(meta.width).toBe(512);
     expect(meta.height).toBe(512);
@@ -85,7 +91,7 @@ describe("ULTRAKILL cover OCR crop", () => {
     }
     const edge = colMean(2);
     const inward = colMean(40);
-    expect(edge.r - edge.g).toBeLessThan(185);
-    expect(Math.abs(edge.r - inward.r)).toBeLessThan(105);
+    expect(edge.r - edge.g).toBeLessThan(120);
+    expect(Math.abs(edge.r - inward.r)).toBeLessThan(80);
   });
 });

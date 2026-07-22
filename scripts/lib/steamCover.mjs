@@ -44,9 +44,8 @@ function shortSideCoverRect(width, height, focus) {
  * @param {Buffer} upright
  * @param {{ left: number, top: number, width: number, height: number }} rect
  * @param {{ x0: number, y0: number, x1: number, y1: number } | null} mustSource
- * @param {{ x0: number, y0: number, x1: number, y1: number } | null} [mustFitLocal]
  */
-async function trimCoverRect(upright, rect, mustSource, mustFitLocal = null) {
+async function trimCoverRect(upright, rect, mustSource) {
   let finalRect = rect;
   try {
     const crop = await sharp(upright)
@@ -64,21 +63,9 @@ async function trimCoverRect(upright, rect, mustSource, mustFitLocal = null) {
             y1: mustSource.y1 - rect.top,
           }
         : null;
-      let depths = { ...measured.depths };
-      if (mustFitLocal) {
-        depths = {
-          left: Math.min(depths.left, Math.max(0, Math.floor(mustFitLocal.x0))),
-          right: Math.min(depths.right, Math.max(0, Math.floor(crop.info.width - mustFitLocal.x1))),
-          top: Math.min(depths.top, Math.max(0, Math.floor(mustFitLocal.y0))),
-          bottom: Math.min(
-            depths.bottom,
-            Math.max(0, Math.floor(crop.info.height - mustFitLocal.y1)),
-          ),
-        };
-      }
       const local = localSquareAfterFrameTrim(
         { width: crop.info.width, height: crop.info.height },
-        depths,
+        measured.depths,
         { must: mustLocal },
       );
       if (local) finalRect = mapLocalToSource(rect, local);
@@ -132,7 +119,6 @@ export async function encodeSteamCoverWebp(imageBytes, options = {}) {
     const rect = textFitCoverRect(boxes ?? [], imageSize, { attention });
     if (rect) {
       let mustSource = null;
-      let mustFitLocal = null;
       const logo = pickLogoTextBox(boxes ?? [], imageSize);
       if (logo) {
         mustSource = padBoundsLogo(
@@ -144,14 +130,8 @@ export async function encodeSteamCoverWebp(imageBytes, options = {}) {
           },
           imageSize,
         );
-        mustFitLocal = {
-          x0: logo.x - rect.left,
-          y0: logo.y - rect.top,
-          x1: logo.x + logo.width - rect.left,
-          y1: logo.y + logo.height - rect.top,
-        };
       }
-      const finalRect = await trimCoverRect(upright, rect, mustSource, mustFitLocal);
+      const finalRect = await trimCoverRect(upright, rect, mustSource);
       return await encodeExtract(upright, finalRect);
     }
   } catch {
