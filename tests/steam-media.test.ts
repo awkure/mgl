@@ -13,6 +13,7 @@ import {
   steamStoreAppUrl,
   upsertSteamMediaNote,
 } from "../src/domain/steamMedia";
+import { validateMarkdown } from "../src/domain/validation";
 
 const NOW = "2026-07-22T12:00:00.000Z";
 const GAME_ID = "11111111-1111-4111-8111-111111111111";
@@ -107,6 +108,17 @@ describe("steamAppDetailsFromStoreJson", () => {
 });
 
 describe("steam media note marker", () => {
+  it("allows the exact media marker in markdown validation", () => {
+    expect(validateMarkdown(steamMediaNoteBody())).toEqual([]);
+  });
+
+  it("still rejects other HTML comments and tags", () => {
+    expect(validateMarkdown("<!-- other -->\n\n## x")).toContain("Raw HTML запрещён");
+    expect(validateMarkdown(`${STEAM_MEDIA_NOTE_MARKER}\n\n<script>x</script>`)).toContain(
+      "Raw HTML запрещён",
+    );
+  });
+
   it("detects marker in body", () => {
     expect(isSteamMediaNote({ bodyMarkdown: steamMediaNoteBody() })).toBe(true);
     expect(isSteamMediaNote({ bodyMarkdown: "hello" })).toBe(false);

@@ -1,6 +1,7 @@
 import { MAX_WEBP_DIMENSION, base64ToBytes, isCanonicalBase64 } from "./assets";
-import { LIBRARY_SCHEMA_VERSION, STATUS_IDS, TIER_IDS, IMPORTED_VIA_IDS, STEAM_OVERRIDE_KEYS, type Asset, type LibraryDatabase, type PatchEnvelope } from "./types";
 import { computeLibraryRevision, MISSING_VALUE_HASH, sha256Bytes } from "./canonical";
+import { STEAM_MEDIA_NOTE_MARKER } from "./steamMedia";
+import { LIBRARY_SCHEMA_VERSION, STATUS_IDS, TIER_IDS, IMPORTED_VIA_IDS, STEAM_OVERRIDE_KEYS, type Asset, type LibraryDatabase, type PatchEnvelope } from "./types";
 
 export interface ValidationIssue {
   path: string;
@@ -103,7 +104,11 @@ export function isSafeLink(value: string): boolean {
 export function validateMarkdown(value: string): string[] {
   const errors: string[] = [];
   const withoutCode = value.replace(/```[\s\S]*?```/g, "").replace(/`[^`\n]*`/g, "");
-  const withoutAutolinks = withoutCode.replace(/<https?:\/\/[^>]+>/gi, "");
+  // Allow exact Steam media note marker; still reject other HTML / comments.
+  const withoutAutolinks = withoutCode
+    .replace(/<https?:\/\/[^>]+>/gi, "")
+    .split(STEAM_MEDIA_NOTE_MARKER)
+    .join("");
   if (/<\/?[a-z][^>]*>/i.test(withoutAutolinks) || /<!--/.test(withoutAutolinks)) errors.push("Raw HTML запрещён");
   const linkPattern = /!?\[[^\]]*\]\(\s*(?:<([^>]+)>|([^\s)]+))/g;
   for (const match of withoutCode.matchAll(linkPattern)) {

@@ -426,11 +426,18 @@ function stringSet(value, at, error) {
   });
 }
 
+/** Must match `STEAM_MEDIA_NOTE_MARKER` in src/domain/steamMedia.ts */
+const STEAM_MEDIA_NOTE_MARKER = "<!-- steam-media:v1 -->";
+
 function markdown(value, at, error) {
   if (typeof value !== "string") return error(at, "must be a string");
   if (value.length > 2_000_000) error(at, "is unreasonably large");
   const withoutCode = value.replace(/```[\s\S]*?```/g, "").replace(/`[^`\n]*`/g, "");
-  const withoutAutolinks = withoutCode.replace(/<https?:\/\/[^\s<>]+>/gi, "");
+  // Allow exact Steam media note marker; still reject other HTML / comments.
+  const withoutAutolinks = withoutCode
+    .replace(/<https?:\/\/[^\s<>]+>/gi, "")
+    .split(STEAM_MEDIA_NOTE_MARKER)
+    .join("");
   if (/<\/?[A-Za-z][^>]*>/.test(withoutAutolinks) || /<!--/.test(withoutAutolinks)) error(at, "raw HTML is not allowed");
   const links = withoutCode.matchAll(/!?\[[^\]]*\]\(\s*(?:<([^>]+)>|([^\s)]+))/g);
   for (const match of links) safeUrl(match[1] ?? match[2] ?? "", at, error);
