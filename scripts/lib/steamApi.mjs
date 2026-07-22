@@ -128,6 +128,40 @@ export async function getAppDetails(appid, options = {}) {
   };
 }
 
+/**
+ * @param {string} key
+ * @param {number|string} appid
+ * @returns {Promise<{ total: number } | null>}
+ */
+export async function getSchemaForGame(key, appid) {
+  const body = await steamGet("/ISteamUserStats/GetSchemaForGame/v2/", { key, appid });
+  const achievements = body?.game?.availableGameStats?.achievements;
+  if (!Array.isArray(achievements)) return null;
+  return { total: achievements.length };
+}
+
+/**
+ * @param {string} key
+ * @param {string} steamid
+ * @param {number|string} appid
+ * @returns {Promise<{ available: boolean; unlocked: number | null }>}
+ */
+export async function getPlayerAchievements(key, steamid, appid) {
+  const body = await steamGet("/ISteamUserStats/GetPlayerAchievements/v1/", {
+    key,
+    steamid,
+    appid,
+  });
+  const playerstats = body?.playerstats;
+  if (!playerstats || playerstats.success === false) {
+    return { available: false, unlocked: null };
+  }
+  const list = playerstats.achievements;
+  if (!Array.isArray(list)) return { available: true, unlocked: 0 };
+  const unlocked = list.filter((item) => Number(item?.achieved) === 1).length;
+  return { available: true, unlocked };
+}
+
 /** @param {number} minIntervalMs */
 export function createThrottle(minIntervalMs = 1500) {
   let lastAt = 0;

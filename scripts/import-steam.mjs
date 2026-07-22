@@ -19,6 +19,7 @@
  *   --appids <a,b,c>            allowlist
  *   --no-covers                 skip cover download/encode
  *   --skip-details              skip storefront appdetails (no genres/type filter)
+ *   --no-achievements           skip Steam stats API for achievement counts
  */
 
 import { randomUUID } from "node:crypto";
@@ -30,6 +31,8 @@ import {
   createThrottle,
   getAppDetails,
   getOwnedGames,
+  getPlayerAchievements,
+  getSchemaForGame,
   resolveSteamId,
   SteamApiError,
   withRetry,
@@ -75,6 +78,7 @@ function parseArgs(argv) {
     appids: null,
     noCovers: false,
     skipDetails: false,
+    noAchievements: false,
     outExplicit: false,
   };
   for (let i = 0; i < argv.length; i += 1) {
@@ -91,6 +95,7 @@ function parseArgs(argv) {
     else if (arg === "--played-only") flags.playedOnly = true;
     else if (arg === "--no-covers") flags.noCovers = true;
     else if (arg === "--skip-details") flags.skipDetails = true;
+    else if (arg === "--no-achievements") flags.noAchievements = true;
     else if (arg === "--profile") flags.profile = next();
     else if (arg === "--out") {
       flags.out = next();
@@ -124,7 +129,8 @@ Flags:
   --limit <n>
   --appids <a,b,c>
   --no-covers
-  --skip-details`);
+  --skip-details
+  --no-achievements           skip achievement count fetch (default: on)`);
 }
 
 function loadSteamSnapshot(profileKey) {
@@ -162,6 +168,7 @@ const {
   rejectExcludedTypes,
 } = await import(pathToFileURL(path.join(root, "src/domain/steamImport.ts")).href);
 const {
+  achievementCountsFromSteam,
   buildSnapshotGameFromCandidate,
   buildSteamUpsertPatch,
   mergeSteamGameUpdate,
@@ -278,23 +285,87 @@ try {
     console.log(`after type filter: ${creates.length} create, ${updates.length} update (type skip ${typeSkipped})`);
   }
 
-  const snapshotRows = new Map();
-  const recordSnapshotRow = (candidate) => {
-    snapshotRows.set(String(candidate.appid), buildSnapshotGameFromCandidate(candidate));
+  const achievementsEnabled = !flags.noAchievements && !flags.dryRun;
+  let achievementsUpdated = 0;
+  let achievementsSkipped = 0;
+  let achievementsFailed = 0;
+  /** @type {Map<number, { unlocked: number; total: number } | { unlocked: number | null; total: number | null }>} */
+  const achievementByAppid = new Map();
+
+  const isSnapshotSkippedUpdate = (candidate) => {
+    if (flags.force) return false;
+    const snapEntry = snapshotGames[String(candidate.appid)];
+    return snapshotUnchangedForCandidate(snapEntry, candidate);
   };
 
-  for (const candidate of creates) {
-    recordSnapshotRow(candidate);
+  if (achievementsEnabled) {
+    const achievementTargets = [
+      ...creates.map((candidate) => ({ candidate, existing: null })),
+      ...updates
+        .filter(({ candidate }) => !isSnapshotSkippedUpdate(candidate))
+        .map(({ candidate, existing }) => ({ candidate, existing })),
+    ];
+    for (let index = 0; index < achievementTargets.length; index += 1) {
+      const { candidate, existing } = achievementTargets[index];
+      process.stdout.write(
+        `achievements ${index + 1}/${achievementTargets.length} appid=${candidate.appid}\r`,
+      );
+      await throttle();
+      try {
+        const schema = await withRetry(() => getSchemaForGame(apiKey, candidate.appid));
+        const player = await withRetry(() =>
+          getPlayerAchievements(apiKey, steamid, candidate.appid),
+        );
+        const parsed = achievementCountsFromSteam({
+          schemaTotal: schema?.total ?? null,
+          unlocked: player.unlocked,
+          available: player.available,
+        });
+        if (parsed) {
+          achievementByAppid.set(candidate.appid, parsed);
+          achievementsUpdated += 1;
+        } else {
+          achievementByAppid.set(candidate.appid, {
+            unlocked: existing?.achievementsUnlocked ?? null,
+            total: existing?.achievementsTotal ?? null,
+          });
+        }
+      } catch (reason) {
+        achievementsFailed += 1;
+        console.warn(
+          `\nachievements failed for ${candidate.appid}: ${reason instanceof Error ? reason.message : reason}`,
+        );
+        achievementByAppid.set(candidate.appid, {
+          unlocked: existing?.achievementsUnlocked ?? null,
+          total: existing?.achievementsTotal ?? null,
+        });
+      }
+    }
+    if (achievementTargets.length) process.stdout.write("\n");
   }
+
+  const snapshotRows = new Map();
+  const recordSnapshotRow = (candidate, existing = null) => {
+    const fromFetch = achievementByAppid.get(candidate.appid);
+    const achievements = fromFetch ?? {
+      unlocked: existing?.achievementsUnlocked ?? null,
+      total: existing?.achievementsTotal ?? null,
+    };
+    snapshotRows.set(
+      String(candidate.appid),
+      buildSnapshotGameFromCandidate(candidate, achievements),
+    );
+  };
 
   const patchItems = [];
   const now = new Date().toISOString();
 
   for (const { candidate, existing } of updates) {
-    recordSnapshotRow(candidate);
     const snapEntry = snapshotGames[String(candidate.appid)];
     if (!flags.force && snapshotUnchangedForCandidate(snapEntry, candidate)) {
       skippedUnchanged += 1;
+      if (achievementsEnabled) achievementsSkipped += 1;
+      recordSnapshotRow(candidate, existing);
       continue;
     }
 
@@ -315,7 +386,12 @@ try {
     }
 
     const proposedCoverId = cover?.asset.id ?? null;
-    const proposed = proposeSteamFieldsFromCandidate(candidate, proposedCoverId);
+    const achievementSlice = achievementByAppid.get(candidate.appid);
+    const proposed = proposeSteamFieldsFromCandidate(
+      candidate,
+      proposedCoverId,
+      achievementSlice,
+    );
     const merged = mergeSteamGameUpdate({
       existing,
       proposed,
@@ -325,6 +401,7 @@ try {
     if (!merged.game) {
       if (merged.skipReason === "locked") skippedLocked += 1;
       else skippedUnchanged += 1;
+      recordSnapshotRow(candidate, existing);
       continue;
     }
 
@@ -334,6 +411,7 @@ try {
       previousGame: existing,
       cover,
     });
+    recordSnapshotRow(candidate, merged.game);
   }
 
   for (let index = 0; index < creates.length; index += 1) {
@@ -364,7 +442,20 @@ try {
       now,
       rankIndex: index,
     });
+    const counts = achievementByAppid.get(candidate.appid);
+    if (counts?.unlocked != null && counts?.total != null) {
+      game.achievementsUnlocked = counts.unlocked;
+      game.achievementsTotal = counts.total;
+      if (
+        counts.total > 0
+        && counts.unlocked === counts.total
+        && ["wishlist", "playing", "played"].includes(game.status)
+      ) {
+        game.status = "platinum";
+      }
+    }
     patchItems.push({ kind: "create", game, cover });
+    recordSnapshotRow(candidate, game);
   }
   if (!flags.noCovers && !flags.dryRun && creates.length) process.stdout.write("\n");
 
@@ -380,6 +471,9 @@ try {
         updated,
         skippedUnchanged,
         skippedLocked,
+        achievementsUpdated,
+        achievementsSkipped,
+        achievementsFailed,
         dryRun: true,
       }),
     );
@@ -446,6 +540,9 @@ try {
       updated,
       skippedUnchanged,
       skippedLocked,
+      achievementsUpdated,
+      achievementsSkipped,
+      achievementsFailed,
       coversFailed,
       operations: Object.keys(patch.operations).length,
       blobs: Object.keys(patch.blobs).length,

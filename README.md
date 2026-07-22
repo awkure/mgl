@@ -157,7 +157,8 @@ just steam-import --limit 5
 ```
 
 Флаги `import:steam`: `--profile`, `--out`, `--apply`, `--dry-run`, `--force`, `--played-only`,
-`--limit`, `--appids`, `--no-covers`, `--skip-details`. `--apply` не делает git commit.
+`--limit`, `--appids`, `--no-covers`, `--skip-details`, `--no-achievements` (по умолчанию счётчики
+достижений подтягиваются). `--apply` не делает git commit.
 
 Повторный импорт обновляет уже импортированные игры (`steamAppId`): часы, last played,
 статус (мягкие), теги/обложку/название — если не помечены `steamOverrides` в UI.

@@ -2,7 +2,9 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   getAppDetails,
   getOwnedGames,
+  getPlayerAchievements,
   getPlayerSummary,
+  getSchemaForGame,
   probeOwnedGamesVisibility,
   resolveSteamId,
   resolveVanityUrl,
@@ -77,6 +79,55 @@ describe("steamApi", () => {
       visible: true,
       gameCount: 1,
       games: [{ appid: 570, name: "Dota 2" }],
+    });
+  });
+
+  it("parses schema achievement total", async () => {
+    mockJson({
+      game: {
+        availableGameStats: {
+          achievements: [{ name: "A" }, { name: "B" }, { name: "C" }],
+        },
+      },
+    });
+    await expect(getSchemaForGame("key", 570)).resolves.toEqual({ total: 3 });
+  });
+
+  it("returns null schema when achievements missing", async () => {
+    mockJson({ game: { availableGameStats: {} } });
+    await expect(getSchemaForGame("key", 570)).resolves.toBeNull();
+  });
+
+  it("counts player unlocks when stats available", async () => {
+    mockJson({
+      playerstats: {
+        success: true,
+        achievements: [
+          { apiname: "a", achieved: 1 },
+          { apiname: "b", achieved: 0 },
+          { apiname: "c", achieved: 1 },
+        ],
+      },
+    });
+    await expect(getPlayerAchievements("key", "76561197960287930", 570)).resolves.toEqual({
+      available: true,
+      unlocked: 2,
+    });
+  });
+
+  it("treats private or failed player stats as unavailable", async () => {
+    mockJson({ playerstats: { success: false } });
+    await expect(getPlayerAchievements("key", "76561197960287930", 570)).resolves.toEqual({
+      available: false,
+      unlocked: null,
+    });
+  });
+
+  it("returns zero unlocks for empty achievement list", async () => {
+    mockJson({ playerstats: { success: true, achievements: [] } });
+    await expect(getPlayerAchievements("key", "76561197960287930", 570)).resolves.toEqual({
+      available: true,
+      unlocked: 0,
     });
   });
 

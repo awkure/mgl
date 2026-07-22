@@ -84,7 +84,14 @@ export function snapshotUnchangedForCandidate(
   },
 ): boolean {
   if (!snapshotEntry) return false;
-  let fresh = buildSnapshotGameFromCandidate(candidate);
+  if (!snapshotAchievementFieldsPresent(snapshotEntry)) return false;
+  if (snapshotEntry.achievementsUnlocked == null && snapshotEntry.achievementsTotal == null) {
+    return false;
+  }
+  let fresh = buildSnapshotGameFromCandidate(candidate, {
+    unlocked: snapshotEntry.achievementsUnlocked,
+    total: snapshotEntry.achievementsTotal,
+  });
   if (!candidate.details) {
     fresh = { ...fresh, genres: snapshotEntry.genres, headerImage: snapshotEntry.headerImage };
   }
