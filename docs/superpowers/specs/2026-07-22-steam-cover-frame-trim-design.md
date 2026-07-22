@@ -64,6 +64,8 @@ For a candidate edge (e.g. left columns `x = 0, 1, …`):
 
 Exact numeric thresholds live in code + unit tests; locked product rules are the **4% cap**, **opposite-pair gate**, and **logo must survive**.
 
+- **Implementation constants** (`scripts/lib/steamCoverFrameTrim.mjs`): `FRAME_TRIM_MAX_FRAC` **0.04** (exported); module thresholds `BORDER_MAD_MAX` **40**, `MEAN_MATCH` **30**, `EDGE_STEP_MIN` **18** (used by edge-strip scan / `meanMatch` / inward step detection).
+
 ## Non-goals
 
 - Removing arbitrary letterboxing from non-framed art
