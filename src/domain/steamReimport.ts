@@ -1,4 +1,4 @@
-import { canonicalHash, MISSING_VALUE_HASH } from "./canonical";
+import { canonicalHash, MISSING_VALUE_HASH } from "./canonical.ts";
 import type { Game, StatusId, SteamOverrideKey } from "./types";
 import {
   hoursFromSteamMinutes,
@@ -6,7 +6,7 @@ import {
   statusFromPlaytime,
   uniqueTagList,
   type SteamImportAssetBlob,
-} from "./steamImport";
+} from "./steamImport.ts";
 
 export const STEAM_SOFT_STATUSES = ["wishlist", "playing", "played"] as const;
 
