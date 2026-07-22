@@ -6,6 +6,7 @@ coverage/
 .vscode/
 .cursor/
 .superpowers/
+docs/agent/
 .env.local
 .env.*.local
 .env
