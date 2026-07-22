@@ -3,6 +3,8 @@ import type { Game } from "../domain/types";
 import type { TabId } from "../state/tabStacks";
 import { Icon, type IconName } from "./Icon";
 import { GlobalGameSearch } from "./GlobalGameSearch";
+import { ScreenFilterBar } from "./ScreenFilterBar";
+import { ScreenFiltersProvider } from "./screenFilters";
 import { formatBytes } from "./libraryUi";
 import { useMobileChrome } from "./mobileChrome";
 import { RandomGameButton } from "./RandomGameButton";
@@ -114,8 +116,8 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
   const activeTab = activeTabProp ?? tabIdFromAppRoute(route);
   const shellRoute = activeTabProp ? shellRouteFromTab(activeTab) : route;
   const atTabRoot = route === "tiers" || route === "catalog" || route === "settings";
-  const showSearchBar = mobileChrome && (activeTab === "tiers" || activeTab === "catalog") && atTabRoot;
-  const search = <GlobalGameSearch games={games} onNavigate={onNavigate} />;
+  const showFilterBar = (activeTab === "tiers" || activeTab === "catalog") && atTabRoot;
+  const filterMode = activeTab === "catalog" ? "catalog" : "tier";
   const budget = storage.budgetBytes ?? 4 * 1024 * 1024;
   const ratio = budget ? storage.bytes / budget : 0;
   const localAssetCount = storage.localAssetCount ?? 0;
@@ -136,11 +138,11 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
   const displayedBytes = storage.bytes;
 
   return (
+    <ScreenFiltersProvider>
     <div
       className="app-shell"
       data-mobile-chrome={mobileChrome ? "true" : undefined}
       data-route={shellRoute}
-      data-search-bar={showSearchBar ? "true" : undefined}
       ref={ref}
     >
       <a className="skip-link" href="#main-content">К основному содержимому</a>
@@ -151,7 +153,8 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
             <NavLink active={activeTab === "catalog"} href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="catalog" />
           </nav>
         ) : null}
-        {!showSearchBar ? search : null}
+        {showFilterBar ? <ScreenFilterBar games={games} mode={filterMode} /> : null}
+        <GlobalGameSearch games={games} onNavigate={onNavigate} />
         <div className="app-header__actions">
           <RandomGameButton games={games} onNavigate={onNavigate} resolveAssetUrl={resolveAssetUrl} />
           <button
@@ -187,8 +190,6 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
           ) : null}
         </div>
       </header>
-      {showSearchBar ? <div className="app-search-bar">{search}</div> : null}
-
       <main id="main-content" className="app-main">{children}</main>
 
       {mobileChrome ? (
@@ -211,5 +212,6 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
         </>
       ) : null}
     </div>
+    </ScreenFiltersProvider>
   );
 });
