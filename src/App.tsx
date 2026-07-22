@@ -54,6 +54,8 @@ import {
   TAB_ROOTS,
 } from "./state/tabStacks";
 import type { HistoryEvent } from "./domain/historyTypes";
+import { loadPublishedHistory } from "./state/loadPublishedHistory";
+
 function routeKind(pathname: string): AppRoute {
   if (pathname === "/") return "tiers";
   if (pathname === "/games") return "catalog";
@@ -107,10 +109,7 @@ function LibraryRoutes() {
     setHistoryLoading(true);
     setHistoryError(null);
     try {
-      const response = await fetch(`${import.meta.env.BASE_URL}data/history.json`);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const data = (await response.json()) as { events?: HistoryEvent[] };
-      setHistoryEvents(Array.isArray(data.events) ? data.events : []);
+      setHistoryEvents(await loadPublishedHistory());
     } catch (reason) {
       setHistoryError(
         reason instanceof Error
