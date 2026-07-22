@@ -15,6 +15,28 @@ function bytesToBase64(bytes) {
 }
 
 /**
+ * @param {Buffer} imageBytes
+ * @param {{ encodeResize?: (bytes: Buffer, position: string|number) => Promise<Buffer> }} [options]
+ * @returns {Promise<Buffer>}
+ */
+export async function encodeSteamCoverWebp(imageBytes, options = {}) {
+  const encodeResize =
+    options.encodeResize ??
+    ((bytes, position) =>
+      sharp(bytes)
+        .rotate()
+        .resize(512, 512, { fit: "cover", position })
+        .webp({ quality: 82 })
+        .toBuffer());
+
+  try {
+    return await encodeResize(imageBytes, sharp.strategy.attention);
+  } catch {
+    return await encodeResize(imageBytes, "centre");
+  }
+}
+
+/**
  * @param {number|string} appid
  * @param {{ headerImage?: string | null; alt?: string; fetchImpl?: typeof fetch }} [options]
  * @returns {Promise<null | { asset: object; base64: string }>}
@@ -40,11 +62,7 @@ export async function fetchAndEncodeSteamCover(appid, options = {}) {
   }
   if (!imageBytes) return null;
 
-  const webp = await sharp(imageBytes)
-    .rotate()
-    .resize(512, 512, { fit: "cover", position: "centre" })
-    .webp({ quality: 82 })
-    .toBuffer();
+  const webp = await encodeSteamCoverWebp(imageBytes);
 
   const id = sha256(webp);
   return {

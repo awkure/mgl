@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import sharp from "sharp";
-import { fetchAndEncodeSteamCover } from "../scripts/lib/steamCover.mjs";
+import { encodeSteamCoverWebp, fetchAndEncodeSteamCover } from "../scripts/lib/steamCover.mjs";
 
 describe("steamCover", () => {
   it("encodes a fetched JPEG into a 512 WebP asset", async () => {
@@ -57,5 +57,42 @@ describe("steamCover", () => {
   it("returns null when no image is available", async () => {
     const fetchImpl = vi.fn(async () => ({ ok: false, arrayBuffer: async () => new ArrayBuffer(0) }));
     await expect(fetchAndEncodeSteamCover(999, { fetchImpl })).resolves.toBeNull();
+  });
+
+  it("encodeSteamCoverWebp uses attention then falls back to centre on throw", async () => {
+    const jpeg = await sharp({
+      create: { width: 200, height: 300, channels: 3, background: { r: 20, g: 40, b: 60 } },
+    }).jpeg().toBuffer();
+
+    const positions: Array<string | number> = [];
+    const encodeResize = vi.fn(async (_bytes: Buffer, position: string | number) => {
+      positions.push(position);
+      if (position === sharp.strategy.attention) {
+        throw new Error("attention failed");
+      }
+      return sharp(_bytes)
+        .resize(512, 512, { fit: "cover", position: "centre" })
+        .webp({ quality: 82 })
+        .toBuffer();
+    });
+
+    const webp = await encodeSteamCoverWebp(jpeg, { encodeResize });
+    expect(positions).toEqual([sharp.strategy.attention, "centre"]);
+    expect(webp.subarray(0, 4).toString("ascii")).toBe("RIFF");
+    const meta = await sharp(webp).metadata();
+    expect(meta.width).toBe(512);
+    expect(meta.height).toBe(512);
+  });
+
+  it("encodeSteamCoverWebp succeeds with real attention crop on portrait JPEG", async () => {
+    const jpeg = await sharp({
+      create: { width: 600, height: 900, channels: 3, background: { r: 10, g: 20, b: 30 } },
+    }).jpeg().toBuffer();
+
+    const webp = await encodeSteamCoverWebp(jpeg);
+    const meta = await sharp(webp).metadata();
+    expect(meta.format).toBe("webp");
+    expect(meta.width).toBe(512);
+    expect(meta.height).toBe(512);
   });
 });
