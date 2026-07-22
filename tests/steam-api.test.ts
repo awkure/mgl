@@ -125,6 +125,26 @@ describe("steamApi", () => {
     });
   });
 
+  it("treats HTTP 400 no-stats as unavailable, not throw", async () => {
+    mockJson(
+      { playerstats: { error: "Requested app has no stats", success: false } },
+      false,
+      400,
+    );
+    await expect(getPlayerAchievements("key", "76561197960287930", 70)).resolves.toEqual({
+      available: false,
+      unlocked: null,
+    });
+  });
+
+  it("still throws on non-400 player achievement HTTP errors", async () => {
+    mockJson({ playerstats: { error: "boom" } }, false, 500);
+    await expect(getPlayerAchievements("key", "76561197960287930", 70)).rejects.toMatchObject({
+      status: 500,
+      code: "http_error",
+    });
+  });
+
   it("returns zero unlocks for empty achievement list", async () => {
     mockJson({ playerstats: { success: true, achievements: [] } });
     await expect(getPlayerAchievements("key", "76561197960287930", 570)).resolves.toEqual({

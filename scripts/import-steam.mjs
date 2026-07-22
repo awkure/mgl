@@ -407,9 +407,10 @@ try {
       await throttle();
       try {
         const schema = await withRetry(() => getSchemaForGame(apiKey, candidate.appid));
-        const player = await withRetry(() =>
-          getPlayerAchievements(apiKey, steamid, candidate.appid),
-        );
+        // No achievement schema → skip player call (Steam often answers HTTP 400 "no stats").
+        const player = schema
+          ? await withRetry(() => getPlayerAchievements(apiKey, steamid, candidate.appid))
+          : { available: false, unlocked: null };
         const parsed = achievementCountsFromSteam({
           schemaTotal: schema?.total ?? null,
           unlocked: player.unlocked,

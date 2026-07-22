@@ -362,24 +362,35 @@ describe("mergeSteamGameUpdate", () => {
 });
 
 describe("buildSteamUpsertPatch", () => {
-  it("sets baseExists true and stable baseHash for updates", async () => {
+  it("emits field ops for updates, not whole-game replace", async () => {
     const { buildSteamUpsertPatch } = await import("../src/domain/steamReimport");
     const { canonicalHash } = await import("../src/domain/canonical");
-    const previous = baseGame({ title: "Before" });
-    const updated = baseGame({ title: "After", updatedAt: "2026-07-22T13:00:00.000Z" });
+    const previous = baseGame({ title: "Before", hoursPlayed: 1 });
+    const updated = baseGame({
+      title: "After",
+      hoursPlayed: 2,
+      updatedAt: "2026-07-22T13:00:00.000Z",
+    });
     const patch = buildSteamUpsertPatch(
       "rev-base",
       [{ kind: "update", game: updated, previousGame: previous }],
       { now: NOW, transactionId: "tx1" },
     );
-    const op = patch.operations[`/games/${previous.id}`];
-    expect(op).toMatchObject({
+    expect(patch.operations[`/games/${previous.id}`]).toBeUndefined();
+    expect(patch.operations[`/games/${previous.id}/title`]).toMatchObject({
       operation: "set",
+      value: "After",
       baseExists: true,
-      baseHash: canonicalHash(previous),
+      baseHash: canonicalHash(previous.title),
       transactionId: "tx1",
     });
-    expect(op.value).toEqual(updated);
+    expect(patch.operations[`/games/${previous.id}/hoursPlayed`]).toMatchObject({
+      operation: "set",
+      value: 2,
+      baseExists: true,
+      baseHash: canonicalHash(previous.hoursPlayed),
+    });
+    expect(patch.operations[`/games/${previous.id}/status`]).toBeUndefined();
   });
 
   it("keeps create ops on MISSING_VALUE_HASH base", async () => {

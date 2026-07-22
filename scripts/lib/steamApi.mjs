@@ -231,17 +231,33 @@ export async function getSchemaForGame(key, appid) {
 }
 
 /**
+ * Steam returns HTTP 400 + success:false for apps with no stats schema.
  * @param {string} key
  * @param {string} steamid
  * @param {number|string} appid
  * @returns {Promise<{ available: boolean; unlocked: number | null }>}
  */
 export async function getPlayerAchievements(key, steamid, appid) {
-  const body = await steamGet("/ISteamUserStats/GetPlayerAchievements/v1/", {
-    key,
-    steamid,
-    appid,
-  });
+  const url = new URL("/ISteamUserStats/GetPlayerAchievements/v1/", API_ROOT);
+  url.searchParams.set("key", String(key));
+  url.searchParams.set("steamid", String(steamid));
+  url.searchParams.set("appid", String(appid));
+  const response = await fetch(url);
+  let body = null;
+  try {
+    body = await response.json();
+  } catch {
+    body = null;
+  }
+  if (!response.ok) {
+    if (response.status === 400 && body?.playerstats?.success === false) {
+      return { available: false, unlocked: null };
+    }
+    throw new SteamApiError(`Steam API HTTP ${response.status}`, {
+      code: "http_error",
+      status: response.status,
+    });
+  }
   const playerstats = body?.playerstats;
   if (!playerstats || playerstats.success === false) {
     return { available: false, unlocked: null };

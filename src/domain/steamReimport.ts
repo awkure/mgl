@@ -10,6 +10,24 @@ import {
 
 export const STEAM_SOFT_STATUSES = ["wishlist", "playing", "played"] as const;
 
+/** Keep in sync with `LOCALLY_PATCHABLE_FIELDS.games` in validation.ts (avoid importing validation under Node strip-types). */
+const STEAM_UPSERT_GAME_FIELDS = [
+  "title",
+  "coverAssetId",
+  "steamAppId",
+  "importedVia",
+  "hoursPlayed",
+  "lastPlayedAt",
+  "achievementsUnlocked",
+  "achievementsTotal",
+  "steamOverrides",
+  "platforms",
+  "tags",
+  "status",
+  "placement",
+  "reviewMarkdown",
+] as const;
+
 export interface SteamSnapshotGame {
   name: string;
   playtimeForever: number;
@@ -185,15 +203,32 @@ export function buildSteamUpsertPatch(
     if (isUpdate && !item.previousGame) {
       throw new Error("Steam update patch item requires previousGame");
     }
-    const previousGame = item.previousGame;
-    operations[`/games/${item.game.id}`] = {
-      operation: "set",
-      value: item.game,
-      baseExists: isUpdate,
-      baseHash: isUpdate && previousGame ? canonicalHash(previousGame) : MISSING_VALUE_HASH,
-      changedAt: now,
-      transactionId,
-    };
+    if (isUpdate && item.previousGame) {
+      const previous = item.previousGame as unknown as Record<string, unknown>;
+      const next = item.game as unknown as Record<string, unknown>;
+      for (const field of STEAM_UPSERT_GAME_FIELDS) {
+        const before = previous[field];
+        const after = next[field];
+        if (canonicalHash(before) === canonicalHash(after)) continue;
+        operations[`/games/${item.game.id}/${field}`] = {
+          operation: "set",
+          value: after,
+          baseExists: true,
+          baseHash: canonicalHash(before),
+          changedAt: now,
+          transactionId,
+        };
+      }
+    } else {
+      operations[`/games/${item.game.id}`] = {
+        operation: "set",
+        value: item.game,
+        baseExists: false,
+        baseHash: MISSING_VALUE_HASH,
+        changedAt: now,
+        transactionId,
+      };
+    }
   }
 
   return {
