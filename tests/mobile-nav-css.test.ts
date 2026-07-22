@@ -103,16 +103,32 @@ describe("mobile nav css", () => {
     expect(sheet).toContain("max-height:");
   });
 
-  it("uses liquid glass tokens on the fixed header without trapping fixed descendants", () => {
+  it("keeps header transparent and puts liquid glass on controls only", () => {
     const header = declarationsIn(styles, ".app-header");
     expect(header).toContain("position: fixed");
     expect(header).toContain("isolation: isolate");
+    expect(header).toContain("background: transparent");
     expect(header).not.toContain("backdrop-filter:");
-    expect(styles).toContain(".app-header::before");
-    const glass = declarationsIn(styles, ".app-header::before");
-    expect(glass).toContain("background: var(--glass-fill)");
-    expect(glass).toContain("backdrop-filter: blur(22px) saturate(1.35)");
-    expect(glass).toContain("pointer-events: none");
+    expect(styles).not.toContain(".app-header::before");
+
+    const filterField = declarationsIn(styles, ".screen-filter-bar__field");
+    expect(filterField).toContain("background: var(--glass-fill)");
+    expect(filterField).toContain("border: 1px solid var(--glass-stroke)");
+    expect(filterField).toContain("backdrop-filter: blur(22px) saturate(1.35)");
+
+    const searchField = declarationsIn(styles, ".global-game-search__field");
+    expect(searchField).toContain("background: var(--glass-fill)");
+    expect(searchField).toContain("border: 1px solid var(--glass-stroke)");
+    expect(searchField).toContain("backdrop-filter: blur(22px) saturate(1.35)");
+
+    const headerActions = declarationsIn(styles, ".app-header .button--ghost.button--icon, .app-header .random-game-button");
+    expect(headerActions).toContain("backdrop-filter: blur(22px) saturate(1.35)");
+    const patchPill = declarationsIn(styles, ".app-header .patch-pill");
+    expect(patchPill).toContain("backdrop-filter: blur(22px) saturate(1.35)");
+
+    const popover = declarationsIn(styles, ".global-game-search__popover");
+    expect(popover).toContain("top: 100%");
+    expect(popover).not.toContain("top: calc(100% + 5px)");
   });
 
   it("scrolls the filter sheet on short viewports while portaled menus use fixed stacking", () => {
