@@ -1,6 +1,6 @@
 import type { Game } from "./types";
 
-export type SteamCoverRefreshAction = "locked" | "unchanged" | "update";
+export type SteamCoverRefreshAction = "locked" | "unchanged" | "update" | "overwrite";
 
 export type SelectSteamCoverTargetsOptions = {
   appids?: readonly number[];
@@ -38,7 +38,10 @@ export function steamCoverRefreshAction(
   const locked = Boolean(game.steamOverrides?.coverAssetId);
   if (locked && !options.force) return "locked";
   if (proposedCoverAssetId == null) return "unchanged";
-  if (game.coverAssetId === proposedCoverAssetId) return "unchanged";
+  if (game.coverAssetId === proposedCoverAssetId) {
+    // Same bytes/id: normal runs skip; --force still rewrites media on disk.
+    return options.force ? "overwrite" : "unchanged";
+  }
   return "update";
 }
 
