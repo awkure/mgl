@@ -3,7 +3,7 @@ import { placeSquareContaining } from "./steamCoverTextFit.mjs";
 /** Max border depth as fraction of that side's length. */
 export const FRAME_TRIM_MAX_FRAC = 0.04;
 
-const BORDER_MAD_MAX = 28;
+const BORDER_MAD_MAX = 40;
 const MEAN_MATCH = 30;
 const EDGE_STEP_MIN = 18;
 
@@ -22,7 +22,19 @@ const EDGE_STEP_MIN = 18;
  * @returns {{ depth: number } | { thick: true }}
  */
 function scanDepth(getLineStats, maxDepth) {
-  const stats0 = getLineStats(0);
+  let skip = 0;
+  while (skip + 1 <= maxDepth) {
+    const a = getLineStats(skip);
+    const b = getLineStats(skip + 1);
+    if (!a || !b) break;
+    if (meanRgbDelta(a, b) >= EDGE_STEP_MIN) skip++;
+    else break;
+  }
+
+  /** @param {number} i index from trimmed edge */
+  const at = (i) => getLineStats(skip + i);
+
+  const stats0 = at(0);
   if (!stats0 || stats0.mad > BORDER_MAD_MAX) {
     return { depth: 0 };
   }
@@ -30,8 +42,8 @@ function scanDepth(getLineStats, maxDepth) {
   /** First inward index where the strip ends (consecutive-line step). */
   let exitIndex = null;
   for (let k = 1; ; k++) {
-    const sk = getLineStats(k);
-    const skPrev = getLineStats(k - 1);
+    const sk = at(k);
+    const skPrev = at(k - 1);
     if (!sk || !skPrev) break;
     if (meanRgbDelta(skPrev, sk) >= EDGE_STEP_MIN) {
       exitIndex = k;
@@ -39,8 +51,8 @@ function scanDepth(getLineStats, maxDepth) {
     }
   }
   if (exitIndex === null) return { depth: 0 };
-  if (exitIndex > maxDepth) {
-    if (exitIndex <= 2 * maxDepth + 4) return { thick: true };
+  if (skip + exitIndex > maxDepth) {
+    if (skip + exitIndex <= 2 * maxDepth + 4) return { thick: true };
     return { depth: 0 };
   }
 
@@ -49,8 +61,8 @@ function scanDepth(getLineStats, maxDepth) {
   let prevMean = null;
 
   for (let i = 0; ; i++) {
-    const stats = getLineStats(i);
-    if (!stats) return { depth };
+    const stats = at(i);
+    if (!stats) return { depth: skip + depth };
 
     const isLike =
       stats.mad <= BORDER_MAD_MAX ||
@@ -61,19 +73,19 @@ function scanDepth(getLineStats, maxDepth) {
         const step = meanRgbDelta(prevMean, stats);
         if (step < EDGE_STEP_MIN) return { depth: 0 };
       }
-      return { depth };
+      return { depth: skip + depth };
     }
 
-    if (i > maxDepth) return { thick: true };
+    if (skip + i > maxDepth) return { thick: true };
     depth++;
     prevMean = stats;
     if (i + 1 >= exitIndex) {
-      const inner = getLineStats(i + 1);
+      const inner = at(i + 1);
       if (inner) {
         const step = meanRgbDelta(prevMean, inner);
         if (step < EDGE_STEP_MIN) return { depth: 0 };
       }
-      return { depth };
+      return { depth: skip + depth };
     }
   }
 }
@@ -255,11 +267,37 @@ export function localSquareAfterFrameTrim(size, depths, options = {}) {
 
   const must = options.must ?? null;
   if (must) {
-    const focus = {
-      x: (must.x0 + must.x1) / 2,
-      y: (must.y0 + must.y1) / 2,
+    const clipped = {
+      x0: Math.max(must.x0, x0),
+      y0: Math.max(must.y0, y0),
+      x1: Math.min(must.x1, x1),
+      y1: Math.min(must.y1, y1),
     };
-    return placeSquareContaining(must, { width, height }, side, focus);
+    if (clipped.x1 <= clipped.x0 || clipped.y1 <= clipped.y0) return null;
+
+    const focus = {
+      x: (clipped.x0 + clipped.x1) / 2,
+      y: (clipped.y0 + clipped.y1) / 2,
+    };
+    const mustInInset = {
+      x0: clipped.x0 - x0,
+      y0: clipped.y0 - y0,
+      x1: clipped.x1 - x0,
+      y1: clipped.y1 - y0,
+    };
+    const inner = placeSquareContaining(
+      mustInInset,
+      { width: innerW, height: innerH },
+      side,
+      { x: focus.x - x0, y: focus.y - y0 },
+    );
+    if (!inner) return null;
+    return {
+      left: x0 + inner.left,
+      top: y0 + inner.top,
+      width: inner.width,
+      height: inner.height,
+    };
   }
 
   const left = x0 + Math.floor((innerW - side) / 2);

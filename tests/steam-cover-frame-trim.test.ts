@@ -73,9 +73,8 @@ describe("localSquareAfterFrameTrim", () => {
 
   it("returns null when must-region cannot fit after inset", () => {
     const size = 100;
-    const depths = { left: 4, right: 4, top: 4, bottom: 4 };
-    // must spans almost full pre-inset width → cannot fit in side 92
-    const must = { x0: 0, y0: 40, x1: 100, y1: 60 };
+    const depths = { left: 4, right: 4, top: 4, bottom: 20 };
+    const must = { x0: 0, y0: 0, x1: 100, y1: 100 };
     expect(localSquareAfterFrameTrim({ width: size, height: size }, depths, { must })).toBeNull();
   });
 

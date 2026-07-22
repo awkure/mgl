@@ -62,7 +62,34 @@ describe("steamCover", () => {
     await expect(fetchAndEncodeSteamCover(999, { fetchImpl })).resolves.toBeNull();
   });
 
-  it("encodeSteamCoverWebp uses attention then falls back to centre on throw", async () => {
+  it("encodeSteamCoverWebp uses materialized square extract when detect returns empty", async () => {
+    const jpeg = await sharp({
+      create: { width: 200, height: 300, channels: 3, background: { r: 20, g: 40, b: 60 } },
+    }).jpeg().toBuffer();
+
+    const positions: Array<string | number> = [];
+    const extracts: Array<{ left: number; top: number; width: number; height: number }> = [];
+    const webp = await encodeSteamCoverWebp(jpeg, {
+      detectTextBoxes: async () => [],
+      encodeExtract: async (bytes, rect) => {
+        extracts.push(rect);
+        return sharp(bytes).extract(rect).resize(512, 512).webp({ quality: 82 }).toBuffer();
+      },
+      encodeResize: async (_bytes, position) => {
+        positions.push(position);
+        throw new Error("should not run when materialized extract succeeds");
+      },
+    });
+    expect(positions).toEqual([]);
+    expect(extracts).toHaveLength(1);
+    expect(extracts[0].width).toBe(extracts[0].height);
+    expect(webp.subarray(0, 4).toString("ascii")).toBe("RIFF");
+    const meta = await sharp(webp).metadata();
+    expect(meta.width).toBe(512);
+    expect(meta.height).toBe(512);
+  });
+
+  it("encodeSteamCoverWebp falls back to resize when materialized extract throws", async () => {
     const jpeg = await sharp({
       create: { width: 200, height: 300, channels: 3, background: { r: 20, g: 40, b: 60 } },
     }).jpeg().toBuffer();
@@ -82,6 +109,9 @@ describe("steamCover", () => {
     const webp = await encodeSteamCoverWebp(jpeg, {
       encodeResize,
       detectTextBoxes: async () => [],
+      encodeExtract: async () => {
+        throw new Error("extract failed");
+      },
     });
     expect(positions).toEqual([sharp.strategy.attention, "centre"]);
     expect(webp.subarray(0, 4).toString("ascii")).toBe("RIFF");
@@ -118,40 +148,48 @@ describe("steamCover", () => {
     expect(meta.height).toBe(512);
   });
 
-  it("encodeSteamCoverWebp falls through to attention when detect returns empty", async () => {
+  it("encodeSteamCoverWebp materializes square when detect returns empty", async () => {
     const jpeg = await sharp({
       create: { width: 200, height: 300, channels: 3, background: { r: 20, g: 40, b: 60 } },
     }).jpeg().toBuffer();
 
     const positions: Array<string | number> = [];
+    const extracts: Array<{ left: number; top: number; width: number; height: number }> = [];
     const webp = await encodeSteamCoverWebp(jpeg, {
       detectTextBoxes: async () => [],
+      encodeExtract: async (bytes, rect) => {
+        extracts.push(rect);
+        return sharp(bytes).extract(rect).resize(512, 512).webp({ quality: 82 }).toBuffer();
+      },
       encodeResize: async (_bytes, position) => {
         positions.push(position);
-        if (position === sharp.strategy.attention) throw new Error("attention failed");
-        return sharp(_bytes).resize(512, 512, { fit: "cover", position: "centre" }).webp({ quality: 82 }).toBuffer();
+        throw new Error("should not run");
       },
     });
-    expect(positions).toEqual([sharp.strategy.attention, "centre"]);
+    expect(positions).toEqual([]);
+    expect(extracts).toHaveLength(1);
     expect(webp.subarray(0, 4).toString("ascii")).toBe("RIFF");
   });
 
-  it("encodeSteamCoverWebp falls through when detect throws", async () => {
+  it("encodeSteamCoverWebp materializes square when detect throws", async () => {
     const jpeg = await sharp({
       create: { width: 200, height: 300, channels: 3, background: { r: 20, g: 40, b: 60 } },
     }).jpeg().toBuffer();
 
-    const positions: Array<string | number> = [];
+    const extracts: Array<{ left: number; top: number; width: number; height: number }> = [];
     await encodeSteamCoverWebp(jpeg, {
       detectTextBoxes: async () => {
         throw new Error("detect down");
       },
-      encodeResize: async (_bytes, position) => {
-        positions.push(position);
-        return sharp(_bytes).resize(512, 512, { fit: "cover", position }).webp({ quality: 82 }).toBuffer();
+      encodeExtract: async (bytes, rect) => {
+        extracts.push(rect);
+        return sharp(bytes).extract(rect).resize(512, 512).webp({ quality: 82 }).toBuffer();
+      },
+      encodeResize: async () => {
+        throw new Error("should not run");
       },
     });
-    expect(positions[0]).toBe(sharp.strategy.attention);
+    expect(extracts).toHaveLength(1);
   });
 
   it("encodeSteamCoverWebp uses largest-box text-fit even when all-box union is tall", async () => {
