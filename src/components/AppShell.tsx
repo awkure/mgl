@@ -64,6 +64,10 @@ export interface AppShellProps {
   resolveAssetUrl?: (assetId: string) => string | null;
 }
 
+const blockSafariCallout = (event: MouseEvent<HTMLAnchorElement>) => {
+  event.preventDefault();
+};
+
 function NavLink({
   active,
   href,
@@ -94,7 +98,15 @@ function NavLink({
     onNavigate(href);
   };
   return (
-    <a aria-current={active ? "page" : undefined} aria-label={label} className={className} href={href} onClick={onClick}>
+    <a
+      aria-current={active ? "page" : undefined}
+      aria-label={label}
+      className={className}
+      draggable={false}
+      href={href}
+      onClick={onClick}
+      onContextMenu={blockSafariCallout}
+    >
       <Icon name={icon} />
       <span>{label}</span>
     </a>
@@ -204,8 +216,10 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
             aria-current={route === "new" ? "page" : undefined}
             aria-label="Добавить игру"
             className={`app-tab-add${route === "new" ? " is-active" : ""}`}
+            draggable={false}
             href="#/games/new"
             onClick={onNavigate ? (event) => { event.preventDefault(); onNavigate("#/games/new"); } : undefined}
+            onContextMenu={blockSafariCallout}
           >
             <Icon name="plus" size={22} />
           </a>

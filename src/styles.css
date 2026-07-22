@@ -1390,9 +1390,10 @@ h4 {
   font-size: 10px;
   line-height: 1.1;
   text-decoration: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
-
-.app-shell[data-mobile-chrome="true"] .app-tab-bar__link svg {
   width: 20px;
   height: 20px;
 }
@@ -1418,9 +1419,10 @@ h4 {
   -webkit-backdrop-filter: blur(22px) saturate(1.35);
   backdrop-filter: blur(22px) saturate(1.35);
   text-decoration: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
-
-.app-shell[data-mobile-chrome="true"] .app-tab-add.is-active,
 .app-shell[data-mobile-chrome="true"] .app-tab-add[aria-current="page"] {
   color: var(--accent-strong);
   background: color-mix(in srgb, var(--accent-wash) 80%, var(--glass-fill));

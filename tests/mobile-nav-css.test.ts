@@ -182,4 +182,13 @@ describe("mobile nav css", () => {
     expect(universal).toContain("touch-action: pan-x pan-y");
     expect(styles).not.toContain("touch-action: manipulation");
   });
+
+  it("disables Safari touch callout on tab bar links and add button", () => {
+    const link = declarationsIn(styles, '.app-shell[data-mobile-chrome="true"] .app-tab-bar__link');
+    const add = declarationsIn(styles, '.app-shell[data-mobile-chrome="true"] .app-tab-add');
+    expect(link).toContain("-webkit-touch-callout: none");
+    expect(link).toContain("user-select: none");
+    expect(add).toContain("-webkit-touch-callout: none");
+    expect(add).toContain("user-select: none");
+  });
 });
