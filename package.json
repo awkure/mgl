@@ -52,7 +52,7 @@
     "fake-indexeddb": "^6.2.5",
     "jsdom": "^29.1.1",
     "lighthouse": "^13.4.1",
-    "onnxruntime-node": "^1.27.0",
+    "onnxruntime-node": "1.23.2",
     "playwright": "^1.61.1",
     "ppu-paddle-ocr": "^6.1.2",
     "sharp": "^0.35.3",

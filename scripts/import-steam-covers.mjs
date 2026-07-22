@@ -12,7 +12,7 @@
  *   --out <path>       patch JSON (default steam-covers.patch.json unless --apply)
  *   --apply            write public/data/library.json + public/media
  *   --dry-run          counts only; no fetch / no write
- *   --force            ignore steamOverrides.coverAssetId
+ *   --force            ignore steamOverrides.coverAssetId; rewrite media even if hash unchanged
  *   --limit <n>
  *   --appids <a,b,c>
  *   --game-id <uuid>
@@ -151,8 +151,12 @@ try {
   const now = new Date().toISOString();
   let skippedLocked = 0;
   let unchanged = 0;
+  let overwritten = 0;
   let coversFailed = 0;
   const patchItems = [];
+  const mediaRoot = path.join(root, "public", "media");
+  /** @type {Array<{ appid: number|string, filePath: string, bytes: Buffer }>} */
+  const forceWrites = [];
 
   for (let index = 0; index < targets.length; index += 1) {
     const game = targets[index];
@@ -178,8 +182,21 @@ try {
     }
 
     const action = steamCoverRefreshAction(game, cover.asset.id, { force: flags.force });
+    const mediaPath = externalAssetPath(mediaRoot, cover.asset.id, cover.asset);
     if (action === "unchanged") {
       unchanged += 1;
+      console.log(`\nappid=${appid} unchanged → ${mediaPath}`);
+      continue;
+    }
+    if (action === "overwrite") {
+      // Same asset id (immutable): still rewrite media bytes when --force.
+      forceWrites.push({
+        appid,
+        filePath: mediaPath,
+        bytes: Buffer.from(cover.base64, "base64"),
+      });
+      overwritten += 1;
+      console.log(`\nappid=${appid} force-overwrite → ${mediaPath}`);
       continue;
     }
 
@@ -190,6 +207,7 @@ try {
       previousGame: game,
       cover,
     });
+    console.log(`\nappid=${appid} update → ${mediaPath}`);
   }
   if (targets.length) process.stdout.write("\n");
 
@@ -212,35 +230,51 @@ try {
   }
 
   if (flags.apply) {
-    const mediaRoot = path.join(root, "public", "media");
     mkdirSync(mediaRoot, { recursive: true });
-    const next = applyPatch(library, patch);
-    for (const [id, base64] of Object.entries(patch.blobs)) {
-      const asset = next.assets[id];
-      if (!asset) throw new Error(`Applied library missing asset ${id}`);
-      const filePath = externalAssetPath(mediaRoot, id, asset);
-      const bytes = Buffer.from(base64, "base64");
-      if (existsSync(filePath)) {
-        const existing = readFileSync(filePath);
-        if (!existing.equals(bytes)) throw new Error(`Media collision for ${id}`);
-      } else {
-        writeFileSync(filePath, bytes, { mode: 0o644, flag: "wx" });
-      }
+    for (const item of forceWrites) {
+      writeFileSync(item.filePath, item.bytes);
+      console.log(`wrote media ${item.filePath}`);
     }
-    const pruned = pruneUnreferencedMediaFiles(mediaRoot, next.assets);
-    writeFileSync(libraryPath, `${JSON.stringify(next, null, 2)}\n`);
-    console.log(`applied to ${libraryPath} (+ ${Object.keys(patch.blobs).length} media, pruned ${pruned})`);
+
+    const opCount = Object.keys(patch.operations).length;
+    if (opCount === 0 && forceWrites.length === 0) {
+      console.log("nothing to apply (all covers unchanged or skipped)");
+    } else if (opCount > 0) {
+      const next = applyPatch(library, patch);
+      for (const [id, base64] of Object.entries(patch.blobs)) {
+        const asset = next.assets[id];
+        if (!asset) throw new Error(`Applied library missing asset ${id}`);
+        const filePath = externalAssetPath(mediaRoot, id, asset);
+        const bytes = Buffer.from(base64, "base64");
+        if (existsSync(filePath)) {
+          const existing = readFileSync(filePath);
+          if (!existing.equals(bytes)) throw new Error(`Media collision for ${id}`);
+          console.log(`media exists ${filePath}`);
+        } else {
+          writeFileSync(filePath, bytes, { mode: 0o644, flag: "wx" });
+          console.log(`wrote media ${filePath}`);
+        }
+      }
+      const pruned = pruneUnreferencedMediaFiles(mediaRoot, next.assets);
+      writeFileSync(libraryPath, `${JSON.stringify(next, null, 2)}\n`);
+      console.log(`applied to ${libraryPath} (+ ${Object.keys(patch.blobs).length} media, pruned ${pruned})`);
+    } else if (forceWrites.length > 0) {
+      console.log(`force-overwrote ${forceWrites.length} media file(s) (library unchanged)`);
+    }
+  } else if (forceWrites.length > 0) {
+    console.log(`note: ${forceWrites.length} force-overwrite(s) need --apply to write media`);
   }
 
   console.log(JSON.stringify({
     targets: targets.length,
     updated,
+    overwritten,
     skippedLocked,
     unchanged,
     coversFailed,
     operations: Object.keys(patch.operations).length,
     blobs: Object.keys(patch.blobs).length,
-    applied: flags.apply,
+    applied: flags.apply && (Object.keys(patch.operations).length > 0 || overwritten > 0),
     baseRevision,
   }));
 } catch (reason) {

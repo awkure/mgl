@@ -18,7 +18,8 @@ Use case: batch re-crop after attention-encode change (or fill/replace covers) w
 | Target set | Every library game with positive `steamAppId` |
 | Locked covers | Respect `steamOverrides.coverAssetId`; `--force` ignores lock |
 | Existing unlocked covers | Always re-fetch + replace when asset id changes |
-| Same bytes / same id | Count `unchanged`; no write |
+| Same bytes / same id | Count `unchanged`; no write — **unless `--force`**, then rewrite media file in place (`overwrite`) |
+| `--force` | Ignore lock **and** overwrite media even when SHA matches |
 | Creates | None — games must already exist |
 | Steam Web API key | Not required (CDN cover path only) |
 | Storefront details / `header_image` | Out — CDN `library_600x900` only via `fetchAndEncodeSteamCover` |
@@ -48,7 +49,7 @@ No domain merge through `mergeSteamGameUpdate` — cover field only. Reuse exist
 |---|---|
 | `--apply` | Write `public/data/library.json` + `public/media` |
 | `--out <path>` | Patch JSON (default `steam-covers.patch.json` unless `--apply`) |
-| `--force` | Ignore `steamOverrides.coverAssetId` |
+| `--force` | Ignore `steamOverrides.coverAssetId`; rewrite media even if asset id unchanged |
 | `--appids a,b,c` | Filter by Steam app id |
 | `--game-id <uuid>` | One library game |
 | `--limit n` | Cap after filter |
@@ -70,8 +71,9 @@ No domain merge through `mergeSteamGameUpdate` — cover field only. Reuse exist
 3. Skip if locked and not `--force` → `skippedLocked`.
 4. `fetchAndEncodeSteamCover(appid)` (CDN only).
 5. Null / throw → log; `coversFailed++`; continue.
-6. If `asset.id === game.coverAssetId` → `unchanged++`; continue.
-7. Else emit asset create + game update (`coverAssetId` only as field op); apply derives `updatedAt` from op `changedAt`. Orphan previous cover left for existing GC / validate (same as steam-import).
+6. If `asset.id === game.coverAssetId` and not `--force` → `unchanged++`; continue.
+7. If `asset.id === game.coverAssetId` and `--force` → rewrite media file in place (`overwrite`); no library patch (asset immutable / same id).
+8. Else emit asset create + game update (`coverAssetId` only as field op); apply derives `updatedAt` from op `changedAt`. Orphan previous cover left for existing GC / validate (same as steam-import).
 
 ## Error handling
 

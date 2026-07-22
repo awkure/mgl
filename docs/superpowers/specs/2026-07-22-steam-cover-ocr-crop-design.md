@@ -7,7 +7,7 @@ Related: `2026-07-22-steam-covers-only-design.md`
 
 ## Goal
 
-When encoding Steam covers (2:3 → 1:1), prefer a square crop that contains **all detected text** (title/logo bands). Detection only — no recognition / no title matching.
+When encoding Steam covers (2:3 → 1:1), prefer a square crop that keeps the **title/logo line** in frame. Detection only — no recognition / no title matching.
 
 Fallback chain: **OCR text-fit → sharp attention → centre**.
 
@@ -21,9 +21,11 @@ Attention crop is best-effort saliency. Titles still get clipped on some capsule
 |---|---|
 | Detector | `ppu-paddle-ocr` **detect-only** (+ `onnxruntime-node`) |
 | Recognition | Out — boxes only |
-| Pad around text union | **8%** of `max(unionW, unionH)` on each side |
-| OCR success | Boxes present **and** a square can cover padded union inside the image (`side ≤ min(W,H)` after clamp that still covers padded union) |
-| OCR miss → | attention resize, then centre on throw (unchanged) |
+| Logo pick | Title-like (wide, short, not footer); among substantial candidates pick **highest** (title above credit slabs) |
+| Pad around logo | **8%** sides/top of `max(w,h)`; **2%** bottom (`TEXT_FIT_PAD_BOTTOM`) so south-pin sits flush |
+| OCR success | Picked logo box **must** stay in frame |
+| Attention merge | Full short-side square containing padded logo. If attention is **above** logo → pin text to **south** of crop; if **below** → pin text to **north**. Horizontal still tracks attention.x |
+| Still unfit → | Logo-only square / south-anchored; then pure attention; then centre |
 | Scope | CLI cover encode only (`scripts/lib/steamCover.mjs`) |
 | SPA `prepareImage` | Unchanged |
 | Deps | `devDependencies` (CLI/scripts/tests) |
@@ -32,21 +34,18 @@ Attention crop is best-effort saliency. Titles still get clipped on some capsule
 
 1. Fetch order unchanged (`library_600x900`, optional `header_image`).
 2. `encodeSteamCoverWebp(imageBytes, options)`:
-   1. `detectTextBoxes(imageBytes)` → list of axis-aligned boxes (injectable; default = Paddle detect).
-   2. If non-empty: union → pad 8% → `side = max(paddedW, paddedH)` → square centered on padded-union centroid → clamp into image. If resulting square still covers padded union → `extract` → resize 512×512 WebP → return.
-   3. Else (no boxes / detect throw / unfit geometry) → `resize(..., position: attention)`.
-   4. Else throw → `position: "centre"`.
+   1. Detect text boxes; pick logo via `pickLogoTextBox` (title-like → else largest).
+   2. Probe sharp attention focal point (`attentionX`/`attentionY`).
+   3. Place full short-side square that **contains** asymmetrically padded logo. Vertical edge from attention vs logo centre: attention above → text at south of crop; attention below → text at north. Horizontal clamps toward `attentionX`.
+   4. Else logo-only / south fallback → else attention resize → else centre.
 3. Asset shape unchanged: 512×512 WebP, SHA-256 id, same metadata.
 4. Landscape header fallback uses the same encode path.
 
 ## Square geometry (detail)
 
-- Union of detection boxes → `(x0,y0,x1,y1)`.
-- Pad: `p = 0.08 * max(w,h)`; expand then clamp to image for pad step.
-- `side = max(paddedW, paddedH)`.
-- If `side > min(W,H)` → unfit → attention.
-- Else place square on centroid; clamp `left/top` into `[0, W-side]` / `[0, H-side]`.
-- After clamp, if square no longer contains padded union → unfit → attention.
+- Logo box → `(x0,y0,x1,y1)`; pad 8% sides/top, 2% bottom; clamp to image.
+- Cover crop: `side = min(W,H)` containing padded logo; vertical pin from attention.
+- Legacy `textFitSquare`: union of boxes + symmetric 8% pad; `side = max(paddedW, paddedH)`; unfit if `side > min(W,H)`.
 - Extract integer pixel rect; resize to 512×512 (already square).
 
 ## Reimport / hashes

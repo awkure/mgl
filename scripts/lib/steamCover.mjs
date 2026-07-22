@@ -2,7 +2,8 @@
 
 import { createHash } from "node:crypto";
 import sharp from "sharp";
-import { textFitSquare } from "./steamCoverTextFit.mjs";
+import { textFitCoverRect } from "./steamCoverTextFit.mjs";
+import { attentionFocus as defaultAttentionFocus } from "./steamCoverAttention.mjs";
 import { detectTextBoxes as defaultDetectTextBoxes } from "./steamCoverDetect.mjs";
 
 const CDN_LIBRARY = (appid) =>
@@ -21,6 +22,7 @@ function bytesToBase64(bytes) {
  * @param {{
  *   encodeResize?: (bytes: Buffer, position: string | number) => Promise<Buffer>
  *   detectTextBoxes?: (bytes: Buffer) => Promise<Array<{ x: number, y: number, width: number, height: number }>>
+ *   attentionFocus?: (bytes: Buffer) => Promise<{ x: number, y: number } | null>
  *   encodeExtract?: (bytes: Buffer, rect: { left: number, top: number, width: number, height: number }) => Promise<Buffer>
  * }} [options]
  * @returns {Promise<Buffer>}
@@ -45,6 +47,7 @@ export async function encodeSteamCoverWebp(imageBytes, options = {}) {
         .toBuffer());
 
   const detectTextBoxes = options.detectTextBoxes ?? defaultDetectTextBoxes;
+  const attentionFocus = options.attentionFocus ?? defaultAttentionFocus;
 
   try {
     const upright = await sharp(imageBytes).rotate().toBuffer();
@@ -52,7 +55,8 @@ export async function encodeSteamCoverWebp(imageBytes, options = {}) {
     const meta = await sharp(upright).metadata();
     const width = meta.width ?? 0;
     const height = meta.height ?? 0;
-    const rect = textFitSquare(boxes ?? [], { width, height });
+    const attention = await attentionFocus(upright);
+    const rect = textFitCoverRect(boxes ?? [], { width, height }, { attention });
     if (rect) {
       return await encodeExtract(upright, rect);
     }
@@ -76,6 +80,7 @@ export async function encodeSteamCoverWebp(imageBytes, options = {}) {
  *   detectTextBoxes?: (bytes: Buffer) => Promise<Array<{ x: number, y: number, width: number, height: number }>>
  *   encodeResize?: (bytes: Buffer, position: string | number) => Promise<Buffer>
  *   encodeExtract?: (bytes: Buffer, rect: { left: number, top: number, width: number, height: number }) => Promise<Buffer>
+ *   attentionFocus?: (bytes: Buffer) => Promise<{ x: number, y: number } | null>
  * }} [options]
  * @returns {Promise<null | { asset: object; base64: string }>}
  */

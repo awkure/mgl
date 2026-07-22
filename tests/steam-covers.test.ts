@@ -90,6 +90,22 @@ describe("steamCoverRefreshAction", () => {
     expect(steamCoverRefreshAction(g, COVER_A, { force: false })).toBe("unchanged");
   });
 
+  it("overwrite when same id with force", () => {
+    const g = game({ id: "g1", title: "A", steamAppId: 10, coverAssetId: COVER_A });
+    expect(steamCoverRefreshAction(g, COVER_A, { force: true })).toBe("overwrite");
+  });
+
+  it("overwrite locked same id with force", () => {
+    const g = game({
+      id: "g1",
+      title: "A",
+      steamAppId: 10,
+      coverAssetId: COVER_A,
+      steamOverrides: { coverAssetId: true },
+    });
+    expect(steamCoverRefreshAction(g, COVER_A, { force: true })).toBe("overwrite");
+  });
+
   it("unchanged when proposed cover is null", () => {
     const g = game({ id: "g1", title: "A", steamAppId: 10, coverAssetId: COVER_A });
     expect(steamCoverRefreshAction(g, null, { force: false })).toBe("unchanged");

@@ -154,20 +154,33 @@ describe("steamCover", () => {
     expect(positions[0]).toBe(sharp.strategy.attention);
   });
 
-  it("encodeSteamCoverWebp falls through when text union cannot fit square", async () => {
+  it("encodeSteamCoverWebp uses largest-box text-fit even when all-box union is tall", async () => {
     const jpeg = await sharp({
       create: { width: 600, height: 900, channels: 3, background: { r: 10, g: 20, b: 30 } },
     }).jpeg().toBuffer();
 
+    const logo = { x: 50, y: 700, width: 400, height: 80 };
+    const tagline = { x: 10, y: 10, width: 120, height: 20 };
+    const extracts: Array<{ left: number; top: number; width: number; height: number }> = [];
     const positions: Array<string | number> = [];
     await encodeSteamCoverWebp(jpeg, {
-      detectTextBoxes: async () => [{ x: 10, y: 10, width: 50, height: 880 }],
+      detectTextBoxes: async () => [tagline, logo],
+      // Focus near logo so merge stays low (no real saliency on flat synthetic)
+      attentionFocus: async () => ({ x: 300, y: 740 }),
+      encodeExtract: async (bytes, rect) => {
+        extracts.push(rect);
+        return sharp(bytes).extract(rect).resize(512, 512).webp({ quality: 82 }).toBuffer();
+      },
       encodeResize: async (_bytes, position) => {
         positions.push(position);
         return sharp(_bytes).resize(512, 512, { fit: "cover", position }).webp({ quality: 82 }).toBuffer();
       },
     });
-    expect(positions[0]).toBe(sharp.strategy.attention);
+    expect(positions).toEqual([]);
+    expect(extracts).toHaveLength(1);
+    expect(extracts[0].width).toBe(extracts[0].height);
+    expect(extracts[0].top).toBeGreaterThan(200);
+    expect(extracts[0].top + extracts[0].height).toBeGreaterThanOrEqual(780);
   });
 
   it("encodeSteamCoverWebp passes EXIF-upright buffer to detect", async () => {
