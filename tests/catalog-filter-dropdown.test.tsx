@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
-import { GlobalGameSearch } from "../src/components/GlobalGameSearch";
+import { ScreenFilterBar } from "../src/components/ScreenFilterBar";
 import type { Game } from "../src/domain/types";
 
 const game: Game = {
@@ -21,9 +21,9 @@ describe("catalog filter dropdowns", () => {
   it("keeps a filter open when Safari reports no blur destination for an option click", async () => {
     const user = userEvent.setup();
     window.location.hash = "#/games";
-    render(<GlobalGameSearch games={[game]} />);
+    render(<ScreenFilterBar games={[game]} mode="catalog" />);
 
-    await user.click(screen.getByRole("button", { name: "Фильтры" }));
+    await user.click(screen.getByRole("searchbox", { name: "Фильтр игр на экране" }));
     const summary = screen.getByText("Статус").closest("summary")!;
     const dropdown = summary.closest("details")!;
     const checkbox = screen.getByRole("checkbox", { name: "Играю" });
@@ -42,9 +42,9 @@ describe("catalog filter dropdowns", () => {
   it("closes an open filter when the pointer or keyboard focus leaves it", async () => {
     const user = userEvent.setup();
     window.location.hash = "#/games";
-    render(<GlobalGameSearch games={[game]} />);
+    render(<ScreenFilterBar games={[game]} mode="catalog" />);
 
-    await user.click(screen.getByRole("button", { name: "Фильтры" }));
+    await user.click(screen.getByRole("searchbox", { name: "Фильтр игр на экране" }));
     const summary = screen.getByText("Статус").closest("summary")!;
     const dropdown = summary.closest("details")!;
     const tierSummary = screen.getByText("Тир").closest("summary")!;

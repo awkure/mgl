@@ -118,19 +118,6 @@ describe("global game search keyboard routing", () => {
     expect(screen.getAllByRole("option")).toHaveLength(2);
   });
 
-  it("uses the catalog itself as results and opens only the filter panel", () => {
-    window.location.hash = "#/games?q=Mario";
-    render(<GlobalGameSearch games={[marioKart, marioWorld, zelda]} />);
-
-    const input = screen.getByRole("searchbox", { name: "Глобальный поиск игр" });
-    expect(input).toHaveValue("Mario");
-    expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole("button", { name: "Фильтры" }));
-    expect(screen.getByRole("dialog", { name: "Фильтры каталога" })).toBeInTheDocument();
-    expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
-  });
-
   it("closes the entire search panel with the explicit close button", async () => {
     const user = userEvent.setup();
     render(<GlobalGameSearch games={[marioKart, marioWorld, zelda]} />);

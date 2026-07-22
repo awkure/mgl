@@ -6,7 +6,7 @@ import { StrictMode } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DiffDialog } from "../src/components/DiffDialog";
 import { AppShell } from "../src/components/AppShell";
-import { GlobalGameSearch } from "../src/components/GlobalGameSearch";
+import { ScreenFilterBar } from "../src/components/ScreenFilterBar";
 import { optimizeNoteImage } from "../src/domain/assets";
 import type { Asset, Game, Note } from "../src/domain/types";
 import { CatalogPage } from "../src/pages/CatalogPage";
@@ -217,9 +217,9 @@ describe("CatalogPage", () => {
     const user = userEvent.setup();
     const games = [makeGame()];
     window.location.hash = "#/games";
-    render(<StrictMode><GlobalGameSearch games={games} /><CatalogPage assets={{}} games={games} /></StrictMode>);
+    render(<StrictMode><ScreenFilterBar games={games} mode="catalog" /><CatalogPage assets={{}} games={games} /></StrictMode>);
 
-    const search = screen.getByRole("searchbox", { name: "Глобальный поиск игр" });
+    const search = screen.getByRole("searchbox", { name: "Фильтр игр на экране" });
     await user.type(search, "du");
 
     expect(search).toHaveValue("du");
@@ -247,10 +247,10 @@ describe("CatalogPage", () => {
     window.location.hash = "#/games?q=duck&status=playing";
 
     render(
-      <><GlobalGameSearch games={games} /><CatalogPage assets={{}} games={games} /></>,
+      <><ScreenFilterBar games={games} mode="catalog" /><CatalogPage assets={{}} games={games} /></>,
     );
 
-    const search = screen.getByRole("searchbox", { name: "Глобальный поиск игр" });
+    const search = screen.getByRole("searchbox", { name: "Фильтр игр на экране" });
     expect(search).toHaveValue("duck");
     expect(screen.getByText("DuckTales")).toBeInTheDocument();
     expect(screen.queryByText("Super Mario Odyssey")).not.toBeInTheDocument();
@@ -259,8 +259,8 @@ describe("CatalogPage", () => {
     expect(screen.getByText("DuckTales")).toBeInTheDocument();
     expect(screen.queryByText("Super Mario Odyssey")).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: /Фильтры/ }));
-    expect(screen.getByRole("dialog", { name: "Фильтры каталога" })).toBeInTheDocument();
+    await user.click(search);
+    expect(screen.getByRole("dialog", { name: "Параметры фильтра" })).toBeInTheDocument();
     await user.click(screen.getByLabelText("Играю"));
     expect(screen.getByText("Super Mario Odyssey")).toBeInTheDocument();
 

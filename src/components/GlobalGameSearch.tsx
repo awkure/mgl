@@ -1,6 +1,6 @@
 import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { gameMatchesFilters, gameSearchScore } from "../domain/catalogue";
-import { CATALOG_FILTERS_EVENT, emptyCatalogSearchFilters, parseCatalogSearch, sameCatalogSearch, serializeCatalogSearch, type CatalogSearchFilters } from "../domain/catalogSearch";
+import { emptyCatalogSearchFilters, serializeCatalogSearch, type CatalogSearchFilters } from "../domain/catalogSearch";
 import { STATUS_IDS, TIER_IDS, type Game, type StatusId, type TierId } from "../domain/types";
 import { STATUS_LABELS, TIER_LABELS } from "./libraryUi";
 import { FilterMenu } from "./FilterMenu";
@@ -8,23 +8,7 @@ import { Icon } from "./Icon";
 
 export interface GlobalGameSearchProps {
   games: Game[];
-  layout?: "header" | "bar";
   onNavigate?: (href: string) => void;
-}
-
-function catalogHash(): boolean {
-  return /^#\/games(?:\?|$)/.test(window.location.hash);
-}
-
-function filtersFromLocation(): CatalogSearchFilters {
-  return parseCatalogSearch(window.location.hash.split("?")[1] ?? "");
-}
-
-function writeCatalogLocation(filters: CatalogSearchFilters): void {
-  if (!catalogHash()) return;
-  const query = serializeCatalogSearch(filters);
-  history.replaceState(null, "", `#/games${query ? `?${query}` : ""}`);
-  window.dispatchEvent(new Event(CATALOG_FILTERS_EVENT));
 }
 
 function resultOrder(query: string): (left: Game, right: Game) => number {
@@ -40,14 +24,13 @@ export function resolveGlobalSearchEnter(matches: Game[], selectedIndex: number 
   return { kind: "catalog" };
 }
 
-export function GlobalGameSearch({ games, layout = "header", onNavigate }: GlobalGameSearchProps) {
-  const [filters, setFilters] = useState<CatalogSearchFilters>(() => typeof window === "undefined" ? emptyCatalogSearchFilters() : filtersFromLocation());
+export function GlobalGameSearch({ games, onNavigate }: GlobalGameSearchProps) {
+  const [filters, setFilters] = useState<CatalogSearchFilters>(() => emptyCatalogSearchFilters());
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const listId = useId();
-  const isCatalog = typeof window !== "undefined" && catalogHash();
   const platforms = useMemo(() => [...new Set(games.flatMap((game) => game.platforms))].sort((left, right) => left.localeCompare(right, "ru")), [games]);
   const tags = useMemo(() => [...new Set(games.flatMap((game) => game.tags))].sort((left, right) => left.localeCompare(right, "ru")), [games]);
   const matches = useMemo(() => games.filter((game) => gameMatchesFilters(game, {
@@ -77,12 +60,6 @@ export function GlobalGameSearch({ games, layout = "header", onNavigate }: Globa
   const updateFilters = (next: CatalogSearchFilters) => {
     setFilters(next);
     setSelectedIndex(null);
-    writeCatalogLocation(next);
-  };
-  const syncFromLocation = () => {
-    if (!catalogHash()) return;
-    const next = filtersFromLocation();
-    setFilters((current) => sameCatalogSearch(current, next) ? current : next);
   };
 
   useEffect(() => {
@@ -99,27 +76,16 @@ export function GlobalGameSearch({ games, layout = "header", onNavigate }: Globa
       const editing = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement || target instanceof HTMLElement && target.isContentEditable;
       if ((event.metaKey || event.ctrlKey) && event.key.toLocaleLowerCase() === "k" || event.key === "/" && !editing && !event.metaKey && !event.ctrlKey && !event.altKey) {
         event.preventDefault();
-        syncFromLocation();
-        setOpen(!catalogHash());
+        setOpen((current) => !current);
         inputRef.current?.focus();
       }
     };
     window.addEventListener("keydown", shortcut);
-    window.addEventListener("hashchange", syncFromLocation);
-    window.addEventListener(CATALOG_FILTERS_EVENT, syncFromLocation);
-    return () => {
-      window.removeEventListener("keydown", shortcut);
-      window.removeEventListener("hashchange", syncFromLocation);
-      window.removeEventListener(CATALOG_FILTERS_EVENT, syncFromLocation);
-    };
+    return () => window.removeEventListener("keydown", shortcut);
   });
 
   const onKeyDown = (event: ReactKeyboardEvent<HTMLInputElement>) => {
     if (event.nativeEvent.isComposing) return;
-    if (isCatalog) {
-      if (event.key === "Escape") setOpen(false);
-      return;
-    }
     if (event.key === "ArrowDown") {
       event.preventDefault();
       setOpen(true);
@@ -152,32 +118,32 @@ export function GlobalGameSearch({ games, layout = "header", onNavigate }: Globa
     ...filters.tags.map((value) => ({ key: `tag:${value}`, label: `#${value}` })),
   ];
 
-  return <div className={`global-game-search${layout === "bar" ? " global-game-search--bar" : ""}${open ? " is-open" : ""}${isCatalog ? " is-catalog" : ""}`} ref={rootRef}>
-    <div className="global-game-search__field" onClick={() => { if (isCatalog) setOpen(false); else setOpen(true); inputRef.current?.focus(); }}>
+  return <div className={`global-game-search${open ? " is-open" : ""}`} ref={rootRef}>
+    <div className="global-game-search__field" onClick={() => { setOpen(true); inputRef.current?.focus(); }}>
       <Icon name="search" size={16} />
       <input
-        aria-activedescendant={!isCatalog && selectedIndex !== null ? `${listId}-${visibleMatches[selectedIndex]?.id}` : undefined}
-        aria-autocomplete={isCatalog ? undefined : "list"}
-        aria-controls={isCatalog ? undefined : listId}
-        aria-expanded={isCatalog ? undefined : open}
+        aria-activedescendant={selectedIndex !== null ? `${listId}-${visibleMatches[selectedIndex]?.id}` : undefined}
+        aria-autocomplete="list"
+        aria-controls={listId}
+        aria-expanded={open}
         aria-label="Глобальный поиск игр"
         onChange={(event) => {
-          if (!catalogHash()) setOpen(true);
+          setOpen(true);
           updateFilters({ ...filters, q: event.currentTarget.value });
         }}
-        onFocus={() => { syncFromLocation(); setOpen(!isCatalog); }}
+        onFocus={() => setOpen(true)}
         onKeyDown={onKeyDown}
         placeholder="Поиск игр…"
         ref={inputRef}
-        role={isCatalog ? "searchbox" : "combobox"}
+        role="combobox"
         type="search"
         value={filters.q}
       />
       <span aria-hidden="true" className="global-game-search__shortcut">⌘K</span>
-      <button aria-expanded={isCatalog ? open : undefined} aria-haspopup={isCatalog ? "dialog" : undefined} aria-label={`Фильтры${activeFilterCount ? `: выбрано ${activeFilterCount}` : ""}`} className="global-game-search__filter-button" onClick={(event) => { event.stopPropagation(); if (isCatalog) setOpen((current) => !current); else { setOpen(true); inputRef.current?.focus(); } }} type="button"><Icon name="filter" size={15} />{activeFilterCount ? <b>{activeFilterCount}</b> : null}</button>
+      <button aria-label={`Фильтры${activeFilterCount ? `: выбрано ${activeFilterCount}` : ""}`} className="global-game-search__filter-button" onClick={(event) => { event.stopPropagation(); setOpen(true); inputRef.current?.focus(); }} type="button"><Icon name="filter" size={15} />{activeFilterCount ? <b>{activeFilterCount}</b> : null}</button>
       <button aria-label="Закрыть поиск" className="global-game-search__close" onClick={(event) => { event.stopPropagation(); setOpen(false); setSelectedIndex(null); inputRef.current?.blur(); }} type="button"><Icon name="close" size={17} /></button>
     </div>
-    {open ? <div aria-label={isCatalog ? "Фильтры каталога" : undefined} className={`global-game-search__popover${isCatalog ? " is-filters-only" : ""}`} role={isCatalog ? "dialog" : undefined}>
+    {open ? <div className="global-game-search__popover">
       <div aria-label="Фильтры поиска" className="global-game-search__filters">
         <FilterMenu label="Статус" onChange={(statuses) => updateFilters({ ...filters, statuses: statuses as StatusId[] })} renderLabel={(value) => STATUS_LABELS[value as StatusId]} selected={filters.statuses} values={[...STATUS_IDS]} />
         <FilterMenu label="Тир" onChange={(tiers) => updateFilters({ ...filters, tiers: tiers as TierId[] })} renderLabel={(value) => TIER_LABELS[value as TierId]} selected={filters.tiers} values={[...TIER_IDS]} />
@@ -185,12 +151,12 @@ export function GlobalGameSearch({ games, layout = "header", onNavigate }: Globa
         <FilterMenu label="Тег" onChange={(values) => updateFilters({ ...filters, tags: values })} selected={filters.tags} values={tags} />
         {activeFilterCount ? <button className="global-game-search__reset" onClick={() => updateFilters({ ...emptyCatalogSearchFilters(), q: filters.q })} type="button">Сбросить · {activeFilterCount}</button> : null}
       </div>
-      {!isCatalog && chips.length ? <div className="global-game-search__chips">{chips.map((chip) => <span key={chip.key}>{chip.label}</span>)}</div> : null}
-      {!isCatalog ? <div aria-label="Результаты поиска" className="global-game-search__results" id={listId} role="listbox">
+      {chips.length ? <div className="global-game-search__chips">{chips.map((chip) => <span key={chip.key}>{chip.label}</span>)}</div> : null}
+      <div aria-label="Результаты поиска" className="global-game-search__results" id={listId} role="listbox">
         {visibleMatches.map((game, index) => <button aria-selected={selectedIndex === index} className={selectedIndex === index ? "is-selected" : undefined} id={`${listId}-${game.id}`} key={game.id} onClick={() => openGame(game.id)} onMouseDown={(event) => event.preventDefault()} onMouseMove={() => setSelectedIndex(index)} role="option" type="button"><span><strong>{game.title}</strong><small>{[...game.platforms.slice(0, 2), STATUS_LABELS[game.status]].join(" · ")}</small></span><Icon className="global-game-search__forward" name="arrow-left" size={15} /></button>)}
         {!visibleMatches.length ? <p>Ничего не найдено</p> : null}
-      </div> : null}
-      {!isCatalog ? <button className="global-game-search__all" onClick={openCatalog} type="button">{matches.length ? `Показать все результаты · ${matches.length}` : "Открыть каталог"}<Icon className="global-game-search__forward" name="arrow-left" size={15} /></button> : null}
+      </div>
+      <button className="global-game-search__all" onClick={openCatalog} type="button">{matches.length ? `Показать все результаты · ${matches.length}` : "Открыть каталог"}<Icon className="global-game-search__forward" name="arrow-left" size={15} /></button>
     </div> : null}
   </div>;
 }
