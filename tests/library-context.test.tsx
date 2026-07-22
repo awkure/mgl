@@ -36,6 +36,7 @@ const LIBRARY_BLOB_SHA = "3".repeat(40);
 const CREATED_LIBRARY_BLOB_SHA = "4".repeat(40);
 const CREATED_TREE_SHA = "5".repeat(40);
 const CREATED_COMMIT_SHA = "6".repeat(40);
+const CREATED_HISTORY_BLOB_SHA = "8".repeat(40);
 
 class MemoryStorage implements Storage {
   private values = new Map<string, string>();
@@ -246,7 +247,11 @@ function githubResponses(database: LibraryDatabase, remoteDatabase = database) {
     if (method === "GET" && url.pathname === `${root}/git/blobs/${LIBRARY_BLOB_SHA}`) {
       return jsonResponse({ encoding: "base64", content: bytesToBase64(new TextEncoder().encode(JSON.stringify(remoteDatabase))) });
     }
-    if (method === "POST" && url.pathname === `${root}/git/blobs`) return jsonResponse({ sha: body?.encoding === "utf-8" ? CREATED_LIBRARY_BLOB_SHA : "7".repeat(40) }, 201);
+    if (method === "POST" && url.pathname === `${root}/git/blobs`) {
+      if (body?.encoding !== "utf-8") return jsonResponse({ sha: "7".repeat(40) }, 201);
+      const content = typeof body.content === "string" ? body.content : "";
+      return jsonResponse({ sha: content.includes('"events"') ? CREATED_HISTORY_BLOB_SHA : CREATED_LIBRARY_BLOB_SHA }, 201);
+    }
     if (method === "POST" && url.pathname === `${root}/git/trees`) return jsonResponse({ sha: CREATED_TREE_SHA }, 201);
     if (method === "POST" && url.pathname === `${root}/git/commits`) return jsonResponse({ sha: CREATED_COMMIT_SHA }, 201);
     if (method === "POST" && url.pathname === `${root}/git/refs`) return jsonResponse({ ref: body?.ref, object: { type: "commit", sha: body?.sha } }, 201);
@@ -664,7 +669,10 @@ describe("LibraryProvider direct GitHub synchronization", () => {
     const treeUpdate = api.requests.find((request) => request.method === "POST" && request.url.pathname.endsWith("/git/trees"));
     expect(treeUpdate?.body).toMatchObject({
       base_tree: TREE_SHA,
-      tree: [{ path: "public/data/library.json", mode: "100644", type: "blob", sha: CREATED_LIBRARY_BLOB_SHA }],
+      tree: [
+        { path: "public/data/history.json", mode: "100644", type: "blob", sha: CREATED_HISTORY_BLOB_SHA },
+        { path: "public/data/library.json", mode: "100644", type: "blob", sha: CREATED_LIBRARY_BLOB_SHA },
+      ],
     });
   });
 
