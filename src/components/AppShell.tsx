@@ -149,6 +149,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
     if (event.button !== 0) return;
     const shell = event.currentTarget.closest(".app-shell") as HTMLElement | null;
     if (shell?.getAttribute("data-pager-dragging") === "true") return;
+    event.currentTarget.setPointerCapture?.(event.pointerId);
     setPressedTab(tab);
   };
 

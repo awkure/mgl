@@ -63,6 +63,21 @@ describe("tab bar press glass — press state", () => {
     expect(catalog).not.toHaveAttribute("data-pressed");
   });
 
+  it("captures pointer on tab pointerdown for reliable pointerup", () => {
+    render(
+      <AppShell onOpenDiff={vi.fn()} route="tiers" storage={{ bytes: 0, operationCount: 0 }}>
+        <div>body</div>
+      </AppShell>,
+    );
+    const tabBar = screen.getByRole("navigation", { name: "Мобильная навигация" });
+    const catalog = within(tabBar).getByRole("link", { name: "Каталог" });
+    const setPointerCapture = vi.fn();
+    catalog.setPointerCapture = setPointerCapture;
+
+    fireEvent.pointerDown(catalog, { pointerId: 1, button: 0 });
+    expect(setPointerCapture).toHaveBeenCalledWith(1);
+  });
+
   it("ignores press lens while pager is dragging", () => {
     const { container } = render(
       <AppShell onOpenDiff={vi.fn()} route="tiers" storage={{ bytes: 0, operationCount: 0 }}>
