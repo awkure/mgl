@@ -115,8 +115,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
   const shellRoute = activeTabProp ? shellRouteFromTab(activeTab) : route;
   const atTabRoot = route === "tiers" || route === "catalog" || route === "settings";
   const showSearchBar = mobileChrome && (activeTab === "tiers" || activeTab === "catalog") && atTabRoot;
-  const searchLayout = showSearchBar ? "bar" : "header";
-  const search = <GlobalGameSearch games={games} layout={searchLayout} onNavigate={onNavigate} />;
+  const search = <GlobalGameSearch games={games} onNavigate={onNavigate} />;
   const budget = storage.budgetBytes ?? 4 * 1024 * 1024;
   const ratio = budget ? storage.bytes / budget : 0;
   const localAssetCount = storage.localAssetCount ?? 0;
