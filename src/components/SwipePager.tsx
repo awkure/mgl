@@ -10,6 +10,7 @@ import {
   type PagerIndex,
   type PagerPath,
 } from "../hooks/useSwipeNavigation";
+import { useMobileChrome } from "./mobileChrome";
 
 export interface SwipePagerProps {
   activeTab: TabId;
@@ -43,12 +44,15 @@ export function SwipePager({
 }: SwipePagerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const mobileChrome = useMobileChrome();
   const index = pagerIndexFromTab(activeTab);
+  const settleKey = `${catalogOverlay ? "c" : ""}:${tiersOverlay ? "t" : ""}:${settingsOverlay ? "s" : ""}`;
   const { dragging } = useSwipePager({
     targetRef: rootRef,
     trackRef,
     index,
-    enabled: true,
+    enabled: mobileChrome,
+    settleKey,
     isBlocked: () => draggingRef.current,
     onCommit: (next) => {
       const tab = next === 0 ? "tiers" : next === 1 ? "catalog" : "settings";
@@ -60,12 +64,12 @@ export function SwipePager({
 
   useEffect(() => {
     const track = trackRef.current;
-    if (!track || dragging) return;
+    if (!track || dragging || !mobileChrome) return;
     if (!track.style.transform) {
       track.style.transition = "none";
       track.style.transform = pagerTrackTranslateFromProgress(index);
     }
-  }, [index, dragging]);
+  }, [index, dragging, mobileChrome]);
 
   return (
     <div className="swipe-pager" data-dragging={dragging ? "true" : undefined} ref={rootRef}>

@@ -1240,6 +1240,24 @@ h4 {
   flex: 0 0 calc(100% / 3);
 }
 
+/* Desktop: no horizontal slide — only the active (non-inert) panel fills the viewport. */
+.app-shell:not([data-mobile-chrome="true"]) .swipe-pager__track {
+  display: block;
+  width: 100%;
+  transform: none !important;
+}
+
+.app-shell:not([data-mobile-chrome="true"]) .swipe-pager__panel {
+  display: none;
+  width: 100%;
+  flex: none;
+}
+
+.app-shell:not([data-mobile-chrome="true"]) .swipe-pager__panel:not([inert]) {
+  display: block;
+  height: 100%;
+}
+
 .swipe-pager__stack {
   position: relative;
   width: 100%;

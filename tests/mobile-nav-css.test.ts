@@ -50,6 +50,21 @@ describe("mobile nav css", () => {
     expect(declarationsIn(styles, ".swipe-pager__overlay")).toContain("position: absolute");
   });
 
+  it("disables horizontal sliding track on desktop (no mobile chrome)", () => {
+    const track = declarationsIn(styles, '.app-shell:not([data-mobile-chrome="true"]) .swipe-pager__track');
+    expect(track).toContain("width: 100%");
+    expect(track).toContain("transform: none");
+    expect(track).toContain("display: block");
+    const panel = declarationsIn(styles, '.app-shell:not([data-mobile-chrome="true"]) .swipe-pager__panel');
+    expect(panel).toContain("display: none");
+    expect(panel).toContain("width: 100%");
+    const active = declarationsIn(
+      styles,
+      '.app-shell:not([data-mobile-chrome="true"]) .swipe-pager__panel:not([inert])',
+    );
+    expect(active).toContain("display: block");
+  });
+
   it("defines a sliding tab blob driven by --pager-progress", () => {
     expect(styles).toContain("@property --pager-progress");
     expect(styles).toContain(".app-tab-bar__blob");

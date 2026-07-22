@@ -94,11 +94,35 @@ export function pagerTrackTranslate(
   return pagerTrackTranslateFromProgress(pagerProgress(index, dragOffsetPx, pagerWidthPx), panelCount);
 }
 
+/**
+ * How to apply a pager index update.
+ * Programmatic nav (Add game, tab click) must supersede an in-flight swipe commit —
+ * otherwise the track stays mid-slide while the header already switched.
+ */
+export function pagerIndexApplyPlan(
+  nextIndex: PagerIndex,
+  pendingCommit: PagerIndex | null,
+  previousIndex: PagerIndex,
+): { clearPending: boolean; apply: boolean; withTransition: boolean } {
+  if (pendingCommit === nextIndex) {
+    return { clearPending: true, apply: true, withTransition: true };
+  }
+  if (pendingCommit !== null) {
+    return { clearPending: true, apply: true, withTransition: true };
+  }
+  if (previousIndex !== nextIndex) {
+    return { clearPending: false, apply: true, withTransition: true };
+  }
+  return { clearPending: false, apply: true, withTransition: false };
+}
+
 export interface UseSwipePagerOptions {
   targetRef: RefObject<HTMLElement | null>;
   trackRef: RefObject<HTMLElement | null>;
   index: PagerIndex;
   enabled?: boolean;
+  /** When this changes (e.g. overlay open), snap the track even if index is unchanged. */
+  settleKey?: string;
   isBlocked?: () => boolean;
   onCommit: (next: PagerIndex) => void;
   onProgress?: (progress: number) => void;
@@ -114,6 +138,7 @@ export function useSwipePager({
   trackRef,
   index,
   enabled = true,
+  settleKey,
   isBlocked,
   onCommit,
   onProgress,
@@ -124,7 +149,9 @@ export function useSwipePager({
   const onProgressRef = useRef(onProgress);
   const onDraggingChangeRef = useRef(onDraggingChange);
   const isBlockedRef = useRef(isBlocked);
+  const enabledRef = useRef(enabled);
   const indexRef = useRef(index);
+  const settleKeyRef = useRef(settleKey);
   const dragOffsetRef = useRef(0);
   const widthRef = useRef(0);
   const pendingCommitRef = useRef<PagerIndex | null>(null);
@@ -145,11 +172,20 @@ export function useSwipePager({
     isBlockedRef.current = isBlocked;
   }, [isBlocked]);
 
+  useEffect(() => {
+    enabledRef.current = enabled;
+  }, [enabled]);
+
   const applyVisual = (progress: number, withTransition: boolean) => {
     const track = trackRef.current;
     if (track) {
-      track.style.transition = withTransition ? PAGER_TRANSITION : "none";
-      track.style.transform = pagerTrackTranslateFromProgress(progress);
+      if (!enabledRef.current) {
+        track.style.transition = "none";
+        track.style.transform = "";
+      } else {
+        track.style.transition = withTransition ? PAGER_TRANSITION : "none";
+        track.style.transform = pagerTrackTranslateFromProgress(progress);
+      }
     }
     onProgressRef.current?.(progress);
   };
@@ -180,29 +216,34 @@ export function useSwipePager({
   }, [targetRef, trackRef]);
 
   useLayoutEffect(() => {
+    enabledRef.current = enabled;
     const previous = indexRef.current;
+    const previousSettleKey = settleKeyRef.current;
     indexRef.current = index;
+    settleKeyRef.current = settleKey;
 
-    if (pendingCommitRef.current === index) {
+    if (!enabled) {
       pendingCommitRef.current = null;
       dragOffsetRef.current = 0;
-      applyVisual(index, true);
+      setDraggingState(false);
+      applyVisual(index, false);
       return;
     }
 
-    if (pendingCommitRef.current !== null) {
-      return;
-    }
-
-    if (previous !== index) {
+    if (settleKey !== undefined && previousSettleKey !== settleKey) {
+      pendingCommitRef.current = null;
       dragOffsetRef.current = 0;
-      applyVisual(index, true);
+      setDraggingState(false);
+      applyVisual(index, false);
       return;
     }
 
+    const plan = pagerIndexApplyPlan(index, pendingCommitRef.current, previous);
+    if (plan.clearPending) pendingCommitRef.current = null;
+    if (!plan.apply) return;
     dragOffsetRef.current = 0;
-    applyVisual(index, false);
-  }, [index]);
+    applyVisual(index, plan.withTransition);
+  }, [index, settleKey, enabled]);
 
   useEffect(() => {
     const target = targetRef.current;
