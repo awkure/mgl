@@ -44,7 +44,9 @@ Related but **not** in the Out list from A — schedule only if requested as sep
 
 ### Spec B — Steam achievements
 
-**Goal:** Pull achievement progress for catalog games with `steamAppId`; surface progress in UI; optionally suggest platinum/completed at 100%.
+**Status:** design drafted — `2026-07-22-steam-achievements-design.md`; plan — `../plans/2026-07-22-steam-achievements.md` (awaiting execution)
+
+**Goal:** Pull achievement progress for catalog games with `steamAppId`; surface progress in UI; auto-`platinum` at 100% when soft.
 
 **In (draft):**
 
