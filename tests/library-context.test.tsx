@@ -107,6 +107,7 @@ function Probe() {
       try { library.moveGame(GAME_ID, "s", 0); }
       catch (error) { (document.querySelector("[data-testid='mutation-error']") as HTMLElement).textContent = error instanceof Error ? error.message : String(error); }
     }} type="button">Изменить</button>
+    <button onClick={() => { void library.refreshFromPublished(); }} type="button">Обновить</button>
     <span data-testid="mutation-error" />
   </div>;
 }
@@ -195,7 +196,7 @@ function NoteGroupProbe() {
         coverAssetId: current.coverAssetId,
         steamAppId: null,
         importedVia: "manually",
-      pendingCover: null,
+        pendingCover: null,
         platforms: current.platforms,
         tags: current.tags,
         status: current.status,
@@ -269,6 +270,26 @@ afterEach(() => {
 });
 
 describe("LibraryProvider patch reload and reconciliation", () => {
+  it("soft-refreshes published library without boot loading", async () => {
+    const first = empty();
+    first.games[GAME_ID] = game("First title");
+    const firstBase = withComputedRevision(first);
+    mockStaticDatabase(firstBase);
+
+    render(<LibraryProvider><Probe /></LibraryProvider>);
+    await waitFor(() => expect(screen.getByTestId("loading")).toHaveTextContent("false"));
+    expect(screen.getByTestId("title")).toHaveTextContent("First title");
+
+    const second = empty();
+    second.games[GAME_ID] = game("Second title");
+    const secondBase = withComputedRevision(second);
+    mockStaticDatabase(secondBase);
+
+    fireEvent.click(screen.getByRole("button", { name: "Обновить" }));
+    await waitFor(() => expect(screen.getByTestId("title")).toHaveTextContent("Second title"));
+    expect(screen.getByTestId("loading")).toHaveTextContent("false");
+  });
+
   it("persists a note group move as a sparse field operation", async () => {
     const draftBase = empty();
     draftBase.games[GAME_ID] = game("Grouped game");

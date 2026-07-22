@@ -218,7 +218,8 @@ h4 {
 }
 
 .pull-to-refresh__content {
-  will-change: transform;
+  transform-origin: center top;
+  will-change: transform, opacity;
 }
 
 .pull-to-refresh__spinner {

@@ -23,6 +23,7 @@ import { GameCard } from "../components/GameCard";
 import { Icon } from "../components/Icon";
 import { PullToRefresh } from "../components/PullToRefresh";
 import { sortGamesByPlacement, TIER_DESCRIPTIONS, TIER_LABELS } from "../components/libraryUi";
+import { useLibrary } from "../state/LibraryContext";
 
 export type TierGameIds = Record<TierId, string[]>;
 
@@ -242,6 +243,7 @@ function TierRow({
 const MemoTierRow = memo(TierRow);
 
 export function TierListPage({ games, assets, onMoveGame, onOpenGame, resolveAssetUrl, draggingRef }: TierListPageProps) {
+  const { refreshFromPublished } = useLibrary();
   const [activeId, setActiveId] = useState<string | null>(null);
   const [dragItems, setDragItems] = useState<TierGameIds | null>(null);
   const dragItemsRef = useRef<TierGameIds | null>(null);
@@ -331,7 +333,7 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, resolveAss
           onDragStart={onDragStart}
           sensors={sensors}
         >
-          <PullToRefresh className="tier-board" scrollSelf>
+          <PullToRefresh className="tier-board" onRefresh={refreshFromPublished} scrollSelf>
             {TIER_IDS.map((tierId) => <MemoTierRow assets={assets} games={byTier[tierId]} key={tierId} onOpenGame={openGame} resolveAssetUrl={resolveAssetUrl} tierId={tierId} />)}
           </PullToRefresh>
           <DragOverlay>{activeGame ? <GameCard asset={activeGame.coverAssetId ? assets[activeGame.coverAssetId] : undefined} game={activeGame} isDragging onOpen={openGame} resolveAssetUrl={resolveAssetUrl} /> : null}</DragOverlay>

@@ -2,9 +2,10 @@ import { useEffect, useRef, useState, type RefObject } from "react";
 
 export const PTR_ARM_PX = 8;
 export const PTR_THRESHOLD_PX = 60;
-export const PTR_MAX_OFFSET_PX = 80;
-export const PTR_DAMP = 0.45;
+export const PTR_MAX_OFFSET_PX = 100;
 export const PTR_SCROLL_TOP_EPSILON = 1;
+/** Max vertical scale applied at full pull (transform-origin: top). */
+export const PTR_MAX_STRETCH = 0.045;
 
 export type PullPhase = "idle" | "tracking" | "pulling" | "refreshing";
 
@@ -20,9 +21,15 @@ export function isHorizontalGesture(dx: number, dy: number, armPx = PTR_ARM_PX):
   return Math.abs(dx) > armPx && Math.abs(dx) >= dy;
 }
 
-export function dampPull(dy: number, max = PTR_MAX_OFFSET_PX, damp = PTR_DAMP): number {
+/** Rubber-band map: √ resistance, capped. ~144px finger → threshold. */
+export function dampPull(dy: number, max = PTR_MAX_OFFSET_PX): number {
   if (dy <= 0) return 0;
-  return Math.min(max, dy * damp);
+  return Math.min(max, Math.sqrt(dy) * 5);
+}
+
+export function contentStretch(offset: number, max = PTR_MAX_OFFSET_PX, amount = PTR_MAX_STRETCH): number {
+  if (max <= 0 || offset <= 0) return 1;
+  return 1 + (Math.min(offset, max) / max) * amount;
 }
 
 export function shouldRefresh(offset: number, threshold = PTR_THRESHOLD_PX): boolean {
@@ -40,13 +47,15 @@ export interface UsePullToRefreshOptions {
   /** Scroll root; omit / null → window (`scrollY`). */
   scrollRef?: RefObject<HTMLElement | null>;
   enabled?: boolean;
-  onRefresh?: () => void;
+  /** Soft refresh preferred; may return a Promise. Default: hard reload. */
+  onRefresh?: () => void | Promise<void>;
 }
 
 export interface UsePullToRefreshResult {
   offset: number;
   phase: PullPhase;
   progress: number;
+  stretch: number;
 }
 
 export function usePullToRefresh({
@@ -150,7 +159,12 @@ export function usePullToRefresh({
           const refresh = onRefreshRef.current ?? (() => {
             window.location.reload();
           });
-          refresh();
+          void Promise.resolve()
+            .then(() => refresh())
+            .catch(() => undefined)
+            .finally(() => {
+              if (phaseRef.current === "refreshing") reset(true);
+            });
           return;
         }
         reset(true);
@@ -176,5 +190,6 @@ export function usePullToRefresh({
     offset,
     phase,
     progress: pullProgress(offset),
+    stretch: contentStretch(offset),
   };
 }

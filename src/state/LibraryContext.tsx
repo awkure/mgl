@@ -260,6 +260,8 @@ export interface LibraryContextValue extends LibraryState {
   deleteAllLocalAssets: () => Promise<void>;
   verifyGitHubAccess: (token: string) => Promise<void>;
   syncToGitHub: (token: string, onStage?: (stage: GitHubSyncStage) => void) => Promise<LibraryGitHubSyncResult>;
+  /** Soft refetch of published library.json; keeps UI mounted (no boot spinner). */
+  refreshFromPublished: () => Promise<void>;
 }
 
 const LibraryContext = createContext<LibraryContextValue | null>(null);
@@ -282,6 +284,7 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
   const localAssetsRef = useRef<LocalAsset[]>([]);
   const persistRequestedRef = useRef(false);
   const syncInFlightRef = useRef(false);
+  const refreshInFlightRef = useRef(false);
 
   const setLibraryState = useCallback((next: LibraryState) => {
     stateRef.current = next;
@@ -1038,6 +1041,59 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
     await refreshLocalAssets();
     await refreshQuota();
   }, [mutate, refreshLocalAssets, refreshQuota]);
+
+  const refreshFromPublished = useCallback(async () => {
+    const current = stateRef.current;
+    if (!current) throw new Error("Библиотека ещё загружается");
+    if (refreshInFlightRef.current) return;
+    refreshInFlightRef.current = true;
+    try {
+      const dataUrl = new URL(`${import.meta.env.BASE_URL}data/library.json`, document.baseURI);
+      dataUrl.searchParams.set("_", String(Date.now()));
+      const response = await fetch(dataUrl, { cache: "no-store" });
+      if (!response.ok) throw new Error(`Не удалось обновить библиотеку: HTTP ${response.status}`);
+      const parsed: unknown = await response.json();
+      assertValidLibrary(parsed);
+      const deployedBase = structuredClone(parsed);
+      const computedRevision = computeLibraryRevision(deployedBase);
+      if (deployedBase.revision && deployedBase.revision !== computedRevision) {
+        throw new Error("Revision опубликованной базы не совпадает с её содержимым");
+      }
+      deployedBase.revision = computedRevision;
+
+      let base = deployedBase;
+      let pendingPublication = current.pendingPublication;
+
+      if (pendingPublication) {
+        const sameTarget = pendingPublication.owner === GITHUB_REPOSITORY_OWNER
+          && pendingPublication.repo === GITHUB_REPOSITORY_NAME
+          && pendingPublication.branch === "main";
+        if (sameTarget && samePublishedVersion(deployedBase, pendingPublication.database)) {
+          const receipt = pendingPublication;
+          try {
+            await verifyAndDeletePublishedLocalAssets(pendingPublicationAssetIds(receipt), deployedBase);
+            clearPendingPublication(localStorage);
+            pendingPublication = null;
+            base = deployedBase;
+          } catch (reason) {
+            base = structuredClone(receipt.database);
+            setPersistenceError(`Публикация не подтверждена, локальные файлы сохранены. ${reason instanceof Error ? reason.message : ""}`.trim());
+          }
+        } else if (sameTarget) {
+          base = structuredClone(pendingPublication.database);
+        }
+      }
+
+      const reconciled = garbageCollectReconciledAssets(base, reconcilePatch(base, current.patch));
+      assertValidLibrary(reconciled.effective);
+      installReconciled(base, reconciled, false, pendingPublication);
+      await refreshLocalAssets();
+      await refreshQuota();
+    } finally {
+      refreshInFlightRef.current = false;
+    }
+  }, [installReconciled, refreshLocalAssets, refreshQuota]);
+
   const localAssetBytes = localAssets.reduce((total, asset) => total + asset.byteLength, 0);
   const value = useMemo<LibraryContextValue>(() => ({
     ...resolvedState,
@@ -1069,7 +1125,8 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
     deleteAllLocalAssets,
     verifyGitHubAccess,
     syncToGitHub,
-  }), [resolvedState, loading, fatalError, persistenceError, corruptedPatchRaw, usage, storageEstimate, quotaStatus, persistentStorage, attachmentWriteBlocked, localAssets, localAssetBytes, canAddBlob, resolveAssetUrl, saveGame, deleteGame, moveGame, discardPath, discardPaths, clearPatch, resolvePatchConflict, importPatch, undoLast, downloadCorruptedPatch, exportRecoveryArchive, deleteAllLocalAssets, verifyGitHubAccess, syncToGitHub]);
+    refreshFromPublished,
+  }), [resolvedState, loading, fatalError, persistenceError, corruptedPatchRaw, usage, storageEstimate, quotaStatus, persistentStorage, attachmentWriteBlocked, localAssets, localAssetBytes, canAddBlob, resolveAssetUrl, saveGame, deleteGame, moveGame, discardPath, discardPaths, clearPatch, resolvePatchConflict, importPatch, undoLast, downloadCorruptedPatch, exportRecoveryArchive, deleteAllLocalAssets, verifyGitHubAccess, syncToGitHub, refreshFromPublished]);
 
   return <LibraryContext.Provider value={value}>{children}</LibraryContext.Provider>;
 }

@@ -9,7 +9,8 @@ describe("pull-to-refresh css", () => {
   it("defines indicator, content transform host, and spinning spinner", () => {
     expect(declarationsIn(styles, ".pull-to-refresh")).toContain("position: relative");
     expect(declarationsIn(styles, ".pull-to-refresh__indicator")).toContain("height: var(--ptr-offset)");
-    expect(declarationsIn(styles, ".pull-to-refresh__content")).toContain("will-change: transform");
+    expect(declarationsIn(styles, ".pull-to-refresh__content")).toContain("will-change: transform, opacity");
+    expect(declarationsIn(styles, ".pull-to-refresh__content")).toContain("transform-origin: center top");
     expect(declarationsIn(styles, ".pull-to-refresh__spinner")).toContain("border-radius: 50%");
     expect(declarationsIn(styles, ".pull-to-refresh__spinner.is-spinning")).toContain("animation: boot-spin");
   });

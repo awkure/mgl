@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
 import {
+  contentStretch,
   dampPull,
   isAtScrollTop,
   isHorizontalGesture,
   PTR_ARM_PX,
   PTR_MAX_OFFSET_PX,
+  PTR_MAX_STRETCH,
   PTR_THRESHOLD_PX,
   pullProgress,
   shouldArmPull,
@@ -31,11 +33,19 @@ describe("pull-to-refresh helpers", () => {
     expect(isHorizontalGesture(4, 4)).toBe(false);
   });
 
-  it("damps and caps pull offset", () => {
+  it("damps with rubber-band curve and caps pull offset", () => {
     expect(dampPull(-10)).toBe(0);
     expect(dampPull(0)).toBe(0);
     expect(dampPull(40)).toBeLessThan(40);
+    expect(dampPull(100)).toBeLessThan(dampPull(40) * (100 / 40));
     expect(dampPull(10_000)).toBe(PTR_MAX_OFFSET_PX);
+    expect(dampPull(144)).toBeCloseTo(PTR_THRESHOLD_PX, 0);
+  });
+
+  it("stretches content scale with pull offset", () => {
+    expect(contentStretch(0)).toBe(1);
+    expect(contentStretch(PTR_MAX_OFFSET_PX)).toBeCloseTo(1 + PTR_MAX_STRETCH);
+    expect(contentStretch(PTR_MAX_OFFSET_PX / 2)).toBeCloseTo(1 + PTR_MAX_STRETCH / 2);
   });
 
   it("triggers refresh at threshold", () => {

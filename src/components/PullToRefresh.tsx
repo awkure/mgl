@@ -18,7 +18,7 @@ export function PullToRefresh({
   onRefresh,
 }: PullToRefreshProps) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const { offset, phase, progress } = usePullToRefresh({
+  const { offset, phase, progress, stretch } = usePullToRefresh({
     targetRef: rootRef,
     scrollRef: scrollSelf ? rootRef : undefined,
     enabled,
@@ -30,11 +30,15 @@ export function PullToRefresh({
   const style = {
     "--ptr-offset": `${offset}px`,
   } as CSSProperties;
+  const springing = phase === "idle" || phase === "refreshing";
   const contentStyle: CSSProperties = {
-    transform: offset ? `translateY(${offset}px)` : undefined,
-    transition: phase === "pulling" || phase === "tracking" || phase === "refreshing"
+    transform: offset || stretch !== 1
+      ? `translateY(${offset}px) scaleY(${stretch})`
+      : undefined,
+    transition: phase === "pulling" || phase === "tracking"
       ? undefined
-      : "transform 180ms ease-out",
+      : "transform 320ms cubic-bezier(.22, 1, .36, 1), opacity 200ms ease",
+    opacity: phase === "refreshing" ? 0.92 : undefined,
   };
 
   return (
@@ -42,6 +46,7 @@ export function PullToRefresh({
       aria-busy={phase === "refreshing" || undefined}
       className={rootClass}
       data-phase={phase}
+      data-springing={springing || undefined}
       ref={rootRef}
       style={style}
     >
