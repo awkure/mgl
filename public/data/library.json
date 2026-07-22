@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": "795fdcc239a2d39efeec38889e47ff393ecb0766a3721df4a9b81a0de144a4df",
-  "publicationId": "dadff935-5dd5-440c-acd8-7bb6f333322a",
+  "revision": "03ecc5d6b8ecac8e7050d20e754db7f9e6483e0dd83ec0aacb46b082081ce365",
+  "publicationId": "3136f354-d17e-4587-bc62-f505baa182ca",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
       "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
@@ -13,7 +13,9 @@
       "lastPlayedAt": "2025-12-28T11:25:52.000Z",
       "achievementsUnlocked": null,
       "achievementsTotal": null,
-      "steamOverrides": {},
+      "steamOverrides": {
+        "status": true
+      },
       "platforms": [
         "Steam"
       ],
@@ -21,14 +23,14 @@
         "Экшены",
         "Приключенческие игры"
       ],
-      "status": "platinum",
+      "status": "completed",
       "placement": {
         "tierId": "s",
         "rank": 1024
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T18:39:52.049Z",
-      "updatedAt": "2026-07-22T17:01:30.086Z"
+      "updatedAt": "2026-07-22T15:49:47.335Z"
     },
     "8a83f21a-889c-4089-ad1c-cc2f515f5b02": {
       "id": "8a83f21a-889c-4089-ad1c-cc2f515f5b02",
@@ -551,7 +553,7 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T17:01:30.086Z"
+      "updatedAt": "2026-07-22T15:51:04.902Z"
     },
     "0a6d00b8-58cd-41a2-a316-55cf2fc04dc3": {
       "id": "0a6d00b8-58cd-41a2-a316-55cf2fc04dc3",
@@ -10651,11 +10653,11 @@
       "status": "played",
       "placement": {
         "tierId": "unranked",
-        "rank": 474112
+        "rank": 458240
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T15:31:54.445Z"
+      "updatedAt": "2026-07-22T15:01:28.766Z"
     },
     "ca029216-df21-4964-8573-e442fbf782fa": {
       "id": "ca029216-df21-4964-8573-e442fbf782fa",
@@ -13709,9 +13711,10 @@
           "alt": ""
         }
       ],
-      "rank": 1024,
+      "rank": 2048,
       "createdAt": "2026-07-22T15:31:54.445Z",
-      "updatedAt": "2026-07-22T15:31:54.445Z"
+      "updatedAt": "2026-07-22T15:51:04.902Z",
+      "groupRank": 2048
     },
     "6e8018b0-7e81-447b-b68d-7097c133eed4": {
       "id": "6e8018b0-7e81-447b-b68d-7097c133eed4",
@@ -18028,6 +18031,16 @@
       "rank": 1024,
       "createdAt": "2026-07-22T15:31:54.445Z",
       "updatedAt": "2026-07-22T15:31:54.445Z"
+    },
+    "357c50df-c6bc-4afe-a6b9-ea52a9145cd5": {
+      "id": "357c50df-c6bc-4afe-a6b9-ea52a9145cd5",
+      "gameId": "09b5cc74-63bf-456f-99ab-97097703f8d6",
+      "bodyMarkdown": "Лучший рогалик вообще",
+      "attachments": [],
+      "groupRank": 2048,
+      "rank": 1024,
+      "createdAt": "2026-07-22T15:50:57.240Z",
+      "updatedAt": "2026-07-22T15:50:57.272Z"
     }
   },
   "assets": {
