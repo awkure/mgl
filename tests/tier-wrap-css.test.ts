@@ -26,7 +26,8 @@ describe("tier list wrapping layout", () => {
     expect(card).toContain("height: var(--tier-card-size)");
     expect(card).toContain("align-self: flex-start");
     expect(page).toContain("--tier-card-size: max(44px");
-    expect(page).toContain("100dvh - var(--app-header-height) - var(--app-search-bar-height)");
+    expect(page).toContain("100dvh - var(--app-header-height)");
+    expect(page).not.toContain("--app-search-bar-height");
     expect(page).not.toContain("var(--app-tab-bar-height)");
     expect(page).not.toContain("6vw");
     expect(page).not.toContain("84px");

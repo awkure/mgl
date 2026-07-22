@@ -82,23 +82,24 @@ describe("mobile nav css", () => {
       styles,
       ".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page)",
     );
-    expect(scrollSurfaces).toContain("padding-top: calc(var(--app-header-height) + var(--app-search-bar-height))");
+    expect(scrollSurfaces).toContain("padding-top: var(--app-header-height)");
+    expect(scrollSurfaces).not.toContain("--app-search-bar-height");
   });
 
-  it("defines a fixed under-header search bar for mobile tiers/catalog", () => {
-    expect(styles).toContain("--app-search-bar-height: 0px");
-    const withBar = declarationsIn(styles, '.app-shell[data-search-bar="true"]');
-    expect(withBar).toMatch(/--app-search-bar-height:\s*(?!0px)/);
-    const searchBar = declarationsIn(styles, ".app-search-bar");
-    expect(searchBar).toContain("position: fixed");
-    expect(searchBar).toContain("top: var(--app-header-height)");
-    expect(searchBar).toContain("isolation: isolate");
-    expect(styles).toContain(".app-search-bar::before");
-    const barSearch = declarationsIn(styles, ".global-game-search--bar");
-    expect(barSearch).toContain("max-width: none");
-    expect(styles).toMatch(/\.global-game-search--bar\.is-open[^{]*\{[^}]*position:\s*relative/);
-    expect(styles).toMatch(/\.global-game-search--bar\s+\.global-game-search__popover[^{]*\{[^}]*position:\s*absolute/);
-    expect(styles).toMatch(/\.global-game-search--bar\s+\.global-game-search__popover[^{]*\{[^}]*top:\s*100%/);
+  it("defines header screen filter bar expand layout without sticky search bar", () => {
+    expect(styles).not.toMatch(/\.app-search-bar\s*\{/);
+    expect(styles).not.toContain('.app-shell[data-search-bar="true"]');
+    expect(styles).not.toContain("--app-search-bar-height");
+    const bar = declarationsIn(styles, ".screen-filter-bar");
+    expect(bar).toContain("position: relative");
+    expect(bar).toContain("max-width: min(180px, 42vw)");
+    expect(bar).toContain("transition: max-width 220ms ease-out");
+    const expanded = declarationsIn(styles, ".screen-filter-bar.is-expanded");
+    expect(expanded).toContain("max-width: min(420px, 100%)");
+    expect(expanded).toContain("flex: 1 1 100%");
+    const sheet = declarationsIn(styles, ".screen-filter-bar__sheet");
+    expect(sheet).toContain("top: calc(100% + 6px)");
+    expect(sheet).toContain("animation: screen-filter-sheet-in 180ms ease-out");
   });
 
   it("uses liquid glass tokens on the fixed header without trapping fixed descendants", () => {
@@ -113,12 +114,10 @@ describe("mobile nav css", () => {
     expect(glass).toContain("pointer-events: none");
   });
 
-  it("keeps filter menus outside the bar popover scroll clip", () => {
-    const barPopover = declarationsIn(styles, ".global-game-search--bar .global-game-search__popover");
-    expect(barPopover).toContain("overflow: visible");
-    expect(barPopover).not.toContain("overflow: auto");
-    const results = declarationsIn(styles, ".global-game-search--bar .global-game-search__results");
-    expect(results).toContain("overflow-y: auto");
+  it("keeps filter menus outside the screen filter sheet scroll clip", () => {
+    const sheet = declarationsIn(styles, ".screen-filter-bar__sheet");
+    expect(sheet).toContain("overflow: visible");
+    expect(sheet).not.toContain("overflow: auto");
     expect(styles).toMatch(/\.filter-menu__panel\s*\{[^}]*z-index:\s*90;/);
   });
 

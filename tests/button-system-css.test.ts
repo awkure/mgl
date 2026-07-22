@@ -59,6 +59,9 @@ describe("button system css", () => {
       new RegExp(`${COARSE_MEDIA}[\\s\\S]*?\\.global-game-search__filter-button`),
     );
     expect(styles).toMatch(
+      new RegExp(`${COARSE_MEDIA}[\\s\\S]*?\\.screen-filter-bar__field \\{[^}]*min-height:\\s*var\\(--touch-target\\);`),
+    );
+    expect(styles).toMatch(
       new RegExp(`${COARSE_MEDIA}[\\s\\S]*?\\.catalog-active-filters__chips button,\\s*\\.catalog-active-filters__reset \\{[^}]*min-width:\\s*0;[^}]*min-height:\\s*var\\(--touch-target\\);`),
     );
   });
