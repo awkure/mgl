@@ -7,6 +7,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DiffDialog } from "../src/components/DiffDialog";
 import { AppShell } from "../src/components/AppShell";
 import { ScreenFilterBar } from "../src/components/ScreenFilterBar";
+import { ScreenFiltersProvider } from "../src/components/screenFilters";
 import { optimizeNoteImage } from "../src/domain/assets";
 import type { Asset, Game, Note } from "../src/domain/types";
 import { CatalogPage } from "../src/pages/CatalogPage";
@@ -31,6 +32,7 @@ import {
   TIER_LIST_SORTING_STRATEGY,
   TIER_LIST_SENSOR_TYPES,
   TierListPage,
+  type TierListPageProps,
 } from "../src/pages/TierListPage";
 
 vi.mock("../src/domain/assets", async () => {
@@ -1574,15 +1576,23 @@ describe("DiffDialog", () => {
 });
 
 describe("TierListPage", () => {
+  function renderTierListPage(props: TierListPageProps) {
+    return render(
+      <ScreenFiltersProvider>
+        <TierListPage {...props} />
+      </ScreenFiltersProvider>,
+    );
+  }
+
   it("gives every minimal tier row an accessible name", () => {
-    render(<TierListPage assets={{}} games={[makeGame()]} onMoveGame={vi.fn()} />);
+    renderTierListPage({ assets: {}, games: [makeGame()], onMoveGame: vi.fn() });
 
     expect(screen.getByRole("region", { name: "S" })).toBeInTheDocument();
     expect(screen.getByRole("region", { name: "Без оценки" })).toBeInTheDocument();
   });
 
   it("uses the whole cover-only tile as the drag activator", () => {
-    render(<TierListPage assets={{}} games={[makeGame()]} onMoveGame={vi.fn()} />);
+    renderTierListPage({ assets: {}, games: [makeGame()], onMoveGame: vi.fn() });
 
     const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
     const card = cover.closest("article");
@@ -1605,7 +1615,7 @@ describe("TierListPage", () => {
   });
 
   it("marks platinum cover-only cards with a platinum ribbon and an accessible status", () => {
-    render(<TierListPage assets={{}} games={[makeGame({ status: "platinum" })]} onMoveGame={vi.fn()} />);
+    renderTierListPage({ assets: {}, games: [makeGame({ status: "platinum" })], onMoveGame: vi.fn() });
 
     const cover = screen.getByRole("link", { name: /DuckTales, статус: Платина.*пробел — перетащить/ });
     const card = cover.closest("article");
@@ -1617,7 +1627,7 @@ describe("TierListPage", () => {
   });
 
   it("leaves completed cover-only cards without the platinum ribbon", () => {
-    render(<TierListPage assets={{}} games={[makeGame({ status: "completed" })]} onMoveGame={vi.fn()} />);
+    renderTierListPage({ assets: {}, games: [makeGame({ status: "completed" })], onMoveGame: vi.fn() });
 
     const cover = screen.getByRole("link", { name: /DuckTales, статус: Пройдено.*пробел — перетащить/ });
     expect(cover).not.toHaveClass("cover--platinum");
@@ -1626,7 +1636,7 @@ describe("TierListPage", () => {
   it("opens a game on a regular cover click", async () => {
     const user = userEvent.setup();
     const onOpenGame = vi.fn();
-    render(<TierListPage assets={{}} games={[makeGame()]} onMoveGame={vi.fn()} onOpenGame={onOpenGame} />);
+    renderTierListPage({ assets: {}, games: [makeGame()], onMoveGame: vi.fn(), onOpenGame });
 
     await user.click(screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ }));
 
@@ -1648,7 +1658,7 @@ describe("TierListPage", () => {
     }));
     vi.stubGlobal("matchMedia", matchMedia);
 
-    render(<TierListPage assets={{}} games={[makeGame()]} onMoveGame={vi.fn()} onOpenGame={onOpenGame} />);
+    renderTierListPage({ assets: {}, games: [makeGame()], onMoveGame: vi.fn(), onOpenGame });
     const toggle = screen.getByRole("button", { name: "Режим перетаскивания" });
     expect(toggle).toHaveAttribute("aria-pressed", "false");
 
@@ -1662,7 +1672,7 @@ describe("TierListPage", () => {
   it("opens on Enter while reserving Space for keyboard dragging", async () => {
     const user = userEvent.setup();
     const onOpenGame = vi.fn();
-    render(<TierListPage assets={{}} games={[makeGame()]} onMoveGame={vi.fn()} onOpenGame={onOpenGame} />);
+    renderTierListPage({ assets: {}, games: [makeGame()], onMoveGame: vi.fn(), onOpenGame });
     const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
 
     cover.focus();
@@ -1775,7 +1785,7 @@ describe("TierListPage", () => {
       return domRect(0, 0, 1024, 768);
     });
 
-    render(<TierListPage assets={{}} games={games} onMoveGame={onMoveGame} />);
+    renderTierListPage({ assets: {}, games, onMoveGame });
     const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
     const marioCover = screen.getByRole("link", { name: /Mario, статус: Играю.*пробел — перетащить/ });
 
@@ -1816,7 +1826,7 @@ describe("TierListPage", () => {
       return domRect(0, 0, 1024, 768);
     });
 
-    render(<TierListPage assets={{}} games={games} onMoveGame={onMoveGame} />);
+    renderTierListPage({ assets: {}, games, onMoveGame });
     const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
     const card = cover.closest("article");
     cover.focus();
@@ -1850,7 +1860,7 @@ describe("TierListPage", () => {
       return domRect(0, 0, 1024, 768);
     });
 
-    render(<TierListPage assets={{}} games={games} onMoveGame={onMoveGame} onOpenGame={onOpenGame} />);
+    renderTierListPage({ assets: {}, games, onMoveGame, onOpenGame });
     const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
     const card = cover.closest("article");
     expect(card).not.toBeNull();
@@ -1887,7 +1897,7 @@ describe("TierListPage", () => {
       return domRect(0, 0, 1024, 768);
     });
 
-    render(<TierListPage assets={{}} games={games} onMoveGame={onMoveGame} onOpenGame={onOpenGame} />);
+    renderTierListPage({ assets: {}, games, onMoveGame, onOpenGame });
     const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
     const card = cover.closest("article");
     const marioCover = screen.getByRole("link", { name: /Mario, статус: Играю.*пробел — перетащить/ });
@@ -1922,7 +1932,7 @@ describe("TierListPage", () => {
       return domRect(0, 0, 1024, 768);
     });
 
-    render(<TierListPage assets={{}} games={games} onMoveGame={onMoveGame} onOpenGame={onOpenGame} />);
+    renderTierListPage({ assets: {}, games, onMoveGame, onOpenGame });
     const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
     const card = cover.closest("article");
 
@@ -1956,7 +1966,7 @@ describe("TierListPage", () => {
       return domRect(0, 0, 1024, 768);
     });
 
-    render(<TierListPage assets={{}} games={games} onMoveGame={onMoveGame} onOpenGame={onOpenGame} />);
+    renderTierListPage({ assets: {}, games, onMoveGame, onOpenGame });
     const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
     const card = cover.closest("article");
 
@@ -1986,7 +1996,7 @@ describe("TierListPage", () => {
       return domRect(0, 0, 1024, 768);
     });
 
-    render(<TierListPage assets={{}} games={games} onMoveGame={onMoveGame} />);
+    renderTierListPage({ assets: {}, games, onMoveGame });
     const cover = screen.getByRole("link", { name: /DuckTales, статус: Играю.*пробел — перетащить/ });
     const card = cover.closest("article");
     expect(card).not.toBeNull();

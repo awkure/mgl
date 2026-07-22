@@ -1,4 +1,6 @@
-import { memo, useMemo, useRef, useState, type AnchorHTMLAttributes, type CSSProperties, type HTMLAttributes, type MutableRefObject } from "react";
+import { memo, useDeferredValue, useMemo, useRef, useState, type AnchorHTMLAttributes, type CSSProperties, type HTMLAttributes, type MutableRefObject } from "react";
+import { gameMatchesFilters } from "../domain/catalogue";
+import { useTierFilters } from "../components/screenFilters";
 import {
   closestCenter,
   DndContext,
@@ -244,6 +246,19 @@ function TierRow({
 const MemoTierRow = memo(TierRow);
 
 export function TierListPage({ games, assets, onMoveGame, onOpenGame, onRefresh, resolveAssetUrl, draggingRef }: TierListPageProps) {
+  const { filters } = useTierFilters();
+  const deferred = useDeferredValue(filters);
+  const filtering = Boolean(deferred.q.trim() || deferred.statuses.length || deferred.tiers.length || deferred.platforms.length || deferred.tags.length);
+  const visibleGames = useMemo(
+    () => games.filter((game) => gameMatchesFilters(game, {
+      query: deferred.q,
+      statuses: deferred.statuses,
+      tiers: deferred.tiers,
+      platforms: deferred.platforms,
+      tags: deferred.tags,
+    })),
+    [deferred, games],
+  );
   const [activeId, setActiveId] = useState<string | null>(null);
   const [dragItems, setDragItems] = useState<TierGameIds | null>(null);
   const [dragMode, setDragMode] = useState(false);
@@ -255,9 +270,9 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, onRefresh,
     useSensor(TIER_LIST_SENSOR_TYPES.touch, TIER_LIST_SENSOR_OPTIONS.touch),
     useSensor(TIER_LIST_SENSOR_TYPES.keyboard, TIER_LIST_SENSOR_OPTIONS.keyboard),
   );
-  const baseItems = useMemo(() => buildTierGameIds(games), [games]);
+  const baseItems = useMemo(() => buildTierGameIds(visibleGames), [visibleGames]);
   const items = dragItems ?? baseItems;
-  const gameById = useMemo(() => Object.fromEntries(games.map((game) => [game.id, game])), [games]);
+  const gameById = useMemo(() => Object.fromEntries(visibleGames.map((game) => [game.id, game])), [visibleGames]);
   const byTier = useMemo(
     () => Object.fromEntries(
       TIER_IDS.map((tierId) => [tierId, items[tierId].map((gameId) => gameById[gameId]).filter((game): game is Game => Boolean(game))]),
@@ -312,7 +327,7 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, onRefresh,
     );
     if (!targetTier) return;
     const overGameId = over.data.current?.type === "game" ? String(over.data.current.gameId) : null;
-    const target = getTierDropTarget(games, gameId, targetTier, overGameId);
+    const target = getTierDropTarget(visibleGames, gameId, targetTier, overGameId);
     if (target) onMoveGame(gameId, target);
   };
   const openGame = onOpenGame && !dragMode ? (gameId: string) => {
@@ -337,7 +352,7 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, onRefresh,
         <div className="empty-state empty-state--hero"><span className="empty-state__icon"><Icon name="gamepad" /></span><h2>Здесь появится ваш тирлист</h2><p>Добавьте первую игру, а затем перемещайте карточки между тирами.</p><a className="button button--primary" href="#/games/new"><Icon name="plus" size={18} />Добавить первую игру</a></div>
       ) : (
         <DndContext
-          accessibility={{ announcements: { onDragStart: ({ active }) => `Вы взяли игру ${games.find((game) => `game:${game.id}` === active.id)?.title ?? ""}.`, onDragOver: ({ over }) => over ? "Выберите это место, чтобы переместить игру." : "Игра вне списка.", onDragEnd: ({ over }) => over ? "Игра перемещена." : "Перемещение отменено.", onDragCancel: () => "Перемещение отменено." } }}
+          accessibility={{ announcements: { onDragStart: ({ active }) => `Вы взяли игру ${visibleGames.find((game) => `game:${game.id}` === active.id)?.title ?? ""}.`, onDragOver: ({ over }) => over ? "Выберите это место, чтобы переместить игру." : "Игра вне списка.", onDragEnd: ({ over }) => over ? "Игра перемещена." : "Перемещение отменено.", onDragCancel: () => "Перемещение отменено." } }}
           autoScroll
           collisionDetection={tierListCollisionDetection}
           onDragCancel={finishDrag}
@@ -347,7 +362,10 @@ export function TierListPage({ games, assets, onMoveGame, onOpenGame, onRefresh,
           sensors={sensors}
         >
           <PullToRefresh className="tier-board" onRefresh={onRefresh} scrollSelf>
-            {TIER_IDS.map((tierId) => <MemoTierRow assets={assets} games={byTier[tierId]} key={tierId} onOpenGame={openGame} resolveAssetUrl={resolveAssetUrl} tierId={tierId} />)}
+            {TIER_IDS.map((tierId) => {
+              if (filtering && !byTier[tierId].length) return null;
+              return <MemoTierRow assets={assets} games={byTier[tierId]} key={tierId} onOpenGame={openGame} resolveAssetUrl={resolveAssetUrl} tierId={tierId} />;
+            })}
           </PullToRefresh>
           <DragOverlay>{activeGame ? <GameCard asset={activeGame.coverAssetId ? assets[activeGame.coverAssetId] : undefined} game={activeGame} isDragging onOpen={openGame} resolveAssetUrl={resolveAssetUrl} /> : null}</DragOverlay>
         </DndContext>
