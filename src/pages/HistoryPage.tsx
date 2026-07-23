@@ -67,6 +67,34 @@ export function formatHistoryDelta(event: HistoryEvent): string {
   return `${label}: ${before} → ${after}`;
 }
 
+function notePreviewText(value: unknown): string | null {
+  return typeof value === "string" && value.trim() ? value : null;
+}
+
+function HistoryDelta({ event }: { event: HistoryEvent }) {
+  if (event.op === "create" && event.entity === "note") {
+    const preview = notePreviewText(event.after);
+    return (
+      <>
+        <span className="history-timeline__delta-label">Заметка · добавлена</span>
+        {preview ? <span className="history-timeline__note-preview">{preview}</span> : null}
+      </>
+    );
+  }
+  if (event.op === "set" && event.entity === "note" && event.field === "bodyMarkdown") {
+    return (
+      <>
+        <span className="history-timeline__delta-label">Заметка · обновлён текст</span>
+        <span className="history-timeline__note-diff">
+          <span className="history-timeline__note-diff-old">{notePreviewText(event.before) ?? "—"}</span>
+          <span className="history-timeline__note-diff-new">{notePreviewText(event.after) ?? "—"}</span>
+        </span>
+      </>
+    );
+  }
+  return <>{formatHistoryDelta(event)}</>;
+}
+
 export interface HistoryPageProps {
   events?: HistoryEvent[];
   liveGameIds?: ReadonlySet<string>;
@@ -209,7 +237,7 @@ export function HistoryPage({
                   <ul className="history-timeline__deltas">
                     {cluster.events.map((ev) => (
                       <li className="history-timeline__delta" key={ev.id}>
-                        {formatHistoryDelta(ev)}
+                        <HistoryDelta event={ev} />
                       </li>
                     ))}
                   </ul>

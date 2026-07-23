@@ -116,4 +116,79 @@ describe("HistoryPage", () => {
     expect(img).toHaveAttribute("src", "/media/live-cover.webp");
     expect(view.container.querySelector(".history-timeline__cover--placeholder")).toBeNull();
   });
+
+  it("shows note create preview under label", () => {
+    render(
+      <HistoryPage
+        events={[
+          event({
+            id: "n-create",
+            gameId: "g1",
+            entity: "note",
+            entityId: "n1",
+            field: null,
+            op: "create",
+            before: null,
+            after: "Секретный маршрут",
+            title: "Hades",
+          }),
+        ]}
+        liveGameIds={new Set(["g1"])}
+      />,
+    );
+    expect(screen.getByText("Заметка · добавлена")).toBeInTheDocument();
+    expect(screen.getByText("Секретный маршрут")).toBeInTheDocument();
+    expect(document.querySelector(".history-timeline__note-preview")).not.toBeNull();
+  });
+
+  it("renders note body edit as two-column block diff", () => {
+    const view = render(
+      <HistoryPage
+        events={[
+          event({
+            id: "n-edit",
+            gameId: "g1",
+            entity: "note",
+            entityId: "n1",
+            field: "bodyMarkdown",
+            op: "set",
+            before: "старый текст",
+            after: "новый текст",
+            title: "Hades",
+          }),
+        ]}
+        liveGameIds={new Set(["g1"])}
+      />,
+    );
+    expect(screen.getByText("Заметка · обновлён текст")).toBeInTheDocument();
+    const oldEl = view.container.querySelector(".history-timeline__note-diff-old");
+    const newEl = view.container.querySelector(".history-timeline__note-diff-new");
+    expect(oldEl).toHaveTextContent("старый текст");
+    expect(newEl).toHaveTextContent("новый текст");
+  });
+
+  it("uses em dash placeholders when note edit sides are empty", () => {
+    const view = render(
+      <HistoryPage
+        events={[
+          event({
+            id: "n-edit-empty",
+            gameId: "g1",
+            entity: "note",
+            entityId: "n1",
+            field: "bodyMarkdown",
+            op: "set",
+            before: null,
+            after: null,
+            title: "Hades",
+          }),
+        ]}
+        liveGameIds={new Set(["g1"])}
+      />,
+    );
+    const oldEl = view.container.querySelector(".history-timeline__note-diff-old");
+    const newEl = view.container.querySelector(".history-timeline__note-diff-new");
+    expect(oldEl).toHaveTextContent("—");
+    expect(newEl).toHaveTextContent("—");
+  });
 });

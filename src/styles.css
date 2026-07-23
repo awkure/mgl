@@ -1947,6 +1947,34 @@ h4 {
   color: var(--muted);
   font-size: 11px;
   line-height: 1.35;
+  white-space: pre-line;
+}
+
+.history-timeline__delta-label {
+  display: block;
+}
+
+.history-timeline__note-preview {
+  display: block;
+  margin-top: 2px;
+}
+
+.history-timeline__note-diff {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.history-timeline__note-diff-old {
+  color: var(--danger);
+  text-decoration: line-through;
+  white-space: pre-line;
+}
+
+.history-timeline__note-diff-new {
+  color: var(--success);
+  white-space: pre-line;
 }
 
 .page {
