@@ -123,6 +123,29 @@ describe("diffLibraryToHistoryEvents", () => {
     });
   });
 
+  it("emits note create with body preview in after", () => {
+    const g1 = baseGame({ id: "g1" });
+    const n1 = baseNote({ id: "n1", gameId: "g1", bodyMarkdown: "## Route **A**" });
+    const before = emptyLibrary();
+    before.games.g1 = g1;
+    const after = emptyLibrary();
+    after.games.g1 = g1;
+    after.notes.n1 = n1;
+
+    const events = diffLibraryToHistoryEvents({ before, after });
+    const noteEvent = events.find((e) => e.entity === "note");
+    expect(noteEvent).toMatchObject({
+      op: "create",
+      entityId: "n1",
+      gameId: "g1",
+      field: null,
+      before: null,
+      after: "Route A",
+      title: "Hades",
+      coverAssetId: g1.coverAssetId,
+    });
+  });
+
   it("emits note body update under parent gameId", () => {
     const g1 = baseGame({ id: "g1" });
     const n1 = baseNote({ id: "n1", gameId: "g1", bodyMarkdown: "old", updatedAt: "2026-03-01T00:00:00.000Z" });
@@ -141,10 +164,28 @@ describe("diffLibraryToHistoryEvents", () => {
       gameId: "g1",
       field: "bodyMarkdown",
       op: "set",
-      before: null,
-      after: null,
+      before: "old",
+      after: "new",
       title: "Hades",
       coverAssetId: g1.coverAssetId,
+    });
+  });
+
+  it("still redacts reviewMarkdown bodies", () => {
+    const g1 = baseGame({ id: "g1", reviewMarkdown: "old review", updatedAt: "2026-03-01T00:00:00.000Z" });
+    const before = emptyLibrary();
+    before.games.g1 = g1;
+    const after = emptyLibrary();
+    after.games.g1 = { ...g1, reviewMarkdown: "new review", updatedAt: "2026-03-02T00:00:00.000Z" };
+
+    const events = diffLibraryToHistoryEvents({ before, after });
+    expect(events).toHaveLength(1);
+    expect(events[0]).toMatchObject({
+      entity: "game",
+      field: "reviewMarkdown",
+      op: "set",
+      before: null,
+      after: null,
     });
   });
 
@@ -165,6 +206,7 @@ describe("diffLibraryToHistoryEvents", () => {
       gameId: "g1",
       changedAt: g1.createdAt,
       field: null,
+      after: null,
     });
     expect(noteEvent).toMatchObject({
       op: "create",
@@ -172,6 +214,7 @@ describe("diffLibraryToHistoryEvents", () => {
       gameId: "g1",
       changedAt: n1.createdAt,
       field: null,
+      after: "note body",
     });
   });
 

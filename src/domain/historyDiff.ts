@@ -1,4 +1,5 @@
 import { canonicalHash, canonicalStringify } from "./canonical.ts";
+import { historyNotePreview } from "./historyNotePreview.ts";
 import { HISTORY_SCHEMA_VERSION, type HistoryEntity, type HistoryEvent, type HistoryFile } from "./historyTypes.ts";
 import type { Game, LibraryDatabase, Note, PatchEnvelope } from "./types.ts";
 
@@ -27,8 +28,6 @@ const TRACKED_GAME_FIELDS = [
 ] as const satisfies readonly (keyof Game)[];
 
 const TRACKED_NOTE_FIELDS = ["bodyMarkdown", "attachments", "groupRank", "rank"] as const satisfies readonly (keyof Note)[];
-
-const MARKDOWN_FIELDS = new Set<string>(["reviewMarkdown", "bodyMarkdown"]);
 
 function same(a: unknown, b: unknown): boolean {
   return canonicalStringify(a) === canonicalStringify(b);
@@ -102,7 +101,10 @@ function gameSnapshot(
 }
 
 function historyValue(field: string, value: unknown): unknown {
-  if (MARKDOWN_FIELDS.has(field)) return null;
+  if (field === "reviewMarkdown") return null;
+  if (field === "bodyMarkdown") {
+    return typeof value === "string" ? historyNotePreview(value) : null;
+  }
   return value;
 }
 
@@ -217,7 +219,7 @@ function diffMap(
           field: null,
           op: "create",
           before: null,
-          after: null,
+          after: entity === "note" ? historyNotePreview((afterEntity as Note).bodyMarkdown) : null,
           title: snapshot.title,
           coverAssetId: snapshot.coverAssetId,
         }),
