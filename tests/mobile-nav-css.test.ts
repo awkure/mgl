@@ -94,16 +94,22 @@ describe("mobile nav css", () => {
     expect(active).toContain("display: block");
   });
 
-  it("defines a sliding tab blob driven by --pager-progress", () => {
+  it("defines a sliding tab highlight driven by --pager-progress", () => {
     expect(styles).toContain("@property --pager-progress");
-    expect(styles).toContain(".app-tab-bar__blob");
-    const blob = declarationsIn(styles, '.app-shell[data-mobile-chrome="true"] .app-tab-bar__blob');
-    expect(blob).toContain("position: absolute");
-    expect(blob).toContain("width: calc((100% - 12px) / 4)");
-    expect(blob).toContain("transform: translateX(calc(var(--pager-progress, 0) * (100% + 2px)))");
-    expect(blob).toContain("--pager-progress 280ms cubic-bezier(.22, 1, .36, 1)");
-    expect(styles).toContain('.app-shell[data-mobile-chrome="true"][data-pager-dragging="true"] .app-tab-bar__blob');
-    expect(declarationsIn(styles, '.app-shell[data-mobile-chrome="true"][data-pager-dragging="true"] .app-tab-bar__blob')).toContain("transition: none");
+    expect(styles).toContain(".app-tab-bar__highlight");
+    expect(styles).not.toContain(".app-tab-bar__blob");
+    const highlight = declarationsIn(styles, '.app-shell[data-mobile-chrome="true"] .app-tab-bar__highlight');
+    expect(highlight).toContain("position: absolute");
+    expect(highlight).toContain("width: calc((100% - 12px) / 4)");
+    expect(highlight).toContain("background: var(--accent-wash)");
+    expect(highlight).toContain("transform: translateX(calc(var(--pager-progress, 0) * (100% + 2px)))");
+    expect(highlight).toContain("--pager-progress 280ms cubic-bezier(.22, 1, .36, 1)");
+    expect(highlight).not.toContain("backdrop-filter:");
+    expect(styles).toContain('.app-shell[data-mobile-chrome="true"][data-pager-dragging="true"] .app-tab-bar__highlight');
+    expect(declarationsIn(
+      styles,
+      '.app-shell[data-mobile-chrome="true"][data-pager-dragging="true"] .app-tab-bar__highlight',
+    )).toContain("transition: none");
   });
 
   it("keeps active tab link color-only without fill background", () => {
@@ -246,51 +252,35 @@ describe("mobile nav css", () => {
     expect(add).toContain("user-select: none");
   });
 
-  it("defines press-glass blob override driven by data-tab-press and --press-tab", () => {
+  it("press highlight follows --press-tab without glass flourish", () => {
     expect(styles).toContain("@property --press-tab");
-    const pressBlob = declarationsIn(
+    const press = declarationsIn(
       styles,
-      '.app-shell[data-mobile-chrome="true"][data-tab-press="true"] .app-tab-bar__blob',
+      '.app-shell[data-mobile-chrome="true"][data-tab-press="true"] .app-tab-bar__highlight',
     );
-    expect(pressBlob).toContain("translateX(calc(var(--press-tab, 0) * (100% + 2px)))");
-    expect(pressBlob).toMatch(/scale\(/);
-    expect(pressBlob).toContain("backdrop-filter:");
-    expect(pressBlob).toMatch(/box-shadow:/);
+    expect(press).toContain("translateX(calc(var(--press-tab, 0) * (100% + 2px)))");
+    expect(press).not.toMatch(/scale\(/);
+    expect(press).not.toContain("backdrop-filter:");
+    expect(press).not.toMatch(/transition:\s*[^;]*transform/);
+    expect(press).toMatch(/transition:\s*none/);
   });
 
-  it("tracks finger without transform transition while tab is pressed", () => {
-    const pressBlob = declarationsIn(
-      styles,
-      '.app-shell[data-mobile-chrome="true"][data-tab-press="true"] .app-tab-bar__blob',
-    );
-    // Transform must not ease while finger is down — only glass/surface may transition.
-    expect(pressBlob).not.toMatch(/transition:\s*[^;]*transform/);
-    expect(pressBlob).toMatch(/transition:\s*none|transition:[^;]*box-shadow/);
-  });
-
-  it("defines mild lens on pressed tab link", () => {
+  it("pressed tab link is text emphasis only", () => {
     const pressed = declarationsIn(
       styles,
       '.app-shell[data-mobile-chrome="true"][data-tab-press="true"] .app-tab-bar__link[data-pressed="true"]',
     );
-    expect(pressed).toMatch(/scale\(/);
-    expect(pressed).toContain("filter:");
+    expect(pressed).toContain("color: var(--text)");
+    expect(pressed).not.toMatch(/scale\(/);
+    expect(pressed).not.toContain("filter:");
   });
 
-  it("disables press-glass flourish under reduced motion", () => {
-    expect(styles).toMatch(
-      /@media \(prefers-reduced-motion:\s*reduce\)[\s\S]*?\[data-tab-press="true"\][\s\S]*?\.app-tab-bar__blob/,
-    );
-  });
-
-  it("keeps pager-dragging blob free of press transform ownership", () => {
+  it("keeps pager-dragging highlight on --pager-progress", () => {
     const dragging = declarationsIn(
       styles,
-      '.app-shell[data-mobile-chrome="true"][data-pager-dragging="true"] .app-tab-bar__blob',
+      '.app-shell[data-mobile-chrome="true"][data-pager-dragging="true"] .app-tab-bar__highlight',
     );
     expect(dragging).toContain("transition: none");
-    expect(styles).toContain(
-      '.app-shell[data-mobile-chrome="true"][data-pager-dragging="true"] .app-tab-bar__blob',
-    );
+    expect(dragging).toContain("translateX(calc(var(--pager-progress, 0) * (100% + 2px)))");
   });
 });
