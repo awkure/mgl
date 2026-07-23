@@ -17,7 +17,12 @@ Acceptable trade-off: remounting a panel resets in-panel UI state (scroll, filte
 
 ## Approach
 
-Mount policy in `SwipePager` (active ±1 + overlay-aware unmount). Deferred note-drag hot-path (ShelfGrid) only if needed after this lands.
+Two UI-only pieces in one ship:
+
+1. Mount policy in `SwipePager` (active ±1 + overlay-aware unmount).
+2. Note-drag hot-path in `ShelfGrid` (skip useless remeasure while packing frozen).
+
+No domain / patch / `library.json` changes.
 
 ## Mount policy
 
@@ -39,22 +44,24 @@ panel i
 
 Example: catalog game active → live trees ≈ GamePage + neighbor roots (tiers + history), not four roots plus a buried list.
 
-## Deferred (not v1)
+## Note-drag hot path
 
-If note drag stays bad after mount policy:
+[`ShelfGrid`](../../../src/components/ShelfGrid.tsx) already gets `packingFrozen` while a note is dragged / edited, but its `MutationObserver` still schedules layout on class / attribute churn (`is-dragging`, `is-drop-target`). That remeasures natural heights even when packing stays frozen — costly on Safari during drag.
 
-- While `packingFrozen`, skip ShelfGrid remeasure for drag-only class flips (`is-dragging` / `is-drop-target`).
-- Only then consider lighter DragOverlay / collision tweaks.
+Rules:
 
-No domain / patch / `library.json` changes in either phase.
+1. While `packingFrozen`, do **not** schedule layout for mutations that only flip drag/drop classes (or equivalent attribute noise that does not change card order, children, or size-relevant content).
+2. Still layout when: child list / order changes, size-relevant content changes, column count / resize, or `packingFrozen` clears (then honor any pending repack).
+3. Do **not** rewrite DragOverlay markdown or collision detection in this change unless measure-skip alone is clearly insufficient after implement — prefer the observer gate first.
 
 ## Touch map
 
 | Path | Change |
 |---|---|
 | `src/components/SwipePager.tsx` | Gate children by near + overlay |
+| `src/components/ShelfGrid.tsx` | Skip drag-class remeasure while `packingFrozen` |
 | Tests (pager / tab-stack UI) | Assert mount / unmount rules |
-| `src/components/ShelfGrid.tsx` | Deferred follow-up only |
+| `tests/shelf-grid.test.tsx` | Assert frozen + class flip does not remeasure / repack |
 
 ## Verification
 
@@ -64,6 +71,7 @@ No domain / patch / `library.json` changes in either phase.
 - Near ±1: root present when that tab has no overlay.
 - Active tab with overlay: overlay mounted, root island absent.
 - Become near again / return to tab: content remounts; stack still restores game hash/route.
+- ShelfGrid: with `packingFrozen`, toggling drag classes does not trigger a full natural-height remeasure / repack; unfreeze still applies pending layout.
 
 **Manual (iPad Safari PWA)**
 
@@ -71,9 +79,9 @@ No domain / patch / `library.json` changes in either phase.
 - Open game → drag notes: smoother than before.
 - Pop game → list remounts acceptably.
 
-## Out of scope (v1)
+## Out of scope
 
-- ShelfGrid class-mutation skip / DragOverlay rewrite
 - Virtualizing note cards
 - Changing tab-stack data model or keep-alive semantics beyond UI remount
 - Desktop-only alternate navigation
+- DragOverlay / collision rewrite unless measure-skip proves insufficient (separate follow-up)
