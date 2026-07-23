@@ -237,9 +237,11 @@ export function ShelfGrid({
       const heights = measureNaturalHeights(grid, cards);
       const compositionSize = compositionRef.current?.flat(2).length ?? 0;
       const structureChanged = previousOrder !== nextOrder || compositionSize !== cards.length;
-      const shouldRepack = requestRepack || pendingRepackRef.current || !compositionRef.current || columnCountRef.current !== columnCount || structureChanged;
+      const columnCountChanged = columnCountRef.current !== columnCount;
+      const shouldRepack = requestRepack || pendingRepackRef.current || !compositionRef.current || columnCountChanged || structureChanged;
       const compositionUsable = Boolean(compositionRef.current && compositionSize === cards.length);
-      const repackNow = !compositionUsable || shouldRepack && !frozenRef.current;
+      // Column-count changes must repack even while frozen — stale multi-col placement creates implicit tracks.
+      const repackNow = !compositionUsable || columnCountChanged || shouldRepack && !frozenRef.current;
       let shelfLayout: ShelfLayout;
 
       if (repackNow) {

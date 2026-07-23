@@ -5671,6 +5671,12 @@ h4 {
     padding-bottom: 49px;
   }
 
+  .notes-list,
+  .note-editors-grid {
+    /* Landscape phones often exceed 500px width but still need a single note column. */
+    grid-template-columns: 1fr;
+  }
+
   .note-card__actions {
     min-height: 49px;
     opacity: 1;

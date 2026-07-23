@@ -114,8 +114,132 @@ test.describe("note groups on small screens", () => {
     expect(covered, `add labels covered by card actions: ${JSON.stringify(covered)}`).toEqual([]);
   });
 
+  test("stacks note editors in one column on wide mobile viewports", async ({ page }) => {
+    // Landscape phones are often ~700–850px wide — still coarse — must not keep a 2-col shelf.
+    await page.setViewportSize({ width: 820, height: 800 });
+    await page.goto("/#/games/new", { waitUntil: "domcontentloaded" });
+    await waitForAppReady(page);
+
+    await page.getByRole("button", { name: "Добавить заметку в новую группу" }).click();
+    await page.getByRole("button", { name: "Добавить заметку в группу 1" }).click();
+
+    const editors = page.locator(".note-editors-grid textarea");
+    await expect(editors).toHaveCount(2);
+    await editors.nth(0).fill("Первый фпс в который приходилось играть и до сих пор остаётся одним из лучших из классики");
+    await editors.nth(1).fill("ttt");
+    await expect(editors.nth(0)).toHaveValue(/Первый фпс/);
+
+    await expect.poll(async () => {
+      return page.locator(".note-editors-grid").evaluate((grid) => {
+        const template = getComputedStyle(grid).gridTemplateColumns.trim();
+        return template === "none" || template === "" ? 0 : template.split(/\s+/).length;
+      });
+    }).toBe(1);
+
+    const metrics = await page.evaluate(() => {
+      const grid = document.querySelector<HTMLElement>(".note-editors-grid");
+      if (!grid) return { error: "missing grid" as const };
+      const template = getComputedStyle(grid).gridTemplateColumns.trim();
+      const trackCount = template === "none" || template === "" ? 0 : template.split(/\s+/).length;
+      const cards = [...grid.children].map((child) => {
+        const el = child as HTMLElement;
+        const rect = el.getBoundingClientRect();
+        return {
+          column: el.style.gridColumnStart || "auto",
+          shelf: el.dataset.shelfIndex ?? "",
+          top: rect.top,
+          bottom: rect.bottom,
+          left: rect.left,
+          right: rect.right,
+        };
+      });
+      const overlaps: Array<{ a: number; b: number; oy: number; ox: number }> = [];
+      for (let i = 0; i < cards.length; i += 1) {
+        for (let j = i + 1; j < cards.length; j += 1) {
+          const a = cards[i]!;
+          const b = cards[j]!;
+          const oy = Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+          const ox = Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left));
+          if (oy > 2 && ox > 2) overlaps.push({ a: i, b: j, oy, ox });
+        }
+      }
+      return {
+        trackCount,
+        cards,
+        overlaps,
+        stacked: cards.length < 2 || cards[1]!.top >= cards[0]!.bottom - 2,
+      };
+    });
+
+    expect(metrics).not.toHaveProperty("error");
+    if ("error" in metrics) return;
+
+    expect(metrics.trackCount).toBe(1);
+    expect(metrics.cards.every((card) => card.column === "1" || card.column === "auto")).toBe(true);
+    expect(metrics.cards.map((card) => card.shelf)).toEqual(["0", "1"]);
+    expect(metrics.stacked, `cards not stacked: ${JSON.stringify(metrics.cards)}`).toBe(true);
+    expect(metrics.overlaps, `cards overlap: ${JSON.stringify(metrics.overlaps)}`).toEqual([]);
+  });
+
+  test("repacks a frozen shelf to one column after narrowing while editing", async ({ page }) => {
+    await page.setViewportSize({ width: 820, height: 800 });
+    await page.goto("/#/games/09b5cc74-63bf-456f-99ab-97097703f8d6", { waitUntil: "domcontentloaded" });
+    await waitForAppReady(page);
+
+    const shelf = page.locator(".notes-list").first();
+    await expect(shelf.locator(":scope > *")).toHaveCount(2);
+
+    await page.getByRole("button", { name: "Редактировать заметку" }).first().click();
+    await expect(page.locator(".note-card--editing")).toBeVisible();
+
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    await expect.poll(async () => {
+      return shelf.evaluate((grid) => {
+        const template = getComputedStyle(grid).gridTemplateColumns.trim();
+        return template === "none" || template === "" ? 0 : template.split(/\s+/).length;
+      });
+    }).toBe(1);
+
+    const metrics = await shelf.evaluate((grid) => {
+      const cards = [...grid.children].map((child) => {
+        const el = child as HTMLElement;
+        const rect = el.getBoundingClientRect();
+        return {
+          column: el.style.gridColumnStart || "auto",
+          shelf: el.dataset.shelfIndex ?? "",
+          top: rect.top,
+          bottom: rect.bottom,
+          left: rect.left,
+          right: rect.right,
+        };
+      });
+      const overlaps: Array<{ a: number; b: number; oy: number; ox: number }> = [];
+      for (let i = 0; i < cards.length; i += 1) {
+        for (let j = i + 1; j < cards.length; j += 1) {
+          const a = cards[i]!;
+          const b = cards[j]!;
+          const oy = Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+          const ox = Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left));
+          if (oy > 2 && ox > 2) overlaps.push({ a: i, b: j, oy, ox });
+        }
+      }
+      return {
+        cards,
+        overlaps,
+        badColumns: cards.filter((card) => card.column !== "1" && card.column !== "auto"),
+      };
+    });
+
+    expect(metrics.badColumns, `stale multi-col placement: ${JSON.stringify(metrics)}`).toEqual([]);
+    expect(metrics.overlaps, `cards overlap: ${JSON.stringify(metrics.overlaps)}`).toEqual([]);
+    expect(metrics.cards.map((card) => card.shelf)).toEqual(["0", "1"]);
+  });
+});
+
+test.describe("note shelves on desktop", () => {
   test("keeps add-note label clear under a two-column shelf", async ({ page }) => {
-    // Two 360px note columns + gap need ~728px; stay in mobile project (coarse actions).
+    test.skip(test.info().project.name !== "desktop-chromium", "desktop chrome only");
     await page.setViewportSize({ width: 820, height: 800 });
     await page.goto("/#/games/new", { waitUntil: "domcontentloaded" });
     await waitForAppReady(page);
@@ -145,7 +269,6 @@ test.describe("note groups on small screens", () => {
 
       const template = getComputedStyle(grid).gridTemplateColumns.trim();
       const trackCount = template === "none" || template === "" ? 0 : template.split(/\s+/).length;
-      const rowGap = Number.parseFloat(getComputedStyle(grid).getPropertyValue("--note-shelf-row-gap")) || 0;
       const addRect = add.getBoundingClientRect();
       const gridRect = grid.getBoundingClientRect();
       const cards = [...grid.children].map((child) => {
@@ -177,12 +300,10 @@ test.describe("note groups on small screens", () => {
           if (oy > 1 && ox > 1) cardOverlaps.push({ a: i, b: j, oy, ox });
         }
       }
-      const shelves = new Set(cards.map((card) => card.shelf));
 
       return {
         trackCount,
-        rowGap,
-        shelves: [...shelves],
+        shelves: [...new Set(cards.map((card) => card.shelf))],
         paddingBottom: getComputedStyle(grid).paddingBottom,
         addTop: addRect.top,
         gridBottom: gridRect.bottom,
@@ -197,7 +318,6 @@ test.describe("note groups on small screens", () => {
 
     expect(metrics.trackCount).toBeGreaterThanOrEqual(2);
     expect(metrics.shelves.length).toBeGreaterThanOrEqual(2);
-    expect(metrics.rowGap).toBeGreaterThanOrEqual(49);
     expect(Number.parseFloat(metrics.paddingBottom)).toBeGreaterThanOrEqual(29);
     expect(metrics.addTop).toBeGreaterThanOrEqual(metrics.gridBottom - 1);
     expect(metrics.addOverlaps, `add under cards: ${JSON.stringify(metrics.addOverlaps)}`).toEqual([]);

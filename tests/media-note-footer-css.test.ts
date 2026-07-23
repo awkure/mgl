@@ -56,6 +56,9 @@ describe("note card footer", () => {
       /@media \(pointer: coarse\),\s*\(max-width: 720px\)[\s\S]*?\.note-group\s*>\s*\.notes-list,\s*\.note-group\s*>\s*\.note-editors-grid \{[^}]*--note-shelf-row-gap:\s*53px;[^}]*padding-bottom:\s*49px;/,
     );
     expect(styles).toMatch(
+      /@media \(pointer: coarse\),\s*\(max-width: 720px\)[\s\S]*?\.notes-list,\s*\.note-editors-grid \{[^}]*grid-template-columns:\s*1fr;/,
+    );
+    expect(styles).toMatch(
       /@media \(pointer: coarse\),\s*\(max-width: 720px\)[\s\S]*?\.note-card__actions \{[^}]*min-height:\s*49px;[^}]*opacity:\s*1;/,
     );
   });

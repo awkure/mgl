@@ -225,6 +225,58 @@ describe("ordered shelf layout", () => {
     expect(Array.from(container.querySelectorAll("article"))).toEqual(originalCards);
   });
 
+  it("repacks to a single column when CSS drops tracks even while packing is frozen", async () => {
+    vi.stubGlobal("ResizeObserver", ResizeObserverMock);
+    let gridWidth = 820;
+    let template = "360px 360px";
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function () {
+      if ((this as HTMLElement).classList.contains("notes-list")) return { width: gridWidth, height: 300 } as DOMRect;
+      return { width: 360, height: Number((this as HTMLElement).dataset.height ?? 0) } as DOMRect;
+    });
+    const computed = window.getComputedStyle(document.documentElement);
+    vi.spyOn(window, "getComputedStyle").mockImplementation((element) => {
+      if ((element as HTMLElement).classList?.contains("notes-list")) {
+        return {
+          getPropertyValue: (name: string) => {
+            if (name === "--note-column-min") return "360px";
+            if (name === "--note-shelf-row-gap") return "53px";
+            if (name === "--note-shelf-stack-gap") return "6px";
+            return "";
+          },
+          columnGap: "8px",
+          gridTemplateColumns: template,
+        } as CSSStyleDeclaration;
+      }
+      return computed;
+    });
+
+    const { container, rerender } = render(
+      <ShelfGrid className="notes-list" layoutKey="frozen-narrow">
+        <article data-height="100" data-note-id="first" key="first" />
+        <article data-height="80" data-note-id="second" key="second" />
+      </ShelfGrid>,
+    );
+    expect(Array.from(container.querySelectorAll<HTMLElement>("article")).map((card) => card.style.gridColumnStart)).toEqual(["1", "2"]);
+
+    rerender(
+      <ShelfGrid className="notes-list" layoutKey="frozen-narrow" packingFrozen>
+        <article data-height="160" data-note-id="first" key="first" />
+        <article data-height="80" data-note-id="second" key="second" />
+      </ShelfGrid>,
+    );
+    gridWidth = 390;
+    template = "1fr";
+    window.dispatchEvent(new Event("resize"));
+
+    await waitFor(() => {
+      const cards = Array.from(container.querySelectorAll<HTMLElement>("article"));
+      expect(cards.map((card) => [card.style.gridColumnStart, card.dataset.shelfIndex])).toEqual([
+        ["1", "0"],
+        ["1", "1"],
+      ]);
+    });
+  });
+
   it("honors a CSS single-column template even when width could fit two shelves", () => {
     vi.stubGlobal("ResizeObserver", ResizeObserverMock);
     vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function () {
