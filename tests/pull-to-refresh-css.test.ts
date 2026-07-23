@@ -20,4 +20,22 @@ describe("pull-to-refresh css", () => {
     expect(content).toContain("display: flex");
     expect(content).toContain("flex-direction: column");
   });
+
+  it("pads tier board content so last rows clear the floating tab bar", () => {
+    const content = declarationsIn(styles, ".tier-board.pull-to-refresh > .pull-to-refresh__content");
+    expect(content).not.toContain("padding-bottom: var(--app-tab-bar-height)");
+    const spacer = declarationsIn(styles, ".tier-board.pull-to-refresh > .pull-to-refresh__content::after");
+    expect(spacer).toContain('content: ""');
+    expect(spacer).toContain("flex: 0 0 var(--app-tab-bar-height)");
+    const scrollSurfaces = declarationsIn(
+      styles,
+      ".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page, .history-page)",
+    );
+    expect(scrollSurfaces).not.toContain("padding-bottom: var(--app-tab-bar-height)");
+    const otherSurfaces = declarationsIn(
+      styles,
+      ".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .settings-page, .history-page)",
+    );
+    expect(otherSurfaces).toContain("padding-bottom: var(--app-tab-bar-height)");
+  });
 });

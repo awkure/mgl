@@ -19,11 +19,13 @@ describe("mobile nav css", () => {
 
   it("keeps scroll surfaces clear of the floating tab bar with breathing room", () => {
     expect(styles).toContain("--app-tab-bar-height: calc(80px + env(safe-area-inset-bottom) + 12px)");
-    const scrollSurfaces = declarationsIn(
+    const otherSurfaces = declarationsIn(
       styles,
-      ".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .tier-board.pull-to-refresh, .settings-page, .history-page)",
+      ".swipe-pager__panel :is(.catalog-page.pull-to-refresh, .settings-page, .history-page)",
     );
-    expect(scrollSurfaces).toContain("padding-bottom: var(--app-tab-bar-height)");
+    expect(otherSurfaces).toContain("padding-bottom: var(--app-tab-bar-height)");
+    const tierSpacer = declarationsIn(styles, ".tier-board.pull-to-refresh > .pull-to-refresh__content::after");
+    expect(tierSpacer).toContain("flex: 0 0 var(--app-tab-bar-height)");
     const overlay = declarationsIn(styles, ".swipe-pager__overlay");
     expect(overlay).toContain("padding-bottom: var(--app-tab-bar-height)");
     const main = declarationsIn(styles, '.app-shell[data-mobile-chrome="true"] .app-main');

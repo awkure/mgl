@@ -133,4 +133,26 @@ test.describe("mobile chrome", () => {
     expect(clearance).not.toBeNull();
     expect(clearance!).toBeGreaterThanOrEqual(8);
   });
+
+  test("tier list end content clears floating tab bar", async ({ page }) => {
+    await page.goto("/#/tiers", { waitUntil: "domcontentloaded" });
+    await waitForAppReady(page);
+
+    const board = page.locator(".tier-board");
+    await expect(board).toBeVisible();
+    await expect(page.locator(".tier-row").last()).toBeVisible();
+
+    const clearance = await page.evaluate(() => {
+      const boardNode = document.querySelector(".tier-board");
+      const tabBar = document.querySelector(".app-tab-bar");
+      const lastRow = document.querySelector(".tier-row:last-of-type");
+      if (!boardNode || !tabBar || !lastRow) return null;
+      boardNode.scrollTop = boardNode.scrollHeight;
+      boardNode.dispatchEvent(new Event("scroll"));
+      return tabBar.getBoundingClientRect().top - lastRow.getBoundingClientRect().bottom;
+    });
+
+    expect(clearance).not.toBeNull();
+    expect(clearance!).toBeGreaterThanOrEqual(8);
+  });
 });

@@ -283,11 +283,17 @@ h4 {
   animation: boot-spin .8s linear infinite;
 }
 
+/* Flex scrollport padding-bottom is unreliable; spacer clears the floating tab bar. */
 .tier-board.pull-to-refresh>.pull-to-refresh__content {
   display: flex;
   min-height: 100%;
   flex-direction: column;
   gap: 1px;
+}
+
+.tier-board.pull-to-refresh>.pull-to-refresh__content::after {
+  content: "";
+  flex: 0 0 var(--app-tab-bar-height);
 }
 
 .app-shell {
@@ -1370,8 +1376,11 @@ h4 {
   overflow-x: hidden;
   overflow-y: auto;
   padding-top: var(--app-header-height);
-  padding-bottom: var(--app-tab-bar-height);
   -webkit-overflow-scrolling: touch;
+}
+
+.swipe-pager__panel :is(.catalog-page.pull-to-refresh, .settings-page, .history-page) {
+  padding-bottom: var(--app-tab-bar-height);
 }
 
 .app-shell[data-mobile-chrome="true"] {
