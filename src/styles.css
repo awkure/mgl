@@ -3495,6 +3495,12 @@ h4 {
   align-items: stretch;
 }
 
+/* Absolute .note-card__actions hang below the last shelf row; keep flow space so the add slot is not covered. */
+.note-group>.notes-list,
+.note-group>.note-editors-grid {
+  padding-bottom: 29px;
+}
+
 .game-notes {
   min-width: 0;
 }
@@ -5648,13 +5654,17 @@ h4 {
 
   .note-group-add-slot {
     min-height: var(--touch-target);
-    /* Always-visible .note-card__actions (min-height 49px) sit below the last card. */
-    margin-top: calc(4px + 49px);
+    margin-top: 4px;
   }
 
   .note-group-add-button {
     min-width: 180px;
     height: var(--touch-target);
+  }
+
+  .note-group>.notes-list,
+  .note-group>.note-editors-grid {
+    padding-bottom: 49px;
   }
 
   .note-card__actions {

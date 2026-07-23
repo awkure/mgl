@@ -113,4 +113,62 @@ test.describe("note groups on small screens", () => {
 
     expect(covered, `add labels covered by card actions: ${JSON.stringify(covered)}`).toEqual([]);
   });
+
+  test("keeps add-note label clear under a two-column shelf", async ({ page }) => {
+    // Two 360px note columns + gap need ~728px; stay in mobile project (coarse actions).
+    await page.setViewportSize({ width: 820, height: 800 });
+    await page.goto("/#/games/new", { waitUntil: "domcontentloaded" });
+    await waitForAppReady(page);
+
+    await page.getByRole("button", { name: "Добавить заметку в новую группу" }).click();
+    await page.getByRole("button", { name: "Добавить заметку в группу 1" }).click();
+
+    const editors = page.locator(".note-editors-grid textarea");
+    await expect(editors).toHaveCount(2);
+    await editors.nth(0).fill("Первый фпс в который приходилось играть и до сих пор остаётся одним из лучших из классики");
+    await editors.nth(1).fill("ttt");
+    await expect(editors.nth(0)).toHaveValue(/Первый фпс/);
+    await expect.poll(async () => {
+      return page.locator(".note-editors-grid").evaluate((grid) => {
+        const template = getComputedStyle(grid).gridTemplateColumns.trim();
+        return template === "none" || template === "" ? 0 : template.split(/\s+/).length;
+      });
+    }).toBeGreaterThanOrEqual(2);
+
+    const metrics = await page.evaluate(() => {
+      const group = document.querySelector<HTMLElement>(".note-group");
+      const grid = group?.querySelector<HTMLElement>(".note-editors-grid");
+      const add = group?.querySelector<HTMLElement>(".note-group-add-button");
+      if (!group || !grid || !add) return { error: "missing nodes" as const };
+
+      const template = getComputedStyle(grid).gridTemplateColumns.trim();
+      const trackCount = template === "none" || template === "" ? 0 : template.split(/\s+/).length;
+      const addRect = add.getBoundingClientRect();
+      const gridRect = grid.getBoundingClientRect();
+      const cardRects = [...grid.children].map((child) => (child as HTMLElement).getBoundingClientRect());
+      const overlaps = cardRects
+        .map((card, index) => {
+          const oy = Math.max(0, Math.min(addRect.bottom, card.bottom) - Math.max(addRect.top, card.top));
+          const ox = Math.max(0, Math.min(addRect.right, card.right) - Math.max(addRect.left, card.left));
+          return { index, oy, ox };
+        })
+        .filter((hit) => hit.oy > 1 && hit.ox > 1);
+
+      return {
+        trackCount,
+        paddingBottom: getComputedStyle(grid).paddingBottom,
+        addTop: addRect.top,
+        gridBottom: gridRect.bottom,
+        overlaps,
+      };
+    });
+
+    expect(metrics).not.toHaveProperty("error");
+    if ("error" in metrics) return;
+
+    expect(metrics.trackCount).toBeGreaterThanOrEqual(2);
+    expect(Number.parseFloat(metrics.paddingBottom)).toBeGreaterThanOrEqual(29);
+    expect(metrics.addTop).toBeGreaterThanOrEqual(metrics.gridBottom - 1);
+    expect(metrics.overlaps, `add under cards: ${JSON.stringify(metrics.overlaps)}`).toEqual([]);
+  });
 });

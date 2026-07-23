@@ -48,8 +48,11 @@ describe("note card footer", () => {
   });
 
   it("clears always-visible mobile card actions above the add-note slot", () => {
+    expect(declarationsIn(styles, ".note-group > .notes-list, .note-group > .note-editors-grid")).toMatch(
+      /padding-bottom:\s*29px/,
+    );
     expect(styles).toMatch(
-      /@media \(pointer: coarse\),\s*\(max-width: 720px\)[\s\S]*?\.note-group-add-slot \{[^}]*margin-top:\s*calc\(4px \+ 49px\);/,
+      /@media \(pointer: coarse\),\s*\(max-width: 720px\)[\s\S]*?\.note-group\s*>\s*\.notes-list,\s*\.note-group\s*>\s*\.note-editors-grid \{[^}]*padding-bottom:\s*49px;/,
     );
     expect(styles).toMatch(
       /@media \(pointer: coarse\),\s*\(max-width: 720px\)[\s\S]*?\.note-card__actions \{[^}]*min-height:\s*49px;[^}]*opacity:\s*1;/,
