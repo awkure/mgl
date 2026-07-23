@@ -2,7 +2,7 @@
 
 Report-only micro-benchmarks for domain hot paths (catalog filters, validation), post-build bundle size, browser scroll FPS, and Lighthouse on HashRouter routes. **Not CI gates.**
 
-**Report-only policy:** runners are for local comparison and regression notes. `bench:fps`, `bench:tab-blob`, and `bench:lighthouse` exit with code **0** even when FPS or scores are low; they exit with code **1** only when the harness fails (missing `dist/`, preview server, browser, scroll root, or Lighthouse crash). Vitest bench and bundle recording follow normal npm exit codes for test/harness failures only — low numbers are not failures.
+**Report-only policy:** runners are for local comparison and regression notes. `bench:fps`, `bench:tab-highlight`, and `bench:lighthouse` exit with code **0** even when FPS or scores are low; they exit with code **1** only when the harness fails (missing `dist/`, preview server, browser, scroll root, or Lighthouse crash). Vitest bench and bundle recording follow normal npm exit codes for test/harness failures only — low numbers are not failures.
 
 **Single entrypoint:**
 
@@ -61,14 +61,14 @@ npm run bench:fps
 
 Starts `vite preview` on an ephemeral port, opens HashRouter routes in headless Chromium (Playwright), scrolls the catalog and tier scroll roots while sampling `requestAnimationFrame` deltas, and writes `benchmarks/results/fps.json`.
 
-## Tab-bar blob drag FPS
+## Tab-bar highlight drag FPS
 
 ```bash
 npm run build
-npm run bench:tab-blob
+npm run bench:tab-highlight
 ```
 
-Drags a held pointer across the mobile footer tab blob while sampling frame deltas and `--press-tab` tracking error. Writes `benchmarks/results/tab-blob-fps.json`. Report-only (same exit policy as `bench:fps`).
+Drags a held pointer across the mobile footer tab highlight while sampling frame deltas and `--press-tab` tracking error. Writes `benchmarks/results/tab-highlight-fps.json`. Report-only (same exit policy as `bench:fps`).
 
 ## Lighthouse
 

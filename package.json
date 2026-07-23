@@ -27,7 +27,7 @@
     "bench": "vitest bench --run benchmarks/vitest",
     "bench:bundle": "node benchmarks/bundle/recordBundleSize.mjs",
     "bench:fps": "node benchmarks/fps/runFps.mjs",
-    "bench:tab-blob": "node benchmarks/fps/runTabBlobFps.mjs",
+    "bench:tab-highlight": "node benchmarks/fps/runTabHighlightFps.mjs",
     "bench:lighthouse": "node benchmarks/lighthouse/runLighthouse.mjs",
     "test:e2e": "npm run build && playwright test -c e2e/playwright.config.ts"
   },

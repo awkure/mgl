@@ -1,12 +1,12 @@
 import { test, expect } from "playwright/test";
 import { mobileOnly, waitForAppReady } from "./helpers/ui";
 
-test.describe("tab bar blob drag", () => {
+test.describe("tab bar highlight drag", () => {
   test.beforeEach(() => {
     mobileOnly();
   });
 
-  test("blob --press-tab tracks finger across tab bar while held", async ({ page }) => {
+  test("highlight --press-tab tracks finger across tab bar while held", async ({ page }) => {
     await page.goto("/#/tiers", { waitUntil: "domcontentloaded" });
     await waitForAppReady(page);
 

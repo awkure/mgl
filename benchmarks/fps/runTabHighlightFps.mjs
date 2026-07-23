@@ -66,7 +66,7 @@ function startPreview(port) {
   };
 }
 
-async function sampleTabBlobDrag(page, baseUrl) {
+async function sampleTabHighlightDrag(page, baseUrl) {
   await page.goto(`${baseUrl}/#/tiers`, { waitUntil: "domcontentloaded" });
   await page.waitForSelector(".app-shell[data-mobile-chrome=\"true\"] .app-tab-bar", {
     timeout: 60_000,
@@ -179,20 +179,20 @@ async function main() {
     await waitForHttpOk(`${baseUrl}/`);
     browser = await chromium.launch({ headless: true });
     const page = await browser.newPage({ viewport: VIEWPORT });
-    const stats = await sampleTabBlobDrag(page, baseUrl);
+    const stats = await sampleTabHighlightDrag(page, baseUrl);
 
     const result = {
       generatedAt: new Date().toISOString(),
       previewUrl: baseUrl,
-      runs: [{ route: "#/tiers", gesture: "tab-bar-blob-drag", ...stats }],
+      runs: [{ route: "#/tiers", gesture: "tab-bar-highlight-drag", ...stats }],
     };
 
     mkdirSync(resultsDir, { recursive: true });
-    writeFileSync(join(resultsDir, "tab-blob-fps.json"), JSON.stringify(result, null, 2) + "\n");
+    writeFileSync(join(resultsDir, "tab-highlight-fps.json"), JSON.stringify(result, null, 2) + "\n");
 
     for (const run of result.runs) {
       console.log(
-        `tab-blob route=${run.route} medianFps=${run.medianFps} p95FrameMs=${run.p95FrameMs} maxTrackingError=${run.maxTrackingError} p95TrackingError=${run.p95TrackingError} samples=${run.samples}`,
+        `tab-highlight route=${run.route} medianFps=${run.medianFps} p95FrameMs=${run.p95FrameMs} maxTrackingError=${run.maxTrackingError} p95TrackingError=${run.p95TrackingError} samples=${run.samples}`,
       );
     }
   } catch (error) {
