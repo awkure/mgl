@@ -12,6 +12,7 @@ import {
   type PagerPath,
 } from "../hooks/useSwipeNavigation";
 import { useMobileChrome } from "./mobileChrome";
+import { pagerPanelNear, pagerPanelSlots } from "./pagerMount";
 
 export interface SwipePagerProps {
   activeTab: TabId;
@@ -49,6 +50,10 @@ export function SwipePager({
   const trackRef = useRef<HTMLDivElement>(null);
   const mobileChrome = useMobileChrome();
   const index = pagerIndexFromTab(activeTab);
+  const tiersSlots = pagerPanelSlots(pagerPanelNear(0, index), Boolean(tiersOverlay));
+  const catalogSlots = pagerPanelSlots(pagerPanelNear(1, index), Boolean(catalogOverlay));
+  const historySlots = pagerPanelSlots(pagerPanelNear(2, index), false);
+  const settingsSlots = pagerPanelSlots(pagerPanelNear(3, index), Boolean(settingsOverlay));
   const settleKey = `${catalogOverlay ? "c" : ""}:${tiersOverlay ? "t" : ""}:${settingsOverlay ? "s" : ""}`;
   const { dragging } = useSwipePager({
     targetRef: rootRef,
@@ -78,38 +83,56 @@ export function SwipePager({
       <div className="swipe-pager__track" ref={trackRef}>
         <SwipePanel active={index === 0} labelledBy="tier-panel-label">
           <span className="visually-hidden" id="tier-panel-label">Тирлист</span>
-          <div className="swipe-pager__stack">
-            <TierRouteIsland
-              draggingRef={draggingRef}
-              onMoveGame={onMoveGame}
-              onOpenGame={(id) => onOpenGame("tiers", id)}
-            />
-            {tiersOverlay ? <div className="swipe-pager__overlay">{tiersOverlay}</div> : null}
-          </div>
+          {tiersSlots.root || tiersSlots.overlay ? (
+            <div className="swipe-pager__stack">
+              {tiersSlots.root ? (
+                <TierRouteIsland
+                  draggingRef={draggingRef}
+                  onMoveGame={onMoveGame}
+                  onOpenGame={(id) => onOpenGame("tiers", id)}
+                />
+              ) : null}
+              {tiersSlots.overlay && tiersOverlay ? (
+                <div className="swipe-pager__overlay">{tiersOverlay}</div>
+              ) : null}
+            </div>
+          ) : null}
         </SwipePanel>
         <SwipePanel active={index === 1} labelledBy="catalog-panel-label">
           <span className="visually-hidden" id="catalog-panel-label">Каталог</span>
-          <div className="swipe-pager__stack">
-            <CatalogRouteIsland
-              active={index === 1 && catalogHashSync}
-              onOpenGame={(id) => onOpenGame("catalog", id)}
-              scrollSelf
-            />
-            {catalogOverlay ? <div className="swipe-pager__overlay">{catalogOverlay}</div> : null}
-          </div>
+          {catalogSlots.root || catalogSlots.overlay ? (
+            <div className="swipe-pager__stack">
+              {catalogSlots.root ? (
+                <CatalogRouteIsland
+                  active={index === 1 && catalogHashSync}
+                  onOpenGame={(id) => onOpenGame("catalog", id)}
+                  scrollSelf
+                />
+              ) : null}
+              {catalogSlots.overlay && catalogOverlay ? (
+                <div className="swipe-pager__overlay">{catalogOverlay}</div>
+              ) : null}
+            </div>
+          ) : null}
         </SwipePanel>
         <SwipePanel active={index === 2} labelledBy="history-panel-label">
           <span className="visually-hidden" id="history-panel-label">История</span>
-          <div className="swipe-pager__stack">
-            <HistoryPage {...history} />
-          </div>
+          {historySlots.root && history ? (
+            <div className="swipe-pager__stack">
+              <HistoryPage {...history} />
+            </div>
+          ) : null}
         </SwipePanel>
         <SwipePanel active={index === 3} labelledBy="settings-panel-label">
           <span className="visually-hidden" id="settings-panel-label">Настройки</span>
-          <div className="swipe-pager__stack">
-            <SettingsPage pat={settingsPat} />
-            {settingsOverlay ? <div className="swipe-pager__overlay">{settingsOverlay}</div> : null}
-          </div>
+          {settingsSlots.root || settingsSlots.overlay ? (
+            <div className="swipe-pager__stack">
+              {settingsSlots.root ? <SettingsPage pat={settingsPat} /> : null}
+              {settingsSlots.overlay && settingsOverlay ? (
+                <div className="swipe-pager__overlay">{settingsOverlay}</div>
+              ) : null}
+            </div>
+          ) : null}
         </SwipePanel>
       </div>
     </div>
