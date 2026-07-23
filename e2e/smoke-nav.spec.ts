@@ -7,7 +7,7 @@ test.describe("smoke navigation", () => {
 
     await page.goto("/#/", { waitUntil: "domcontentloaded" });
     await waitForAppReady(page);
-    await expect(page.locator(".tier-board")).toBeVisible();
+    await expect(page.locator(".catalog-list, .empty-state").first()).toBeVisible();
 
     await page.goto("/#/games", { waitUntil: "domcontentloaded" });
     await waitForAppReady(page);

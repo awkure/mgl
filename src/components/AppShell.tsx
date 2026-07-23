@@ -213,7 +213,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
       <header className="app-header">
         {!mobileChrome ? (
           <nav aria-label="Основная навигация" className="app-nav app-nav--desktop">
-            <NavLink active={activeTab === "tiers"} href="#/" icon="book" label="Тирлист" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="tiers" />
+            <NavLink active={activeTab === "tiers"} href="#/tiers" icon="book" label="Тирлист" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="tiers" />
             <NavLink active={activeTab === "catalog"} href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="catalog" />
             <NavLink active={activeTab === "history"} href="#/history" icon="history" label="История" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="history" />
           </nav>
@@ -261,7 +261,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
         <>
           <nav aria-label="Мобильная навигация" className="app-tab-bar">
             <span aria-hidden="true" className="app-tab-bar__blob" />
-            <NavLink active={activeTab === "tiers"} className="app-tab-bar__link" href="#/" icon="book" label="Тирлист" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "tiers"} tab="tiers" />
+            <NavLink active={activeTab === "tiers"} className="app-tab-bar__link" href="#/tiers" icon="book" label="Тирлист" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "tiers"} tab="tiers" />
             <NavLink active={activeTab === "catalog"} className="app-tab-bar__link" href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "catalog"} tab="catalog" />
             <NavLink active={activeTab === "history"} className="app-tab-bar__link" href="#/history" icon="history" label="История" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "history"} tab="history" />
             <NavLink active={activeTab === "settings"} className="app-tab-bar__link" href="#/settings" icon="settings" label="Настройки" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "settings"} tab="settings" />

@@ -103,7 +103,7 @@ test.describe("screen filter bar", () => {
   });
 
   test("tier: query filters board without changing URL", async ({ page }) => {
-    await page.goto("/#/", { waitUntil: "domcontentloaded" });
+    await page.goto("/#/tiers", { waitUntil: "domcontentloaded" });
     await waitForAppReady(page);
     const fixture = await loadLibraryFixture(page);
 
@@ -115,7 +115,7 @@ test.describe("screen filter bar", () => {
     await expect(page.locator(".tier-row .game-card")).toHaveCount(0);
     // Filtered-empty tier board uses page empty-state (not per-row placeholders)
     await expect(page.locator(".empty-state")).toContainText("Ничего не найдено");
-    expect(page.url()).toMatch(/#\/?$/);
+    expect(page.url()).toMatch(/#\/tiers\/?$/);
 
     await page.getByRole("button", { name: "Очистить фильтр" }).click();
     await expect(page.locator(".tier-row .game-card").first()).toBeVisible();

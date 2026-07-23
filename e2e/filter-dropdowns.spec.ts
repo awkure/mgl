@@ -12,7 +12,7 @@ test.describe("filter dropdowns", () => {
   });
 
   test("tier status menu stays visible in the viewport", async ({ page }) => {
-    await page.goto("/#/", { waitUntil: "domcontentloaded" });
+    await page.goto("/#/tiers", { waitUntil: "domcontentloaded" });
     await waitForAppReady(page);
     await openScreenFilter(page);
     const panel = await openStatusFilter(page);
@@ -47,7 +47,7 @@ test.describe("filter dropdowns", () => {
   });
 
   test("tier tag menu stays in viewport", async ({ page }) => {
-    await page.goto("/#/", { waitUntil: "domcontentloaded" });
+    await page.goto("/#/tiers", { waitUntil: "domcontentloaded" });
     await waitForAppReady(page);
     await openScreenFilter(page);
     const panel = await openFilterMenu(page, page.locator(".screen-filter-bar__sheet"), "Тег");

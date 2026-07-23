@@ -10,7 +10,7 @@ test.describe("mobile gestures", () => {
   });
 
   test("swipe pager switches tiers ↔ catalog", async ({ page }) => {
-    await page.goto("/#/", { waitUntil: "domcontentloaded" });
+    await page.goto("/#/tiers", { waitUntil: "domcontentloaded" });
     await waitForAppReady(page);
 
     const tabBar = page.getByRole("navigation", { name: "Мобильная навигация" });

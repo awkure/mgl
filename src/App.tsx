@@ -57,8 +57,8 @@ import type { HistoryEvent } from "./domain/historyTypes";
 import { loadPublishedHistory } from "./state/loadPublishedHistory";
 
 function routeKind(pathname: string): AppRoute {
-  if (pathname === "/") return "tiers";
-  if (pathname === "/games") return "catalog";
+  if (pathname === "/tiers") return "tiers";
+  if (pathname === "/" || pathname === "/games") return "catalog";
   if (pathname === "/games/new") return "new";
   if (pathname === "/history") return "history";
   if (pathname === "/settings") return "settings";
@@ -98,9 +98,10 @@ function LibraryRoutes() {
     commitUrl?: string;
   }>({ busy: false, stage: "idle", error: null });
   const previousPendingCommitRef = useRef<string | null>(null);
-  const [tabState, setTabState] = useState<TabStacksState>(() =>
-    createInitialTabStacksState(entryFromPath(location.pathname, location.search.replace(/^\?/, "") || undefined)),
-  );
+  const [tabState, setTabState] = useState<TabStacksState>(() => {
+    const path = location.pathname === "/" ? "/games" : location.pathname;
+    return createInitialTabStacksState(entryFromPath(path, location.search.replace(/^\?/, "") || undefined));
+  });
   const [historyEvents, setHistoryEvents] = useState<HistoryEvent[]>([]);
   const [historyLoading, setHistoryLoading] = useState(true);
   const [historyError, setHistoryError] = useState<string | null>(null);
@@ -157,6 +158,7 @@ function LibraryRoutes() {
   }, [tabState.activeTab, setPagerProgress]);
 
   useEffect(() => {
+    if (location.pathname === "/") return;
     const entry = entryFromPath(location.pathname, location.search.replace(/^\?/, "") || undefined);
     setTabState((current) => syncFromLocation(current, entry));
   }, [location.pathname, location.search]);
@@ -208,7 +210,7 @@ function LibraryRoutes() {
       return;
     }
 
-    if (path === "/" || path === "/history" || path === "/settings") {
+    if (path === "/tiers" || path === "/history" || path === "/settings") {
       const tab = tabIdFromPath(path);
       setTabState((current) => ({
         activeTab: tab,
@@ -218,8 +220,28 @@ function LibraryRoutes() {
       return;
     }
 
+    if (path === "/") {
+      const catalog = entryFromPath("/games", entry.search);
+      setTabState((current) => ({
+        activeTab: "catalog",
+        stacks: { ...current.stacks, catalog: [catalog] },
+      }));
+      goToEntry(catalog, true);
+      return;
+    }
+
     goToEntry(entry);
   }, [goToEntry]);
+
+  useEffect(() => {
+    if (location.pathname !== "/") return;
+    const catalog = entryFromPath("/games", location.search.replace(/^\?/, "") || undefined);
+    setTabState((current) => ({
+      activeTab: "catalog",
+      stacks: { ...current.stacks, catalog: [catalog] },
+    }));
+    navigate(locationHref(catalog), { replace: true });
+  }, [location.pathname, location.search, navigate]);
 
   useEffect(() => {
     const loaded = loadGitHubPat();

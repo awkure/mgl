@@ -68,6 +68,6 @@ npm run build
 npm run bench:lighthouse
 ```
 
-Runs Lighthouse (headless Chromium via Playwright CDP) against `vite preview` on HashRouter routes: `#/`, `#/games`, and `#/games/<id>` when the built library has at least one game. Categories: performance, accessibility, best-practices, seo. Writes HTML and JSON under `benchmarks/results/lighthouse/` plus `summary.json`.
+Runs Lighthouse (headless Chromium via Playwright CDP) against `vite preview` on HashRouter routes: `#/` (catalog home), `#/games`, and `#/games/<id>` when the built library has at least one game. Categories: performance, accessibility, best-practices, seo. Writes HTML and JSON under `benchmarks/results/lighthouse/` plus `summary.json`.
 
 **SEO caveat:** this app uses **HashRouter** (hash URLs, static HTML shell). Lighthouse’s SEO category may score poorly — that is expected for a client-routed SPA, not a signal to add fake meta tags just to inflate the score. Report honestly.

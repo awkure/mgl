@@ -11,7 +11,7 @@ export interface TabStacksState {
 }
 
 export const TAB_ROOTS: Record<TabId, StackEntry> = {
-  tiers: { pathname: "/" },
+  tiers: { pathname: "/tiers" },
   catalog: { pathname: "/games" },
   history: { pathname: "/history" },
   settings: { pathname: "/settings" },
@@ -35,8 +35,8 @@ export function entriesEqual(a: StackEntry, b: StackEntry): boolean {
 export function tabIdFromPath(pathname: string): TabId {
   if (pathname === "/settings") return "settings";
   if (pathname === "/history") return "history";
-  if (pathname === "/") return "tiers";
-  if (pathname === "/games" || pathname.startsWith("/games/")) return "catalog";
+  if (pathname === "/tiers") return "tiers";
+  if (pathname === "/" || pathname === "/games" || pathname.startsWith("/games/")) return "catalog";
   return "catalog";
 }
 

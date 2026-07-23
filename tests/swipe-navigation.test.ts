@@ -39,11 +39,12 @@ describe("swipe navigation helpers", () => {
   });
 
   it("maps routes to pager indexes", () => {
-    expect(routeToPagerIndex("/")).toBe(0);
+    expect(routeToPagerIndex("/tiers")).toBe(0);
+    expect(routeToPagerIndex("/")).toBe(1);
     expect(routeToPagerIndex("/games")).toBe(1);
     expect(routeToPagerIndex("/history")).toBe(2);
     expect(routeToPagerIndex("/settings")).toBe(3);
-    expect(pagerIndexToPath(0)).toBe("/");
+    expect(pagerIndexToPath(0)).toBe("/tiers");
     expect(pagerIndexToPath(1)).toBe("/games");
     expect(pagerIndexToPath(2)).toBe("/history");
     expect(pagerIndexToPath(3)).toBe("/settings");

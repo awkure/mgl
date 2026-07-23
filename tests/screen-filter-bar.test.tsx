@@ -73,13 +73,13 @@ describe("ScreenFilterBar", () => {
 
   it("updates tier session filters without touching the hash", async () => {
     const user = userEvent.setup();
-    window.location.hash = "#/";
+    window.location.hash = "#/tiers";
     render(
       <ScreenFiltersProvider>
         <ScreenFilterBar games={[game]} mode="tier" />
       </ScreenFiltersProvider>,
     );
     await user.type(screen.getByRole("searchbox", { name: "Фильтр игр на экране" }), "Duck");
-    expect(window.location.hash).toBe("#/");
+    expect(window.location.hash).toBe("#/tiers");
   });
 });

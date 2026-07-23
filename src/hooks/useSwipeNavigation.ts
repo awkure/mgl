@@ -11,7 +11,7 @@ export const PAGER_TRANSITION = "transform 280ms cubic-bezier(.22, 1, .36, 1)";
 
 export type SwipeDirection = "left" | "right";
 export type PagerIndex = 0 | 1 | 2 | 3;
-export type PagerPath = "/" | "/games" | "/history" | "/settings";
+export type PagerPath = "/tiers" | "/games" | "/history" | "/settings";
 
 export function isNearScreenEdge(clientX: number, width: number, guardPx = SWIPE_EDGE_GUARD_PX): boolean {
   return clientX <= guardPx || clientX >= width - guardPx;
@@ -30,7 +30,7 @@ export function swipeDirection(dx: number, threshold = SWIPE_THRESHOLD_PX): Swip
 export function routeToPagerIndex(pathname: string): PagerIndex {
   if (pathname === "/settings") return 3;
   if (pathname === "/history") return 2;
-  if (pathname === "/games") return 1;
+  if (pathname === "/games" || pathname === "/") return 1;
   return 0;
 }
 
@@ -38,7 +38,7 @@ export function pagerIndexToPath(index: PagerIndex): PagerPath {
   if (index === 3) return "/settings";
   if (index === 2) return "/history";
   if (index === 1) return "/games";
-  return "/";
+  return "/tiers";
 }
 
 export function clampPagerDrag(dx: number, index: PagerIndex, width: number, lastIndex = PAGER_PANEL_COUNT - 1): number {

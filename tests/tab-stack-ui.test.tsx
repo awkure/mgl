@@ -76,7 +76,7 @@ describe("tab stack keep-alive", () => {
     expect(screen.getByRole("button", { name: "DuckTales" })).toBeInTheDocument();
 
     fireEvent.click(within(tabBar).getByRole("link", { name: "Тирлист" }));
-    await waitFor(() => expect(window.location.hash).toBe("#/"));
+    await waitFor(() => expect(window.location.hash).toBe("#/tiers"));
     expect(screen.queryByRole("button", { name: "DuckTales" })).not.toBeInTheDocument();
 
     fireEvent.click(within(tabBar).getByRole("link", { name: "Каталог" }));
@@ -91,6 +91,7 @@ describe("tab stack keep-alive", () => {
   });
 
   it("keeps game opened from tiers on the tiers tab", async () => {
+    window.location.hash = "#/tiers";
     render(<App />);
     await waitFor(() => expect(screen.queryByText("Открываем библиотеку…")).not.toBeInTheDocument());
 

@@ -162,7 +162,7 @@ async function main() {
 
     const tierStats = await sampleScrollRoute(
       page,
-      `${baseUrl}/#/`,
+      `${baseUrl}/#/tiers`,
       ".tier-board.pull-to-refresh",
       ".tier-board",
     );
@@ -173,7 +173,7 @@ async function main() {
       builtGameCount: builtGames,
       runs: [
         { route: "#/games", ...catalogStats },
-        { route: "#/", ...tierStats },
+        { route: "#/tiers", ...tierStats },
       ],
     };
 

@@ -20,13 +20,14 @@ import {
 
 describe("tabStacks", () => {
   it("maps paths to tabs and roots", () => {
-    expect(tabIdFromPath("/")).toBe("tiers");
+    expect(tabIdFromPath("/")).toBe("catalog");
+    expect(tabIdFromPath("/tiers")).toBe("tiers");
     expect(tabIdFromPath("/games")).toBe("catalog");
     expect(tabIdFromPath("/games/new")).toBe("catalog");
     expect(tabIdFromPath("/games/abc")).toBe("catalog");
     expect(tabIdFromPath("/settings")).toBe("settings");
     expect(tabIdFromPath("/history")).toBe("history");
-    expect(TAB_ROOTS.tiers.pathname).toBe("/");
+    expect(TAB_ROOTS.tiers.pathname).toBe("/tiers");
     expect(TAB_ROOTS.catalog.pathname).toBe("/games");
     expect(TAB_ROOTS.history.pathname).toBe("/history");
     expect(TAB_ROOTS.settings.pathname).toBe("/settings");
@@ -37,12 +38,12 @@ describe("tabStacks", () => {
     expect(state.activeTab).toBe("catalog");
     expect(stackTop(state, "catalog")).toEqual({ pathname: "/games/game-1" });
     expect(state.stacks.catalog.map((e) => e.pathname)).toEqual(["/games", "/games/game-1"]);
-    expect(stackTop(state, "tiers")?.pathname).toBe("/");
+    expect(stackTop(state, "tiers")?.pathname).toBe("/tiers");
     expect(stackTop(state, "settings")?.pathname).toBe("/settings");
   });
 
   it("pushes game onto source tab and activates that tab", () => {
-    let state = createInitialTabStacksState(entryFromPath("/"));
+    let state = createInitialTabStacksState(entryFromPath("/tiers"));
     state = pushOntoTab(state, "tiers", entryFromPath("/games/game-1"));
     expect(state.activeTab).toBe("tiers");
     expect(locationHref(stackTop(state, "tiers")!)).toBe("/games/game-1");
@@ -54,7 +55,7 @@ describe("tabStacks", () => {
     state = pushOntoTab(state, "catalog", entryFromPath("/games/game-1"));
     state = activateTab(state, "tiers");
     expect(state.activeTab).toBe("tiers");
-    expect(locationHref(stackTop(state, "tiers")!)).toBe("/");
+    expect(locationHref(stackTop(state, "tiers")!)).toBe("/tiers");
     expect(locationHref(stackTop(state, "catalog")!)).toBe("/games/game-1");
     state = activateTab(state, "catalog");
     expect(state.activeTab).toBe("catalog");
@@ -86,7 +87,7 @@ describe("tabStacks", () => {
   });
 
   it("syncFromLocation updates active stack from external URL", () => {
-    let state = createInitialTabStacksState(entryFromPath("/"));
+    let state = createInitialTabStacksState(entryFromPath("/tiers"));
     state = syncFromLocation(state, entryFromPath("/settings"));
     expect(state.activeTab).toBe("settings");
     state = syncFromLocation(state, entryFromPath("/games/new"));
@@ -95,10 +96,10 @@ describe("tabStacks", () => {
   });
 
   it("syncFromLocation keeps game URL on tiers when that tab is active", () => {
-    let state = createInitialTabStacksState(entryFromPath("/"));
+    let state = createInitialTabStacksState(entryFromPath("/tiers"));
     state = syncFromLocation(state, entryFromPath("/games/game-1"));
     expect(state.activeTab).toBe("tiers");
-    expect(state.stacks.tiers.map((e) => e.pathname)).toEqual(["/", "/games/game-1"]);
+    expect(state.stacks.tiers.map((e) => e.pathname)).toEqual(["/tiers", "/games/game-1"]);
     expect(state.stacks.catalog).toHaveLength(1);
   });
 
