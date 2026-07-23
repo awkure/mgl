@@ -8,6 +8,7 @@ import { ScreenFiltersProvider } from "./screenFilters";
 import { formatBytes } from "./libraryUi";
 import { useMobileChrome } from "./mobileChrome";
 import { RandomGameButton } from "./RandomGameButton";
+import { nearestTabFromPressProgress, pressProgressFromClientX } from "./tabBarPress";
 
 export type AppRoute = "tiers" | "catalog" | "game" | "new" | "history" | "settings";
 
@@ -84,6 +85,7 @@ function NavLink({
   pressEnabled,
   pressed,
   onPressStart,
+  onPressMove,
   onPressEnd,
 }: {
   active: boolean;
@@ -97,6 +99,7 @@ function NavLink({
   pressEnabled?: boolean;
   pressed?: boolean;
   onPressStart?: (tab: TabId, event: PointerEvent<HTMLAnchorElement>) => void;
+  onPressMove?: (event: PointerEvent<HTMLAnchorElement>) => void;
   onPressEnd?: () => void;
 }) {
   const onClick = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -124,6 +127,7 @@ function NavLink({
       onPointerLeave={pressEnabled ? (e) => {
         if (e.buttons === 0) onPressEnd?.();
       } : undefined}
+      onPointerMove={pressEnabled ? (e) => onPressMove?.(e) : undefined}
       onPointerUp={pressEnabled ? () => onPressEnd?.() : undefined}
     >
       <Icon name={icon} />
@@ -145,16 +149,45 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
 }, ref) {
   const mobileChrome = useMobileChrome();
   const localRef = useRef<HTMLDivElement | null>(null);
+  const pressingRef = useRef(false);
   const [pressedTab, setPressedTab] = useState<TabId | null>(null);
 
-  const clearTabPress = () => setPressedTab(null);
+  const applyPressFromClientX = (clientX: number) => {
+    const shell = localRef.current;
+    const bar = shell?.querySelector(".app-tab-bar");
+    if (!(shell instanceof HTMLElement) || !(bar instanceof HTMLElement)) return;
+    const rect = bar.getBoundingClientRect();
+    const progress = pressProgressFromClientX(clientX, rect.left, rect.width);
+    shell.style.setProperty("--press-tab", String(progress));
+    const nearest = nearestTabFromPressProgress(progress);
+    setPressedTab((prev) => (prev === nearest ? prev : nearest));
+  };
+
+  const clearTabPress = () => {
+    pressingRef.current = false;
+    setPressedTab(null);
+    localRef.current?.style.removeProperty("--press-tab");
+  };
 
   const beginTabPress = (tab: TabId, event: PointerEvent<HTMLAnchorElement>) => {
     if (event.button !== 0) return;
-    const shell = event.currentTarget.closest(".app-shell") as HTMLElement | null;
-    if (shell?.getAttribute("data-pager-dragging") === "true") return;
+    const shellEl = event.currentTarget.closest(".app-shell") as HTMLElement | null;
+    if (shellEl?.getAttribute("data-pager-dragging") === "true") return;
     event.currentTarget.setPointerCapture?.(event.pointerId);
+    pressingRef.current = true;
     setPressedTab(tab);
+    const shell = localRef.current ?? shellEl;
+    const bar = shell?.querySelector(".app-tab-bar");
+    if (shell instanceof HTMLElement && bar instanceof HTMLElement && bar.getBoundingClientRect().width > 0) {
+      applyPressFromClientX(event.clientX);
+      return;
+    }
+    shell?.style.setProperty("--press-tab", String(tabProgressFromTabId(tab)));
+  };
+
+  const moveTabPress = (event: PointerEvent<HTMLAnchorElement>) => {
+    if (!pressingRef.current || event.buttons === 0) return;
+    applyPressFromClientX(event.clientX);
   };
 
   const setRefs = (node: HTMLDivElement | null) => {
@@ -201,85 +234,84 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
 
   return (
     <ScreenFiltersProvider>
-    <div
-      className="app-shell"
-      data-mobile-chrome={mobileChrome ? "true" : undefined}
-      data-route={shellRoute}
-      data-tab-press={pressedTab ? "true" : undefined}
-      ref={setRefs}
-      style={pressedTab ? { ["--press-tab" as string]: String(tabProgressFromTabId(pressedTab)) } : undefined}
-    >
-      <a className="skip-link" href="#main-content">К основному содержимому</a>
-      <header className="app-header">
-        {!mobileChrome ? (
-          <nav aria-label="Основная навигация" className="app-nav app-nav--desktop">
-            <NavLink active={activeTab === "tiers"} href="#/tiers" icon="book" label="Тирлист" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="tiers" />
-            <NavLink active={activeTab === "catalog"} href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="catalog" />
-            <NavLink active={activeTab === "history"} href="#/history" icon="history" label="История" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="history" />
-          </nav>
-        ) : null}
-        {showFilterBar ? <ScreenFilterBar games={games} mode={filterMode} /> : null}
-        <GlobalGameSearch games={games} onNavigate={onNavigate} />
-        <div className="app-header__actions">
-          <RandomGameButton games={games} onNavigate={onNavigate} resolveAssetUrl={resolveAssetUrl} />
-          <button
-            aria-label={`Локальные правки: ${storage.operationCount}, ${formatBytes(displayedBytes)}${localAssetCount ? `, локальных файлов: ${localAssetCount}` : ""}${storage.conflictCount ? `, конфликтов: ${storage.conflictCount}` : ""}${storageNeedsAttention ? ", хранилище требует внимания" : ""}${storage.error ? `, ошибка: ${storage.error}` : ""}`}
-            className={`patch-pill patch-pill--${storageLevel}`}
-            onClick={onOpenDiff}
-            title={storage.error}
-            type="button"
-          >
-            <span className="patch-pill__pulse" aria-hidden="true" />
-            <span>Локальные правки</span>
-            <strong>{storage.operationCount}</strong>
-            <span className="patch-pill__size">{formatBytes(displayedBytes)}</span>
-            {storage.conflictCount ? <span className="patch-pill__conflicts" aria-label={`${storage.conflictCount} конфликтов`}><Icon name="warning" size={15} /></span> : null}
-          </button>
-          {storage.error ? <span className="visually-hidden" role="alert">{storage.error}</span> : null}
+      <div
+        className="app-shell"
+        data-mobile-chrome={mobileChrome ? "true" : undefined}
+        data-route={shellRoute}
+        data-tab-press={pressedTab ? "true" : undefined}
+        ref={setRefs}
+      >
+        <a className="skip-link" href="#main-content">К основному содержимому</a>
+        <header className="app-header">
           {!mobileChrome ? (
-            <>
-              <a
-                aria-label="Настройки"
-                className={`button button--ghost button--icon app-header__settings${activeTab === "settings" ? " is-active" : ""}`}
-                href="#/settings"
-                onClick={onSelectTab
-                  ? (event) => { event.preventDefault(); onSelectTab("settings"); }
-                  : onNavigate ? (event) => { event.preventDefault(); onNavigate("#/settings"); } : undefined}
-              >
-                <Icon name="settings" size={18} />
-              </a>
-              <a className="button button--primary button--new-game" href="#/games/new" onClick={onNavigate ? (event) => { event.preventDefault(); onNavigate("#/games/new"); } : undefined}>
-                <Icon name="plus" size={18} />Добавить игру
-              </a>
-            </>
+            <nav aria-label="Основная навигация" className="app-nav app-nav--desktop">
+              <NavLink active={activeTab === "tiers"} href="#/tiers" icon="book" label="Тирлист" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="tiers" />
+              <NavLink active={activeTab === "catalog"} href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="catalog" />
+              <NavLink active={activeTab === "history"} href="#/history" icon="history" label="История" onNavigate={onNavigate} onSelectTab={onSelectTab} tab="history" />
+            </nav>
           ) : null}
-        </div>
-      </header>
-      <main id="main-content" className="app-main">{children}</main>
+          {showFilterBar ? <ScreenFilterBar games={games} mode={filterMode} /> : null}
+          <GlobalGameSearch games={games} onNavigate={onNavigate} />
+          <div className="app-header__actions">
+            <RandomGameButton games={games} onNavigate={onNavigate} resolveAssetUrl={resolveAssetUrl} />
+            <button
+              aria-label={`Локальные правки: ${storage.operationCount}, ${formatBytes(displayedBytes)}${localAssetCount ? `, локальных файлов: ${localAssetCount}` : ""}${storage.conflictCount ? `, конфликтов: ${storage.conflictCount}` : ""}${storageNeedsAttention ? ", хранилище требует внимания" : ""}${storage.error ? `, ошибка: ${storage.error}` : ""}`}
+              className={`patch-pill patch-pill--${storageLevel}`}
+              onClick={onOpenDiff}
+              title={storage.error}
+              type="button"
+            >
+              <span className="patch-pill__pulse" aria-hidden="true" />
+              <span>Локальные правки</span>
+              <strong>{storage.operationCount}</strong>
+              <span className="patch-pill__size">{formatBytes(displayedBytes)}</span>
+              {storage.conflictCount ? <span className="patch-pill__conflicts" aria-label={`${storage.conflictCount} конфликтов`}><Icon name="warning" size={15} /></span> : null}
+            </button>
+            {storage.error ? <span className="visually-hidden" role="alert">{storage.error}</span> : null}
+            {!mobileChrome ? (
+              <>
+                <a
+                  aria-label="Настройки"
+                  className={`button button--ghost button--icon app-header__settings${activeTab === "settings" ? " is-active" : ""}`}
+                  href="#/settings"
+                  onClick={onSelectTab
+                    ? (event) => { event.preventDefault(); onSelectTab("settings"); }
+                    : onNavigate ? (event) => { event.preventDefault(); onNavigate("#/settings"); } : undefined}
+                >
+                  <Icon name="settings" size={18} />
+                </a>
+                <a className="button button--primary button--new-game" href="#/games/new" onClick={onNavigate ? (event) => { event.preventDefault(); onNavigate("#/games/new"); } : undefined}>
+                  <Icon name="plus" size={18} />Добавить игру
+                </a>
+              </>
+            ) : null}
+          </div>
+        </header>
+        <main id="main-content" className="app-main">{children}</main>
 
-      {mobileChrome ? (
-        <>
-          <nav aria-label="Мобильная навигация" className="app-tab-bar">
-            <span aria-hidden="true" className="app-tab-bar__blob" />
-            <NavLink active={activeTab === "tiers"} className="app-tab-bar__link" href="#/tiers" icon="book" label="Тирлист" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "tiers"} tab="tiers" />
-            <NavLink active={activeTab === "catalog"} className="app-tab-bar__link" href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "catalog"} tab="catalog" />
-            <NavLink active={activeTab === "history"} className="app-tab-bar__link" href="#/history" icon="history" label="История" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "history"} tab="history" />
-            <NavLink active={activeTab === "settings"} className="app-tab-bar__link" href="#/settings" icon="settings" label="Настройки" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "settings"} tab="settings" />
-          </nav>
-          <a
-            aria-current={route === "new" ? "page" : undefined}
-            aria-label="Добавить игру"
-            className={`app-tab-add${route === "new" ? " is-active" : ""}`}
-            draggable={false}
-            href="#/games/new"
-            onClick={onNavigate ? (event) => { event.preventDefault(); onNavigate("#/games/new"); } : undefined}
-            onContextMenu={blockSafariCallout}
-          >
-            <Icon name="plus" size={22} />
-          </a>
-        </>
-      ) : null}
-    </div>
+        {mobileChrome ? (
+          <>
+            <nav aria-label="Мобильная навигация" className="app-tab-bar">
+              <span aria-hidden="true" className="app-tab-bar__blob" />
+              <NavLink active={activeTab === "tiers"} className="app-tab-bar__link" href="#/tiers" icon="book" label="Тирлист" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressMove={moveTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "tiers"} tab="tiers" />
+              <NavLink active={activeTab === "catalog"} className="app-tab-bar__link" href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressMove={moveTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "catalog"} tab="catalog" />
+              <NavLink active={activeTab === "history"} className="app-tab-bar__link" href="#/history" icon="history" label="История" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressMove={moveTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "history"} tab="history" />
+              <NavLink active={activeTab === "settings"} className="app-tab-bar__link" href="#/settings" icon="settings" label="Настройки" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressMove={moveTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "settings"} tab="settings" />
+            </nav>
+            <a
+              aria-current={route === "new" ? "page" : undefined}
+              aria-label="Добавить игру"
+              className={`app-tab-add${route === "new" ? " is-active" : ""}`}
+              draggable={false}
+              href="#/games/new"
+              onClick={onNavigate ? (event) => { event.preventDefault(); onNavigate("#/games/new"); } : undefined}
+              onContextMenu={blockSafariCallout}
+            >
+              <Icon name="plus" size={22} />
+            </a>
+          </>
+        ) : null}
+      </div>
     </ScreenFiltersProvider>
   );
 });

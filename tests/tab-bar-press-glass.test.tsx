@@ -145,4 +145,47 @@ describe("tab bar press glass — press state", () => {
       expect(settings).not.toHaveAttribute("data-pressed");
     });
   });
+
+  it("updates --press-tab continuously while dragging across the tab bar", () => {
+    const { container } = render(
+      <AppShell onOpenDiff={vi.fn()} route="tiers" storage={{ bytes: 0, operationCount: 0 }}>
+        <div>body</div>
+      </AppShell>,
+    );
+    const shell = container.querySelector(".app-shell") as HTMLElement;
+    const tabBar = screen.getByRole("navigation", { name: "Мобильная навигация" }) as HTMLElement;
+    const tiers = within(tabBar).getByRole("link", { name: "Тирлист" });
+
+    Object.defineProperty(tabBar, "getBoundingClientRect", {
+      configurable: true,
+      value: () => ({
+        x: 0,
+        y: 700,
+        left: 0,
+        top: 700,
+        right: 400,
+        bottom: 756,
+        width: 400,
+        height: 56,
+        toJSON() {
+          return {};
+        },
+      }),
+    });
+
+    fireEvent.pointerDown(tiers, { pointerId: 1, button: 0, clientX: 50, clientY: 728 });
+    expect(shell).toHaveAttribute("data-tab-press", "true");
+    expect(Number(shell.style.getPropertyValue("--press-tab"))).toBeCloseTo(0, 5);
+
+    // Midway across the bar → continuous progress (~1.5 between catalog and history).
+    fireEvent.pointerMove(tiers, { pointerId: 1, buttons: 1, clientX: 200, clientY: 728 });
+    expect(Number(shell.style.getPropertyValue("--press-tab"))).toBeCloseTo(1.5, 5);
+
+    const history = within(tabBar).getByRole("link", { name: "История" });
+    expect(history).toHaveAttribute("data-pressed", "true");
+    expect(tiers).not.toHaveAttribute("data-pressed");
+
+    fireEvent.pointerUp(tiers, { pointerId: 1, button: 0, clientX: 200, clientY: 728 });
+    expect(shell).not.toHaveAttribute("data-tab-press");
+  });
 });

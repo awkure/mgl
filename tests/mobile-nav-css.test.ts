@@ -258,6 +258,16 @@ describe("mobile nav css", () => {
     expect(pressBlob).toMatch(/box-shadow:/);
   });
 
+  it("tracks finger without transform transition while tab is pressed", () => {
+    const pressBlob = declarationsIn(
+      styles,
+      '.app-shell[data-mobile-chrome="true"][data-tab-press="true"] .app-tab-bar__blob',
+    );
+    // Transform must not ease while finger is down — only glass/surface may transition.
+    expect(pressBlob).not.toMatch(/transition:\s*[^;]*transform/);
+    expect(pressBlob).toMatch(/transition:\s*none|transition:[^;]*box-shadow/);
+  });
+
   it("defines mild lens on pressed tab link", () => {
     const pressed = declarationsIn(
       styles,

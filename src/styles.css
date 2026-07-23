@@ -1434,8 +1434,8 @@ h4 {
   -webkit-backdrop-filter: blur(18px) saturate(1.6);
   backdrop-filter: blur(18px) saturate(1.6);
   transform: translateX(calc(var(--press-tab, 0) * (100% + 2px))) scale(1.1);
+  /* No transform transition while pressed — blob must track finger 1:1. */
   transition:
-    transform 220ms cubic-bezier(.22, 1, .36, 1),
     box-shadow 220ms ease-out,
     background 220ms ease-out;
 }

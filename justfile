@@ -92,12 +92,13 @@ steam-import-covers-via-patch *ARGS:
 steam-import-covers *ARGS:
     npm run import:steam-covers -- --apply {{ARGS}}
 
-# Full benchmark suite (build + vitest/bundle/FPS/Lighthouse)
+# Full benchmark suite (build + vitest/bundle/FPS/tab-blob/Lighthouse)
 bench: ensure-env
     npm run build
     npm run bench
     npm run bench:bundle
     npm run bench:fps
+    npm run bench:tab-blob
     npm run bench:lighthouse
 
 # Full local gate before push
