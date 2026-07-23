@@ -166,6 +166,25 @@ export async function importSteamMediaForGame(input) {
   const existingNotes = Object.values(library.notes ?? {});
   const previousNote =
     existingNotes.find((note) => note.gameId === game.id && domain.isSteamMediaNote(note)) ?? null;
+
+  // No UGC survivors: do not create an empty media note; leave any existing note alone.
+  if (attachments.length === 0) {
+    return {
+      ok: true,
+      gameId: game.id,
+      appid,
+      encodedAssets: [],
+      mediaNote: null,
+      previousNote,
+      mediaNoteExisted: Boolean(previousNote),
+      skippedEmpty: true,
+      skipped,
+      screenshotsRequested: screenshots.length,
+      screenshotsEncoded: 0,
+      videos: videos.length,
+    };
+  }
+
   const upsert = domain.upsertSteamMediaNote({
     gameId: game.id,
     existingNotes,
@@ -185,6 +204,7 @@ export async function importSteamMediaForGame(input) {
     mediaNote,
     previousNote,
     mediaNoteExisted: Boolean(previousNote),
+    skippedEmpty: false,
     skipped,
     screenshotsRequested: screenshots.length,
     screenshotsEncoded: screenshotAssetIds.length,
@@ -196,6 +216,9 @@ export function buildMediaNotePatchFragment(input) {
   const { result, now, transactionId, existingAssetIds, libraryAssets } = input;
   const operations = {};
   const blobs = {};
+  if (!result.mediaNote) {
+    return { operations, blobs };
+  }
   for (const row of result.encodedAssets) {
     const existed = existingAssetIds.has(row.asset.id);
     operations[`/assets/${row.asset.id}`] = {

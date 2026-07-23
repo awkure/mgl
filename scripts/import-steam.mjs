@@ -649,8 +649,9 @@ try {
         console.warn(`media skip ${appid}: ${result.error}`);
         continue;
       }
-      mediaGames += 1;
       mediaSkippedFiles += result.skipped.length;
+      if (result.skippedEmpty || !result.mediaNote) continue;
+      mediaGames += 1;
       const fragment = buildMediaNotePatchFragment({
         result,
         now,

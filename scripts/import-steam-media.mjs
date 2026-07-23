@@ -287,25 +287,28 @@ try {
         existingAssetIds: new Set(Object.keys(working.assets ?? {})),
         libraryAssets: working.assets ?? {},
       });
+      const hasOps = Object.keys(fragment.operations).length > 0;
 
-      if (flags.apply) {
-        const mini = {
-          patchVersion: 2,
-          schemaVersion: 2,
-          baseRevision: working.revision || computeRevision(working),
-          operations: fragment.operations,
-          blobs: fragment.blobs,
-        };
-        working = applyAndWrite(working, mini);
-      } else {
-        combinedPatch = mergePatchFragments(combinedPatch, fragment);
-        working = applyPatch(working, {
-          patchVersion: 2,
-          schemaVersion: 2,
-          baseRevision: working.revision || "",
-          operations: fragment.operations,
-          blobs: fragment.blobs,
-        });
+      if (hasOps) {
+        if (flags.apply) {
+          const mini = {
+            patchVersion: 2,
+            schemaVersion: 2,
+            baseRevision: working.revision || computeRevision(working),
+            operations: fragment.operations,
+            blobs: fragment.blobs,
+          };
+          working = applyAndWrite(working, mini);
+        } else {
+          combinedPatch = mergePatchFragments(combinedPatch, fragment);
+          working = applyPatch(working, {
+            patchVersion: 2,
+            schemaVersion: 2,
+            baseRevision: working.revision || "",
+            operations: fragment.operations,
+            blobs: fragment.blobs,
+          });
+        }
       }
       summaries.push({
         gameId: game.id,
@@ -313,6 +316,7 @@ try {
         screenshotsEncoded: result.screenshotsEncoded,
         skipped: result.skipped.length,
         videos: result.videos,
+        skippedEmpty: Boolean(result.skippedEmpty),
       });
     }
 
@@ -454,7 +458,7 @@ try {
     console.log(`wrote patch ${outPath}`);
   }
 
-  if (flags.apply) {
+  if (flags.apply && Object.keys(patch.operations).length > 0) {
     applyAndWrite(library, patch);
   }
 
@@ -464,11 +468,12 @@ try {
       appid,
       gameId: game.id,
       steamid,
-      mediaNoteId: result.mediaNote.id,
-      createdNote: !result.mediaNoteExisted,
+      mediaNoteId: result.mediaNote?.id ?? null,
+      createdNote: Boolean(result.mediaNote) && !result.mediaNoteExisted,
+      skippedEmpty: Boolean(result.skippedEmpty),
       screenshots: result.screenshotsRequested,
       videos: result.videos,
-      videoThumbs: videoThumbCount,
+      videoThumbs: Math.max(0, videoThumbCount),
       prefillApplied: Boolean(nextGame),
       operations: Object.keys(patch.operations).length,
       blobs: Object.keys(patch.blobs).length,

@@ -157,7 +157,7 @@ describe("importSteamMediaForGame", () => {
     expect(result.encodedAssets).toHaveLength(1);
   });
 
-  it("upserts empty media note when UGC empty", async () => {
+  it("skips media note when UGC empty", async () => {
     const g = game("g1", 570);
     const library = { games: { g1: g }, notes: {}, assets: {}, revision: "rev" };
     const result = await importSteamMediaForGame({
@@ -173,8 +173,39 @@ describe("importSteamMediaForGame", () => {
     });
     expect(result.ok).toBe(true);
     if (!result.ok) return;
-    expect(result.mediaNote.attachments).toEqual([]);
-    expect(result.mediaNote.bodyMarkdown).toContain("<!-- steam-media:v1 -->");
+    expect(result.skippedEmpty).toBe(true);
+    expect(result.mediaNote).toBeNull();
+    expect(result.encodedAssets).toEqual([]);
+  });
+
+  it("leaves existing media note alone when UGC empty", async () => {
+    const g = game("g1", 570);
+    const existing = {
+      id: "note-1",
+      gameId: "g1",
+      bodyMarkdown: "<!-- steam-media:v1 -->\n\n## Медиа Steam\n",
+      attachments: [{ type: "image", assetId: "a".repeat(64), alt: "shot" }],
+      rank: 1024,
+      createdAt: NOW,
+      updatedAt: NOW,
+    };
+    const library = { games: { g1: g }, notes: { "note-1": existing }, assets: {}, revision: "rev" };
+    const result = await importSteamMediaForGame({
+      apiKey: "k",
+      steamid: "1",
+      library,
+      game: g,
+      appid: 570,
+      now: NOW,
+      getUserScreenshots: async () => [],
+      getUserVideos: async () => [],
+      fetchAndEncodeSteamImage: vi.fn(),
+    });
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.skippedEmpty).toBe(true);
+    expect(result.mediaNote).toBeNull();
+    expect(result.previousNote).toEqual(existing);
   });
 
   it("returns ok:false when GetUserFiles throws", async () => {

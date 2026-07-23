@@ -24,7 +24,7 @@ Single-game `import:steam-media` stays.
 | Failure mode | Best-effort: skip failed screenshot/thumb encodes; still upsert note with survivors |
 | Per-game API fail | Log + skip that game; continue others |
 | Exit code | `0` when run finishes; non-zero only on fatal (missing key/flags/library) |
-| Empty UGC | Still upsert media note (unchanged) |
+| Empty UGC | Skip — do not create empty media note; leave existing note alone |
 | Re-pull | Replace media-note attachments wholesale (marker idempotent) |
 | Encode | Same as today: shot maxEdge 1280; video thumb 512; WebP into `public/media` |
 | Source | Profile `GetUserFiles` only (filetype 4/3) — not storefront marketing |
