@@ -201,13 +201,6 @@ function findExecutable(name) {
   return null;
 }
 
-const jjExecutable = findExecutable("jj");
-
-function jj(root, ...args) {
-  if (!jjExecutable) throw new Error("jj is not installed");
-  return execFileSync(jjExecutable, args, { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
-}
-
 function makeRepository(database = emptyDatabase()) {
   const root = mkdtempSync(path.join(tmpdir(), "mylib-publish-test-"));
   temporaryPaths.push(root);
@@ -221,12 +214,6 @@ function makeRepository(database = emptyDatabase()) {
   git(root, "config", "user.email", "cli-test@example.invalid");
   git(root, "add", "--", ".");
   git(root, "commit", "-m", "Initial library");
-  return root;
-}
-
-function makeJujutsuRepository(database = emptyDatabase()) {
-  const root = makeRepository(database);
-  execFileSync(jjExecutable, ["git", "init", "--colocate", root], { stdio: ["ignore", "pipe", "pipe"] });
   return root;
 }
 
@@ -987,49 +974,8 @@ describe("publish patch transaction", () => {
     expect(existsSync(npmLog)).toBe(false);
   });
 
-  it.skipIf(!jjExecutable)("creates an isolated Jujutsu commit while preserving the current change", () => {
-    const root = makeJujutsuRepository();
-    const mainBefore = jj(root, "log", "-r", "main", "--no-graph", "-T", "commit_id");
-    jj(root, "describe", "-m", "Existing work");
-    const workingChangeBefore = jj(root, "log", "-r", "@", "--no-graph", "-T", "change_id");
-    git(root, "checkout", "--detach", "HEAD");
-    writeFileSync(path.join(root, "package.json"), "{\"private\":true,\"local\":true}\n");
-    expect(spawnSync("git", ["symbolic-ref", "--quiet", "--short", "HEAD"], { cwd: root }).status).not.toBe(0);
-
-    const result = publishPatchInRepository(root, createPatch());
-
-    expect(result.kind).toBe("jj");
-    expect(jj(root, "log", "-r", "@", "--no-graph", "-T", "change_id")).toBe(workingChangeBefore);
-    expect(jj(root, "log", "-r", "@", "--no-graph", "-T", "description.first_line()"))
-      .toBe("Existing work");
-    expect(jj(root, "diff", "--summary")).toBe("M package.json");
-    expect(result.commitMessage).toBe(CREATE_GAME_MESSAGE);
-    expect(jj(root, "log", "-r", "@-", "--no-graph", "-T", "description"))
-      .toBe(CREATE_GAME_MESSAGE);
-    expect(jj(root, "diff", "-r", "@-", "--summary")).toBe("A public/data/history.json\nM public/data/library.json");
-    expect(jj(root, "log", "-r", "main", "--no-graph", "-T", "commit_id")).toBe(mainBefore);
-    expect(JSON.parse(readFileSync(path.join(root, "public", "data", "library.json"), "utf8")).games[GAME_ID].title)
-      .toBe("DuckTales");
-  });
-
-  it.skipIf(!jjExecutable)("leaves an empty current Jujutsu change after publishing", () => {
-    const root = makeJujutsuRepository();
-    const workingChangeBefore = jj(root, "log", "-r", "@", "--no-graph", "-T", "change_id");
-
-    const result = publishPatchInRepository(root, createPatch());
-
-    expect(result.kind).toBe("jj");
-    expect(jj(root, "log", "-r", "@", "--no-graph", "-T", "change_id")).toBe(workingChangeBefore);
-    expect(jj(root, "diff", "--summary")).toBe("");
-    expect(result.commitMessage).toBe(CREATE_GAME_MESSAGE);
-    expect(jj(root, "log", "-r", "@-", "--no-graph", "-T", "description"))
-      .toBe(CREATE_GAME_MESSAGE);
-    expect(jj(root, "diff", "-r", "@-", "--summary")).toBe("A public/data/history.json\nM public/data/library.json");
-  });
-
-  it.skipIf(!jjExecutable)("keeps unrelated untracked files outside a successful media publication", () => {
-    const root = makeJujutsuRepository();
-    const workingChangeBefore = jj(root, "log", "-r", "@", "--no-graph", "-T", "change_id");
+  it("keeps unrelated untracked files outside a successful media publication", () => {
+    const root = makeRepository();
     const unrelatedPath = "scratch.txt";
     writeFileSync(path.join(root, unrelatedPath), "unrelated local file\n");
     const bytes = Buffer.from("publication media");
@@ -1037,77 +983,26 @@ describe("publish patch transaction", () => {
     const relativeMediaPath = `public/media/${metadata.id}.bin`;
 
     const result = publishPatchInRepository(root, createMediaPatch(bytes, metadata));
-    const noAutoTrack = ["--config", 'snapshot.auto-track="none()"'];
 
-    expect(result.kind).toBe("jj");
+    expect(result.kind).toBe("git");
     expect(git(root, "status", "--porcelain=v1", "--", unrelatedPath)).toBe(`?? ${unrelatedPath}`);
-    expect(jj(root, ...noAutoTrack, "file", "list", "-r", "@", unrelatedPath)).toBe("");
-    expect(jj(root, ...noAutoTrack, "diff", "--summary")).toBe("");
-    expect(jj(root, ...noAutoTrack, "log", "-r", "@", "--no-graph", "-T", "change_id"))
-      .toBe(workingChangeBefore);
-    expect(jj(root, ...noAutoTrack, "diff", "-r", "@-", "--summary").split("\n").sort())
-      .toEqual([`A ${relativeMediaPath}`, "A public/data/history.json", "M public/data/library.json"].sort());
+    expect(git(root, "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD").split("\n").sort())
+      .toEqual([...PUBLISH_LIBRARY_COMMIT_PATHS, relativeMediaPath].sort());
+    expect(git(root, "status", "--porcelain=v1")).toBe(`?? ${unrelatedPath}`);
   });
 
-  it.skipIf(!jjExecutable)("restores the exact Jujutsu operation when splitting pre-existing untracked media fails", () => {
-    const root = makeJujutsuRepository();
-    jj(root, "describe", "-m", "Existing work");
-    const workingChangeBefore = jj(root, "log", "-r", "@", "--no-graph", "-T", "change_id");
-    const packagePath = path.join(root, "package.json");
-    const packageContents = "{\"private\":true,\"local\":true}\n";
-    writeFileSync(packagePath, packageContents);
-
-    const bytes = Buffer.from("pre-existing untracked media");
-    const metadata = fileAsset(bytes, "existing.txt");
-    const relativeMediaPath = `public/media/${metadata.id}.bin`;
-    const mediaPath = path.join(root, relativeMediaPath);
-    mkdirSync(path.dirname(mediaPath));
-    writeFileSync(mediaPath, bytes);
-    const dataPath = path.join(root, "public", "data", "library.json");
-    const originalData = readFileSync(dataPath, "utf8");
-
-    const shimDirectory = mkdtempSync(path.join(tmpdir(), "mylib-jj-failure-shim-"));
-    temporaryPaths.push(shimDirectory);
-    const shim = path.join(shimDirectory, "jj");
-    writeFileSync(shim, `#!/bin/sh\nfor arg in "$@"; do if [ "$arg" = "split" ]; then exit 73; fi; done\nexec ${JSON.stringify(jjExecutable)} "$@"\n`);
-    chmodSync(shim, 0o755);
-    const previousPath = process.env.PATH;
-    process.env.PATH = `${shimDirectory}${path.delimiter}${previousPath}`;
-    let failure;
-    try {
-      publishPatchInRepository(root, createMediaPatch(bytes, metadata));
-    } catch (cause) {
-      failure = cause;
-    } finally {
-      process.env.PATH = previousPath;
-    }
-
-    expect(failure?.message).toMatch(/jj .* split .* failed: exit 73/s);
-    expect(readFileSync(dataPath, "utf8")).toBe(originalData);
-    expect(readFileSync(packagePath, "utf8")).toBe(packageContents);
-    expect(readFileSync(mediaPath)).toEqual(bytes);
-    expect(git(root, "status", "--porcelain=v1", "--", relativeMediaPath)).toBe(`?? ${relativeMediaPath}`);
-    const noAutoTrack = ["--config", 'snapshot.auto-track="none()"'];
-    expect(jj(root, ...noAutoTrack, "log", "-r", "@", "--no-graph", "-T", "change_id")).toBe(workingChangeBefore);
-    expect(jj(root, ...noAutoTrack, "log", "-r", "@", "--no-graph", "-T", "description.first_line()"))
-      .toBe("Existing work");
-    expect(jj(root, ...noAutoTrack, "diff", "--summary")).toBe("M package.json");
-  });
-
-  it.skipIf(!jjExecutable)("forces a large media blob into the isolated Jujutsu commit", { timeout: 30_000 }, () => {
-    const root = makeJujutsuRepository();
+  it("forces a large media blob into the isolated Git commit", { timeout: 30_000 }, () => {
+    const root = makeRepository();
     const bytes = Buffer.alloc(1_100_000, 0x5a);
     const metadata = fileAsset(bytes, "large-save.bin");
-    const workingChangeBefore = jj(root, "log", "-r", "@", "--no-graph", "-T", "change_id");
-
-    const result = publishPatchInRepository(root, createMediaPatch(bytes, metadata));
     const relativeMediaPath = `public/media/${metadata.id}.bin`;
 
-    expect(result.kind).toBe("jj");
-    expect(jj(root, "log", "-r", "@", "--no-graph", "-T", "change_id")).toBe(workingChangeBefore);
-    expect(jj(root, "diff", "--summary")).toBe("");
-    expect(jj(root, "diff", "-r", "@-", "--summary").split("\n").sort())
-      .toEqual([`A ${relativeMediaPath}`, "A public/data/history.json", "M public/data/library.json"].sort());
+    const result = publishPatchInRepository(root, createMediaPatch(bytes, metadata));
+
+    expect(result.kind).toBe("git");
+    expect(git(root, "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD").split("\n").sort())
+      .toEqual([...PUBLISH_LIBRARY_COMMIT_PATHS, relativeMediaPath].sort());
     expect(readFileSync(path.join(root, relativeMediaPath))).toEqual(bytes);
+    expect(git(root, "status", "--porcelain")).toBe("");
   });
 });
