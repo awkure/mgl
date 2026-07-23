@@ -3,8 +3,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { buildShelfLayout, ShelfGrid } from "../src/components/ShelfGrid";
 
 class ResizeObserverMock {
-  observe() {}
-  disconnect() {}
+  observe() { }
+  disconnect() { }
 }
 
 afterEach(() => {
@@ -184,5 +184,40 @@ describe("ordered shelf layout", () => {
 
     await waitFor(() => expect(Array.from(container.querySelectorAll<HTMLElement>("article")).map((card) => card.dataset.shelfIndex)).toEqual(["0", "1", "2"]));
     expect(Array.from(container.querySelectorAll("article"))).toEqual(originalCards);
+  });
+
+  it("honors a CSS single-column template even when width could fit two shelves", () => {
+    vi.stubGlobal("ResizeObserver", ResizeObserverMock);
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function () {
+      if ((this as HTMLElement).classList.contains("notes-list")) return { width: 800, height: 300 } as DOMRect;
+      return { width: 360, height: Number((this as HTMLElement).dataset.height ?? 0) } as DOMRect;
+    });
+    const computed = window.getComputedStyle(document.documentElement);
+    vi.spyOn(window, "getComputedStyle").mockImplementation((element) => {
+      const styles = computed;
+      if ((element as HTMLElement).classList?.contains("notes-list")) {
+        return {
+          getPropertyValue: (name: string) => (name === "--note-column-min" ? "360px" : ""),
+          columnGap: "8px",
+          gridTemplateColumns: "800px",
+        } as CSSStyleDeclaration;
+      }
+      return styles;
+    });
+
+    const { container } = render(
+      <ShelfGrid className="notes-list" layoutKey="css-one-column">
+        <article data-height="80" data-note-id="first" />
+        <article data-height="90" data-note-id="second" />
+        <article data-height="100" data-note-id="third" />
+      </ShelfGrid>,
+    );
+
+    const cards = Array.from(container.querySelectorAll<HTMLElement>("article"));
+    expect(cards.map((card) => [card.style.gridColumnStart, card.dataset.shelfIndex, card.dataset.shelfPosition])).toEqual([
+      ["1", "0", "single"],
+      ["1", "1", "single"],
+      ["1", "2", "single"],
+    ]);
   });
 });

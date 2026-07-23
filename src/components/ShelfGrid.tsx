@@ -40,6 +40,20 @@ function cssPixels(value: string, fallback: number): number {
   return Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
 }
 
+/** Count explicit tracks from a computed `grid-template-columns` value. */
+export function gridTemplateColumnCount(template: string): number {
+  const trimmed = template.trim();
+  if (!trimmed || trimmed === "none") return 0;
+  return trimmed.split(/\s+/).filter(Boolean).length;
+}
+
+function shelfColumnCount(gridWidth: number, columnGap: number, minimumColumnWidth: number, template: string): number {
+  const widthColumns = Math.max(1, Math.floor((gridWidth + columnGap) / (minimumColumnWidth + columnGap)));
+  const templateColumns = gridTemplateColumnCount(template);
+  if (templateColumns <= 0) return widthColumns;
+  return Math.max(1, Math.min(widthColumns, templateColumns));
+}
+
 function placementComposition(placements: readonly ShelfPlacement[]): ShelfComposition {
   const composition: ShelfComposition = [];
   for (const placement of placements) {
@@ -216,7 +230,7 @@ export function ShelfGrid({
       const columnGap = cssPixels(styles.columnGap, DEFAULT_COLUMN_GAP);
       const minimumColumnWidth = cssPixels(styles.getPropertyValue("--note-column-min"), DEFAULT_COLUMN_WIDTH);
       const gridWidth = grid.getBoundingClientRect().width || grid.clientWidth || minimumColumnWidth;
-      const columnCount = Math.max(1, Math.floor((gridWidth + columnGap) / (minimumColumnWidth + columnGap)));
+      const columnCount = shelfColumnCount(gridWidth, columnGap, minimumColumnWidth, styles.gridTemplateColumns);
       const heights = measureNaturalHeights(grid, cards);
       const compositionSize = compositionRef.current?.flat(2).length ?? 0;
       const structureChanged = previousOrder !== nextOrder || compositionSize !== cards.length;
