@@ -14,6 +14,10 @@ import {
   loadPendingPublication,
   type PendingPublicationReceipt,
 } from "../src/state/pendingPublication";
+import {
+  GITHUB_REPOSITORY_NAME,
+  GITHUB_REPOSITORY_OWNER,
+} from "../src/state/githubPat";
 
 class MemoryStorage implements Storage {
   private values = new Map<string, string>();
@@ -72,8 +76,8 @@ function receipt(): PendingPublicationReceipt {
   const database = finalizePublishedDatabase(draft, "00000000-0000-4000-8000-000000000001");
   return {
     version: 1,
-    owner: "awkure",
-    repo: "mgl",
+    owner: GITHUB_REPOSITORY_OWNER,
+    repo: GITHUB_REPOSITORY_NAME,
     branch: "main",
     sourceRevision: "",
     commitSha: "a".repeat(40),
