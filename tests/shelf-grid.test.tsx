@@ -311,4 +311,72 @@ describe("ordered shelf layout", () => {
       ["1", "2", "single"],
     ]);
   });
+
+  it("does not remeasure when only drag classes flip while packing is frozen", async () => {
+    vi.stubGlobal("ResizeObserver", ResizeObserverMock);
+    const measure = vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function () {
+      if ((this as HTMLElement).classList.contains("notes-list")) return { width: 1100, height: 300 } as DOMRect;
+      return { width: 360, height: Number((this as HTMLElement).dataset.height ?? 0) } as DOMRect;
+    });
+
+    const { container, rerender } = render(
+      <ShelfGrid className="notes-list" layoutKey="drag-class">
+        <article className="note-card" data-height="100" data-note-id="first" key="first" />
+        <article className="note-card" data-height="120" data-note-id="second" key="second" />
+      </ShelfGrid>,
+    );
+
+    await waitFor(() => {
+      expect(container.querySelector<HTMLElement>("article")?.style.gridColumnStart).toBe("1");
+    });
+
+    rerender(
+      <ShelfGrid className="notes-list" layoutKey="drag-class" packingFrozen>
+        <article className="note-card" data-height="100" data-note-id="first" key="first" />
+        <article className="note-card" data-height="120" data-note-id="second" key="second" />
+      </ShelfGrid>,
+    );
+
+    const callsAfterFreeze = measure.mock.calls.length;
+    const first = container.querySelector<HTMLElement>("article")!;
+    first.classList.add("is-dragging");
+    first.classList.add("is-drop-target");
+
+    await new Promise<void>((resolve) => {
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+    });
+
+    expect(measure.mock.calls.length).toBe(callsAfterFreeze);
+    expect(first.style.gridColumnStart).toBe("1");
+  });
+
+  it("still lays out on childList while packing is frozen", async () => {
+    vi.stubGlobal("ResizeObserver", ResizeObserverMock);
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function () {
+      if ((this as HTMLElement).classList.contains("notes-list")) return { width: 1100, height: 300 } as DOMRect;
+      return { width: 360, height: Number((this as HTMLElement).dataset.height ?? 0) } as DOMRect;
+    });
+
+    const { container, rerender } = render(
+      <ShelfGrid className="notes-list" layoutKey="child-list" packingFrozen>
+        <article data-height="100" data-note-id="first" key="first" />
+      </ShelfGrid>,
+    );
+
+    await waitFor(() => {
+      expect(container.querySelectorAll("article")).toHaveLength(1);
+    });
+
+    rerender(
+      <ShelfGrid className="notes-list" layoutKey="child-list-2" packingFrozen>
+        <article data-height="100" data-note-id="first" key="first" />
+        <article data-height="120" data-note-id="second" key="second" />
+      </ShelfGrid>,
+    );
+
+    await waitFor(() => {
+      expect(container.querySelectorAll("article")).toHaveLength(2);
+      expect(Array.from(container.querySelectorAll<HTMLElement>("article")).map((c) => c.style.gridColumnStart)).toEqual(["1", "2"]);
+    });
+  });
 });

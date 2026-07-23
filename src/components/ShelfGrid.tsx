@@ -188,6 +188,39 @@ function cardOrder(cards: readonly HTMLElement[]): string {
   return cards.map((card, index) => card.dataset.noteId ?? `index:${index}`).join("\u0000");
 }
 
+const DRAG_LAYOUT_IGNORE_CLASSES = new Set([
+  "is-dragging",
+  "is-drop-target",
+  "is-file-dragging",
+]);
+
+function tokenizeClass(value: string): string[] {
+  return value.split(/\s+/).filter(Boolean);
+}
+
+/** True when a class attribute mutation only adds/removes drag/drop markers. */
+export function isDragOnlyClassMutation(record: MutationRecord): boolean {
+  if (record.type !== "attributes" || record.attributeName !== "class") return false;
+  const target = record.target;
+  if (!(target instanceof Element)) return false;
+  const before = new Set(tokenizeClass(record.oldValue ?? ""));
+  const after = new Set(tokenizeClass(target.getAttribute("class") ?? ""));
+  for (const token of before) {
+    if (after.has(token)) continue;
+    if (!DRAG_LAYOUT_IGNORE_CLASSES.has(token)) return false;
+  }
+  for (const token of after) {
+    if (before.has(token)) continue;
+    if (!DRAG_LAYOUT_IGNORE_CLASSES.has(token)) return false;
+  }
+  return true;
+}
+
+function mutationsNeedLayout(records: MutationRecord[], packingFrozen: boolean): boolean {
+  if (!packingFrozen) return records.length > 0;
+  return records.some((record) => !isDragOnlyClassMutation(record));
+}
+
 export function ShelfGrid({
   children,
   className,
@@ -279,8 +312,20 @@ export function ShelfGrid({
     const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(() => scheduleLayout(false));
     observer?.observe(grid);
     for (const card of grid.children) observer?.observe(card);
-    const mutationObserver = typeof MutationObserver === "undefined" ? null : new MutationObserver(() => scheduleLayout(false));
-    mutationObserver?.observe(grid, { attributeFilter: ["aria-expanded", "class"], attributes: true, characterData: true, childList: true, subtree: true });
+    const mutationObserver = typeof MutationObserver === "undefined"
+      ? null
+      : new MutationObserver((records) => {
+          if (!mutationsNeedLayout(records, frozenRef.current)) return;
+          scheduleLayout(false);
+        });
+    mutationObserver?.observe(grid, {
+      attributeFilter: ["aria-expanded", "class"],
+      attributeOldValue: true,
+      attributes: true,
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
     const handleResize = () => scheduleLayout(true);
     window.addEventListener("resize", handleResize);
     layout(true);
