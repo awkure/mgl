@@ -4677,6 +4677,7 @@ h4 {
 }
 
 .diff-dialog {
+  --diff-safe-top: env(safe-area-inset-top, 0px);
   width: min(620px, 100%);
   height: 100%;
   display: flex;
@@ -4687,7 +4688,7 @@ h4 {
 }
 
 .diff-dialog__header {
-  padding: 12px 14px;
+  padding: calc(12px + var(--diff-safe-top)) 14px 12px;
   border-bottom: 1px solid var(--line-soft);
 }
 
