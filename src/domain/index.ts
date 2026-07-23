@@ -14,3 +14,4 @@ export * from "./historyTypes";
 export * from "./historyValidate";
 export * from "./historyDiff";
 export * from "./historyCluster";
+export * from "./historyNotePreview";
