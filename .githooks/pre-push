@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Blocks `git push` when unit tests fail.
+# Installed into .git/hooks/pre-push by scripts/install-git-hooks.sh
+# (works with a global core.hooksPath that chains to the repo hook).
+set -euo pipefail
+
+root="$(git rev-parse --show-toplevel)"
+cd "$root"
+
+echo "pre-push: npm test"
+npm test

@@ -47,6 +47,9 @@ cp -n .env.example .env
 npm run dev
 ```
 
+`npm ci` / `just setup` ставят `pre-push` hook: перед `git push` гоняется
+`npm test`. Обход: `git push --no-verify`.
+
 Проверки:
 
 ```sh

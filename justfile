@@ -7,10 +7,11 @@ set dotenv-load := true
 default:
     @just --list
 
-# Install deps and ensure .env exists
+# Install deps, git hooks, and ensure .env exists
 setup:
     @[ -f .env ] || cp .env.example .env
     npm ci
+    bash scripts/install-git-hooks.sh
 
 # Vite dev server
 dev: ensure-env
