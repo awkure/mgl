@@ -13349,6 +13349,19 @@
       },
       "title": "Phantom Abyss",
       "coverAssetId": "4798ba4b90a3bfc84408b779b1a1562a26cd345e5c67f98d1f06a4c69e103a65"
+    },
+    {
+      "id": "3468da809f31b2aaf3eaa29fe448295d7273cfedfc9be48f3cb46e4b43cabb64",
+      "changedAt": "2026-07-23T11:09:47.518Z",
+      "entity": "note",
+      "entityId": "357c50df-c6bc-4afe-a6b9-ea52a9145cd5",
+      "gameId": "09b5cc74-63bf-456f-99ab-97097703f8d6",
+      "field": "bodyMarkdown",
+      "op": "set",
+      "before": "Лучший рогалик вообще",
+      "after": "Лучший рогаличевский вообще, вообще и вообще",
+      "title": "The Binding of Isaac: Rebirth",
+      "coverAssetId": "82258390140ccf7c880d5ca991c730918757b656d86390248a70133b59ec8189"
     }
   ]
 }

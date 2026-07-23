@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": "f8b30d3e5086ff2ce603a1d70d2be30c66197b82e96ddc7e0d5f48465d4d5565",
-  "publicationId": "b6da79b4-4aa0-4e51-8454-86582a075c24",
+  "revision": "87121e441e4f9fc8f9f2385e1c131bc20ce78f1ff783b35148d9b4603f46fb4d",
+  "publicationId": "483aa9cc-6c8d-4305-90fb-c2e224d40b8b",
   "games": {
     "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94": {
       "id": "5234e52d-66ff-4c1c-b2c7-ac5a9365cd94",
@@ -555,7 +555,7 @@
       },
       "reviewMarkdown": "",
       "createdAt": "2026-07-21T19:08:56.871Z",
-      "updatedAt": "2026-07-22T20:22:59.170Z"
+      "updatedAt": "2026-07-23T11:09:47.518Z"
     },
     "0a6d00b8-58cd-41a2-a316-55cf2fc04dc3": {
       "id": "0a6d00b8-58cd-41a2-a316-55cf2fc04dc3",
@@ -13929,12 +13929,12 @@
     "357c50df-c6bc-4afe-a6b9-ea52a9145cd5": {
       "id": "357c50df-c6bc-4afe-a6b9-ea52a9145cd5",
       "gameId": "09b5cc74-63bf-456f-99ab-97097703f8d6",
-      "bodyMarkdown": "Лучший рогалик вообще",
+      "bodyMarkdown": "Лучший рогаличевский вообще, вообще и вообще",
       "attachments": [],
       "groupRank": 2048,
       "rank": 1024,
       "createdAt": "2026-07-22T15:50:57.240Z",
-      "updatedAt": "2026-07-22T15:50:57.272Z"
+      "updatedAt": "2026-07-23T11:09:47.518Z"
     },
     "2c47b416-f916-4b3f-894a-e68c882a1a62": {
       "id": "2c47b416-f916-4b3f-894a-e68c882a1a62",
