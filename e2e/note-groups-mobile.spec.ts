@@ -122,11 +122,13 @@ test.describe("note groups on small screens", () => {
 
     await page.getByRole("button", { name: "Добавить заметку в новую группу" }).click();
     await page.getByRole("button", { name: "Добавить заметку в группу 1" }).click();
+    await page.getByRole("button", { name: "Добавить заметку в группу 1" }).click();
 
     const editors = page.locator(".note-editors-grid textarea");
-    await expect(editors).toHaveCount(2);
+    await expect(editors).toHaveCount(3);
     await editors.nth(0).fill("Первый фпс в который приходилось играть и до сих пор остаётся одним из лучших из классики");
     await editors.nth(1).fill("ttt");
+    await editors.nth(2).fill("третья заметка под полкой");
     await expect(editors.nth(0)).toHaveValue(/Первый фпс/);
     await expect.poll(async () => {
       return page.locator(".note-editors-grid").evaluate((grid) => {
@@ -143,23 +145,50 @@ test.describe("note groups on small screens", () => {
 
       const template = getComputedStyle(grid).gridTemplateColumns.trim();
       const trackCount = template === "none" || template === "" ? 0 : template.split(/\s+/).length;
+      const rowGap = Number.parseFloat(getComputedStyle(grid).getPropertyValue("--note-shelf-row-gap")) || 0;
       const addRect = add.getBoundingClientRect();
       const gridRect = grid.getBoundingClientRect();
-      const cardRects = [...grid.children].map((child) => (child as HTMLElement).getBoundingClientRect());
-      const overlaps = cardRects
+      const cards = [...grid.children].map((child) => {
+        const el = child as HTMLElement;
+        const rect = el.getBoundingClientRect();
+        return {
+          shelf: el.dataset.shelfIndex ?? "",
+          top: rect.top,
+          bottom: rect.bottom,
+          left: rect.left,
+          right: rect.right,
+          height: el.style.height,
+        };
+      });
+      const addOverlaps = cards
         .map((card, index) => {
           const oy = Math.max(0, Math.min(addRect.bottom, card.bottom) - Math.max(addRect.top, card.top));
           const ox = Math.max(0, Math.min(addRect.right, card.right) - Math.max(addRect.left, card.left));
           return { index, oy, ox };
         })
         .filter((hit) => hit.oy > 1 && hit.ox > 1);
+      const cardOverlaps: Array<{ a: number; b: number; oy: number; ox: number }> = [];
+      for (let i = 0; i < cards.length; i += 1) {
+        for (let j = i + 1; j < cards.length; j += 1) {
+          const a = cards[i]!;
+          const b = cards[j]!;
+          const oy = Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+          const ox = Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left));
+          if (oy > 1 && ox > 1) cardOverlaps.push({ a: i, b: j, oy, ox });
+        }
+      }
+      const shelves = new Set(cards.map((card) => card.shelf));
 
       return {
         trackCount,
+        rowGap,
+        shelves: [...shelves],
         paddingBottom: getComputedStyle(grid).paddingBottom,
         addTop: addRect.top,
         gridBottom: gridRect.bottom,
-        overlaps,
+        cards,
+        addOverlaps,
+        cardOverlaps,
       };
     });
 
@@ -167,8 +196,12 @@ test.describe("note groups on small screens", () => {
     if ("error" in metrics) return;
 
     expect(metrics.trackCount).toBeGreaterThanOrEqual(2);
+    expect(metrics.shelves.length).toBeGreaterThanOrEqual(2);
+    expect(metrics.rowGap).toBeGreaterThanOrEqual(49);
     expect(Number.parseFloat(metrics.paddingBottom)).toBeGreaterThanOrEqual(29);
     expect(metrics.addTop).toBeGreaterThanOrEqual(metrics.gridBottom - 1);
-    expect(metrics.overlaps, `add under cards: ${JSON.stringify(metrics.overlaps)}`).toEqual([]);
+    expect(metrics.addOverlaps, `add under cards: ${JSON.stringify(metrics.addOverlaps)}`).toEqual([]);
+    expect(metrics.cardOverlaps, `cards overlap: ${JSON.stringify(metrics.cardOverlaps)}`).toEqual([]);
+    expect(metrics.cards.every((card) => Number.parseFloat(card.height) > 0)).toBe(true);
   });
 });

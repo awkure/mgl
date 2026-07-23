@@ -51,8 +51,9 @@ describe("note card footer", () => {
     expect(declarationsIn(styles, ".note-group > .notes-list, .note-group > .note-editors-grid")).toMatch(
       /padding-bottom:\s*29px/,
     );
+    expect(declarationsIn(styles, ".notes-list, .note-editors-grid")).toMatch(/--note-shelf-row-gap:\s*12px/);
     expect(styles).toMatch(
-      /@media \(pointer: coarse\),\s*\(max-width: 720px\)[\s\S]*?\.note-group\s*>\s*\.notes-list,\s*\.note-group\s*>\s*\.note-editors-grid \{[^}]*padding-bottom:\s*49px;/,
+      /@media \(pointer: coarse\),\s*\(max-width: 720px\)[\s\S]*?\.note-group\s*>\s*\.notes-list,\s*\.note-group\s*>\s*\.note-editors-grid \{[^}]*--note-shelf-row-gap:\s*53px;[^}]*padding-bottom:\s*49px;/,
     );
     expect(styles).toMatch(
       /@media \(pointer: coarse\),\s*\(max-width: 720px\)[\s\S]*?\.note-card__actions \{[^}]*min-height:\s*49px;[^}]*opacity:\s*1;/,

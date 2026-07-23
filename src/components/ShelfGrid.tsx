@@ -148,6 +148,7 @@ function resetCardLayout(card: HTMLElement): void {
   card.style.gridColumnStart = "auto";
   card.style.gridRowStart = "auto";
   card.style.gridRowEnd = "auto";
+  card.style.height = "";
   card.removeAttribute("data-shelf-position");
   card.removeAttribute("data-shelf-index");
 }
@@ -221,14 +222,16 @@ export function ShelfGrid({
       const nextOrder = cardOrder(cards);
       const previousOrder = orderRef.current;
 
-      grid.setAttribute("data-shelf-measuring", "true");
-      grid.style.gridAutoRows = "auto";
-      grid.style.rowGap = `${DEFAULT_ROW_GAP}px`;
-      cards.forEach(resetCardLayout);
-
       const styles = window.getComputedStyle(grid);
       const columnGap = cssPixels(styles.columnGap, DEFAULT_COLUMN_GAP);
+      const rowGap = cssPixels(styles.getPropertyValue("--note-shelf-row-gap"), DEFAULT_ROW_GAP);
+      const stackGap = cssPixels(styles.getPropertyValue("--note-shelf-stack-gap"), DEFAULT_STACK_GAP);
       const minimumColumnWidth = cssPixels(styles.getPropertyValue("--note-column-min"), DEFAULT_COLUMN_WIDTH);
+
+      grid.setAttribute("data-shelf-measuring", "true");
+      grid.style.gridAutoRows = "auto";
+      grid.style.rowGap = `${rowGap}px`;
+      cards.forEach(resetCardLayout);
       const gridWidth = grid.getBoundingClientRect().width || grid.clientWidth || minimumColumnWidth;
       const columnCount = shelfColumnCount(gridWidth, columnGap, minimumColumnWidth, styles.gridTemplateColumns);
       const heights = measureNaturalHeights(grid, cards);
@@ -240,13 +243,13 @@ export function ShelfGrid({
       let shelfLayout: ShelfLayout;
 
       if (repackNow) {
-        shelfLayout = buildShelfLayout(heights, columnCount);
+        shelfLayout = buildShelfLayout(heights, columnCount, { rowGap, stackGap });
         compositionRef.current = placementComposition(shelfLayout.placements);
         pendingRepackRef.current = false;
         columnCountRef.current = columnCount;
       } else {
         if (shouldRepack) pendingRepackRef.current = true;
-        shelfLayout = layoutComposition(heights, compositionRef.current!, DEFAULT_ROW_GAP, DEFAULT_STACK_GAP);
+        shelfLayout = layoutComposition(heights, compositionRef.current!, rowGap, stackGap);
       }
 
       orderRef.current = nextOrder;
@@ -259,6 +262,7 @@ export function ShelfGrid({
         card.style.gridColumnStart = String(placement.column + 1);
         card.style.gridRowStart = String(placement.top + 1);
         card.style.gridRowEnd = `span ${placement.height}`;
+        card.style.height = `${placement.height}px`;
         card.dataset.shelfPosition = placement.stackPosition;
         card.dataset.shelfIndex = String(placement.shelf);
       });

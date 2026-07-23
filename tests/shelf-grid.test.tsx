@@ -101,14 +101,53 @@ describe("ordered shelf layout", () => {
     );
 
     const cards = Array.from(container.querySelector<HTMLElement>(".notes-list")!.children) as HTMLElement[];
-    expect(cards.map((card) => [card.dataset.shelfPosition, card.style.gridColumnStart, card.style.gridRowEnd])).toEqual([
-      ["single", "1", "span 300"],
-      ["top", "2", "span 147"],
-      ["bottom", "2", "span 147"],
+    expect(cards.map((card) => [card.dataset.shelfPosition, card.style.gridColumnStart, card.style.gridRowEnd, card.style.height])).toEqual([
+      ["single", "1", "span 300", "300px"],
+      ["top", "2", "span 147", "147px"],
+      ["bottom", "2", "span 147", "147px"],
     ]);
     expect(container.querySelector<HTMLElement>(".notes-list")!.style.alignItems).toBe("");
-    expect(cards.every((card) => card.style.height === "" && card.style.alignSelf === "")).toBe(true);
-    expect(Array.from(container.querySelectorAll<HTMLElement>(".note-card, .note-card__surface")).every((element) => element.style.height === "")).toBe(true);
+    expect(cards.every((card) => card.style.alignSelf === "")).toBe(true);
+  });
+
+  it("spaces shelves using --note-shelf-row-gap so hanging actions do not cover the next row", () => {
+    vi.stubGlobal("ResizeObserver", ResizeObserverMock);
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function () {
+      if ((this as HTMLElement).classList.contains("notes-list")) return { width: 800, height: 300 } as DOMRect;
+      return { width: 360, height: Number((this as HTMLElement).dataset.height ?? 0) } as DOMRect;
+    });
+    const computed = window.getComputedStyle(document.documentElement);
+    vi.spyOn(window, "getComputedStyle").mockImplementation((element) => {
+      if ((element as HTMLElement).classList?.contains("notes-list")) {
+        return {
+          getPropertyValue: (name: string) => {
+            if (name === "--note-column-min") return "360px";
+            if (name === "--note-shelf-row-gap") return "53px";
+            if (name === "--note-shelf-stack-gap") return "6px";
+            return "";
+          },
+          columnGap: "8px",
+          gridTemplateColumns: "360px 360px",
+        } as CSSStyleDeclaration;
+      }
+      return computed;
+    });
+
+    const { container } = render(
+      <ShelfGrid className="notes-list" layoutKey="row-gap">
+        <article data-height="100" data-note-id="a" />
+        <article data-height="120" data-note-id="b" />
+        <article data-height="80" data-note-id="c" />
+      </ShelfGrid>,
+    );
+
+    const cards = Array.from(container.querySelectorAll<HTMLElement>("article"));
+    // shelf0 height 120 + rowGap 53 → second shelf starts at grid row 174
+    expect(cards.map((card) => [card.dataset.shelfIndex, card.style.gridRowStart, card.style.height])).toEqual([
+      ["0", "1", "120px"],
+      ["0", "1", "120px"],
+      ["1", "174", "80px"],
+    ]);
   });
 
   it("keeps the same card nodes while a frozen composition changes height, then repacks once thawed", () => {

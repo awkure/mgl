@@ -3487,6 +3487,8 @@ h4 {
 .notes-list,
 .note-editors-grid {
   --note-column-min: 360px;
+  --note-shelf-row-gap: 12px;
+  --note-shelf-stack-gap: 6px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(var(--note-column-min), 100%), 1fr));
   grid-auto-rows: 1px;
@@ -5664,6 +5666,8 @@ h4 {
 
   .note-group>.notes-list,
   .note-group>.note-editors-grid {
+    /* Clear always-visible .note-card__actions (49px) between shelves and below the last row. */
+    --note-shelf-row-gap: 53px;
     padding-bottom: 49px;
   }
 
