@@ -292,7 +292,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
         {mobileChrome ? (
           <>
             <nav aria-label="Мобильная навигация" className="app-tab-bar">
-              <span aria-hidden="true" className="app-tab-bar__blob" />
+              <span aria-hidden="true" className="app-tab-bar__highlight" />
               <NavLink active={activeTab === "tiers"} className="app-tab-bar__link" href="#/tiers" icon="book" label="Тирлист" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressMove={moveTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "tiers"} tab="tiers" />
               <NavLink active={activeTab === "catalog"} className="app-tab-bar__link" href="#/games" icon="collection" label="Каталог" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressMove={moveTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "catalog"} tab="catalog" />
               <NavLink active={activeTab === "history"} className="app-tab-bar__link" href="#/history" icon="history" label="История" onNavigate={onNavigate} onPressEnd={clearTabPress} onPressMove={moveTabPress} onPressStart={beginTabPress} onSelectTab={onSelectTab} pressEnabled pressed={pressedTab === "history"} tab="history" />

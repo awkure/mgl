@@ -188,4 +188,16 @@ describe("tab bar press glass — press state", () => {
     fireEvent.pointerUp(tiers, { pointerId: 1, button: 0, clientX: 200, clientY: 728 });
     expect(shell).not.toHaveAttribute("data-tab-press");
   });
+
+  it("renders sliding highlight, not glass blob", () => {
+    const { container } = render(
+      <AppShell onOpenDiff={vi.fn()} route="tiers" storage={{ bytes: 0, operationCount: 0 }}>
+        <div>body</div>
+      </AppShell>,
+    );
+    const tabBar = screen.getByRole("navigation", { name: "Мобильная навигация" });
+    expect(tabBar.querySelector(".app-tab-bar__highlight")).toBeTruthy();
+    expect(tabBar.querySelector(".app-tab-bar__blob")).toBeNull();
+    expect(container.querySelector(".app-tab-bar__blob")).toBeNull();
+  });
 });
