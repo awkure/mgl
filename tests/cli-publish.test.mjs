@@ -212,6 +212,8 @@ function makeRepository(database = emptyDatabase()) {
   git(root, "branch", "-M", "main");
   git(root, "config", "user.name", "CLI Test");
   git(root, "config", "user.email", "cli-test@example.invalid");
+  // Bypass global core.hooksPath (e.g. Mullvad curl) — keeps commits local-only.
+  git(root, "config", "core.hooksPath", path.join(root, ".git", "hooks"));
   git(root, "add", "--", ".");
   git(root, "commit", "-m", "Initial library");
   return root;
