@@ -5648,7 +5648,8 @@ h4 {
 
   .note-group-add-slot {
     min-height: var(--touch-target);
-    margin-top: 4px;
+    /* Always-visible .note-card__actions (min-height 49px) sit below the last card. */
+    margin-top: calc(4px + 49px);
   }
 
   .note-group-add-button {

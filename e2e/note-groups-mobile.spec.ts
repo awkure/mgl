@@ -80,4 +80,37 @@ test.describe("note groups on small screens", () => {
       }
     }
   });
+
+  test("keeps add-note label clear of always-visible card actions", async ({ page }) => {
+    await page.goto(MULTI_GROUP_GAME, { waitUntil: "domcontentloaded" });
+    await waitForAppReady(page);
+
+    await expect(page.getByRole("button", { name: /Добавить заметку в группу/ }).first()).toBeVisible();
+
+    const covered = await page.evaluate(() => {
+      const hits: Array<{ group: string; overlapY: number; addTop: number; actionsBottom: number }> = [];
+      for (const group of document.querySelectorAll<HTMLElement>(".note-group")) {
+        const add = group.querySelector<HTMLElement>(".note-group-add-button");
+        const cards = group.querySelectorAll<HTMLElement>(".note-card:not(.note-card--editing)");
+        const last = cards[cards.length - 1];
+        const actions = last?.querySelector<HTMLElement>(".note-card__actions");
+        if (!add || !actions) continue;
+        const addRect = add.getBoundingClientRect();
+        const actionsRect = actions.getBoundingClientRect();
+        const overlapY = Math.max(0, Math.min(addRect.bottom, actionsRect.bottom) - Math.max(addRect.top, actionsRect.top));
+        const overlapX = Math.max(0, Math.min(addRect.right, actionsRect.right) - Math.max(addRect.left, actionsRect.left));
+        if (overlapY > 1 && overlapX > 1) {
+          hits.push({
+            group: group.getAttribute("aria-label") ?? "",
+            overlapY,
+            addTop: addRect.top,
+            actionsBottom: actionsRect.bottom,
+          });
+        }
+      }
+      return hits;
+    });
+
+    expect(covered, `add labels covered by card actions: ${JSON.stringify(covered)}`).toEqual([]);
+  });
 });

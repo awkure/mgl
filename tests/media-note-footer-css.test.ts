@@ -47,6 +47,15 @@ describe("note card footer", () => {
     expect(footerLayer).toBeGreaterThan(addSlotLayer);
   });
 
+  it("clears always-visible mobile card actions above the add-note slot", () => {
+    expect(styles).toMatch(
+      /@media \(pointer: coarse\),\s*\(max-width: 720px\)[\s\S]*?\.note-group-add-slot \{[^}]*margin-top:\s*calc\(4px \+ 49px\);/,
+    );
+    expect(styles).toMatch(
+      /@media \(pointer: coarse\),\s*\(max-width: 720px\)[\s\S]*?\.note-card__actions \{[^}]*min-height:\s*49px;[^}]*opacity:\s*1;/,
+    );
+  });
+
   it("keeps footer actions visible on coarse pointers", () => {
     expect(styles).not.toMatch(/@media \(pointer: coarse\)[\s\S]*?\.note-card:not\(\.note-card--editing\) \{[^}]*padding-bottom/);
     expect(styles).toMatch(/@media \(pointer: coarse\)[\s\S]*?\.note-card__actions \{[^}]*min-height:\s*49px;[^}]*opacity:\s*1;[^}]*pointer-events:\s*auto;/);
