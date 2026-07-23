@@ -72,8 +72,8 @@ function receipt(): PendingPublicationReceipt {
   const database = finalizePublishedDatabase(draft, "00000000-0000-4000-8000-000000000001");
   return {
     version: 1,
-    owner: "amysave",
-    repo: "mygameslist",
+    owner: "awkure",
+    repo: "mgl",
     branch: "main",
     sourceRevision: "",
     commitSha: "a".repeat(40),

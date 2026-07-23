@@ -19,7 +19,7 @@
 - Auto-`platinum` only when soft + status writable (`force` or `!steamOverrides.status`)
 - Default fetch on; `--no-achievements` skips
 - UI bar only on catalog `list` + GamePage meta (not tier/compact)
-- RU copy; dense chrome (`mygameslist-ui`)
+- RU copy; dense chrome (`mgl-ui`)
 - Node ESM: runtime relative imports in CLI-loaded TS need `.ts` suffix where required
 - Do not commit `.cursor/` skills
 

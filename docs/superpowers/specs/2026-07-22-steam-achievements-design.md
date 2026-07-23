@@ -116,7 +116,7 @@ Extend `scripts/import-steam.mjs`:
 - Read-only meta row «Достижения»: `12/40` or «—» when unknown
 - No inline edit
 
-**Styles:** reuse dense library tokens; BEM under existing card/meta patterns (`mygameslist-ui`).
+**Styles:** reuse dense library tokens; BEM under existing card/meta patterns (`mgl-ui`).
 
 ## Testing
 

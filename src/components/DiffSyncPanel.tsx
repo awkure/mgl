@@ -227,7 +227,7 @@ export function DiffSyncPanel({ blockedReason, controller, onBusyChange, onClose
           </label>
           <p className="diff-sync-auth__hint">{connectWithoutSync
             ? "Для проверки доступа создадим отдельную временную ветку со служебным коммитом и сразу удалим её. Ветка main не изменится."
-            : "Кнопка сразу создаст коммит в main. Выберите только репозиторий mygameslist и право Contents: write."}</p>
+            : "Кнопка сразу создаст коммит в main. Выберите только репозиторий mgl и право Contents: write."}</p>
           {controller.patCreationHref ? <a className="diff-sync-auth__create" href={controller.patCreationHref} rel="noreferrer" target="_blank">Создать fine-grained PAT<Icon name="external" size={11} /></a> : null}
         </form>
       ) : (

@@ -4,7 +4,7 @@ export const RANDOM_GAME_STATUSES_STORAGE_KEY = "my-game-library.random-game-sta
 
 export const DEFAULT_RANDOM_GAME_STATUSES: readonly StatusId[] = ["wishlist", "playing", "played"];
 
-export const RANDOM_GAME_STATUSES_CHANGED_EVENT = "mygameslist:random-game-statuses";
+export const RANDOM_GAME_STATUSES_CHANGED_EVENT = "mgl:random-game-statuses";
 
 const STATUS_SET = new Set<string>(STATUS_IDS);
 

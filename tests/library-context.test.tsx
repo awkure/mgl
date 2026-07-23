@@ -240,7 +240,7 @@ function githubResponses(database: LibraryDatabase, remoteDatabase = database) {
     const body = typeof init.body === "string" ? JSON.parse(init.body) as Record<string, unknown> : null;
     requests.push({ url, method, body });
     if (url.origin !== "https://api.github.com") return jsonResponse(database);
-    const root = "/repos/amysave/mygameslist";
+    const root = "/repos/awkure/mgl";
     if (method === "GET" && url.pathname === `${root}/git/ref/heads/main`) return jsonResponse({ object: { type: "commit", sha: HEAD_SHA } });
     if (method === "GET" && url.pathname === `${root}/git/commits/${HEAD_SHA}`) return jsonResponse({ tree: { sha: TREE_SHA } });
     if (method === "GET" && url.pathname === `${root}/git/trees/${TREE_SHA}`) return jsonResponse({ truncated: false, tree: [{ path: "public/data/library.json", type: "blob", sha: LIBRARY_BLOB_SHA }] });
@@ -508,8 +508,8 @@ describe("LibraryProvider direct GitHub synchronization", () => {
   function pendingReceipt(source: LibraryDatabase, database: LibraryDatabase): PendingPublicationReceipt {
     return {
       version: 1,
-      owner: "amysave",
-      repo: "mygameslist",
+      owner: "awkure",
+      repo: "mgl",
       branch: "main",
       sourceRevision: source.revision,
       commitSha: CREATED_COMMIT_SHA,
@@ -537,9 +537,9 @@ describe("LibraryProvider direct GitHub synchronization", () => {
     await waitFor(() => expect(screen.getByTestId("sync-result")).toHaveTextContent("connected"));
     const writes = api.requests.filter(({ url, method }) => url.origin === "https://api.github.com" && method !== "GET");
     expect(writes.map(({ method, url }) => `${method} ${url.pathname}`)).toEqual([
-      "POST /repos/amysave/mygameslist/git/commits",
-      "POST /repos/amysave/mygameslist/git/refs",
-      expect.stringMatching(/^DELETE \/repos\/amysave\/mygameslist\/git\/refs\/heads\/mylib-pat-check\/[0-9a-f-]{36}$/),
+      "POST /repos/awkure/mgl/git/commits",
+      "POST /repos/awkure/mgl/git/refs",
+      expect.stringMatching(/^DELETE \/repos\/awkure\/mgl\/git\/refs\/heads\/mylib-pat-check\/[0-9a-f-]{36}$/),
     ]);
     expect(writes[1].body?.ref).toMatch(/^refs\/heads\/mylib-pat-check\/[0-9a-f-]{36}$/);
     expect(writes.some(({ url }) => url.pathname.endsWith("/heads/main"))).toBe(false);

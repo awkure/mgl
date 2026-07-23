@@ -1,4 +1,4 @@
-# Dev recipes for mygameslist. Requires: just, Node ≥22.13
+# Dev recipes for mgl. Requires: just, Node ≥22.13
 # https://github.com/casey/just
 
 set shell := ["bash", "-eu", "-o", "pipefail", "-c"]
